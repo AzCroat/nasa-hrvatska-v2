@@ -5672,6 +5672,30 @@ const LESSONS_CORE = [
         ],
       },
       {
+        type: 'rule',
+        title: 'Shortening Is Systematic',
+        body: 'Speech drops sounds in predictable places: hoću → oću, hajde → ajde, gdje → di in some regions, nemoj → nemo. These are not errors and they are not random — each has a settled spoken form. What matters for a learner is recognizing them instantly in listening, and NOT writing them outside reported dialogue.',
+        highlight: 'recognize in listening, avoid in writing',
+      },
+      {
+        type: 'rule',
+        title: 'Intonation Replaces Grammar',
+        body: 'The clearest structural difference is the question. Standard Croatian asks with li or with je li; speech asks with intonation alone: "Ideš?" "Znaš?" "Dolaziš sutra?" Using li in relaxed conversation is not wrong but is noticeably careful, and it is one of the reliable signs that someone learned Croatian in a classroom.',
+        highlight: 'Ideš? — the question is entirely in the intonation',
+      },
+      {
+        type: 'rule',
+        title: 'Half a Proverb Is the Whole Proverb',
+        body: 'Croatian speakers rarely finish a well-known proverb. Someone says "Tko rano rani…" and stops, and the sentence is complete. This is the same move as English "when in Rome". For a learner the practical consequence is that you must recognize proverbs from their opening, because the ending you were taught may never be said.',
+        highlight: '"Tko rano rani…" — that is the whole thing',
+      },
+      {
+        type: 'rule',
+        title: 'The Classical Layer Is Assumed in Serious Writing',
+        body: 'Croatian journalism and essay writing draw on classical and biblical allusion without explanation, on the assumption that an educated reader recognizes them. A leader writer will call a negotiation a gordijski čvor and move on. These allusions map closely onto English ones, which is good news — the vocabulary is different but the reference is shared.',
+        highlight: 'the reference is shared with English; only the words differ',
+      },
+      {
         type: 'quiz',
         q: 'A Croatian friend says „Svaka čast!” after you ace a language test. What do they mean?',
         options: [
@@ -10207,6 +10231,12 @@ const LESSONS_CORE = [
         highlight: 'reversed order + već → pluperfect earns its place',
       },
       {
+        type: 'rule',
+        title: 'The Future as an Instruction',
+        body: 'Croatian, like English, uses the future to give orders that are not phrased as orders: Doći ćeš u devet i nećeš kasniti. The effect is stronger than an imperative, not weaker, because it presents compliance as already settled. Parents and sergeants use it. Used to a peer it is a serious escalation, which is why a learner reaching for it as a neutral future can cause offense without knowing.',
+        highlight: 'Doći ćeš u devet. — settled, not requested',
+      },
+      {
         type: 'quiz',
         q: 'Which sentence correctly marks that the train left BEFORE our arrival?',
         options: [
@@ -10328,7 +10358,7 @@ const LESSONS_CORE = [
     title: 'C2: Rhetorical Figures & Style',
     subtitle: 'metafora, gradacija, antiteza — read and write with intent',
     icon: '🎭',
-    level: 'C2',
+    level: 'C1',
     duration: '~8 min',
     color: '#7c3aed',
     bg: '#f5f3ff',
@@ -10563,252 +10593,6 @@ const LESSONS_CORE = [
           'antiteza collides opposites in parallel syntax',
           'hiperbola exaggerates; ironija inverts; retoričko pitanje asks without asking',
           'Spotting figures by name is a standard C2 reading-exam task',
-        ],
-      },
-    ],
-  },
-  // ─────────────────────────────────────────────────────────
-  // 7b: C2 — C2: Administrative & Legal Croatian
-  // ─────────────────────────────────────────────────────────
-  {
-    id: 'administrativni-stil',
-    title: 'C2: Administrative & Legal Croatian',
-    subtitle: 'temeljem, sukladno, podnositelj zahtjeva — survive official documents',
-    icon: '🏛️',
-    level: 'C2',
-    duration: '~8 min',
-    color: '#7c3aed',
-    bg: '#f5f3ff',
-    slides: [
-      {
-        type: 'intro',
-        title: 'A Language Within the Language',
-        body: 'Every Croatian resident — including every returnee with paperwork at MUP — meets the administrative register: dense nominal style, fixed formulas, and prepositions nobody uses at dinner. You cannot avoid it; you can decode it. This lesson gives you the skeleton keys.',
-        icon: '🏛️',
-      },
-      {
-        type: 'table',
-        title: 'Officialese → Human Croatian',
-        headers: ['Administrative', 'Everyday', 'English'],
-        rows: [
-          ['temeljem članka 5.', 'prema članku 5.', 'pursuant to Article 5'],
-          ['sukladno zakonu', 'u skladu sa zakonom', 'in accordance with the law'],
-          ['podnositelj zahtjeva', 'onaj tko traži', 'the applicant'],
-          [
-            'u svrhu ostvarivanja prava',
-            'da bi ostvario pravo',
-            'for the purpose of exercising a right',
-          ],
-          ['nadležno tijelo', 'ured koji je za to zadužen', 'the competent authority'],
-          ['pravomoćna presuda', 'konačna presuda', 'a final (legally binding) judgment'],
-        ],
-      },
-      {
-        type: 'rule',
-        title: 'The Nominal Style — Verbs Turned to Stone',
-        body: "Administrative Croatian buries actions in verbal nouns: instead of 'kad podnesete zahtjev' it writes 'prilikom podnošenja zahtjeva' (upon the submission of the request). Decode by re-verbing: find the -nje/-ba noun, turn it back into a verb, and the sentence untangles: podnošenje → podnositi, izdavanje → izdavati, ostvarivanje → ostvarivati.",
-        highlight: 'prilikom podnošenja = kad podnosite — re-verb the noun',
-      },
-      {
-        type: 'rule',
-        title: 'Case Government You Must Not Miss',
-        body: "sukladno + dativ (sukladno odluci), temeljem + genitiv (temeljem ugovora), u roku od + genitiv (u roku od 15 dana), po službenoj dužnosti (ex officio — fixed). Deadlines matter: 'Žalba se podnosi u roku od 15 dana od dana dostave rješenja' — the clock starts at delivery (dostava), not at reading.",
-        highlight: 'sukladno + DAT · temeljem + GEN · u roku od + GEN',
-      },
-      {
-        type: 'example',
-        title: 'Reading a Real Rješenje',
-        items: [
-          {
-            hr: 'Temeljem članka 62. Zakona o strancima donosi se sljedeće rješenje.',
-            en: 'Pursuant to Article 62 of the Aliens Act, the following decision is issued.',
-            note: 'temeljem + genitive; passive donosi se',
-          },
-          {
-            hr: 'Podnositelj zahtjeva dužan je dostaviti dokaz o uplati.',
-            en: 'The applicant is obliged to submit proof of payment.',
-            note: 'dužan je + infinitive = is obliged to',
-          },
-          {
-            hr: 'Protiv ovog rješenja može se izjaviti žalba u roku od 15 dana.',
-            en: 'An appeal against this decision may be lodged within 15 days.',
-            note: 'protiv + genitive; deadline formula',
-          },
-          {
-            hr: 'Ovime potvrđujem točnost navedenih podataka.',
-            en: 'I hereby confirm the accuracy of the stated information.',
-            note: 'ovime = hereby — signature-line formula',
-          },
-        ],
-      },
-      {
-        type: 'example',
-        title: 'More Examples in Context',
-        items: [
-          {
-            hr: 'Sukladno članku 12. Ugovora, najmoprimac je dužan plaćati najamninu do petog u mjesecu.',
-            en: 'In accordance with Article 12 of the Contract, the tenant is obliged to pay the rent by the fifth of the month.',
-            note: 'sukladno + dative; dužan je + infinitive',
-          },
-          {
-            hr: 'Zahtjev se podnosi nadležnom uredu osobno ili poštom.',
-            en: 'The application is submitted to the competent office in person or by post.',
-            note: 'se-passive; nadležnom uredu — dative',
-          },
-          {
-            hr: 'Uz zahtjev je potrebno priložiti presliku osobne iskaznice.',
-            en: 'A copy of the identity card must be attached to the application.',
-            note: 'potrebno je + infinitive — impersonal obligation',
-          },
-          {
-            hr: 'Izmjene stupaju na snagu danom donošenja.',
-            en: 'The amendments enter into force on the day of their adoption.',
-            note: 'stupiti na snagu; danom — instrumental of time',
-          },
-          {
-            hr: 'Stranka je upozorena na posljedice davanja netočnih podataka.',
-            en: 'The party has been warned of the consequences of providing false information.',
-            note: 'nominal chain: posljedice davanja podataka',
-          },
-          {
-            hr: 'U slučaju nepoštivanja roka zahtjev će se odbaciti.',
-            en: 'In the event of non-compliance with the deadline the application will be rejected.',
-            note: 'u slučaju + genitive; future se-passive',
-          },
-          {
-            hr: 'Ovaj ugovor sastavljen je u dva istovjetna primjerka.',
-            en: 'This contract is drawn up in two identical copies.',
-            note: 'closing formula of every Croatian contract',
-          },
-          {
-            hr: 'Molimo da nas o promjeni adrese obavijestite u roku od osam dana.',
-            en: 'Please inform us of a change of address within eight days.',
-            note: 'u roku od + genitive',
-          },
-        ],
-      },
-      {
-        type: 'quiz',
-        q: "A document says: 'Žalba se podnosi u roku od 15 dana od dana dostave.' When does the 15-day clock start?",
-        options: [
-          'The day the decision was written',
-          'The day you receive (are served) the decision',
-          'The day you read the decision',
-          'The first working day of the next month',
-        ],
-        correct: 1,
-        explanation:
-          "'od dana dostave' — from the day of delivery/service (dostava). Not when it was written, and legally irrelevant when you got around to reading it. Missing this distinction costs real appeals.",
-      },
-      {
-        type: 'quiz',
-        q: "Which case follows 'sukladno'?",
-        options: [
-          'genitiv — sukladno zakona',
-          'dativ — sukladno zakonu',
-          'akuzativ — sukladno zakon',
-          'instrumental — sukladno zakonom',
-        ],
-        correct: 1,
-        explanation:
-          'sukladno governs the dative: sukladno zakonu, sukladno odluci. The genitive belongs to temeljem (temeljem zakona). Mixing these two is the most common officialese error even among natives.',
-      },
-      {
-        type: 'rule',
-        title: 'Common Mistakes',
-        body: "Learners mix the case government of the fixed prepositions: 'sukladno zakona' and 'temeljem zakonu' — sukladno takes the dative (sukladno zakonu) and temeljem the genitive (temeljem zakona). Second, they write the register in the first person and the active: 'Ja Vam šaljem dokument' — an official text is impersonal and passive, 'Dokument se dostavlja u prilogu'. Third, the deadline formula is misread: 'u roku od 15 dana od dana dostave' counts from delivery, not from the date printed on the letter — counting from the date on the paper can cost the right to appeal.",
-        highlight:
-          'sukladno takes the dative (sukladno zakonu) and temeljem the genitive (temeljem zakona)',
-      },
-      {
-        type: 'check',
-        title: 'Mastery Check',
-        items: [
-          {
-            q: "Complete: 'Temeljem ___ donosi se ovo rješenje.' (Article 5 — članak 5.)",
-            options: ['članak 5.', 'članku 5.', 'članka 5.', 'člankom 5.'],
-            correct: 2,
-            explanation:
-              'temeljem governs the genitive: temeljem članka 5. The dative članku belongs after sukladno or prema.',
-          },
-          {
-            q: "Complete: 'Sukladno ___ stranka je dužna…' (the decision — odluka)",
-            options: ['odluke', 'odluku', 'odlukom', 'odluci'],
-            correct: 3,
-            explanation:
-              'sukladno takes the dative: sukladno odluci. odluke would be the genitive, which goes with temeljem.',
-          },
-          {
-            q: 'Which sentence is written in the administrative register?',
-            options: [
-              'Pošaljite nam papire kad stignete.',
-              'Dokumentacija se dostavlja u roku od osam dana od dana zaprimanja poziva.',
-              'Ajde, pošaljite to do idućeg tjedna.',
-              'Molim te, pošalji papire.',
-            ],
-            correct: 1,
-            explanation:
-              'se-passive, nominalizations (dostavlja, zaprimanja) and the u roku od formula are the marks of the register. The others are speech.',
-          },
-          {
-            q: "Spot the error: 'Žalba se podnosi u roku od 15 dana od dana dostavu.'",
-            options: [
-              'dostavu should be dostave — od takes the genitive',
-              'žalba should be žalbu',
-              '15 dana should be 15 dane',
-              'nothing is wrong',
-            ],
-            correct: 0,
-            explanation:
-              'od dana dostave: both nouns are genitive after od. žalba is the subject of the se-passive and stays nominative.',
-          },
-          {
-            q: "Decode 'prilikom podnošenja zahtjeva' into plain Croatian.",
-            options: [
-              'prije nego što podnesete zahtjev',
-              'kad podnosite zahtjev',
-              'nakon što odbiju zahtjev',
-              'ako ne podnesete zahtjev',
-            ],
-            correct: 1,
-            explanation:
-              'prilikom + verbal noun = at the time of doing it. Re-verb podnošenje → podnositi and the phrase becomes kad podnosite zahtjev.',
-          },
-          {
-            q: "What does 'Izmjene stupaju na snagu danom donošenja' mean?",
-            options: [
-              'the amendments can be appealed at once',
-              'the amendments are valid from the day they were adopted',
-              'the amendments are delayed by a day',
-              'the amendments are not yet final',
-            ],
-            correct: 1,
-            explanation:
-              'stupiti na snagu = enter into force; danom donošenja (instrumental of time) = on the day of adoption.',
-          },
-          {
-            q: "Who is the 'podnositelj zahtjeva'?",
-            options: [
-              'the official who decides',
-              'the applicant — the person submitting the request',
-              'the lawyer',
-              'the witness',
-            ],
-            correct: 1,
-            explanation:
-              'podnositi (submit) + -telj = the submitter; zahtjeva is the genitive of what is submitted.',
-          },
-        ],
-      },
-      {
-        type: 'summary',
-        title: 'Administrative Croatian — What to Keep',
-        points: [
-          'Re-verb the nominal style: prilikom podnošenja → kad podnosite',
-          'sukladno + dative, temeljem + genitive, u roku od + genitive',
-          'Deadlines run from dostava (service), not from reading',
-          'podnositelj zahtjeva / nadležno tijelo / pravomoćno — fixed cast of characters',
-          'Formulas to reuse: Ovime potvrđujem..., Protiv ovog rješenja može se izjaviti žalba...',
         ],
       },
     ],

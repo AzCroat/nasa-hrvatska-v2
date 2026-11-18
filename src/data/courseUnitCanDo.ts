@@ -11,7 +11,6 @@ import { CAN_DO_A2 } from './canDo/A2';
 import { CAN_DO_B1 } from './canDo/B1';
 import { CAN_DO_B2 } from './canDo/B2';
 import { CAN_DO_C1 } from './canDo/C1';
-import { CAN_DO_C2 } from './canDo/C2';
 
 export const COURSE_UNIT_CAN_DO: Readonly<Record<string, readonly string[]>> = {
   ...CAN_DO_A1,
@@ -19,7 +18,6 @@ export const COURSE_UNIT_CAN_DO: Readonly<Record<string, readonly string[]>> = {
   ...CAN_DO_B1,
   ...CAN_DO_B2,
   ...CAN_DO_C1,
-  ...CAN_DO_C2,
 };
 
 /** The unit's can-do statements, or an empty list for an unknown id. */

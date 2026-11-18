@@ -1394,7 +1394,9 @@ import { exerciseStrings, textSlideStrings } from './lessonExerciseStrings.mjs';
 // 2026-11-18 (owner): the language-identity lesson no longer prints Serbian forms at all —
 // its comparison table was replaced by Croatian's own native/international pairs — so it
 // is linted like every other lesson.
-const CONTRASTIVE_LESSONS = new Set(['dijalekti-dubinski']);
+// EMPTY since 2026-11-18: `dijalekti-dubinski` was folded into `regional-varieties`, whose yat slide
+// names the kajkavian reflex without an example word. The set stays so the mechanism is visible.
+const CONTRASTIVE_LESSONS = new Set([]);
 
 function* lessonStrings() {
   for (const l of LESSONS) {

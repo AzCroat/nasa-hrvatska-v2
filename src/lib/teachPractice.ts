@@ -94,7 +94,6 @@ export const LESSON_TAUGHT_CATEGORY: Readonly<Record<string, SkillCategory>> = {
   'aspect-negation': 'aspect-negation',
   // C2 aspect edges: the negated imperative is the lesson's central rule and is
   // exactly what the aspect-negation drill tests.
-  'glagolski-vid-granice': 'aspect-negation',
   'motion-verbs': 'b1-motion-verbs',
   // B1 verb prefixes: a prefix is what makes a verb perfective, so aspectdrill
   // (B1) is practising exactly what the lesson taught.
@@ -473,7 +472,6 @@ export const LESSON_TAUGHT_CATEGORY: Readonly<Record<string, SkillCategory>> = {
   'brojevi-norma': 'number-norm',
   'slaganje-suptilnosti': 'agreement-subtleties',
   'padezne-suptilnosti': 'case-subtleties',
-  'glagolski-nacini': 'modality',
   'ritam-recenice': 'rhythm',
   'ironija-podtekst': 'irony',
   'humor-jezicni': 'wordplay',
@@ -481,9 +479,6 @@ export const LESSON_TAUGHT_CATEGORY: Readonly<Record<string, SkillCategory>> = {
   'stari-tekstovi': 'old-texts',
   'rekonstrukcija-argumenta': 'reconstruction',
   'spontani-govor': 'spontaneous',
-  'prevodjenje-strucno': 'specialist-translation',
-  'frazeologija-dubinska': 'phraseology',
-  'dijalekti-dubinski': 'dialects-deep',
   'jezik-i-drustvo': 'language-society',
   'vi-vs-ti': 'politeness',
   'prepositions-action': 'preposition-case',
@@ -513,11 +508,8 @@ export const LESSON_TAUGHT_CATEGORY: Readonly<Record<string, SkillCategory>> = {
   'aspect-with-verbs': 'aspect-verbs',
   'degrees-intensity': 'intensity',
   'pravopis-dvojbe': 'orthography',
-  'administrativni-stil': 'admin-style',
-  'znanstveni-stil': 'academic-style',
   'publicisticki-stil': 'journalistic-style',
   'stilske-figure': 'figures-of-speech',
-  'uredjivanje-teksta': 'editing',
   'precizno-nijansiranje': 'precision',
   'numbers-time': 'numerals',
   'numbers-nouns': 'b1-numbers-nouns',
@@ -530,7 +522,6 @@ export const LESSON_TAUGHT_CATEGORY: Readonly<Record<string, SkillCategory>> = {
   // C2 colloquial register. RegisterDrill is literally standard-vs-colloquial,
   // and 'register' is not in ALL_CATEGORIES, so routing it (CATEGORY_SCREEN_MAP)
   // touches the coupling and nothing the adaptive picker does.
-  'razgovorni-stil': 'register',
   // B2 formal correspondence is written production; CATEGORY_SCREEN_MAP.writing
   // routes to the guided-writing teaching screen.
   'formal-email': 'writing',

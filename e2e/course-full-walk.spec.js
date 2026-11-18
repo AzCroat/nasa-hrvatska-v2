@@ -4,7 +4,7 @@
  * `course-walkthrough.spec.js` walks Unit 1 from nothing. This walks every unit:
  * every lesson read to its summary with its check passed, every unit test, both
  * production tasks, and each level review where the course serves it — from Home, at
- * the crossing into the next level (the C2 review after the last unit). After every
+ * the crossing into the next level (the C1 review after the last unit). After every
  * unit the map must show that unit cleared and the next one current; after every level
  * Home must lead with that level's review, then with the next unit.
  *
@@ -26,7 +26,7 @@ import { settleExerciseStep } from './fixtures/settle-exercise.js';
 import { LESSONS_FIXTURE } from './fixtures/content-fixture.js';
 import { CURRICULUM } from '../functions/api/content/_data/curriculum.js';
 
-const LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
+const LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1'];
 const byLevel = (lv) =>
   CURRICULUM.filter((l) => l.level === lv)
     .sort((a, b) => a.order - b.order)
@@ -425,9 +425,9 @@ test.describe('A learner walks the whole course', () => {
       test.setTimeout(25 * 60_000);
       const errs = await setup(page, LEVELS.slice(0, i));
       await walkLevel(page, level);
-      if (level === 'C2') {
+      if (level === LEVELS[LEVELS.length - 1]) {
         await openMap(page);
-        for (const u of UNITS.filter((x) => x.level === 'C2'))
+        for (const u of UNITS.filter((x) => x.level === level))
           expect(await unitState(page, u.id)).toBe('cleared');
       }
       expect(errs).toEqual([]);

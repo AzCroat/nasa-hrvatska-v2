@@ -127,7 +127,7 @@ export function lessonDepthProblems(l) {
 // step and gives PRACTICE with a hint and a second try. Rolled out level by level:
 // a level joins DEEPENED_LEVELS when every lesson in it has been authored, and
 // from then on the build holds every lesson in it to these rules.
-export const DEEPENED_LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
+export const DEEPENED_LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1'];
 export const MIN_WORKED = 2;
 export const MIN_WORKED_STEPS = 3;
 export const MIN_PRACTICE_ITEMS = 4;
@@ -239,7 +239,7 @@ export function practiceProblems(l) {
 // check had one paper, and a lesson's words never reached review. A level joins
 // PRODUCTIVE_LEVELS once every lesson in it carries all three, and from then on the
 // build holds it to them. `scripts/lessonPracticeCheck.mjs <LEVEL>` is the dry run.
-export const PRODUCTIVE_LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
+export const PRODUCTIVE_LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1'];
 export const MIN_PRODUCTIVE_PRACTICE = 12;
 export const MIN_TYPED_PRACTICE = 4;
 export const MIN_LESSON_VOCAB = 8;

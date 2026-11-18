@@ -103,7 +103,11 @@ describe('daily practice covers every skill at every level', () => {
     listening: 1,
   };
 
-  it.each(LEVELS)('%s has serving practice content per skill', (level) => {
+  // The course ends at C1 (2026-11-18): the daily session is built at the course level,
+  // which is never C2, and every former C2 drill is now tagged C1. C2 is still a tag on
+  // non-course content (vocabulary tier, Level Check), so LEVELS keeps it elsewhere.
+  const SESSION_LEVELS = LEVELS.filter((l) => l !== 'C2');
+  it.each(SESSION_LEVELS)('%s has serving practice content per skill', (level) => {
     const rank = LEVELS.indexOf(level);
     const counts: Record<string, number> = { vocab: 0, grammar: 0, reading: 0, listening: 0 };
     for (const ex of CEFR_EXERCISE_POOL) {

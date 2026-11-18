@@ -385,7 +385,8 @@ describe('THE LENGTH CONTRACT: the lesson costs a fill slot, not an extra one', 
     // where the conversation anchor now stands down (the course is at A1), so the
     // session HAS a spare slot and the premise "a level with no spare slot" is
     // false. A one-lesson spine at the learner's own level restores it.
-    for (const level of ['B1', 'B2', 'C1', 'C2']) {
+    // C1 is the last level (the course ends there, 2026-11-18), so it is the last tested.
+    for (const level of ['B1', 'B2', 'C1']) {
       localStorage.clear();
       writeCurriculumSpine(
         VOCAB_COUPLED.map((e) => ({ ...e, level: level as CurriculumEntry['level'] })),

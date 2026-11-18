@@ -20,7 +20,7 @@ import { settleExerciseStep } from './fixtures/settle-exercise.js';
 import { LESSONS_FIXTURE } from './fixtures/content-fixture.js';
 import { CURRICULUM } from '../functions/api/content/_data/curriculum.js';
 
-const LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
+const LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1'];
 const byLevel = (lv) =>
   CURRICULUM.filter((l) => l.level === lv)
     .sort((a, b) => a.order - b.order)

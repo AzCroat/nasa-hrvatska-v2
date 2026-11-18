@@ -101,9 +101,11 @@ test.describe('Learn tab', () => {
       await expect(page.getByTestId('lc-level-A1')).toBeVisible({ timeout: 20_000 });
       // Every level is LISTED, including ones above the seeded learner; the lessons above
       // them are shown locked (the course is sequential — see the lock tests below).
-      for (const lvl of ['A1', 'A2', 'B1', 'B2', 'C1', 'C2']) {
+      for (const lvl of ['A1', 'A2', 'B1', 'B2', 'C1']) {
         await expect(page.getByTestId(`lc-level-${lvl}`)).toBeVisible();
       }
+      // The course ends at C1 (C2 was folded into it, 2026-11-18): no C2 band is listed.
+      await expect(page.getByTestId('lc-level-C2')).toHaveCount(0);
     });
 
     test('searching "padeži" surfaces case material', async ({ page }) => {

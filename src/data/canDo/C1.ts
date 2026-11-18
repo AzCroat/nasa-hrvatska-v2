@@ -80,8 +80,26 @@ export const CAN_DO_C1: Readonly<Record<string, readonly string[]>> = {
     'I can fix calques and proofread my own Croatian for agreement, case and clitics.',
     'I can read news and legal documents critically and put them into plain Croatian.',
   ],
-  // science-technology · arts-culture · regional-varieties · language-identity · diaspora-identity
+  // norma-i-uzus · pravopis-dvojbe · kondicional-drugi · precizno-nijansiranje · ritam-recenice
   'C1-13': [
+    'I can tell what the standard prescribes from what educated speakers say, and handle contested spellings.',
+    'I can use bio bih došao for what never happened.',
+    'I can choose between near-synonyms such as znati and poznavati and vary the rhythm of my sentences.',
+  ],
+  // stilske-figure · knjizevni-stil · publicisticki-stil · ironija-podtekst · humor-jezicni
+  'C1-14': [
+    'I can recognize and use rhetorical figures.',
+    'I can read literary prose and a news text the way each was built.',
+    'I can hear irony, understatement and puns.',
+  ],
+  // sinteza-izvora · rekonstrukcija-argumenta · spontani-govor · stari-tekstovi · jezik-i-drustvo
+  'C1-15': [
+    'I can synthesize several sources by idea and reconstruct someone else’s argument fairly.',
+    'I can speak at length without preparation.',
+    'I can read Croatian written before Gaj’s spelling reform and choose what my Croatian signals.',
+  ],
+  // science-technology · arts-culture · regional-varieties · language-identity · diaspora-identity
+  'C1-16': [
     'I can read technical and scientific Croatian and describe a process.',
     'I can discuss a book, film or exhibition and say why it moved me.',
     'I can recognize kajkavian and čakavian and talk about heritage and belonging.',

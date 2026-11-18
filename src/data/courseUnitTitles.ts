@@ -354,35 +354,23 @@ export const COURSE_UNIT_TITLES: Readonly<Record<string, CourseUnitTitle>> = {
       'Give a formal address, avoid translation traps, edit your own Croatian, read the media critically, and handle legal texts.',
   },
   'C1-13': {
+    title: 'Norm, Precision and Rhythm',
+    subtitle:
+      'Tell the norm from usage, handle contested spellings, use the second conditional, choose between near-synonyms, and shape a sentence.',
+  },
+  'C1-14': {
+    title: 'Style, Irony and Humor',
+    subtitle:
+      'Use rhetorical figures, read literary and journalistic Croatian as each is built, and hear irony, understatement and puns.',
+  },
+  'C1-15': {
+    title: 'Synthesis, Argument and Fluency',
+    subtitle:
+      'Synthesize sources, reconstruct an argument, speak at length unprepared, read texts written before Gaj, and choose your register deliberately.',
+  },
+  'C1-16': {
     title: 'Science, Culture and Identity',
     subtitle:
       'Read technical Croatian, discuss the arts, recognize regional varieties, and talk about language and heritage.',
-  },
-
-  // ── C2 ──────────────────────────────────────────────────────────────────────
-  'C2-1': {
-    title: 'Norm, Spelling and Modality',
-    subtitle:
-      'Tell the norm from usage, handle contested spellings, master the hard edges of aspect, and use the second conditional.',
-  },
-  'C2-2': {
-    title: 'Style, Irony and Humor',
-    subtitle:
-      'Use rhetorical figures and sentence rhythm, read irony and puns, and write in the administrative register.',
-  },
-  'C2-3': {
-    title: 'The Functional Styles and Older Texts',
-    subtitle:
-      'Read journalistic, scientific, literary and colloquial Croatian as each is built, and read texts written before Gaj.',
-  },
-  'C2-4': {
-    title: 'Synthesis, Argument and Translation',
-    subtitle:
-      'Synthesise sources, reconstruct an argument, choose between near-synonyms, speak at length unprepared, and translate.',
-  },
-  'C2-5': {
-    title: 'Editing, Proverbs and Dialects',
-    subtitle:
-      'Edit someone else’s Croatian, recognize proverbs and allusions, follow the dialects, and choose your register deliberately.',
   },
 };

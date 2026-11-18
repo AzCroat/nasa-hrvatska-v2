@@ -31,10 +31,10 @@ describe('C2 structure drill', () => {
     }
   });
 
-  it('is registered in the session pool at C2 with a grammar-structure category and tier 5', () => {
+  it('is registered in the session pool at C1 (the former C2 tier) with a grammar-structure category and tier 5', () => {
     const entry = CEFR_EXERCISE_POOL.find((e) => e.id === 'c2drill');
     expect(entry).toBeTruthy();
-    expect(entry!.cefr).toBe('C2');
+    expect(entry!.cefr).toBe('C1');
     expect(entry!.screen).toBe('c2drill');
     expect(entry!.category).toBe('nominalization');
     expect(EXERCISE_DIFFICULTY['c2drill']).toBe(5);

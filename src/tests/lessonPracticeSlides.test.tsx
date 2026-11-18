@@ -101,7 +101,7 @@ describe('the merge places the new slides where the teaching needs them', () => 
   });
 
   it('every level is deepened, and every one of the 180 lessons has its entry', () => {
-    expect([...DEEPENED_LEVELS].sort()).toEqual(['A1', 'A2', 'B1', 'B2', 'C1', 'C2']);
+    expect([...DEEPENED_LEVELS].sort()).toEqual(['A1', 'A2', 'B1', 'B2', 'C1']);
     const missing = LESSONS.filter((l: { id: string }) => !LESSON_PRACTICE[l.id]).map(
       (l: { id: string }) => l.id,
     );

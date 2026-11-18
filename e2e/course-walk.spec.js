@@ -23,7 +23,7 @@ const A1 = byLevel('A1');
 const UNIT1 = A1.slice(0, 5);
 /** Units per level are derived the way courseUnits.ts chunks them: five lessons each. */
 const A1_UNITS = Math.ceil(A1.length / 5);
-const TOTAL_UNITS = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'].reduce(
+const TOTAL_UNITS = ['A1', 'A2', 'B1', 'B2', 'C1'].reduce(
   (n, lv) => n + Math.ceil(byLevel(lv).length / 5),
   0,
 );

@@ -1741,7 +1741,7 @@ export const CURRICULUM = [
   {
     id: 'science-technology',
     level: 'C1',
-    order: 61,
+    order: 76,
     prerequisites: ['tvorba-rijeci'],
     objectives: [
       'Read technical and scientific Croatian without panic',
@@ -1752,7 +1752,7 @@ export const CURRICULUM = [
   {
     id: 'arts-culture',
     level: 'C1',
-    order: 62,
+    order: 77,
     prerequisites: ['idioms-register'],
     objectives: [
       'Discuss a book, a film or an exhibition in Croatian',
@@ -1763,7 +1763,7 @@ export const CURRICULUM = [
   {
     id: 'regional-varieties',
     level: 'C1',
-    order: 63,
+    order: 78,
     prerequisites: ['accent-prosody'],
     objectives: [
       'Recognize kajkavski and čakavski when you hear them',
@@ -1774,7 +1774,7 @@ export const CURRICULUM = [
   {
     id: 'language-identity',
     level: 'C1',
-    order: 64,
+    order: 79,
     prerequisites: ['regional-varieties'],
     objectives: [
       'Understand what distinguishes Croatian from its neighbors',
@@ -1785,7 +1785,7 @@ export const CURRICULUM = [
   {
     id: 'diaspora-identity',
     level: 'C1',
-    order: 65,
+    order: 80,
     prerequisites: ['language-identity'],
     objectives: [
       'Talk about heritage, generation and belonging in Croatian',
@@ -1817,8 +1817,8 @@ export const CURRICULUM = [
   // depends on that frame, which is why it is first rather than the tense.
   {
     id: 'norma-i-uzus',
-    level: 'C2',
-    order: 1,
+    level: 'C1',
+    order: 61,
     prerequisites: ['proofreading-editing'],
     objectives: [
       'Tell what the standard prescribes from what educated speakers do',
@@ -1828,8 +1828,8 @@ export const CURRICULUM = [
   },
   {
     id: 'pravopis-dvojbe',
-    level: 'C2',
-    order: 2,
+    level: 'C1',
+    order: 62,
     prerequisites: ['norma-i-uzus'],
     objectives: [
       'Handle the spellings Croatians themselves argue about',
@@ -1882,17 +1882,6 @@ export const CURRICULUM = [
     ],
   },
   {
-    id: 'glagolski-vid-granice',
-    level: 'C2',
-    order: 3,
-    prerequisites: ['aspect-nuance'],
-    objectives: [
-      'Handle the verbs that are both aspects at once',
-      'Never put a perfective in an ordinary negated imperative',
-      'Know which contexts choose the aspect for you',
-    ],
-  },
-  {
     id: 'pluskvamperfekt',
     level: 'C1',
     order: 52,
@@ -1905,8 +1894,8 @@ export const CURRICULUM = [
   },
   {
     id: 'kondicional-drugi',
-    level: 'C2',
-    order: 4,
+    level: 'C1',
+    order: 63,
     prerequisites: ['unreal-conditions'],
     objectives: [
       'Build and use bio bih došao for what never happened',
@@ -1915,20 +1904,9 @@ export const CURRICULUM = [
     ],
   },
   {
-    id: 'glagolski-nacini',
-    level: 'C2',
-    order: 5,
-    prerequisites: ['kondicional-drugi'],
-    objectives: [
-      'Express obligation personally and impersonally',
-      'Hear the future used as an instruction rather than a prediction',
-      'Mark your certainty with the right particle',
-    ],
-  },
-  {
     id: 'stilske-figure',
-    level: 'C2',
-    order: 6,
+    level: 'C1',
+    order: 66,
     prerequisites: ['idioms-register'],
     objectives: [
       'Recognize and use the rhetorical figures Croatian prose favors',
@@ -1938,9 +1916,9 @@ export const CURRICULUM = [
   },
   {
     id: 'ritam-recenice',
-    level: 'C2',
-    order: 7,
-    prerequisites: ['stilske-figure'],
+    level: 'C1',
+    order: 65,
+    prerequisites: ['word-order-emphasis'],
     objectives: [
       'Vary sentence length so the reader knows what matters',
       'Use end weight to put the news where it lands',
@@ -1949,8 +1927,8 @@ export const CURRICULUM = [
   },
   {
     id: 'ironija-podtekst',
-    level: 'C2',
-    order: 8,
+    level: 'C1',
+    order: 69,
     prerequisites: ['humour-irony'],
     objectives: [
       'Hear the markers that turn praise into sarcasm',
@@ -1960,8 +1938,8 @@ export const CURRICULUM = [
   },
   {
     id: 'humor-jezicni',
-    level: 'C2',
-    order: 9,
+    level: 'C1',
+    order: 70,
     prerequisites: ['ironija-podtekst'],
     objectives: [
       'Follow puns that turn on pitch accent or a case ending',
@@ -1970,20 +1948,9 @@ export const CURRICULUM = [
     ],
   },
   {
-    id: 'administrativni-stil',
-    level: 'C2',
-    order: 10,
-    prerequisites: ['writing-registers', 'verbal-nouns'],
-    objectives: [
-      'Read contracts, forms and official correspondence',
-      'Write in the administrative register when you must',
-      'Decode bureaucratic Croatian into plain language',
-    ],
-  },
-  {
     id: 'publicisticki-stil',
-    level: 'C2',
-    order: 11,
+    level: 'C1',
+    order: 68,
     prerequisites: ['media-analysis'],
     objectives: [
       'Read a Croatian news text the way it was built',
@@ -1992,20 +1959,9 @@ export const CURRICULUM = [
     ],
   },
   {
-    id: 'znanstveni-stil',
-    level: 'C2',
-    order: 12,
-    prerequisites: ['academic-writing'],
-    objectives: [
-      'Navigate a Croatian paper from sažetak to literatura',
-      'Write in the impersonal voice the genre expects',
-      'Hedge, cite and decline cited names correctly',
-    ],
-  },
-  {
     id: 'knjizevni-stil',
-    level: 'C2',
-    order: 13,
+    level: 'C1',
+    order: 67,
     prerequisites: ['literature-canon'],
     objectives: [
       'Recognize the aorist, imperfect and free indirect style at work',
@@ -2014,20 +1970,9 @@ export const CURRICULUM = [
     ],
   },
   {
-    id: 'razgovorni-stil',
-    level: 'C2',
-    order: 14,
-    prerequisites: ['idioms-register'],
-    objectives: [
-      'Recognize the shortenings and intonation questions of real speech',
-      'Use diminutives for warmth rather than size',
-      'Switch registers deliberately and never drift between them',
-    ],
-  },
-  {
     id: 'stari-tekstovi',
-    level: 'C2',
-    order: 15,
+    level: 'C1',
+    order: 74,
     prerequisites: ['language-history'],
     objectives: [
       'Resolve pre-Gaj spelling by reading it aloud',
@@ -2037,8 +1982,8 @@ export const CURRICULUM = [
   },
   {
     id: 'sinteza-izvora',
-    level: 'C2',
-    order: 16,
+    level: 'C1',
+    order: 71,
     prerequisites: ['summarising-paraphrase'],
     objectives: [
       'Organize a synthesis by idea rather than by source',
@@ -2048,8 +1993,8 @@ export const CURRICULUM = [
   },
   {
     id: 'rekonstrukcija-argumenta',
-    level: 'C2',
-    order: 17,
+    level: 'C1',
+    order: 72,
     prerequisites: ['sinteza-izvora'],
     objectives: [
       'Separate premise, inference and conclusion in someone else’s case',
@@ -2059,8 +2004,8 @@ export const CURRICULUM = [
   },
   {
     id: 'precizno-nijansiranje',
-    level: 'C2',
-    order: 18,
+    level: 'C1',
+    order: 64,
     prerequisites: ['collocations'],
     objectives: [
       'Choose between near-synonyms that a dictionary treats as equal',
@@ -2070,8 +2015,8 @@ export const CURRICULUM = [
   },
   {
     id: 'spontani-govor',
-    level: 'C2',
-    order: 19,
+    level: 'C1',
+    order: 73,
     prerequisites: ['debate-persuasion'],
     objectives: [
       'Buy time with real Croatian fillers rather than translated English ones',
@@ -2080,54 +2025,10 @@ export const CURRICULUM = [
     ],
   },
   {
-    id: 'prevodjenje-strucno',
-    level: 'C2',
-    order: 20,
-    prerequisites: ['translation-pitfalls'],
-    objectives: [
-      'Decide what a translation is for before translating it',
-      'Handle terms with no equivalent honestly',
-      'Read the result as a Croatian text, without the original',
-    ],
-  },
-  {
-    id: 'uredjivanje-teksta',
-    level: 'C2',
-    order: 21,
-    prerequisites: ['proofreading-editing'],
-    objectives: [
-      'Know the difference between korektura, lektura and redaktura',
-      'Ask whether a sentence is wrong or merely not yours',
-      'Give every change a one-line reason',
-    ],
-  },
-  {
-    id: 'frazeologija-dubinska',
-    level: 'C2',
-    order: 22,
-    prerequisites: ['idioms-register'],
-    objectives: [
-      'Recognize a proverb from its opening, because that is all you will hear',
-      'Read the classical and biblical allusions serious writing assumes',
-      'Use them sparingly enough to sound native',
-    ],
-  },
-  {
-    id: 'dijalekti-dubinski',
-    level: 'C2',
-    order: 23,
-    prerequisites: ['regional-varieties'],
-    objectives: [
-      'Follow kajkavian and čakavian rather than only recognizing them',
-      'Use the yat reflex to place a speaker in one word',
-      'Read a dialect feature as a register choice, never as a mistake',
-    ],
-  },
-  {
     id: 'jezik-i-drustvo',
-    level: 'C2',
-    order: 24,
-    prerequisites: ['dijalekti-dubinski'],
+    level: 'C1',
+    order: 75,
+    prerequisites: ['idioms-register'],
     objectives: [
       'Know what your Vi, your dialect and your anglicisms signal',
       'Keep messaging Croatian out of professional writing',
@@ -2145,7 +2046,7 @@ export const CURRICULUM = [
 export const CURRICULUM_BY_ID = new Map(CURRICULUM.map((e) => [e.id, e]));
 
 /** CEFR levels in curriculum order. */
-export const CURRICULUM_LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
+export const CURRICULUM_LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1'];
 
 /**
  * Spine for one level, ordered.
