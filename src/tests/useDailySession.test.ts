@@ -462,9 +462,10 @@ describe('buildSessionActivities — guaranteed grammar/structure slot (G2/G4)',
     expect(pickCefr('A1')).toBe('A1'); // only A1 grammar is nomdrill
     // C1: nearest grammar is a C1 drill (discourse/nominalization), never A1.
     expect(pickCefr('C1')).toBe('C1');
-    // C2: the c2drill (task #45) is the pool's first C2 grammar drill — C2
-    // users now get true C2 structure work, not the old C1 fallback.
-    expect(pickCefr('C2')).toBe('C2');
+    // C2: the course ends at C1 (2026-11-18) and every former C2 drill is now tagged
+    // C1, so the nearest grammar drill for a C2-rank learner is a C1 one — still the
+    // top of the scale, never A1.
+    expect(pickCefr('C2')).toBe('C1');
   });
 
   it('does not double up grammar when the adaptive pick already provides it', async () => {

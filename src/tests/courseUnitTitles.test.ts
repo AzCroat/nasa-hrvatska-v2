@@ -90,12 +90,10 @@ const BOUNDARIES: Readonly<Record<string, readonly [string, string]>> = {
   'C1-10': ['depersonalization', 'academic-writing'],
   'C1-11': ['aorist-imperfekt', 'debate-persuasion'],
   'C1-12': ['formal-speech', 'law-administration'],
-  'C1-13': ['science-technology', 'diaspora-identity'],
-  'C2-1': ['norma-i-uzus', 'glagolski-nacini'],
-  'C2-2': ['stilske-figure', 'administrativni-stil'],
-  'C2-3': ['publicisticki-stil', 'stari-tekstovi'],
-  'C2-4': ['sinteza-izvora', 'prevodjenje-strucno'],
-  'C2-5': ['uredjivanje-teksta', 'jezik-i-drustvo'],
+  'C1-13': ['norma-i-uzus', 'ritam-recenice'],
+  'C1-14': ['stilske-figure', 'humor-jezicni'],
+  'C1-15': ['sinteza-izvora', 'jezik-i-drustvo'],
+  'C1-16': ['science-technology', 'diaspora-identity'],
 };
 
 describe('every derived unit has exactly one authored title', () => {

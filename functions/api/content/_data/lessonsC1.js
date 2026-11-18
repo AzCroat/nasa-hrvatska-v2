@@ -185,6 +185,12 @@ export const LESSONS_C1 = [
         ],
       },
       {
+        type: 'rule',
+        title: 'Trebati Is Two Verbs',
+        body: 'Trebati means "to need" with a personal subject — Trebam odmor, Trebaju mi papiri — and "should" as a modal, where the standard prefers a personal construction: Trebao bih ići. "Trebaju mi papiri" and "Trebam papire" are both used, with the dative construction the older and more standard one.',
+        highlight: 'Trebaju mi papiri (need) · Trebao bih ići (should)',
+      },
+      {
         type: 'quiz',
         title: 'Quick Check',
         q: 'Complete: "Pomozi ___." (Help him.)',
@@ -420,6 +426,12 @@ export const LESSONS_C1 = [
             note: 'pisati — the process; nisam napisala — the result was not reached',
           },
         ],
+      },
+      {
+        type: 'rule',
+        title: 'The Historic Present Takes the Imperfective',
+        body: 'Croatian narrates past events in the present tense for immediacy, and that present is imperfective even for completed acts: Ulazi on u sobu, gleda me i ništa ne govori. Using perfectives here — uđe, pogleda — is possible and produces the narrative present of folk tales and jokes, a distinctly different texture. Both exist; mixing them at random does not.',
+        highlight: 'Ulazi on u sobu i gleda me… — the historic present',
       },
       {
         type: 'quiz',
@@ -3004,6 +3016,26 @@ export const LESSONS_C1 = [
         ],
       },
       {
+        type: 'table',
+        title: 'The Sections of a Paper',
+        headers: ['Croatian', 'English', 'Note'],
+        rows: [
+          ['sažetak', 'abstract', 'Usually with a ključne riječi list'],
+          ['uvod', 'introduction', ''],
+          ['metodologija', 'methodology', ''],
+          ['rezultati', 'results', ''],
+          ['rasprava', 'discussion', 'Literally "debate"'],
+          ['zaključak', 'conclusion', ''],
+          ['literatura', 'references', 'Never "reference"'],
+        ],
+      },
+      {
+        type: 'rule',
+        title: 'Citation Conventions',
+        body: 'Croatian journals mostly follow international styles now, but two habits persist. Author names in running text are declined: "prema Katičiću", "kako navodi Silić". And usp. (usporedi, compare) appears where English uses cf. Getting the declension of a cited author\'s name right is a small thing that marks a paper as written rather than translated.',
+        highlight: 'prema Katičiću · usp. Silić 2005',
+      },
+      {
         type: 'quiz',
         title: 'Quick Check',
         q: 'Which is the expected academic register in Croatian?',
@@ -3765,6 +3797,18 @@ export const LESSONS_C1 = [
         ],
       },
       {
+        type: 'rule',
+        title: 'Decide the Brief Before the First Sentence',
+        body: 'A contract is translated for legal equivalence; a marketing text for effect; a literary passage for voice; a technical manual for unambiguous instruction. These briefs conflict, and a translator who has not chosen one produces a text that serves none. Croatian legal translation in particular tolerates awkwardness in exchange for precision, and marketing translation does the reverse.',
+        highlight: 'equivalence, effect, voice or instruction — pick one',
+      },
+      {
+        type: 'rule',
+        title: 'Translate the Register, Not Only the Words',
+        body: 'An English contract\'s "shall" is not Croatian "hoće" — it is the present tense of obligation, or dužan je. English business email is warmer than Croatian business email, so a faithful translation of English friendliness reads as over-familiar in Croatian, and a faithful translation of Croatian formality reads as cold in English. Adjusting for that is part of the job, not a liberty.',
+        highlight: 'shall → dužan je / present tense, never hoće',
+      },
+      {
         type: 'quiz',
         title: 'Quick Check',
         q: 'What does "eventualno" mean?',
@@ -4002,6 +4046,16 @@ export const LESSONS_C1 = [
             en: 'The editor crossed out the comma before "da" and put it back before "ali".',
             note: 'the comma rule, as a lektor applies it',
           },
+        ],
+      },
+      {
+        type: 'table',
+        title: 'Three Levels, Three Mandates',
+        headers: ['Level', 'Croatian', 'What it touches'],
+        rows: [
+          ['Proofreading', 'korektura', 'Typos, spelling, punctuation only'],
+          ['Language editing', 'lektura', 'Grammar, agreement, case, register consistency'],
+          ['Substantive editing', 'redaktura', 'Structure, argument, cuts — with the author'],
         ],
       },
       {
@@ -4489,6 +4543,23 @@ export const LESSONS_C1 = [
             en: 'These amendments come into force on the day they are adopted and apply from January 1.',
             note: 'stupaju na snagu; primjenjuju se — two dates, two verbs',
           },
+        ],
+      },
+      {
+        type: 'table',
+        title: 'Officialese → Human Croatian',
+        headers: ['Administrative', 'Everyday', 'English'],
+        rows: [
+          ['temeljem članka 5.', 'prema članku 5.', 'pursuant to Article 5'],
+          ['sukladno zakonu', 'u skladu sa zakonom', 'in accordance with the law'],
+          ['podnositelj zahtjeva', 'onaj tko traži', 'the applicant'],
+          [
+            'u svrhu ostvarivanja prava',
+            'da bi ostvario pravo',
+            'for the purpose of exercising a right',
+          ],
+          ['nadležno tijelo', 'ured koji je za to zadužen', 'the competent authority'],
+          ['pravomoćna presuda', 'konačna presuda', 'a final (legally binding) judgment'],
         ],
       },
       {
@@ -5235,6 +5306,24 @@ export const LESSONS_C1 = [
             note: 'understand the variety; do not perform it',
           },
         ],
+      },
+      {
+        type: 'rule',
+        title: 'Kajkavian Has a Different Tense System',
+        body: 'The biggest surprise for a standard-trained learner is that kajkavian does not use the aorist or imperfect at all, and its future is built differently: "bum išel" rather than "ići ću". The accent is fixed further forward, vowels are reduced, and there is heavy German and Hungarian lexical influence — cajger, špancirati, farba. It is closer to Slovene than the standard is.',
+        highlight: 'bum išel = ići ću',
+      },
+      {
+        type: 'rule',
+        title: 'The Yat Reflex Sorts Them Quickly',
+        body: 'The old vowel yat came out three ways: ije/je in the standard and most štokavian (lijep, mlijeko), a plain e in kajkavian, and i in čakavian and some štokavian (lip, mliko). One word usually tells you where you are — and it explains why ikavian forms appear in Dalmatian štokavian speech and in older literature without being kajkavian or čakavian at all.',
+        highlight: 'lijep (standard) · lip (čakavian and ikavian štokavian)',
+      },
+      {
+        type: 'rule',
+        title: 'Čakavian Keeps the Oldest Features',
+        body: 'Čakavian preserves things the standard lost: the old pitch accents in fuller form, final -l where the standard has -o (bil rather than bio), and an m becoming n at the end of words (nisan, san). Its vocabulary carries centuries of Venetian — škura for a shutter, pjat for a plate, kužina for a kitchen. It is the most conservative of the three and, for a learner, the hardest to follow at speed.',
+        highlight: 'bil not bio · nisan not nisam · Venetian vocabulary',
       },
       {
         type: 'quiz',

@@ -118,7 +118,8 @@ describe('the derivation is real', () => {
     expect(BLACK_HOLE.size).toBeGreaterThan(10);
     expect(literalVsWrites().size).toBeGreaterThan(10);
     expect(registryKeys().keys.size).toBeGreaterThan(200);
-    expect(serverLessonIds().size).toBe(180);
+    // 180 before the 2026-11-18 fold of C2 into C1, which deleted nine lessons (180 - 9).
+    expect(serverLessonIds().size).toBe(171);
   });
 
   it('resolves the two shapes a naive scan misses', () => {

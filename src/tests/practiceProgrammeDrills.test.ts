@@ -42,7 +42,7 @@ import { LESSON_TAUGHT_CATEGORY, categoryForScreen } from '../lib/teachPractice'
 import type { SkillCategory } from '../lib/adaptive';
 
 const { CURRICULUM } = await import('../../functions/api/content/_data/curriculum.js');
-const { ORDER_A2, ORDER_B1, ORDER_B2, ORDER_C1, ORDER_C2 } =
+const { ORDER_A2, ORDER_B1, ORDER_B2, ORDER_C1 } =
   await import('../../functions/api/content/_data/levelOrders.js');
 type Entry = { id: string; level: string };
 
@@ -169,35 +169,30 @@ const PROGRAMME_DRILLS: {
   { screen: 'bezlicnob1', category: 'impersonal', lesson: 'impersonal', cefr: 'A2' },
   { screen: 'vrijemeklauze', category: 'time-clauses', lesson: 'time-clauses', cefr: 'B1' },
   { screen: 'uzrokb1', category: 'cause-purpose', lesson: 'cause-purpose', cefr: 'B1' },
-  // ── C2 ────────────────────────────────────────────────────────────────────
+  // ── Former C2 (the course now ends at C1; all gated C1) ──────────────────────────────────────────────────────────────
   // These eight are RETAGS, not new banks — the drill already existed and was
   // already right. They belong in this table for exactly the reason the table
   // exists: the pool tag is what `categoryForScreen` credits and what
   // SKILL_GROUP keys on, and route-based clearing would mask a wrong one.
-  { screen: 'pravopis', category: 'orthography', lesson: 'pravopis-dvojbe', cefr: 'C2' },
+  { screen: 'pravopis', category: 'orthography', lesson: 'pravopis-dvojbe', cefr: 'C1' },
+  // `administrativni`, `akademski`, `lektor`, `naciniobveze`, `prevodjenjestr`, `frazemi` and
+  // `dijalektic2` left this table on 2026-11-18: their lessons were deleted when C2 was folded
+  // into C1, so those drills serve no lesson (still in the pool, now uncoupled).
   // `interpunkcija` left this table on 2026-11-13: its lesson, zarez-interpunkcija, was
   // merged into the C1 comma-dependent-clauses lesson, so the drill serves no lesson.
-  {
-    screen: 'administrativni',
-    category: 'admin-style',
-    lesson: 'administrativni-stil',
-    cefr: 'C2',
-  },
-  { screen: 'akademski', category: 'academic-style', lesson: 'znanstveni-stil', cefr: 'C2' },
   {
     screen: 'novinski',
     category: 'journalistic-style',
     lesson: 'publicisticki-stil',
-    cefr: 'C2',
+    cefr: 'C1',
   },
   {
     screen: 'stilskefigure',
     category: 'figures-of-speech',
     lesson: 'stilske-figure',
-    cefr: 'C2',
+    cefr: 'C1',
   },
-  { screen: 'lektor', category: 'editing', lesson: 'uredjivanje-teksta', cefr: 'C2' },
-  { screen: 'preciznost', category: 'precision', lesson: 'precizno-nijansiranje', cefr: 'C2' },
+  { screen: 'preciznost', category: 'precision', lesson: 'precizno-nijansiranje', cefr: 'C1' },
   // ── B2 ────────────────────────────────────────────────────────────────────
   { screen: 'prilozib2', category: 'verbal-adverbs', lesson: 'verbal-adverbs', cefr: 'B2' },
   {
@@ -240,10 +235,10 @@ const PROGRAMME_DRILLS: {
   { screen: 'meteo', category: 'weather', lesson: 'weather-seasons', cefr: 'A1' },
   { screen: 'svidjanje', category: 'preferences', lesson: 'likes-preferences', cefr: 'A1' },
 
-  // ── C2 block (2026-08-30) ─────────────────────────────────────────────────
+  // ── Former C2 block (2026-08-30; gated C1 since 2026-11-18) ─────────────────────────────────────────────────
   // The last seventeen of the programme. Every one is a new bank; every
   // category is pool-only, so the adaptive picker is untouched.
-  { screen: 'norma', category: 'norm', lesson: 'norma-i-uzus', cefr: 'C2' },
+  { screen: 'norma', category: 'norm', lesson: 'norma-i-uzus', cefr: 'C1' },
   {
     screen: 'sklonidbaizn',
     category: 'declension-exceptions',
@@ -259,28 +254,19 @@ const PROGRAMME_DRILLS: {
     cefr: 'C1',
   },
   { screen: 'padezisupt', category: 'case-subtleties', lesson: 'padezne-suptilnosti', cefr: 'C1' },
-  { screen: 'naciniobveze', category: 'modality', lesson: 'glagolski-nacini', cefr: 'C2' },
-  { screen: 'ritam', category: 'rhythm', lesson: 'ritam-recenice', cefr: 'C2' },
-  { screen: 'ironija', category: 'irony', lesson: 'ironija-podtekst', cefr: 'C2' },
-  { screen: 'humorjezik', category: 'wordplay', lesson: 'humor-jezicni', cefr: 'C2' },
-  { screen: 'knjizevni', category: 'literary-style', lesson: 'knjizevni-stil', cefr: 'C2' },
-  { screen: 'staritekstovi', category: 'old-texts', lesson: 'stari-tekstovi', cefr: 'C2' },
+  { screen: 'ritam', category: 'rhythm', lesson: 'ritam-recenice', cefr: 'C1' },
+  { screen: 'ironija', category: 'irony', lesson: 'ironija-podtekst', cefr: 'C1' },
+  { screen: 'humorjezik', category: 'wordplay', lesson: 'humor-jezicni', cefr: 'C1' },
+  { screen: 'knjizevni', category: 'literary-style', lesson: 'knjizevni-stil', cefr: 'C1' },
+  { screen: 'staritekstovi', category: 'old-texts', lesson: 'stari-tekstovi', cefr: 'C1' },
   {
     screen: 'rekonstrukcija',
     category: 'reconstruction',
     lesson: 'rekonstrukcija-argumenta',
-    cefr: 'C2',
+    cefr: 'C1',
   },
-  { screen: 'spontano', category: 'spontaneous', lesson: 'spontani-govor', cefr: 'C2' },
-  {
-    screen: 'prevodjenjestr',
-    category: 'specialist-translation',
-    lesson: 'prevodjenje-strucno',
-    cefr: 'C2',
-  },
-  { screen: 'frazemi', category: 'phraseology', lesson: 'frazeologija-dubinska', cefr: 'C2' },
-  { screen: 'dijalektic2', category: 'dialects-deep', lesson: 'dijalekti-dubinski', cefr: 'C2' },
-  { screen: 'jezikdrustvo', category: 'language-society', lesson: 'jezik-i-drustvo', cefr: 'C2' },
+  { screen: 'spontano', category: 'spontaneous', lesson: 'spontani-govor', cefr: 'C1' },
+  { screen: 'jezikdrustvo', category: 'language-society', lesson: 'jezik-i-drustvo', cefr: 'C1' },
 
   // ── The debt block (2026-08-30) ───────────────────────────────────────────
   // The thirteen that had no drill at ANY level. Each carries a new pool-only
@@ -580,7 +566,7 @@ describe('coupling coverage per level does not slip', () => {
   // fails here too — the case no per-level list could ever have caught, because
   // a list only knows about lessons somebody remembered to add to it.
   // 2026-11-12 RESTRUCTURE: levels are no longer all 30 lessons. A1 is 100 (a1new) and
-  // A2-C2 are their final orders in levelOrders.js (50, 50, 65, 65, 24). The ratchet is
+  // A2-C2 are their final orders in levelOrders.js (50, 50, 65, 80). The ratchet is
   // "EVERY lesson at the level is coupled" (a new uncoupled lesson still fails, a lesson
   // losing its mapping still fails) plus a per-level size FLOOR so a level cannot lose
   // lessons unnoticed.
@@ -590,11 +576,10 @@ describe('coupling coverage per level does not slip', () => {
     B1: ORDER_B1.length,
     B2: ORDER_B2.length,
     C1: ORDER_C1.length,
-    C2: ORDER_C2.length,
   };
 
   it('the floors are the restructured sizes', () => {
-    expect(MIN_LESSONS).toEqual({ A1: 100, A2: 50, B1: 50, B2: 65, C1: 65, C2: 24 });
+    expect(MIN_LESSONS).toEqual({ A1: 100, A2: 50, B1: 50, B2: 65, C1: 80 });
   });
 
   it.each(Object.entries(MIN_LESSONS))(

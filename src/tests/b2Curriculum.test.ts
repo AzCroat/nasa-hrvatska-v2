@@ -305,12 +305,18 @@ describe('teach → practice coupling stays HONEST at B2', () => {
     // the higher lesson with nothing.
     const STILL_OWNED: Record<string, string> = {
       precision: 'precizno-nijansiranje',
-      register: 'razgovorni-stil',
       idioms: 'idioms-register',
     };
     for (const [category, owner] of Object.entries(STILL_OWNED)) {
       expect(LESSON_TAUGHT_CATEGORY[owner], `${owner} lost ${category}`).toBe(category);
     }
+    // `register` was owned by razgovorni-stil, deleted when C2 was folded into C1
+    // (2026-11-18). No B2 lesson may claim it in the meantime.
+    const b2Ids = new Set(b2Lessons.map((l) => l.id));
+    expect(
+      Object.entries(LESSON_TAUGHT_CATEGORY).filter(([id, c]) => c === 'register' && b2Ids.has(id)),
+      'a B2 lesson took the register drill',
+    ).toEqual([]);
   });
 });
 

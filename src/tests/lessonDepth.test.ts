@@ -16,7 +16,6 @@ import {
   ORDER_B1,
   ORDER_B2,
   ORDER_C1,
-  ORDER_C2,
 } from '../../functions/api/content/_data/levelOrders.js';
 import {
   lessonDepthProblems,
@@ -27,7 +26,8 @@ import {
 import { lessonGate, MIN_CHECK_ITEMS as GATE_MIN } from '../lib/lessonCheck';
 
 type Lesson = (typeof LESSONS)[number];
-const LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'] as const;
+// The course ends at C1 (2026-11-18): C2 was folded into it and has no lessons.
+const LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1'] as const;
 const byLevel = (lv: string) => (LESSONS as Lesson[]).filter((l) => l.level === lv);
 
 describe('the teaching-depth contract holds for every lesson', () => {
@@ -41,9 +41,9 @@ describe('the teaching-depth contract holds for every lesson', () => {
       B1: ORDER_B1.length,
       B2: ORDER_B2.length,
       C1: ORDER_C1.length,
-      C2: ORDER_C2.length,
     };
-    expect(FLOOR).toEqual({ A1: 100, A2: 50, B1: 50, B2: 65, C1: 65, C2: 24 });
+    expect(FLOOR).toEqual({ A1: 100, A2: 50, B1: 50, B2: 65, C1: 80 });
+    expect(byLevel('C2').length, 'a C2 lesson came back').toBe(0);
     expect(LESSONS.length).toBeGreaterThanOrEqual(180);
     const spine = new Set(CURRICULUM.map((e: { id: string }) => e.id));
     for (const lv of LEVELS) expect(byLevel(lv).length, lv).toBeGreaterThanOrEqual(FLOOR[lv]);

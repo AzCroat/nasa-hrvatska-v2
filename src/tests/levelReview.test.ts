@@ -271,7 +271,7 @@ describe('pickCourseStep with fabricated rows', () => {
   it('THE LAST LEVEL has no crossing, and still gets its review after its final unit', () => {
     const rows = UNITS.map((_, i) => row(i + 1));
     const all = new Set(UNITS.map((u) => u.id));
-    const reviewed = new Set(['A1', 'A2', 'B1', 'B2', 'C1']);
+    const reviewed = new Set(['A1', 'A2', 'B1', 'B2']);
     const step = pickCourseStep({
       rows,
       completed: new Set(UNITS.flatMap((u) => u.lessons.map((l) => l.id))),
@@ -279,12 +279,11 @@ describe('pickCourseStep with fabricated rows', () => {
       reviewed,
       advanced: all,
     });
-    expect(step).toMatchObject({ kind: 'level-review', level: 'C2' });
-    // The final unit of the course, derived from the spine (the C2 chunking changes as
-    // the level is authored).
+    expect(step).toMatchObject({ kind: 'level-review', level: 'C1' });
+    // The final unit of the course, derived from the spine (the course ends at C1).
     expect(step?.unit.id).toBe(UNITS[UNITS.length - 1]!.id);
-    expect(step?.unit.level).toBe('C2');
-    reviewed.add('C2');
+    expect(step?.unit.level).toBe('C1');
+    reviewed.add('C1');
     expect(
       pickCourseStep({
         rows,

@@ -904,10 +904,10 @@ describe('LESSONS', () => {
     }
   });
 
-  it('C1/C2 floors hold (7b): C1 ≥ 8 lessons, C2 ≥ 4 lessons', () => {
+  it('C1 floor holds (7b): C1 ≥ 8 lessons, and no C2 lessons remain (the course ends at C1)', () => {
     const count = (lvl) => LESSONS.filter((l) => l.level === lvl).length;
     expect(count('C1')).toBeGreaterThanOrEqual(8);
-    expect(count('C2')).toBeGreaterThanOrEqual(4);
+    expect(count('C2')).toBe(0);
     // A2 parity (deficit #7): modal verbs + comparatives close the A2 ladder.
     expect(count('A2')).toBeGreaterThanOrEqual(8);
     expect(LESSONS.map((l) => l.id)).toContain('modal-verbs-a2');
@@ -920,7 +920,7 @@ describe('LESSONS', () => {
       'collective-numbers',
       'pluskvamperfekt',
       'stilske-figure',
-      'administrativni-stil',
+      'publicisticki-stil',
     ]) {
       expect(ids, `missing 7b lesson ${id}`).toContain(id);
     }

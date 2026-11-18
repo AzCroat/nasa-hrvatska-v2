@@ -17,7 +17,7 @@ import { CURRICULUM } from '../functions/api/content/_data/curriculum.js';
 
 const LEVEL = process.env.CLASS_SHOTS_LEVEL;
 const DIR = process.env.CLASS_SHOTS_DIR;
-const LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
+const LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1'];
 const ids = (lv) =>
   CURRICULUM.filter((l) => l.level === lv)
     .sort((a, b) => a.order - b.order)
@@ -79,6 +79,21 @@ test.describe('class-order screenshots', () => {
       );
     };
     await page.goto('/');
+
+    // CLASS_SHOTS_MAP="C1-13,C1-16": the course map only, standing on each named unit
+    // (for a change to the course's shape rather than to a lesson).
+    if (process.env.CLASS_SHOTS_MAP) {
+      for (const unitId of process.env.CLASS_SHOTS_MAP.split(',')) {
+        await standOn(unitId);
+        await page.goto('/coursemap');
+        await expect(page.getByTestId('course-map')).toBeVisible({ timeout: 30_000 });
+        await page.getByTestId(`course-unit-${unitId}`).scrollIntoViewIfNeeded();
+        await page.waitForTimeout(800);
+        await page.screenshot({ path: path.join(DIR, `map-${unitId}.png`) });
+        await page.screenshot({ path: path.join(DIR, `map-${unitId}-full.png`), fullPage: true });
+      }
+      return;
+    }
 
     const lessons = ids(LEVEL);
     const shoot = async (lesson, unitId, label, small) => {

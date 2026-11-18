@@ -66,7 +66,7 @@ import type { CurriculumEntry } from './curriculum';
 /** Lessons per unit. A level whose count is not a multiple ends with a shorter unit. */
 export const UNIT_SIZE = 5;
 
-export const COURSE_LEVELS: readonly CefrLevel[] = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
+export const COURSE_LEVELS: readonly CefrLevel[] = ['A1', 'A2', 'B1', 'B2', 'C1'];
 
 export interface CourseUnit {
   /** Stable id: level + position in level, e.g. 'A1-4'. */

@@ -80,9 +80,29 @@ describe('a drill can name the lesson that taught it', () => {
     expect(engineDrillIds().length).toBeGreaterThan(100);
   });
 
-  it('covers EVERY engine-backed drill', () => {
-    const uncovered = engineDrillIds().filter((id) => lessonsTeachingScreen(id).length === 0);
+  // Four engine drills lost their lesson when C2 was folded into C1 (2026-11-18): the nine
+  // lessons below were deleted and their unique slides moved into existing C1 lessons. The
+  // drills stay in the pool (reachable through the CEFR fill) and name no lesson. Each entry
+  // is checked in both directions, so an exemption cannot outlive its reason.
+  const LESSON_DELETED_IN_FOLD: Record<string, string> = {
+    dijalektic2: 'dijalekti-dubinski',
+    naciniobveze: 'glagolski-nacini',
+    frazemi: 'frazeologija-dubinska',
+    prevodjenjestr: 'prevodjenje-strucno',
+  };
+
+  it('covers EVERY engine-backed drill, but for the four whose lessons were folded away', () => {
+    const uncovered = engineDrillIds().filter(
+      (id) => lessonsTeachingScreen(id).length === 0 && !(id in LESSON_DELETED_IN_FOLD),
+    );
     expect(uncovered).toEqual([]);
+    const ids = new Set(engineDrillIds());
+    for (const id of Object.keys(LESSON_DELETED_IN_FOLD)) {
+      expect(ids.has(id), `${id} is exempted but is not an engine drill`).toBe(true);
+      expect(lessonsTeachingScreen(id), `${id} names a lesson again — drop its exemption`).toEqual(
+        [],
+      );
+    }
   });
 
   it('returns lessons sorted, so the learner sees a stable order', () => {

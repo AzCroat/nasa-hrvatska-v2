@@ -148,14 +148,14 @@ describe('what the course serves', () => {
     expect(nextCourseStep()).toBeNull();
   });
 
-  // THE LAST LEVEL'S REVIEW IS THE COURSE'S LAST STEP (increment 6): C2 has no
+  // THE LAST LEVEL'S REVIEW IS THE COURSE'S LAST STEP (increment 6): C1 (the last level) has no
   // crossing into a next level, so its review follows its final unit. Only once that
   // is done does the course have nothing left to serve.
-  it('ends with the C2 review, then is null, when every unit has met the whole bar', () => {
+  it('ends with the C1 review, then is null, when every unit has met the whole bar', () => {
     writeCurriculumSpine(SPINE);
     for (const u of UNITS) master(u.id);
-    expect(nextCourseStep()).toMatchObject({ kind: 'level-review', level: 'C2' });
-    recordLevelReview('C2', 15, 18);
+    expect(nextCourseStep()).toMatchObject({ kind: 'level-review', level: 'C1' });
+    recordLevelReview('C1', 15, 18);
     expect(nextCourseStep()).toBeNull();
   });
 

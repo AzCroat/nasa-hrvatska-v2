@@ -57,10 +57,10 @@ for (const drill of DRILLS) {
       expect(new Set(qs).size).toBe(qs.length);
     });
 
-    it('is registered in the session pool at C2 tier 5', () => {
+    it('is registered in the session pool at C1 (the former C2 tier) with difficulty 5', () => {
       const entry = CEFR_EXERCISE_POOL.find((e) => e.id === drill.id);
       expect(entry).toBeTruthy();
-      expect(entry!.cefr).toBe('C2');
+      expect(entry!.cefr).toBe('C1');
       expect(entry!.screen).toBe(drill.id);
       expect(entry!.category).toBe(drill.category);
       expect(EXERCISE_DIFFICULTY[drill.id]).toBe(5);
@@ -76,8 +76,11 @@ for (const drill of DRILLS) {
 }
 
 describe('C2 drill-pool breadth', () => {
-  it('the pool now offers at least 3 non-adaptive C2 exercises', () => {
-    const c2 = CEFR_EXERCISE_POOL.filter((e) => e.cefr === 'C2' && !e.adaptive);
-    expect(c2.length).toBeGreaterThanOrEqual(3);
+  it('the pool still offers at least 3 non-adaptive former-C2 exercises, now gated C1 (tier 5)', () => {
+    expect(CEFR_EXERCISE_POOL.filter((e) => e.cefr === 'C2')).toEqual([]);
+    const former = CEFR_EXERCISE_POOL.filter(
+      (e) => e.cefr === 'C1' && !e.adaptive && EXERCISE_DIFFICULTY[e.id] === 5,
+    );
+    expect(former.length).toBeGreaterThanOrEqual(3);
   });
 });

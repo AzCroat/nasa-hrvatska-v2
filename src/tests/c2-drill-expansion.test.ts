@@ -233,12 +233,12 @@ for (const drill of DRILLS) {
       expect(new Set(qs).size).toBe(qs.length);
     });
 
-    it('is registered in the session pool at its tier (C2, or C1 if its lesson moved down)', () => {
+    it('is registered in the session pool at its tier (C1 — the former C2 tier, difficulty 5)', () => {
       const entry = CEFR_EXERCISE_POOL.find((e) => e.id === drill.id);
       expect(entry).toBeTruthy();
-      // The punctuation drill briefly moved to C1 with its lesson (2026-11-12); the lesson was
-      // merged away on 2026-11-13 and the drill is back at its C2 gate.
-      expect(entry!.cefr).toBe('C2');
+      // The course ends at C1 (2026-11-18): every drill that was gated C2 is now gated C1,
+      // and keeps its difficulty tier 5.
+      expect(entry!.cefr).toBe('C1');
       expect(entry!.screen).toBe(drill.id);
       expect(entry!.category).toBe(drill.category);
       expect(EXERCISE_DIFFICULTY[drill.id]).toBe(5);
@@ -254,8 +254,11 @@ for (const drill of DRILLS) {
 }
 
 describe('C2 drill-pool breadth (program tally: 30/30 COMPLETE)', () => {
-  it('the pool now offers at least 30 C2 exercises', () => {
-    const c2 = CEFR_EXERCISE_POOL.filter((e) => e.cefr === 'C2');
-    expect(c2.length).toBeGreaterThanOrEqual(30);
+  it('the pool still offers at least 30 former-C2 exercises, now gated C1 (difficulty tier 5)', () => {
+    expect(CEFR_EXERCISE_POOL.filter((e) => e.cefr === 'C2')).toEqual([]);
+    const former = CEFR_EXERCISE_POOL.filter(
+      (e) => e.cefr === 'C1' && EXERCISE_DIFFICULTY[e.id] === 5,
+    );
+    expect(former.length).toBeGreaterThanOrEqual(30);
   });
 });

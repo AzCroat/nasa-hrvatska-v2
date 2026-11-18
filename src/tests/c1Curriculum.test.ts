@@ -30,10 +30,11 @@ vi.mock('../lib/cefrCertification', () => ({
   getContentUnlockLevel: vi.fn((l: string) => l),
 }));
 
-const { CURRICULUM, spineForLevel } =
+const { CURRICULUM, spineForLevel, CURRICULUM_LEVELS } =
   await import('../../functions/api/content/_data/curriculum.js');
 const { LESSONS } = await import('../../functions/api/content/_data/lessons.js');
-const { ORDER_C1 } = await import('../../functions/api/content/_data/levelOrders.js');
+const { ORDER_A2, ORDER_B1, ORDER_B2, ORDER_C1 } =
+  await import('../../functions/api/content/_data/levelOrders.js');
 const { LESSON_TAUGHT_CATEGORY } = await import('../lib/teachPractice');
 const { CATEGORY_SCREEN_MAP } = await import('../lib/categoryRoutes');
 const { CEFR_EXERCISE_POOL } = await import('../lib/sessionPools');
@@ -88,12 +89,27 @@ describe('C1 covers the structures the level was missing', () => {
     }
   });
 
-  it('keeps its restructured size (ORDER_C1, 65 lessons)', () => {
-    expect(ORDER_C1.length).toBeGreaterThanOrEqual(65);
+  it('keeps its size after C2 was folded in (ORDER_C1, 80 lessons)', () => {
+    expect(ORDER_C1.length).toBeGreaterThanOrEqual(80);
     expect(c1Lessons.length).toBeGreaterThanOrEqual(ORDER_C1.length);
     expect(c1Spine.length).toBe(c1Lessons.length);
   });
 });
+
+// The eleven USE lessons among the fifteen former C2 lessons (now C1 orders 61-75).
+const FOLDED_FUNCTIONAL = [
+  'precizno-nijansiranje',
+  'stilske-figure',
+  'knjizevni-stil',
+  'publicisticki-stil',
+  'ironija-podtekst',
+  'humor-jezicni',
+  'sinteza-izvora',
+  'rekonstrukcija-argumenta',
+  'spontani-govor',
+  'stari-tekstovi',
+  'jezik-i-drustvo',
+];
 
 describe('C1 teaches use, not only structure', () => {
   const PROFESSIONAL = [
@@ -136,9 +152,14 @@ describe('C1 teaches use, not only structure', () => {
     // keeping all twelve use lessons, so the share is now 12/65 ≈ 0.18. The floor
     // follows the measured share; the twelve lessons are each pinned above, and the
     // absolute count must not fall either.
-    const functional = [...PROFESSIONAL, ...DOMAIN];
-    expect(functional.filter((id) => orderOf.has(id)).length).toBeGreaterThanOrEqual(12);
-    expect(functional.length / c1Lessons.length).toBeGreaterThanOrEqual(0.18);
+    //
+    // 2026-11-18: the course ends at C1, so the fifteen lessons that used to be C2 now sit at
+    // C1 (orders 61-75). Eleven of them are USE lessons — styles, figures, irony, synthesis,
+    // reconstruction, spontaneous speech, old texts, language and society, precision — and
+    // join the functional set, taking the share to 23/80 ≈ 0.29.
+    const functional = [...PROFESSIONAL, ...DOMAIN, ...FOLDED_FUNCTIONAL];
+    expect(functional.filter((id) => orderOf.has(id)).length).toBeGreaterThanOrEqual(23);
+    expect(functional.length / c1Lessons.length).toBeGreaterThanOrEqual(0.28);
   });
 });
 
@@ -170,6 +191,16 @@ describe('the sequence does not put a lesson before what it needs', () => {
     ['diaspora-identity', 'language-identity'],
     // Register before the lesson that judges register.
     ['arts-culture', 'idioms-register'],
+    // The former C2 lessons (now C1 orders 61-75). The precision block builds on the frame.
+    ['pravopis-dvojbe', 'norma-i-uzus'],
+    ['sklonidba-iznimke', 'hypocoristics-dvojica'],
+    ['slaganje-suptilnosti', 'multi-subject-agreement'],
+    // Style: wordplay after irony. (The old C2 pair "rhythm after the figures" no longer
+    // holds: the 2026-11-18 layout puts ritam-recenice at order 65, in C1-13, and
+    // stilske-figure at 66, in C1-14. Left unasserted, and reported to the owner.)
+    ['humor-jezicni', 'ironija-podtekst'],
+    // Synthesis chain — this is the CEFR descriptor in order.
+    ['rekonstrukcija-argumenta', 'sinteza-izvora'],
   ];
 
   it.each(AFTER)('%s comes after %s', (later, earlier) => {
@@ -282,6 +313,32 @@ describe('teach → practice coupling stays HONEST at C1', () => {
     'regional-varieties': 'regional',
     'language-identity': 'identity',
     'diaspora-identity': 'diaspora',
+    // The fifteen former C2 lessons (C1 orders 61-75, units C1-13..C1-15), 2026-11-18. The
+    // drills were authored for them at C2 and are now gated C1. Categories decided in the
+    // C2 blocks of 2026-08-29/30 (own pool-only tags, so nothing existing is displaced).
+    'norma-i-uzus': 'norm',
+    'pravopis-dvojbe': 'orthography',
+    'kondicional-drugi': 'conditional',
+    'precizno-nijansiranje': 'precision',
+    'ritam-recenice': 'rhythm',
+    'stilske-figure': 'figures-of-speech',
+    'knjizevni-stil': 'literary-style',
+    'publicisticki-stil': 'journalistic-style',
+    'ironija-podtekst': 'irony',
+    'humor-jezicni': 'wordplay',
+    'sinteza-izvora': 'writing',
+    'rekonstrukcija-argumenta': 'reconstruction',
+    'spontani-govor': 'spontaneous',
+    'stari-tekstovi': 'old-texts',
+    'jezik-i-drustvo': 'language-society',
+    // The five that moved down from C2 on 2026-11-12 keep the couplings decided there; their
+    // drills were regated to C1 so the coupling resolves. The pluperfect has its own drill
+    // since 2026-11-13 (`cloze` had no pluperfect item).
+    'sklonidba-iznimke': 'declension-exceptions',
+    'brojevi-norma': 'number-norm',
+    'slaganje-suptilnosti': 'agreement-subtleties',
+    'padezne-suptilnosti': 'case-subtleties',
+    pluskvamperfekt: 'c1-pluperfect',
   };
 
   it.each(Object.entries(EXPECTED))('%s practises %s', (lesson, category) => {
@@ -466,6 +523,18 @@ describe('a C1 lesson day still teaches STRUCTURE', () => {
     // like the punctuation drill — which word of a name is capitalised, not a form.
     'capitals-names-geography': 'orthography — capital letters in personal and place names',
     'capitals-institutions': 'orthography — capital letters in institution and event names',
+    // The former C2 lessons whose day contains no grammar drill (recorded at C2 on 2026-08-31,
+    // same item-share criterion; moved here when C2 was folded into C1, 2026-11-18).
+    'pravopis-dvojbe': 'spelling doubts (ije/je, č/ć) — orthography',
+    'ironija-podtekst': 'irony and subtext — pragmatics (2/24)',
+    'humor-jezicni': 'wordplay and puns (0/24)',
+    'knjizevni-stil': 'literary style — a reading drill (1/24)',
+    'stari-tekstovi': 'reading texts written before Gaj (0/24)',
+    'sinteza-izvora': 'couples to writing_guided, the production screen',
+    'rekonstrukcija-argumenta': 'reconstructing an argument — reading (7/24)',
+    'precizno-nijansiranje': 'finer shades of meaning — lexical nuance',
+    'spontani-govor': 'spontaneous speech (3/24)',
+    'jezik-i-drustvo': 'language and society — a discussion topic (0/24)',
   };
 
   const bareLessonDays = (): string[] =>
@@ -515,8 +584,156 @@ describe('a C1 lesson day still teaches STRUCTURE', () => {
   });
 
   // 18 since 2026-11-13: zarez-interpunkcija was merged into comma-dependent-clauses, and
-  // its slot went to text-connectors, whose drill is structural (syntax).
-  it('the list stays at 18 of sixty-five', () => {
-    expect(Object.keys(NON_STRUCTURAL_C1).length).toBe(18);
+  // its slot went to text-connectors, whose drill is structural (syntax). 28 since 2026-11-18,
+  // when ten former C2 lessons with no structure joined the level (80 lessons).
+  it('the list stays at 28 of eighty', () => {
+    expect(Object.keys(NON_STRUCTURAL_C1).length).toBe(28);
+  });
+});
+
+describe('C2 was folded into C1 (2026-11-18): the course ends at C1', () => {
+  // The fifteen surviving C2 lessons are C1 lessons at orders 61-75, in units C1-13..C1-15;
+  // the old last C1 unit is now C1-16 (orders 76-80). Nine C2 lessons were deleted and their
+  // unique slides folded into existing C1 lessons.
+  const FOLDED_IN = [
+    'norma-i-uzus',
+    'pravopis-dvojbe',
+    'kondicional-drugi',
+    'precizno-nijansiranje',
+    'ritam-recenice',
+    'stilske-figure',
+    'knjizevni-stil',
+    'publicisticki-stil',
+    'ironija-podtekst',
+    'humor-jezicni',
+    'sinteza-izvora',
+    'rekonstrukcija-argumenta',
+    'spontani-govor',
+    'stari-tekstovi',
+    'jezik-i-drustvo',
+  ];
+
+  const DELETED = [
+    'glagolski-vid-granice',
+    'glagolski-nacini',
+    'administrativni-stil',
+    'znanstveni-stil',
+    'razgovorni-stil',
+    'prevodjenje-strucno',
+    'uredjivanje-teksta',
+    'frazeologija-dubinska',
+    'dijalekti-dubinski',
+  ];
+
+  it.each(FOLDED_IN)('%s is a C1 lesson, spined and sequenced at orders 61-75', (id) => {
+    expect(
+      c1Lessons.some((l) => l.id === id),
+      `${id} has no C1 lesson body`,
+    ).toBe(true);
+    const order = orderOf.get(id);
+    expect(order, `${id} is not in the C1 spine`).toBeDefined();
+    expect(order!).toBeGreaterThanOrEqual(61);
+    expect(order!).toBeLessThanOrEqual(75);
+  });
+
+  it('norma-i-uzus opens the folded block, which frames every later lesson in it', () => {
+    // Everything after it assumes the learner has stopped asking "is this correct" and
+    // started asking "which correct form".
+    expect(orderOf.get('norma-i-uzus')).toBe(61);
+  });
+
+  it('the old last unit follows the folded block (orders 76-80)', () => {
+    const last = [
+      'science-technology',
+      'arts-culture',
+      'regional-varieties',
+      'language-identity',
+      'diaspora-identity',
+    ];
+    expect(last.map((id) => orderOf.get(id))).toEqual([76, 77, 78, 79, 80]);
+  });
+
+  it('the nine deleted lessons are gone from the spine, the bodies and the coupling map', () => {
+    const spineIds = new Set((CURRICULUM as Entry[]).map((e) => e.id));
+    const bodyIds = new Set((LESSONS as Lesson[]).map((l) => l.id));
+    for (const id of DELETED) {
+      expect(spineIds.has(id), `${id} is still in the spine`).toBe(false);
+      expect(bodyIds.has(id), `${id} still has a lesson body`).toBe(false);
+      expect(id in LESSON_TAUGHT_CATEGORY, `${id} still has a coupling`).toBe(false);
+    }
+  });
+
+  it('no C2 lesson, no C2 spine entry and no C2 order list remains', () => {
+    expect((LESSONS as Lesson[]).filter((l) => l.level === 'C2')).toEqual([]);
+    expect((CURRICULUM as Entry[]).filter((e) => e.level === 'C2')).toEqual([]);
+    expect(CURRICULUM_LEVELS).toEqual(['A1', 'A2', 'B1', 'B2', 'C1']);
+  });
+
+  it('every C1 lesson is coupled to a drill', () => {
+    const uncoupled = c1Lessons.filter((l) => !LESSON_TAUGHT_CATEGORY[l.id]).map((l) => l.id);
+    expect(uncoupled, 'a C1 lesson leads nowhere — author its drill').toEqual([]);
+  });
+
+  it('the five lessons moved down from C2 on 2026-11-12 are still C1 lessons', () => {
+    for (const id of [
+      'slaganje-suptilnosti',
+      'pluskvamperfekt',
+      'padezne-suptilnosti',
+      'sklonidba-iznimke',
+      'brojevi-norma',
+    ]) {
+      expect(orderOf.has(id), `${id} left the course or moved off C1`).toBe(true);
+    }
+  });
+});
+
+describe('THE CURRICULUM IS COMPLETE (whole-course assertions)', () => {
+  // Level sizes follow the Croaticum books (A1 100, levelOrders.js for the rest) and C1 now
+  // carries the former C2 as well: 345 lessons in all. A level cannot quietly shrink.
+  it('every CEFR level keeps at least its size, and the course at least 345 lessons', () => {
+    const FLOOR: Record<string, number> = {
+      A1: 100,
+      A2: ORDER_A2.length,
+      B1: ORDER_B1.length,
+      B2: ORDER_B2.length,
+      C1: ORDER_C1.length,
+    };
+    expect(FLOOR).toEqual({ A1: 100, A2: 50, B1: 50, B2: 65, C1: 80 });
+    let total = 0;
+    for (const level of CURRICULUM_LEVELS as string[]) {
+      const n = (LESSONS as Lesson[]).filter((l) => l.level === level).length;
+      total += n;
+      expect(n, `${level} has only ${n} lessons`).toBeGreaterThanOrEqual(FLOOR[level]);
+    }
+    expect(total).toBeGreaterThanOrEqual(345);
+  });
+
+  it('the spine and the lesson bodies agree exactly, at every level', () => {
+    const lessonIds = new Set((LESSONS as Lesson[]).map((l) => l.id));
+    const spineIds = new Set((CURRICULUM as Entry[]).map((e) => e.id));
+    expect(
+      [...spineIds].filter((id) => !lessonIds.has(id)),
+      'spine entries with no lesson',
+    ).toEqual([]);
+    expect(
+      [...lessonIds].filter((id) => !spineIds.has(id)),
+      'lessons missing from the spine',
+    ).toEqual([]);
+  });
+
+  it('no lesson is sequenced at a level other than its own', () => {
+    const levelOf = new Map((LESSONS as Lesson[]).map((l) => [l.id, l.level]));
+    for (const e of CURRICULUM as Entry[]) {
+      expect(levelOf.get(e.id), `${e.id} is spined at ${e.level}`).toBe(e.level);
+    }
+  });
+
+  it('orders within a level are unique and contiguous from 1', () => {
+    for (const level of CURRICULUM_LEVELS as string[]) {
+      const orders = (spineForLevel(level) as Entry[]).map((e) => e.order).sort((a, b) => a - b);
+      expect(new Set(orders).size, `${level} has duplicate orders`).toBe(orders.length);
+      expect(orders[0], `${level} does not start at 1`).toBe(1);
+      expect(orders[orders.length - 1], `${level} has a gap in its ordering`).toBe(orders.length);
+    }
   });
 });

@@ -23,7 +23,7 @@ describe('courseUnitLevel', () => {
     expect(launchedLevel('speaking_guided', 'B1')).toBe('B1');
   });
 
-  it.each(['A1', 'A2', 'B1', 'B2', 'C1', 'C2'])(
+  it.each(['A1', 'A2', 'B1', 'B2', 'C1'])(
     'a %s unit is served at its own level, whatever the XP level says',
     (level) => {
       seedCourseAt(unitIndexAt(level, 1));

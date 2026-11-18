@@ -274,9 +274,11 @@ describe('the Center, rendered against the real catalogues', () => {
     expect(screen.getByTestId('lc-syllabus')).toBeTruthy();
     expect(screen.queryByTestId('lc-results')).toBeNull();
     // Every level is present, so the whole curriculum is browsable from here.
-    for (const lvl of ['A1', 'A2', 'B1', 'B2', 'C1', 'C2']) {
+    for (const lvl of ['A1', 'A2', 'B1', 'B2', 'C1']) {
       expect(screen.getByTestId(`lc-level-${lvl}`)).toBeTruthy();
     }
+    // The course ends at C1 (2026-11-18): there is no C2 band.
+    expect(screen.queryByTestId('lc-level-C2')).toBeNull();
   });
 
   it('finds the case material for "padeži" and can open a lesson', () => {
@@ -363,13 +365,13 @@ describe('the Center, rendered against the real catalogues', () => {
     expect(rows.some((r) => r.textContent?.includes('✓'))).toBe(true);
   });
 
-  it('a NEW learner finds C2 lessons locked: a lock and its reason, and nothing opens', () => {
+  it('a NEW learner finds C1 lessons locked: a lock and its reason, and nothing opens', () => {
     const { launchAnimLesson } = renderCenter();
-    fireEvent.click(screen.getByTestId('lc-level-C2'));
+    fireEvent.click(screen.getByTestId('lc-level-C1'));
     const rows = screen.getAllByTestId('lc-row');
     expect(rows.length).toBeGreaterThan(5);
     for (const r of rows) {
-      expect(r.getAttribute('data-locked'), 'every C2 lesson is ahead of a new learner').toBe('1');
+      expect(r.getAttribute('data-locked'), 'every C1 lesson is ahead of a new learner').toBe('1');
     }
     expect(screen.getAllByTestId('lc-row-locked-reason')[0]!.textContent).toMatch(/^Opens after/);
     fireEvent.click(rows[0]!);

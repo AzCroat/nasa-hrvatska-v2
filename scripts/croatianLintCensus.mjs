@@ -102,10 +102,6 @@ export const CENSUS_EXEMPT = new Map([
     'checked IN-TEST by courseUnitCanDo.test.tsx (findSerbism and containsCyrillic over every statement), because the Croatian sits inside English prose no field matcher can isolate',
   ],
   [
-    'src/data/canDo/C2.ts',
-    'checked IN-TEST by courseUnitCanDo.test.tsx (findSerbism and containsCyrillic over every statement), because the Croatian sits inside English prose no field matcher can isolate',
-  ],
-  [
     'src/components/practice/dialogueScenarios.js',
     'walked STRUCTURALLY by lessonStrings-style traversal, because only the data knows which option is the correct one',
   ],
