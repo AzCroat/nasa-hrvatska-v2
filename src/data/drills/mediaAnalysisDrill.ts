@@ -45,7 +45,7 @@ export const MEDIA_ANALYSIS_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'agens',
-    q: '„Došlo je do smanjenja broja zaposlenih.“ Što je uklonjeno?',
+    q: '„Došlo je do smanjenja broja zaposlenih.” Što je uklonjeno?',
     en: 'What has been removed?',
     opts: ['vršitelj — radnja ostaje kao imenica', 'i vršitelj i radnja', 'samo vrijeme', 'ništa'],
     answer: 'vršitelj — radnja ostaje kao imenica',

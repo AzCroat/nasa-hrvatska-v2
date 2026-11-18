@@ -15,7 +15,7 @@
 const L_DEPERSONALIZATION = {
   id: 'depersonalization',
   title: 'Saying It Without a Subject',
-  subtitle: 'Priča se da…, Ne zna se tko…, Kažu da… — the depersonalised statement',
+  subtitle: 'Priča se da…, Ne zna se tko…, Kažu da… — the depersonalized statement',
   icon: '🌫️',
   level: 'C1',
   duration: '~6 min',
@@ -25,7 +25,7 @@ const L_DEPERSONALIZATION = {
     {
       type: 'intro',
       title: 'When Nobody in Particular Says It',
-      body: 'English reaches for "people say", "it is said", "one never knows". Croatian has a whole family of constructions that leave the doer out entirely — grammarians call it obezličenje, depersonalisation. They are everywhere: in gossip (Priča se da…), on notices (Ovdje se ne puši), in the news (Javljaju da…) and in official reports (Utvrđeno je da…). Choosing the right one is what makes a sentence sound Croatian rather than translated.',
+      body: 'English reaches for "people say", "it is said", "one never knows". Croatian has a whole family of constructions that leave the doer out entirely — grammarians call it obezličenje, depersonalization. They are everywhere: in gossip (Priča se da…), on notices (Ovdje se ne puši), in the news (Javljaju da…) and in official reports (Utvrđeno je da…). Choosing the right one is what makes a sentence sound Croatian rather than translated.',
       icon: '🌫️',
     },
     {
@@ -45,7 +45,7 @@ const L_DEPERSONALIZATION = {
       title: 'Present and Past',
       headers: ['Present', 'Past', 'Meaning'],
       rows: [
-        ['Priča se da…', 'Pričalo se da…', 'it is (was) rumoured that'],
+        ['Priča se da…', 'Pričalo se da…', 'it is (was) rumored that'],
         ['Ne zna se tko…', 'Nije se znalo tko…', 'nobody knows (knew) who'],
         ['Smatra se da…', 'Smatralo se da…', 'it is (was) considered that'],
         ['Očekuje se da…', 'Očekivalo se da…', 'it is (was) expected that'],
@@ -73,7 +73,7 @@ const L_DEPERSONALIZATION = {
     {
       type: 'rule',
       title: 'The Formal Report: Utvrđeno je da…',
-      body: 'Official and academic Croatian depersonalises with the neuter passive participle plus da: Utvrđeno je da… (it has been established that), Odlučeno je da… (it has been decided that), Zaključeno je da… The se-forms work in the same register: Smatra se da…, Očekuje se da…, Predlaže se da… When there IS an object, the standard turns it into the subject of a se-passive and makes the verb agree: Ovdje se grade kuće (houses are being built here). Other tools: treba + infinitive (Treba paziti), potrebno je / moguće je + infinitive, and the generic čovjek (Čovjek nikad ne zna).',
+      body: 'Official and academic Croatian depersonalizes with the neuter passive participle plus da: Utvrđeno je da… (it has been established that), Odlučeno je da… (it has been decided that), Zaključeno je da… The se-forms work in the same register: Smatra se da…, Očekuje se da…, Predlaže se da… When there IS an object, the standard turns it into the subject of a se-passive and makes the verb agree: Ovdje se grade kuće (houses are being built here). Other tools: treba + infinitive (Treba paziti), potrebno je / moguće je + infinitive, and the generic čovjek (Čovjek nikad ne zna).',
       highlight: 'Utvrđeno je da…',
     },
     {
@@ -92,7 +92,7 @@ const L_DEPERSONALIZATION = {
         },
         {
           hr: 'U ovoj se zgradi ne puši, a psi se moraju voditi na uzici.',
-          en: 'There is no smoking in this building, and dogs must be kept on a lead.',
+          en: 'There is no smoking in this building, and dogs must be kept on a leash.',
           note: 'a notice: impersonal se, then a se-passive with psi as subject',
         },
         {
@@ -164,7 +164,7 @@ const L_DEPERSONALIZATION = {
       ],
       correct: 1,
       explanation:
-        'The neuter participle with da — utvrđeno je da — is the formal depersonalised statement. Kažu and pričaju belong to speech and point vaguely at "people".',
+        'The neuter participle with da — utvrđeno je da — is the formal depersonalized statement. Kažu and pričaju belong to speech and point vaguely at "people".',
     },
     {
       type: 'rule',
@@ -207,7 +207,7 @@ const L_DEPERSONALIZATION = {
           options: ['utvrđen', 'utvrđena', 'utvrđeno', 'utvrđeni'],
           correct: 2,
           explanation:
-            'The formal depersonalised statement uses the neuter participle: utvrđeno je da…',
+            'The formal depersonalized statement uses the neuter participle: utvrđeno je da…',
         },
         {
           q: 'How do you say "I can\'t be bothered to work today"?',
@@ -237,7 +237,7 @@ const L_DEPERSONALIZATION = {
     },
     {
       type: 'summary',
-      title: 'Depersonalisation — Key Takeaways',
+      title: 'Depersonalization — Key Takeaways',
       points: [
         'se + 3rd singular, no subject: Priča se da…, Ne zna se tko…',
         'In the past the verb is neuter singular: Pričalo se, Nije se znalo',
@@ -256,11 +256,11 @@ const P_DEPERSONALIZATION = {
     {
       title: 'Taking the People Out',
       problem: 'Depersonaliziraj: "Ljudi su govorili da će se most srušiti."',
-      en: 'Depersonalise: People were saying the bridge would collapse.',
+      en: 'Depersonalize: People were saying the bridge would collapse.',
       steps: [
         {
           label: 'Who is the subject?',
-          text: '"Ljudi" is nobody in particular — exactly the subject a depersonalised statement leaves out.',
+          text: '"Ljudi" is nobody in particular — exactly the subject a depersonalized statement leaves out.',
         },
         {
           label: 'Choose the construction',
@@ -325,7 +325,7 @@ const P_DEPERSONALIZATION = {
           'pokloni is masculine plural and the verb agrees: nosili su se. The neuter is only for a sentence with no such noun.',
       },
       {
-        q: 'Which sentence is a depersonalised statement?',
+        q: 'Which sentence is a depersonalized statement?',
         options: [
           'Ana zna tko je kriv.',
           'Zna se tko je kriv.',
@@ -478,7 +478,7 @@ const P_DEPERSONALIZATION = {
     },
   ],
   vocab: [
-    ['obezličenje', 'depersonalisation', 'Obezličenjem se vršitelj radnje izostavlja.'],
+    ['obezličenje', 'depersonalization', 'Obezličenjem se vršitelj radnje izostavlja.'],
     ['glasina', 'rumor', 'Priča se da je to samo glasina.'],
     ['utvrditi', 'to establish (a fact)', 'Utvrđeno je da su podaci točni.'],
     ['smatrati', 'to consider, to hold', 'Smatra se da je crkva vrlo stara.'],
@@ -606,7 +606,7 @@ const L_PREFIXED_VERBS = {
       title: 'The pisati Family at Work',
       items: [
         {
-          hr: 'Molim vas da potpišete ugovor na dnu svake stranice.',
+          hr: 'Molim Vas da potpišete ugovor na dnu svake stranice.',
           en: 'Please sign the contract at the bottom of every page.',
           note: 'pod- under: writing your name under the text',
         },
@@ -793,7 +793,7 @@ const P_PREFIXED_VERBS = {
   worked: [
     {
       title: 'Writing Under Something',
-      problem: 'Odaberi glagol: "Molim vas da ___ ovaj ugovor do petka." (sign)',
+      problem: 'Odaberi glagol: "Molim Vas da ___ ovaj ugovor do petka." (sign)',
       en: 'Choose the verb: Please sign this contract by Friday.',
       steps: [
         {
@@ -810,10 +810,10 @@ const P_PREFIXED_VERBS = {
         },
         {
           label: 'The form',
-          text: 'After molim vas da comes the present, 2nd plural: potpišete.',
+          text: 'After molim Vas da comes the present, 2nd plural: potpišete.',
         },
       ],
-      answer: 'Molim vas da potpišete ovaj ugovor do petka.',
+      answer: 'Molim Vas da potpišete ovaj ugovor do petka.',
     },
     {
       title: 'Once, or Every Summer?',
@@ -909,7 +909,7 @@ const P_PREFIXED_VERBS = {
       },
       {
         type: 'type',
-        q: '____ se, molim vas, na dnu obrasca. (sign — formal imperative, pod- + pisati)',
+        q: '____ se, molim Vas, na dnu obrasca. (sign — formal imperative, pod- + pisati)',
         answer: 'Potpišite',
         hint: 'Remember what happens to d before p.',
         explanation: 'Potpišite se — pod- assimilates to pot- before p.',
@@ -953,7 +953,7 @@ const P_PREFIXED_VERBS = {
   },
   checkB: [
     {
-      q: 'Complete: "Molim vas, ___ ovdje, na dnu stranice." (sign)',
+      q: 'Complete: "Molim Vas, ___ ovdje, na dnu stranice." (sign)',
       options: ['opišite', 'potpišite', 'prepišite', 'propišite'],
       correct: 1,
       explanation: 'pod- under: potpisati.',
@@ -1469,43 +1469,43 @@ const L_DIRECT_SPEECH_SPELLING = {
     {
       type: 'rule',
       title: 'The Marks Themselves',
-      body: 'Croatian quotation marks (navodnici) open LOW and close HIGH: „Dođi.“ The pointed marks »Dođi.« are also accepted in print. English-style "…" are not the Croatian norm. A quotation inside a quotation takes single marks (polunavodnici): ‚…‘ — for example „Rekao je ‚nikad‘ i otišao.“ Printers also use other single-mark shapes; what matters is that the inner pair is single.',
-      highlight: '„Dođi.“',
+      body: 'Croatian quotation marks (navodnici) open LOW and close HIGH: „Dođi.” The pointed marks »Dođi.« are also accepted in print. English-style "…" are not the Croatian norm. A quotation inside a quotation takes single marks (polunavodnici): ‚…‘ — for example „Rekao je ‚nikad‘ i otišao.” Printers also use other single-mark shapes; what matters is that the inner pair is single.',
+      highlight: '„Dođi.”',
     },
     {
       type: 'table',
       title: 'Where the Reporting Clause Goes',
       headers: ['Position', 'Pattern'],
       rows: [
-        ['before', 'Rekla je: „Dođi.“'],
-        ['after', '„Dođi“, rekla je.'],
-        ['after a question', '„Dolaziš li?“ upitala je.'],
-        ['in the middle', '„Dođi“, rekla je, „i donesi kruh.“'],
-        ['a quoted fragment', 'Rekao je da je to „posljednja prilika“.'],
+        ['before', 'Rekla je: „Dođi.”'],
+        ['after', '„Dođi”, rekla je.'],
+        ['after a question', '„Dolaziš li?” upitala je.'],
+        ['in the middle', '„Dođi”, rekla je, „i donesi kruh.”'],
+        ['a quoted fragment', 'Rekao je da je to „posljednja prilika”.'],
       ],
     },
     {
       type: 'rule',
       title: 'Reporting Clause Before',
-      body: 'The reporting clause (rekla je, upitao je, viknula je) is followed by a colon. The quotation then begins with a capital letter, and its own period, question mark or exclamation mark stays INSIDE the closing mark: Rekla je: „Dođi.“ Upitao je: „Gdje si?“',
-      highlight: 'Rekla je: „Dođi.“',
+      body: 'The reporting clause (rekla je, upitao je, viknula je) is followed by a colon. The quotation then begins with a capital letter, and its own period, question mark or exclamation mark stays INSIDE the closing mark: Rekla je: „Dođi.” Upitao je: „Gdje si?”',
+      highlight: 'Rekla je: „Dođi.”',
     },
     {
       type: 'rule',
       title: 'Reporting Clause After',
-      body: 'A quoted statement loses its period, and a comma comes AFTER the closing mark; the reporting clause continues in lower case: „Dođi“, rekla je. A question mark or exclamation mark is kept inside, and then there is no comma at all: „Dolaziš li?“ upitala je. „Stani!“ viknuo je. Note the order in the reporting clause: verb first, then the speaker — rekao je Marko.',
-      highlight: '„Dođi“, rekla je.',
+      body: 'A quoted statement loses its period, and a comma comes AFTER the closing mark; the reporting clause continues in lower case: „Dođi”, rekla je. A question mark or exclamation mark is kept inside, and then there is no comma at all: „Dolaziš li?” upitala je. „Stani!” viknuo je. Note the order in the reporting clause: verb first, then the speaker — rekao je Marko.',
+      highlight: '„Dođi”, rekla je.',
     },
     {
       type: 'rule',
       title: 'Reporting Clause in the Middle',
-      body: 'When one sentence is split by the reporting clause, commas stand on both sides of it and the second part continues in lower case: „Dođi“, rekla je, „i donesi kruh.“ If the first part was already a complete sentence and a new one begins, the reporting clause ends with a period and the new quotation opens with a capital: „Dođi“, rekla je. „Večera je gotova.“',
-      highlight: '„Dođi“, rekla je, „i donesi kruh.“',
+      body: 'When one sentence is split by the reporting clause, commas stand on both sides of it and the second part continues in lower case: „Dođi”, rekla je, „i donesi kruh.” If the first part was already a complete sentence and a new one begins, the reporting clause ends with a period and the new quotation opens with a capital: „Dođi”, rekla je. „Večera je gotova.”',
+      highlight: '„Dođi”, rekla je, „i donesi kruh.”',
     },
     {
       type: 'rule',
       title: 'Quoted Fragments and Literary Dialogue',
-      body: "When only a few words are quoted inside your own sentence, they keep their lower case and the sentence's period goes outside: Ministar ga je nazvao „povijesnim danom“. In novels and stories dialogue is often written with a dash instead of quotation marks: each speaker's turn starts on a new line with a dash, and the reporting clause is set off by dashes without a comma: — Dođi — rekla je. Recognize it when you read; in essays, letters and articles use quotation marks.",
+      body: "When only a few words are quoted inside your own sentence, they keep their lower case and the sentence's period goes outside: Ministar ga je nazvao „povijesnim danom”. In novels and stories dialogue is often written with a dash instead of quotation marks: each speaker's turn starts on a new line with a dash, and the reporting clause is set off by dashes without a comma: — Dođi — rekla je. Recognize it when you read; in essays, letters and articles use quotation marks.",
       highlight: 'posljednja prilika“.',
     },
     {
@@ -1513,22 +1513,22 @@ const L_DIRECT_SPEECH_SPELLING = {
       title: 'Before and After',
       items: [
         {
-          hr: 'Majka je s vrata viknula: „Zatvori prozor, hladno je!“',
+          hr: 'Majka je s vrata viknula: „Zatvori prozor, hladno je!”',
           en: 'Mother shouted from the door: "Close the window, it\'s cold!"',
           note: 'colon, capital, the exclamation mark inside',
         },
         {
-          hr: '„Kasnit ću pola sata“, rekao je Marko i spustio slušalicu.',
+          hr: '„Kasnit ću pola sata”, rekao je Marko i spustio slušalicu.',
           en: '"I\'ll be half an hour late," said Marko and hung up.',
-          note: 'no full stop inside, comma after the closing mark',
+          note: 'no period inside, comma after the closing mark',
         },
         {
-          hr: '„Jesi li već bila u Dubrovniku?“ upitala me nova susjeda.',
+          hr: '„Jesi li već bila u Dubrovniku?” upitala me nova susjeda.',
           en: '"Have you been to Dubrovnik yet?" my new neighbor asked me.',
           note: 'question mark kept, so no comma',
         },
         {
-          hr: 'Profesor je na kraju predavanja rekao: „Do idućeg tjedna pročitajte treće poglavlje.“',
+          hr: 'Profesor je na kraju predavanja rekao: „Do idućeg tjedna pročitajte treće poglavlje.”',
           en: 'At the end of the lecture the professor said: "Read the third chapter by next week."',
           note: 'the period belongs to the quotation, so it stays inside',
         },
@@ -1539,22 +1539,22 @@ const L_DIRECT_SPEECH_SPELLING = {
       title: 'Middle, Fragments, Quotes Within Quotes',
       items: [
         {
-          hr: '„Ne znam“, rekla je tiho, „gdje sam ostavila ključeve.“',
+          hr: '„Ne znam”, rekla je tiho, „gdje sam ostavila ključeve.”',
           en: '"I don\'t know," she said quietly, "where I left my keys."',
           note: 'one sentence split: commas on both sides, lower case after',
         },
         {
-          hr: '„Stigli smo“, rekao je vozač. „Molim vas, nemojte ništa zaboraviti u autobusu.“',
+          hr: '„Stigli smo”, rekao je vozač. „Molim vas, nemojte ništa zaboraviti u autobusu.”',
           en: '"We\'ve arrived," said the driver. "Please don\'t leave anything on the bus."',
           note: 'a new sentence after the reporting clause: period, then a capital',
         },
         {
-          hr: 'Ministar je otvaranje novog mosta nazvao „povijesnim danom“ za cijelu regiju.',
+          hr: 'Ministar je otvaranje novog mosta nazvao „povijesnim danom” za cijelu regiju.',
           en: 'The minister called the opening of the new bridge "a historic day" for the whole region.',
           note: 'a quoted fragment keeps its lower case',
         },
         {
-          hr: 'Ana je napisala: „Na rastanku mi je rekao ‚nikad te neću zaboraviti‘ i otišao.“',
+          hr: 'Ana je napisala: „Na rastanku mi je rekao ‚nikad te neću zaboraviti‘ i otišao.”',
           en: "Ana wrote: \"When we parted he said to me 'I'll never forget you' and left.\"",
           note: 'a quotation inside a quotation takes single marks',
         },
@@ -1563,7 +1563,7 @@ const L_DIRECT_SPEECH_SPELLING = {
     {
       type: 'quiz',
       title: 'Quick Check',
-      q: 'In „Dođi“, rekla je. — where is the comma?',
+      q: 'In „Dođi”, rekla je. — where is the comma?',
       options: [
         'inside the closing mark',
         'after the closing mark',
@@ -1572,21 +1572,21 @@ const L_DIRECT_SPEECH_SPELLING = {
       ],
       correct: 1,
       explanation:
-        'Croatian puts the comma outside the quotation marks, unlike English: „Dođi“, rekla je.',
+        'Croatian puts the comma outside the quotation marks, unlike English: „Dođi”, rekla je.',
     },
     {
       type: 'quiz',
       title: 'One More',
       q: 'Which mark follows a reporting clause that comes BEFORE the quotation?',
-      options: ['a comma', 'a full stop', 'a colon', 'a dash'],
+      options: ['a comma', 'a period', 'a colon', 'a dash'],
       correct: 2,
-      explanation: 'Rekla je: „Dođi.“ — a colon, then a capital letter.',
+      explanation: 'Rekla je: „Dođi.” — a colon, then a capital letter.',
     },
     {
       type: 'rule',
       title: 'Common Mistakes',
-      body: 'The first is the English comma inside the marks: „Dođi,“ rekla je — in Croatian the comma comes after the closing mark: „Dođi“, rekla je. The second is keeping the period before the reporting clause: „Dođi.“ rekla je — the statement loses its period and takes a comma instead. The third is adding a comma after a question or exclamation mark: „Dolaziš li?“, upitala je — the question mark is enough. The fourth is a capital letter in the reporting clause after the quotation or in the continuation of a split sentence: „Dođi“, Rekla je, „I donesi kruh.“ The fifth is a comma instead of a colon before the quotation: Rekla je, „Dođi.“',
-      highlight: '„Dođi“, rekla je.',
+      body: 'The first is the English comma inside the marks: „Dođi,” rekla je — in Croatian the comma comes after the closing mark: „Dođi”, rekla je. The second is keeping the period before the reporting clause: „Dođi.” rekla je — the statement loses its period and takes a comma instead. The third is adding a comma after a question or exclamation mark: „Dolaziš li?”, upitala je — the question mark is enough. The fourth is a capital letter in the reporting clause after the quotation or in the continuation of a split sentence: „Dođi”, Rekla je, „I donesi kruh.” The fifth is a comma instead of a colon before the quotation: Rekla je, „Dođi.”',
+      highlight: '„Dođi”, rekla je.',
     },
     {
       type: 'check',
@@ -1595,21 +1595,21 @@ const L_DIRECT_SPEECH_SPELLING = {
         {
           q: 'Which is correctly punctuated? (She said: Come.)',
           options: [
-            'Rekla je: „Dođi.“',
-            'Rekla je „Dođi.“',
-            'Rekla je: „dođi.“',
-            'Rekla je, „Dođi.“',
+            'Rekla je: „Dođi.”',
+            'Rekla je „Dođi.”',
+            'Rekla je: „dođi.”',
+            'Rekla je, „Dođi.”',
           ],
           correct: 0,
-          explanation: 'Colon after the reporting clause, capital letter, full stop inside.',
+          explanation: 'Colon after the reporting clause, capital letter, period inside.',
         },
         {
           q: 'Which is correctly punctuated? (Come, she said.)',
           options: [
-            '„Dođi,“ rekla je.',
-            '„Dođi“, rekla je.',
-            '„Dođi.“ rekla je.',
-            '„Dođi“, Rekla je.',
+            '„Dođi,” rekla je.',
+            '„Dođi”, rekla je.',
+            '„Dođi.” rekla je.',
+            '„Dođi”, Rekla je.',
           ],
           correct: 1,
           explanation:
@@ -1618,10 +1618,10 @@ const L_DIRECT_SPEECH_SPELLING = {
         {
           q: 'Which is correctly punctuated? (Are you coming? she asked.)',
           options: [
-            '„Dolaziš li?“, upitala je.',
-            '„Dolaziš li“, upitala je?',
-            '„Dolaziš li?“ upitala je.',
-            '„Dolaziš li?“ Upitala je.',
+            '„Dolaziš li?”, upitala je.',
+            '„Dolaziš li”, upitala je?',
+            '„Dolaziš li?” upitala je.',
+            '„Dolaziš li?” Upitala je.',
           ],
           correct: 2,
           explanation: 'The question mark stays inside and replaces the comma; lower case follows.',
@@ -1629,10 +1629,10 @@ const L_DIRECT_SPEECH_SPELLING = {
         {
           q: 'Which is correctly punctuated? (Come, she said, and bring bread.)',
           options: [
-            '„Dođi“, rekla je, „I donesi kruh.“',
-            '„Dođi,“ rekla je „i donesi kruh.“',
-            '„Dođi“ rekla je „i donesi kruh.“',
-            '„Dođi“, rekla je, „i donesi kruh.“',
+            '„Dođi”, rekla je, „I donesi kruh.”',
+            '„Dođi,” rekla je „i donesi kruh.”',
+            '„Dođi” rekla je „i donesi kruh.”',
+            '„Dođi”, rekla je, „i donesi kruh.”',
           ],
           correct: 3,
           explanation:
@@ -1661,12 +1661,12 @@ const L_DIRECT_SPEECH_SPELLING = {
       type: 'summary',
       title: 'Direct Speech — Key Takeaways',
       points: [
-        'Croatian marks open low, close high: „…“ (»…« also accepted)',
-        'Before: Rekla je: „Dođi.“ — colon, capital, punctuation inside',
-        'After: „Dođi“, rekla je. — comma outside, lower case',
-        '„Dolaziš li?“ upitala je. — no comma after ? or !',
-        'Middle: „Dođi“, rekla je, „i donesi kruh.“',
-        'Quote within a quote: single marks; quoted fragment: full stop outside',
+        'Croatian marks open low, close high: „…” (»…« also accepted)',
+        'Before: Rekla je: „Dođi.” — colon, capital, punctuation inside',
+        'After: „Dođi”, rekla je. — comma outside, lower case',
+        '„Dolaziš li?” upitala je. — no comma after ? or !',
+        'Middle: „Dođi”, rekla je, „i donesi kruh.”',
+        'Quote within a quote: single marks; quoted fragment: period outside',
       ],
     },
   ],
@@ -1676,15 +1676,15 @@ const P_DIRECT_SPEECH_SPELLING = {
   worked: [
     {
       title: 'Moving the Reporting Clause to the End',
-      problem: 'Napiši s navodnicima, najava iza: Marko je rekao „Doći ću sutra.“',
+      problem: 'Napiši s navodnicima, najava iza: Marko je rekao „Doći ću sutra.”',
       en: 'Write with quotation marks, reporting clause after: Marko said "I\'ll come tomorrow."',
       steps: [
         {
           label: 'The quotation',
-          text: 'Open low, close high: „Doći ću sutra…“.',
+          text: 'Open low, close high: „Doći ću sutra…”.',
         },
         {
-          label: 'The full stop',
+          label: 'The period',
           text: 'A statement followed by its reporting clause loses its period.',
         },
         {
@@ -1696,7 +1696,7 @@ const P_DIRECT_SPEECH_SPELLING = {
           text: 'Lower case, verb first: rekao je Marko.',
         },
       ],
-      answer: '„Doći ću sutra“, rekao je Marko.',
+      answer: '„Doći ću sutra”, rekao je Marko.',
     },
     {
       title: 'Splitting One Sentence',
@@ -1717,7 +1717,7 @@ const P_DIRECT_SPEECH_SPELLING = {
           text: 'It continues the same sentence, so it starts with a lower-case letter and ends with the period inside.',
         },
       ],
-      answer: '„Ne znam“, rekla je, „gdje sam ostavila ključeve.“',
+      answer: '„Ne znam”, rekla je, „gdje sam ostavila ključeve.”',
     },
   ],
   practice: {
@@ -1726,34 +1726,34 @@ const P_DIRECT_SPEECH_SPELLING = {
       {
         q: "Which is correctly punctuated? (I'm tired, said Ivan.)",
         options: [
-          '„Umoran sam,“ rekao je Ivan.',
-          '„Umoran sam“, rekao je Ivan.',
-          '„Umoran sam.“ rekao je Ivan.',
-          '„Umoran sam“, Rekao je Ivan.',
+          '„Umoran sam,” rekao je Ivan.',
+          '„Umoran sam”, rekao je Ivan.',
+          '„Umoran sam.” rekao je Ivan.',
+          '„Umoran sam”, Rekao je Ivan.',
         ],
         correct: 1,
         hint: 'Croatian keeps the comma outside the marks.',
-        explanation: 'No full stop inside, comma after the closing mark, lower case.',
+        explanation: 'No period inside, comma after the closing mark, lower case.',
       },
       {
         q: 'Which is correctly punctuated? (Mom said: Close the window.)',
         options: [
-          'Mama je rekla: „Zatvori prozor.“',
-          'Mama je rekla „zatvori prozor.“',
-          'Mama je rekla: „zatvori prozor“.',
-          'Mama je rekla, „Zatvori prozor.“',
+          'Mama je rekla: „Zatvori prozor.”',
+          'Mama je rekla „zatvori prozor.”',
+          'Mama je rekla: „zatvori prozor”.',
+          'Mama je rekla, „Zatvori prozor.”',
         ],
         correct: 0,
         hint: 'A reporting clause before the quotation is followed by a particular mark, then a capital.',
-        explanation: 'Colon, capital, full stop inside.',
+        explanation: 'Colon, capital, period inside.',
       },
       {
         q: 'Which is correctly punctuated? (Are you coming? asked Ana.)',
         options: [
-          '„Dolaziš li?“, upitala je Ana.',
-          '„Dolaziš li“, upitala je Ana?',
-          '„Dolaziš li?“ upitala je Ana.',
-          '„Dolaziš li?“ Upitala je Ana.',
+          '„Dolaziš li?”, upitala je Ana.',
+          '„Dolaziš li”, upitala je Ana?',
+          '„Dolaziš li?” upitala je Ana.',
+          '„Dolaziš li?” Upitala je Ana.',
         ],
         correct: 2,
         hint: "A question mark inside the marks does the comma's job.",
@@ -1762,10 +1762,10 @@ const P_DIRECT_SPEECH_SPELLING = {
       {
         q: 'Which is correctly punctuated? (I know, he said, but it is too late.)',
         options: [
-          '„Znam,“ rekao je, „ali je prekasno.“',
-          '„Znam“, rekao je, „Ali je prekasno.“',
-          '„Znam“ rekao je „ali je prekasno.“',
-          '„Znam“, rekao je, „ali je prekasno.“',
+          '„Znam,” rekao je, „ali je prekasno.”',
+          '„Znam”, rekao je, „Ali je prekasno.”',
+          '„Znam” rekao je „ali je prekasno.”',
+          '„Znam”, rekao je, „ali je prekasno.”',
         ],
         correct: 3,
         hint: 'One sentence split in two: commas on both sides, and it continues.',
@@ -1774,10 +1774,10 @@ const P_DIRECT_SPEECH_SPELLING = {
       {
         q: 'Which is correctly punctuated? (She wrote: He said "never" and left.)',
         options: [
-          'Napisala je: „Rekao je „nikad“ i otišao.“',
-          'Napisala je: „Rekao je ‚nikad‘ i otišao.“',
-          'Napisala je: „Rekao je (nikad) i otišao.“',
-          'Napisala je: „Rekao je - nikad - i otišao.“',
+          'Napisala je: „Rekao je „nikad” i otišao.“',
+          'Napisala je: „Rekao je ‚nikad‘ i otišao.”',
+          'Napisala je: „Rekao je (nikad) i otišao.”',
+          'Napisala je: „Rekao je - nikad - i otišao.”',
         ],
         correct: 1,
         hint: 'A quotation inside a quotation needs a different, smaller pair.',
@@ -1786,10 +1786,10 @@ const P_DIRECT_SPEECH_SPELLING = {
       {
         q: 'Which is correctly punctuated? (The minister called it "a historic day".)',
         options: [
-          'Ministar ga je nazvao „Povijesnim danom.“',
-          'Ministar ga je nazvao: „povijesnim danom“.',
-          'Ministar ga je nazvao „povijesnim danom“.',
-          'Ministar ga je nazvao, „povijesnim danom“.',
+          'Ministar ga je nazvao „Povijesnim danom.”',
+          'Ministar ga je nazvao: „povijesnim danom”.',
+          'Ministar ga je nazvao „povijesnim danom”.',
+          'Ministar ga je nazvao, „povijesnim danom”.',
         ],
         correct: 2,
         hint: 'A quoted fragment is part of your own sentence.',
@@ -1808,7 +1808,7 @@ const P_DIRECT_SPEECH_SPELLING = {
         explanation: 'The turn opens with a dash and the reporting clause sits between dashes.',
       },
       {
-        q: 'In "Rekla je: „Dođi.“" which word begins with a capital letter after the colon?',
+        q: 'In "Rekla je: „Dođi.”" which word begins with a capital letter after the colon?',
         options: ['none of them', 'rekla', 'Dođi', 'every word'],
         correct: 2,
         hint: 'After the colon a whole sentence is being quoted.',
@@ -1827,7 +1827,7 @@ const P_DIRECT_SPEECH_SPELLING = {
         answer: 'dvotočka',
         accept: ['dvotočku'],
         hint: 'Literally "two points".',
-        explanation: 'Rekla je: „Dođi.“ — a dvotočka.',
+        explanation: 'Rekla je: „Dođi.” — a dvotočka.',
       },
       {
         type: 'type',
@@ -1838,7 +1838,7 @@ const P_DIRECT_SPEECH_SPELLING = {
       },
       {
         type: 'type',
-        q: 'In „Dođi“, rekla je. the period of the quoted statement is replaced by a ____ (the Croatian name of the mark).',
+        q: 'In „Dođi”, rekla je. the period of the quoted statement is replaced by a ____ (the Croatian name of the mark).',
         answer: 'zarez',
         hint: 'The same mark that separates clauses in a sentence.',
         explanation: 'The zarez comes after the closing mark.',
@@ -1849,10 +1849,10 @@ const P_DIRECT_SPEECH_SPELLING = {
     {
       q: 'Which is correctly punctuated? (He asked: Where are you?)',
       options: [
-        'Upitao je: „Gdje si?“',
-        'Upitao je: „gdje si?“',
-        'Upitao je „Gdje si?“',
-        'Upitao je, „Gdje si?“',
+        'Upitao je: „Gdje si?”',
+        'Upitao je: „gdje si?”',
+        'Upitao je „Gdje si?”',
+        'Upitao je, „Gdje si?”',
       ],
       correct: 0,
       explanation: 'Colon, capital, question mark inside.',
@@ -1860,21 +1860,21 @@ const P_DIRECT_SPEECH_SPELLING = {
     {
       q: "Which is correctly punctuated? (I'll be late, he said.)",
       options: [
-        '„Kasnit ću,“ rekao je.',
-        '„Kasnit ću.“ rekao je.',
-        '„Kasnit ću“, rekao je.',
-        '„Kasnit ću“, Rekao je.',
+        '„Kasnit ću,” rekao je.',
+        '„Kasnit ću.” rekao je.',
+        '„Kasnit ću”, rekao je.',
+        '„Kasnit ću”, Rekao je.',
       ],
       correct: 2,
-      explanation: 'No full stop inside, comma after the closing mark, lower case.',
+      explanation: 'No period inside, comma after the closing mark, lower case.',
     },
     {
       q: 'Which is correctly punctuated? (Stop! she shouted.)',
       options: [
-        '„Stani!“, viknula je.',
-        '„Stani!“ viknula je.',
-        '„Stani“! viknula je.',
-        '„Stani!“ Viknula je.',
+        '„Stani!”, viknula je.',
+        '„Stani!” viknula je.',
+        '„Stani”! viknula je.',
+        '„Stani!” Viknula je.',
       ],
       correct: 1,
       explanation: 'The exclamation mark stays inside and there is no comma.',
@@ -1882,10 +1882,10 @@ const P_DIRECT_SPEECH_SPELLING = {
     {
       q: 'Which is correctly punctuated? (Tomorrow, she said, we leave early.)',
       options: [
-        '„Sutra“ rekla je „krećemo rano.“',
-        '„Sutra,“ rekla je, „krećemo rano.“',
-        '„Sutra“, rekla je, „Krećemo rano.“',
-        '„Sutra“, rekla je, „krećemo rano.“',
+        '„Sutra” rekla je „krećemo rano.”',
+        '„Sutra,” rekla je, „krećemo rano.”',
+        '„Sutra”, rekla je, „Krećemo rano.”',
+        '„Sutra”, rekla je, „krećemo rano.”',
       ],
       correct: 3,
       explanation: 'Commas outside the marks on both sides; the continuation in lower case.',
@@ -1893,16 +1893,16 @@ const P_DIRECT_SPEECH_SPELLING = {
     {
       q: 'Which is correctly punctuated? (He said it was "the last chance".)',
       options: [
-        'Rekao je da je to „posljednja prilika“.',
-        'Rekao je da je to „Posljednja prilika.“',
-        'Rekao je da je to: „posljednja prilika“.',
-        'Rekao je da je to, „posljednja prilika“.',
+        'Rekao je da je to „posljednja prilika”.',
+        'Rekao je da je to „Posljednja prilika.”',
+        'Rekao je da je to: „posljednja prilika”.',
+        'Rekao je da je to, „posljednja prilika”.',
       ],
       correct: 0,
       explanation: 'A quoted fragment keeps lower case and the period goes outside.',
     },
     {
-      q: 'In „Dođi.“ where do the two quotation marks sit?',
+      q: 'In „Dođi.” where do the two quotation marks sit?',
       options: ['both high', 'opening high, closing low', 'opening low, closing high', 'both low'],
       correct: 2,
       explanation: 'Croatian quotation marks open low and close high.',
@@ -1927,7 +1927,7 @@ export const SPINE = [
     masterOrder: 41,
     prerequisites: ['passive-choices', 'impersonal'],
     objectives: [
-      'Make depersonalised statements with se: Priča se da…, Ne zna se tko…',
+      'Make depersonalized statements with se: Priča se da…, Ne zna se tko…',
       'Put the impersonal verb into the past as a neuter singular: Pričalo se',
       'Use the subjectless third person plural: Kažu da…, Javljaju da…',
       'Choose the formal formula for a report: Utvrđeno je da…, Smatra se da…',
@@ -1960,7 +1960,7 @@ export const SPINE = [
     masterOrder: 49,
     prerequisites: ['reported-speech', 'clause-types'],
     objectives: [
-      'Write Croatian quotation marks „…“ and single marks inside a quotation',
+      'Write Croatian quotation marks „…” and single marks inside a quotation',
       'Punctuate a reporting clause before, after and in the middle of direct speech',
       'Place the comma outside the marks and drop it after ? and !',
       'Recognize dash dialogue in literature',

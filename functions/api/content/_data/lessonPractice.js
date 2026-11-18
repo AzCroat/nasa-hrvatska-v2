@@ -27,6 +27,7 @@ import { CLASS_A1 } from './lessonClassA1.js';
 import { CLASS_A2 } from './lessonClassA2.js';
 import { CLASS_B1 } from './lessonClassB1.js';
 import { CLASS_B2 } from './lessonClassB2.js';
+import { CLASS_C1 } from './lessonClassC1.js';
 
 /** lesson id → { worked, practice, checkB?, vocab?, text? } */
 export const LESSON_PRACTICE = {
@@ -39,7 +40,7 @@ export const LESSON_PRACTICE = {
 };
 
 /** lesson id → { text, mix } — the class-order content (dialogue + mixed exercise kinds). */
-export const LESSON_CLASS = { ...CLASS_A1, ...CLASS_A2, ...CLASS_B1, ...CLASS_B2 };
+export const LESSON_CLASS = { ...CLASS_A1, ...CLASS_A2, ...CLASS_B1, ...CLASS_B2, ...CLASS_C1 };
 
 // THE ANSWER IS NOT ALWAYS THE FIRST OPTION. Class content is authored with the correct
 // option first (it reads naturally and reviews easily), and the player shows options in

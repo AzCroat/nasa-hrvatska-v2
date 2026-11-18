@@ -19415,7 +19415,7 @@ export const GRADED_STORIES = [
         en: 'Archives around the world preserve the manuscripts of writers, scholars, and perfectly ordinary people, not only for their content but for the very matter of the writing: crossed-out words, ink blots, hurried abbreviations by which the author saved time. These traces of hesitation and second-guessing, invisible in the final printed version, reveal a process of thinking that a typed document, with its corrections erased automatically, no longer leaves behind.',
       },
       {
-        hr: 'Na dnu ladice, među starim računima, često se pronađe kartica ispisana bakinim rukopisom: recept za kolač, s mrljom masti u kutu i riječju „malo“ umjesto točne mjere, jer je znala da će ruka koja ga jednom pripremi znati prepoznati što „malo“ znači. Taj listić papira vrijedi više od bilo kojeg digitalnog recepta s preciznim gramažama.',
+        hr: 'Na dnu ladice, među starim računima, često se pronađe kartica ispisana bakinim rukopisom: recept za kolač, s mrljom masti u kutu i riječju „malo” umjesto točne mjere, jer je znala da će ruka koja ga jednom pripremi znati prepoznati što „malo” znači. Taj listić papira vrijedi više od bilo kojeg digitalnog recepta s preciznim gramažama.',
         en: 'At the bottom of a drawer, among old bills, one often finds a card written in a grandmother\'s hand: a cake recipe, with a grease stain in the corner and the word "a little" instead of an exact measure, because she knew the hand that would one day make it would recognize what "a little" meant. That scrap of paper is worth more than any digital recipe with precise gram amounts.',
       },
       {
@@ -19500,7 +19500,7 @@ export const GRADED_STORIES = [
         q: 'Što piše na bakinoj kartici umjesto točne mjere sastojka?',
         qEn: "What is written on grandmother's card instead of an exact measure of an ingredient?",
         opts: [
-          'Riječ „malo“.',
+          'Riječ „malo”.',
           'Točna mjera u gramima.',
           'Slika gotovog kolača.',
           'Popis sastojaka na engleskom.',

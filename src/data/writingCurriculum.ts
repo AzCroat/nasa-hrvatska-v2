@@ -5572,7 +5572,7 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
     model:
       'Poštovani gradonačelniče, poštovani vijećnici, ' +
       'obraćam Vam se javno jer su privatni dopisi u posljednjih šest mjeseci ostali bez odgovora. ' +
-      'Riječ je o najavljenom zatvaranju knjižnice u Trnju, koje se u obrazloženju naziva „racionalizacijom mreže“. ' +
+      'Riječ je o najavljenom zatvaranju knjižnice u Trnju, koje se u obrazloženju naziva „racionalizacijom mreže”. ' +
       'Više od dvije tisuće građana potpisalo je peticiju protiv te odluke, a među njima je i dvjestotinjak učenika obližnje škole, kojima je ta čitaonica jedino mirno mjesto za učenje. ' +
       'Unatoč tomu, prijedlog je upućen na glasovanje bez javne rasprave. ' +
       'Ne osporavam da grad mora štedjeti; osporavam da se štedi ondje gdje je ušteda najmanja, a šteta najveća. ' +
@@ -5660,7 +5660,7 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
       'Write a theater review of a production you have (really or fictionally) seen. Describe the director’s approach, say what is best and what is weaker, and end with a verdict that commits you — without retelling the plot.',
     minWords: 120,
     model:
-      'Nova produkcija zagrebačkoga nezavisnog kazališta „Skladište“ traje sat i četrdeset minuta i u tom vremenu ne dopušta nijedan udoban trenutak. ' +
+      'Nova produkcija zagrebačkoga nezavisnog kazališta „Skladište” traje sat i četrdeset minuta i u tom vremenu ne dopušta nijedan udoban trenutak. ' +
       'Redateljica je klasični tekst o obiteljskom nasljedstvu smjestila u praznu dvoranu s jednim stolom, a glumcima uskratila sve čime se obično prikriva slab tekst: kostime, glazbu, svjetlosne efekte. ' +
       'Ostale su samo riječi i stanke. ' +
       'Upravo su stanke ono najbolje u predstavi: u njima se čuje da likovi jedni drugima ne vjeruju ni kad govore istinu. ' +
@@ -5833,14 +5833,14 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
     level: 'C2',
     title: 'A counterfactual essay',
     prompt:
-      'Napišite esej koji polazi od pitanja „Što bi bilo da …?“ o jednoj povijesnoj ili jezičnoj odluci. Ne nabrajajte posljedice — argumentirajte ih, dopustite protuargument i završite zaključkom koji nešto tvrdi.',
+      'Napišite esej koji polazi od pitanja „Što bi bilo da …?” o jednoj povijesnoj ili jezičnoj odluci. Ne nabrajajte posljedice — argumentirajte ih, dopustite protuargument i završite zaključkom koji nešto tvrdi.',
     promptEn:
       'Write an essay that starts from the question “What if …?” about one historical or linguistic decision. Do not list the consequences — argue them, allow a counter-argument, and end with a conclusion that asserts something.',
     minWords: 120,
     model:
       'Što bi bilo da je Ljudevit Gaj u tridesetim godinama devetnaestoga stoljeća za osnovicu književnoga jezika izabrao kajkavski, govor vlastitoga grada, a ne štokavski, govor većine? ' +
       'Pitanje nije samo igra: ono pokazuje koliko je toga u jeziku odluka, a koliko sudbina. ' +
-      'Zagreb bi danas pisao onako kako govori, i „kaj“ ne bi bilo obilježje zavičaja, nego norme. ' +
+      'Zagreb bi danas pisao onako kako govori, i „kaj” ne bi bilo obilježje zavičaja, nego norme. ' +
       'Dalmacija i Slavonija učile bi školski jezik kao nešto tuđe, kao što danas Zagorje uči svoj. ' +
       'Vjerojatno bismo imali manje zajedničkoga sa susjedima, ali i manje nesporazuma oko toga čiji je jezik čiji. ' +
       'Bismo li bili bogatiji? Teško je reći. ' +

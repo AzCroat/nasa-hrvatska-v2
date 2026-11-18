@@ -2634,7 +2634,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
     level: 'B1',
     title: 'Answer "tell me about yourself"',
     prompt:
-      'Na razgovoru za posao odgovori na pitanje „Recite nam nešto o sebi.“ Govori o iskustvu, snazi i zašto želiš taj posao.',
+      'Na razgovoru za posao odgovori na pitanje „Recite nam nešto o sebi.” Govori o iskustvu, snazi i zašto želiš taj posao.',
     promptEn:
       'In a job interview, answer "tell us something about yourself". Talk about your experience, a strength and why you want the job.',
     minWords: 14,
@@ -4295,7 +4295,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
     minWords: 20,
     model:
       'Dragi svi, samo nakratko, da nam se hrana ne ohladi. ' +
-      'Marka poznajem petnaest godina i za to vrijeme nikad nisam čuo da je nekome rekao „nemam vremena“. ' +
+      'Marka poznajem petnaest godina i za to vrijeme nikad nisam čuo da je nekome rekao „nemam vremena”. ' +
       'Kad mi je pukla cijev usred zime, došao je s alatom prije nego što sam stigao nazvati majstora. ' +
       'Takvi se ljudi ne biraju često i zato smo večeras svi ovdje. ' +
       'Želim mu zdravlja, mira i mnogo ovakvih večeri. ' +
@@ -5176,7 +5176,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'S druge strane, ne smijemo se pretvarati da bi sve bilo idealno: plaće bi bile veće i netko bi ionako otišao. ' +
       'Ono što se s ovoga mjesta jednostavno ne može znati jest bi li nas tržište uopće čekalo. ' +
       'Zato bih izbjegao zaključak da je odluka bila glupa; bila je razumljiva s informacijama koje smo tada imali. ' +
-      'Pouka nije „nikad ne izdvajaj posao“, nego da ugovor mora predvidjeti izlaz.',
+      'Pouka nije „nikad ne izdvajaj posao”, nego da ugovor mora predvidjeti izlaz.',
     modelEn:
       'Had we kept our own team then, we would probably not be discussing this today. ' +
       'The knowledge would have stayed in-house, and every change would have taken days instead of weeks. ' +
@@ -5699,7 +5699,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
     level: 'C1',
     title: 'Talk about an abstract idea',
     prompt:
-      'Objasni što za tebe znači „dom“ ako si odrastao između dviju zemalja. Definiraj pojam, ograniči ga i daj primjer.',
+      'Objasni što za tebe znači „dom” ako si odrastao između dviju zemalja. Definiraj pojam, ograniči ga i daj primjer.',
     promptEn:
       'Explain what "home" means to you if you grew up between two countries. Define the idea, limit it and give an example.',
     minWords: 30,
@@ -6577,7 +6577,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'Oboje ste u pravu, ali ne o istoj stvari, i mislim da je to cijeli problem. ' +
       'Ana kaže da je proces predugačak; ne kaže da netko loše radi. ' +
       'Marko brani sebe od optužbe koja, koliko čujem, nije ni izrečena. ' +
-      'Kad bismo maknuli riječ „sporo“ i stavili „u pet koraka umjesto tri“, vjerujem da bi rasprava trajala dvije minute. ' +
+      'Kad bismo maknuli riječ „sporo” i stavili „u pet koraka umjesto tri”, vjerujem da bi rasprava trajala dvije minute. ' +
       'Predlažem da se nitko od vas ne mora povući: uzmimo jedan konkretan zahtjev i prođimo ga zajedno, korak po korak. ' +
       'Ako se pokaže da su koraci nužni, Ana će to vidjeti; ako nisu, promijenit ćemo ih, i to bez ičijeg priznanja krivnje.',
     modelEn:
@@ -6986,7 +6986,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'Someone uses two words as if they meant the same. Explain the difference, show where it shows in practice, and admit when the difference does not matter.',
     minWords: 30,
     model:
-      'Koristite „odgovornost“ i „krivnja“ kao istoznačnice, a mislim da nisu, i da nam upravo to zamagljuje raspravu. ' +
+      'Koristite „odgovornost” i „krivnja” kao istoznačnice, a mislim da nisu, i da nam upravo to zamagljuje raspravu. ' +
       'Krivnja gleda unatrag i traži tko je pogriješio; odgovornost gleda naprijed i pita tko će popraviti. ' +
       'Razlika se vidi u jednoj rečenici: mogu biti odgovoran za nešto što nisam skrivio, i to se događa svakom tko vodi ljude. ' +
       'U svakodnevnom govoru to razlikovanje najčešće nije važno i ne bih inzistirao na njemu za stolom. ' +
@@ -7201,9 +7201,9 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
     minWords: 30,
     model:
       'Znate onu priču o mom djedu i računu? ' +
-      'Dakle, Split, ljeto, konobar donese račun, a djed ga gleda, gleda, pa kaže: „Sinko, ovo je greška.“ ' +
+      'Dakle, Split, ljeto, konobar donese račun, a djed ga gleda, gleda, pa kaže: „Sinko, ovo je greška.” ' +
       'Konobar se zacrveni, ode, vrati se, i kaže da je sve točno. ' +
-      'A djed, sasvim mirno: „Znam. Greška je što sam došao.“ ' +
+      'A djed, sasvim mirno: „Znam. Greška je što sam došao.” ' +
       'I to je to. Nitko za stolom nije rekao ni riječi — samo je baka platila. ' +
       'Jeste li vi imali takvog djeda?',
     modelEn:
@@ -7305,7 +7305,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
     level: 'C2',
     title: 'Concede a point and keep the argument',
     prompt:
-      'U raspravi ti sugovornik iznese činjenicu koja je točna i ide protiv tebe. Priznaj je jasno, bez „ali“ u istom dahu, pa objasni zašto tvoj zaključak ipak stoji.',
+      'U raspravi ti sugovornik iznese činjenicu koja je točna i ide protiv tebe. Priznaj je jasno, bez „ali” u istom dahu, pa objasni zašto tvoj zaključak ipak stoji.',
     promptEn:
       'In a debate the other person puts a fact to you that is true and goes against you. Concede it clearly, without a “but” in the same breath, then explain why your conclusion still stands.',
     minWords: 30,

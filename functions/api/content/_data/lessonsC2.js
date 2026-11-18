@@ -923,7 +923,7 @@ export const LESSONS_C2 = [
       {
         type: 'rule',
         title: 'Common Mistakes',
-        body: 'Three errors English habits produce. First, English punctuation: "1,500.75" is read by a Croatian accountant as one and a half — write 1.500,75 — dot for thousands, comma for decimals. Second, opening a sentence with a numeral, which style manuals advise against: „30 dana je rok.“ reads better as „Rok je 30 dana.“ or with the number spelled out. Third, a missing space and a confused unit: "20%" should be 20 %, and a rise from 10 % to 12 % is dva postotna boda, not "dva posto".',
+        body: 'Three errors English habits produce. First, English punctuation: "1,500.75" is read by a Croatian accountant as one and a half — write 1.500,75 — dot for thousands, comma for decimals. Second, opening a sentence with a numeral, which style manuals advise against: „30 dana je rok.” reads better as „Rok je 30 dana.” or with the number spelled out. Third, a missing space and a confused unit: "20%" should be 20 %, and a rise from 10 % to 12 % is dva postotna boda, not "dva posto".',
         highlight: '1.500,75 — dot for thousands, comma for decimals',
       },
       {
@@ -1059,8 +1059,8 @@ export const LESSONS_C2 = [
       {
         type: 'rule',
         title: 'A Quantity Subject Takes a Neuter Singular Verb',
-        body: 'This is the rule that most often surprises. Mnogo ljudi je došlo. Nekoliko studenata je položilo. Pet automobila je stiglo. The quantity word, not the noun, controls agreement, and it delivers a neuter singular. Writing „mnogo ljudi su došli“ is the single commonest agreement error in advanced learner Croatian.',
-        highlight: 'Mnogo ljudi je došlo — not „su došli“',
+        body: 'This is the rule that most often surprises. Mnogo ljudi je došlo. Nekoliko studenata je položilo. Pet automobila je stiglo. The quantity word, not the noun, controls agreement, and it delivers a neuter singular. Writing „mnogo ljudi su došli” is the single commonest agreement error in advanced learner Croatian.',
+        highlight: 'Mnogo ljudi je došlo — not „su došli”',
       },
       {
         type: 'rule',
@@ -1071,7 +1071,7 @@ export const LESSONS_C2 = [
       {
         type: 'rule',
         title: 'The Nearest Noun: Only When the Verb Comes First',
-        body: 'You met the one place where the nearest noun may decide in the previous lesson: a verb placed BEFORE its subjects may agree with the nearest one, Doputovala je Marija i njezin brat, Popularne su rasprodaje i popusti, and the plural is always correct too. When the verb FOLLOWS the subjects, it agrees with the subject as a whole. „Ni Ivan ni njegove sestre nisu došli“ — the verb is masculine plural because the subject as a whole is mixed, not feminine because sestre is nearest. When a long subject comes first, find its head before choosing the verb.',
+        body: 'You met the one place where the nearest noun may decide in the previous lesson: a verb placed BEFORE its subjects may agree with the nearest one, Doputovala je Marija i njezin brat, Popularne su rasprodaje i popusti, and the plural is always correct too. When the verb FOLLOWS the subjects, it agrees with the subject as a whole. „Ni Ivan ni njegove sestre nisu došli” — the verb is masculine plural because the subject as a whole is mixed, not feminine because sestre is nearest. When a long subject comes first, find its head before choosing the verb.',
         highlight:
           'verb after the subjects → the whole subject; verb first → the nearest may decide',
       },
@@ -1214,7 +1214,7 @@ export const LESSONS_C2 = [
               'došle agrees with sestre alone because it is nearest to the verb. The verb follows the subjects, so it agrees with the subject as a whole, which is mixed: došli. The fourth sentence has a singular subject, Ivan, and is correct.',
           },
           {
-            q: 'Why does „dva studenta su došla“ differ from „pet studenata je došlo“?',
+            q: 'Why does „dva studenta su došla” differ from „pet studenata je došlo”?',
             options: [
               'Because dva is feminine',
               'Because two, three and four preserve the old dual, while five and above are quantity expressions',

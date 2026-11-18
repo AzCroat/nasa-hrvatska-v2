@@ -115,7 +115,7 @@ export const LESSONS = [
       {
         type: 'rule',
         title: 'Ivo and Ante: Exactly Like Žena',
-        body: 'Two-syllable names in -o (Ivo, Pero, Đuro, Franjo) and the names in -e (Ante, Jure, Mate, Stipe) take the singular endings of žena all the way through — genitive -e, dative and locative -i, accusative -u, instrumental -om: s Ivom, s Antom, s Franjom, sa Stipom, just as s ženom. There is no exception to learn. For the -e names the nominative, genitive and vocative look alike, which is why street names read Trg Ante Starčevića. Do not confuse Ivo with Ivan: Ivan is Ivana in the genitive, Ivo is Ive. In some regions you will also hear Ivo declined like Marko; the paradigm taught here is the standard one.',
+        body: 'Two-syllable names in -o (Ivo, Pero, Đuro, Franjo) and the names in -e (Ante, Jure, Mate, Stipe) take the singular endings of žena all the way through — genitive -e, dative and locative -i, accusative -u, instrumental -om: s Ivom, s Antom, s Franjom, sa Stipom, just as sa ženom. There is no exception to learn. For the -e names the nominative, genitive and vocative look alike, which is why street names read Trg Ante Starčevića. Do not confuse Ivo with Ivan: Ivan is Ivana in the genitive, Ivo is Ive. In some regions you will also hear Ivo declined like Marko; the paradigm taught here is the standard one.',
         highlight: 's Ivom, s Antom',
       },
       {
@@ -221,7 +221,7 @@ export const LESSONS = [
           },
           {
             hr: 'Pomogli smo četvorici turista koji su se izgubili u starom gradu.',
-            en: 'We helped four tourists who had got lost in the old town.',
+            en: 'We helped four tourists who had gotten lost in the old town.',
             note: 'četvorici — dative of četvorica',
           },
         ],
@@ -308,7 +308,7 @@ export const LESSONS = [
         title: 'Names and Groups of Men — Key Takeaways',
         points: [
           'Names in -ko decline like brat: Marko, Marka, Markom',
-          'Ivo, Franjo, Ante, Jure: like žena in every case — s Ivom, s Antom like s ženom',
+          'Ivo, Franjo, Ante, Jure: like žena in every case — s Ivom, s Antom like sa ženom',
           'Luka, Nikola: like žena; the name keeps k in the dative (Luki)',
           'All of them agree as masculine: Ante je došao',
           'dvojica, trojica, četvorica count men, decline like žena, take the genitive plural',
@@ -654,7 +654,7 @@ export const LESSONS = [
           },
           {
             hr: 'Sjedište Vlade Republike Hrvatske nalazi se na Markovu trgu.',
-            en: "The seat of the Croatian Government is on St Mark's Square.",
+            en: "The seat of the Croatian Government is on St. Mark's Square.",
             note: 'Markovu trgu — the possessive adjective first, trg lower case',
           },
           {
@@ -930,7 +930,7 @@ export const LESSONS = [
           },
           {
             hr: 'Film je bio dobar, ali predug.',
-            en: 'The film was good, but too long.',
+            en: 'The movie was good, but too long.',
             note: 'dobar — the predicate describes',
           },
           {
@@ -1000,7 +1000,7 @@ export const LESSONS = [
       {
         type: 'rule',
         title: 'Common Mistakes',
-        body: 'Three slips. The first is the definite form in a plain description: "Film je bio dobri" — a predicate that describes takes the indefinite: Film je bio dobar. The second is inventing an indefinite for an adjective that has none: "Taj je običaj hrvatsk" — -ski adjectives have one form: hrvatski. The third is reading čovjek dobra srca as a mistake for dobrog: the short genitive is correct, only more literary. The fourth is a navezak before a noun in -ima: "o novima studentima" — write o novim studentima.',
+        body: 'Four slips. The first is the definite form in a plain description: "Film je bio dobri" — a predicate that describes takes the indefinite: Film je bio dobar. The second is inventing an indefinite for an adjective that has none: "Taj je običaj hrvatsk" — -ski adjectives have one form: hrvatski. The third is reading čovjek dobra srca as a mistake for dobrog: the short genitive is correct, only more literary. The fourth is a navezak before a noun in -ima: "o novima studentima" — write o novim studentima.',
         highlight: 'Film je bio dobar',
       },
       {
@@ -1361,8 +1361,8 @@ export const PRACTICE = {
           q: 'Complete: "Idemo u kino s ___." (Đuro)',
           options: ['Đurom', 'Đuru', 'Đure', 'Đuri'],
           correct: 0,
-          hint: 'These names follow žena: think of s ženom.',
-          explanation: 's Đurom — the ordinary žena instrumental, like s ženom.',
+          hint: 'These names follow žena: think of sa ženom.',
+          explanation: 's Đurom — the ordinary žena instrumental, like sa ženom.',
         },
         {
           q: 'Complete: "Čestitao sam ___ rođendan." (Mate)',
@@ -1415,6 +1415,7 @@ export const PRACTICE = {
           type: 'type',
           q: 'Sutra smo kod ____ na kavi. (Ivo)',
           answer: 'Ive',
+          accept: ['Iva'],
           hint: 'Two-syllable names in -o take the genitive of žena.',
           explanation: 'kod Ive — genitive.',
         },
@@ -1489,7 +1490,7 @@ export const PRACTICE = {
       ['nadimak', 'nickname', 'Ante je nadimak za Antuna.'],
       ['hipokoristik', 'pet form of a name', 'Jure je hipokoristik imena Juraj.'],
       ['osobno ime', 'first name', 'Osobno ime piše se velikim slovom.'],
-      ['prezime', 'surname', 'Kako se piše vaše prezime?'],
+      ['prezime', 'surname', 'Kako se piše Vaše prezime?'],
       ['trojica', 'three (men, as a group)', 'Trojica braće rade u istoj tvrtki.'],
       ['četvorica', 'four (men, as a group)', 'Četvorica igrača ostala su na klupi.'],
       ['petorica', 'five (men, as a group)', 'Petorica znanstvenika dobila su nagradu.'],
@@ -1828,14 +1829,14 @@ export const PRACTICE = {
           type: 'type',
           q: 'Stanujem u ____ Ivana Gundulića. (ulica)',
           answer: 'Ulici',
-          hint: 'Locative after u; the first word of the name keeps its capital.',
+          hint: 'The locative of ulica after u. (As the first word of the street name it is written with a capital; capitals are not checked in a typed answer.)',
           explanation: 'u Ulici Ivana Gundulića.',
         },
         {
           type: 'type',
           q: 'Nađimo se na ____ kralja Tomislava. (trg)',
           answer: 'Trgu',
-          hint: 'Locative after na.',
+          hint: 'The locative of trg after na. (As the first word of the square name it is written with a capital; capitals are not checked in a typed answer.)',
           explanation: 'na Trgu kralja Tomislava.',
         },
         {
@@ -2073,8 +2074,10 @@ export const PRACTICE = {
           type: 'type',
           q: 'Žene više nisu smatrane ____. (weaker — no noun follows)',
           answer: 'slabijima',
+          accept: ['slabijim'],
           hint: 'An adjective with no noun after it needs the navezak in -ima.',
-          explanation: 'smatrane slabijima — the navezak is required when no noun follows.',
+          explanation:
+            'smatrane slabijima — careful style adds the navezak when no noun follows; slabijim is also heard.',
         },
         {
           q: 'Which phrase is correct?',

@@ -97,7 +97,7 @@ export const ASSESS_PROBES = [
 export function endingHeard(transcript, focus, wrongFocus) {
   const words = String(transcript || '')
     .toLowerCase()
-    .replace(/[.,;:!?„“”"'()]/g, ' ')
+    .replace(/[.,;:!?„””"'()]/g, ' ')
     .split(/\s+/)
     .filter(Boolean);
   if (words.includes(String(focus).toLowerCase())) return 'correct';
@@ -142,7 +142,7 @@ export const STT_DRIFT_THRESHOLD = 2;
 export function normalizeForWer(s) {
   return String(s ?? '')
     .toLowerCase()
-    .replace(/[.,!?;:'"„“”()\-—–…]/g, ' ')
+    .replace(/[.,!?;:'"„””()\-—–…]/g, ' ')
     .replace(/\s+/g, ' ')
     .trim();
 }

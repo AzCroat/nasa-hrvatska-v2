@@ -8627,7 +8627,7 @@ export const SCENARIOS = [
     turns: [
       {
         speaker: 'Dr. Horvat',
-        line: 'Evo, sad će nam kolega iz Toronta objasniti kako se to radi „u svijetu“.',
+        line: 'Evo, sad će nam kolega iz Toronta objasniti kako se to radi „u svijetu”.',
         en: "Right, now our colleague from Toronto will explain to us how it's done 'out in the world'.",
         opts: [
           'Ne bih se usudio, doktore — ovdje ima više iskustva nego što ću ga ja ikad imati. Samo bih vam pokazao jedan podatak, pa ćete sami procijeniti vrijedi li išta.',
@@ -8687,7 +8687,7 @@ export const SCENARIOS = [
     turns: [
       {
         speaker: 'Prijatelj Dino',
-        line: 'Gle ga, stigao nam Kanađanin! Znaš li još kako se kaže „kruh“, ili i dalje kupuješ „bread“?',
+        line: 'Gle ga, stigao nam Kanađanin! Znaš li još kako se kaže „kruh”, ili i dalje kupuješ „bread”?',
         en: "Look who's here, our Canadian has arrived! Do you still know the word for 'bread', or do you buy 'bread' now?",
         opts: [
           'Znam, Dino, a vidim da ni ti nisi zaboravio kako se dočekuje prijatelj — prvo po nosu, onda zagrljaj. Hajde, dođi ovamo.',
@@ -9175,9 +9175,9 @@ export const SCENARIOS = [
         line: 'Lako je tebi iz Chicaga govoriti da tata treba ostati doma. Ja ga svaki dan kupam i hranim.',
         en: "It's easy for you to say from Chicago that Dad should stay at home. I bathe and feed him every day.",
         opts: [
-          'Imaš pravo, i to ti moram priznati bez ikakva „ali“: sav teret ovih godina nosiš ti, a ja sam ga gledao preko ekrana. Oprosti mi što to govorim tek sada.',
-          'Imaš pravo, i to moram ti priznati bez ikakva „ali“: sav teret ovih godina nosiš ti, a ja sam ga gledao preko ekrana. Oprosti mi što to govorim tek sada.',
-          'Imaš pravo, i to ti moram priznati bez ikakva „ali“: sav teret ovih godina nosiš ti, a ja sam ga gledao preko ekranu. Oprosti mi što to govorim tek sada.',
+          'Imaš pravo, i to ti moram priznati bez ikakva „ali”: sav teret ovih godina nosiš ti, a ja sam ga gledao preko ekrana. Oprosti mi što to govorim tek sada.',
+          'Imaš pravo, i to moram ti priznati bez ikakva „ali”: sav teret ovih godina nosiš ti, a ja sam ga gledao preko ekrana. Oprosti mi što to govorim tek sada.',
+          'Imaš pravo, i to ti moram priznati bez ikakva „ali”: sav teret ovih godina nosiš ti, a ja sam ga gledao preko ekranu. Oprosti mi što to govorim tek sada.',
           'Imate pravo, i to Vam moram priznati: sav teret nosite Vi. Oprostite mi što to govorim tek sada.',
         ],
         answer: 0,

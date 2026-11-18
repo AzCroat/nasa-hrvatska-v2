@@ -99,10 +99,10 @@ const DATA = [
   },
   {
     mode: 'sroci',
-    q: 'Rješenje stupa na snagu danom ____.',
+    q: 'Izmjene stupaju na snagu danom ____.',
     opts: ['donošenja', 'donošenje', 'donošenju', 'donesenosti'],
     answer: 'donošenja',
-    en: 'the decision takes effect on the day of adoption',
+    en: 'the amendments take effect on the day of adoption',
     tip: 'Danom + genitiv glagolske imenice.',
   },
   {

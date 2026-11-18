@@ -82,7 +82,7 @@ export const ETHICAL_DATIVE_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'eticki',
-    q: 'Što nestaje ako iz „Pazi mi se!“ izostavimo dativ?',
+    q: 'Što nestaje ako iz „Pazi mi se!” izostavimo dativ?',
     opts: ['briga govornika', 'primatelj radnje', 'glagol', 'vrijeme radnje'],
     answer: 'briga govornika',
     tip: "That is the test: an ethical dative adds the speaker's involvement, not a participant.",
@@ -206,7 +206,7 @@ export const ETHICAL_DATIVE_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'smjer',
-    q: 'Je li „Idem liječniku“ pravilno?',
+    q: 'Je li „Idem liječniku” pravilno?',
     opts: [
       'da, kao i "Idem k liječniku"',
       'ne, nužno je "k"',

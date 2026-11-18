@@ -151,7 +151,9 @@ test.describe('class-order screenshots', () => {
       });
     };
 
-    for (let u = 0; u * 5 < lessons.length; u++) {
+    // CLASS_SHOTS_FIRST=1: only the first unit (a sample lesson shown before a level is written).
+    const last = process.env.CLASS_SHOTS_FIRST ? 5 : lessons.length;
+    for (let u = 0; u * 5 < last; u++) {
       const lesson = lessons[u * 5];
       const label = `Unit ${String(u + 1).padStart(2, '0')} - ${lesson.id}`;
       await shoot(lesson, `${LEVEL}-${u + 1}`, label, false);

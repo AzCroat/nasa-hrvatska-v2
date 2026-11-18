@@ -492,7 +492,7 @@ export default function GuidedSpeakingScreen({ goBack, award }: GuidedSpeakingSc
                   cursor: 'pointer',
                 }}
               >
-                <div style={{ fontSize: 14, fontWeight: 700 }}>„{st.hr}“</div>
+                <div style={{ fontSize: 14, fontWeight: 700 }}>„{st.hr}”</div>
                 <div style={{ fontSize: 12, color: 'var(--ink-muted)' }}>{st.en}</div>
                 {openStructure === i && (
                   <div style={{ fontSize: 13, color: 'var(--ink-error)', marginTop: 6 }}>
@@ -557,7 +557,7 @@ export default function GuidedSpeakingScreen({ goBack, award }: GuidedSpeakingSc
               data-testid="gs-heard"
               style={{ fontSize: 13, color: 'var(--text)', marginBottom: 8 }}
             >
-              Heard: „{heardPhrase}“
+              Heard: „{heardPhrase}”
             </div>
           )}
           <HeardWords check={spoken} />

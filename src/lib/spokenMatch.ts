@@ -9,7 +9,7 @@
 export function normaliseSpoken(s: string): string {
   return s
     .toLowerCase()
-    .replace(/[.,!?;:„“”"'—–-]/g, ' ')
+    .replace(/[.,!?;:„””"'—–-]/g, ' ')
     .replace(/\s+/g, ' ')
     .trim();
 }
