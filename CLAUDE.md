@@ -1643,7 +1643,8 @@ dialogue | shadowing | cityofday` — the starred extra is the ADAPTIVE pick.
   adaptive picker is byte-identical.
   **`padezne-suptilnosti` is the entry worth remembering**, because it is the
   clearest instance of the distinction the whole programme turned on. It sat on
-  `c2Curriculum.test.ts`'s DELIBERATELY_UNMAPPED list with a reason recorded
+  the C2 curriculum test's DELIBERATELY_UNMAPPED list (that file was folded into
+  `c1Curriculum.test.ts` on 2026-11-18) with a reason recorded
   beside it — it teaches case meaning where nothing governs anything, so no
   case drill practises it. That reason was TRUE, and it was still the wrong
   conclusion: it described every case drill the app HAPPENED TO HAVE, not every
@@ -1694,7 +1695,8 @@ dialogue | shadowing | cityofday` — the starred extra is the ADAPTIVE pick.
   linguistics names, or any way to read a text written before Gaj. Five blocks,
   hinged at `norma-i-uzus` (1) — the level opens by establishing that
   correctness alone has stopped being the question, which every later block
-  assumes. Pinned by `c2Curriculum.test.ts`, which also carries the
+  assumes. Pinned by the C2 curriculum test (folded into `c1Curriculum.test.ts` on
+  2026-11-18), which also carried the
   whole-curriculum assertions: 30 per level, spine and bodies agreeing exactly,
   no lesson spined at another level, orders unique and contiguous from 1.
   **Measured at full scale**: 860 KB of lesson bodies against a 49.6 KB spine
