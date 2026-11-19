@@ -27,14 +27,13 @@ interface MediaItem {
   scr?: string;
 }
 
-const LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
+const LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1'];
 const LEVEL_LABELS: Record<string, string> = {
   A1: 'Beginner',
   A2: 'Elementary',
   B1: 'Intermediate',
   B2: 'Upper-Int.',
   C1: 'Advanced',
-  C2: 'Mastery',
 };
 const LC = LEVEL_COLORS as Record<string, string>;
 
@@ -106,22 +105,13 @@ const JOURNEY = [
       'Watch Croatian political debates on HRT',
       'Write a diary entry in Croatian each week',
       'Find a Croatian language exchange partner',
-    ],
-    habit: 'One opinion article + one diary entry per week.',
-  },
-  {
-    level: 'C2',
-    icon: '🦅',
-    title: 'Native Fluency',
-    weeks: 'Ongoing',
-    desc: 'Croatian is part of who you are. Maintain and deepen through ongoing immersion.',
-    goals: [
-      'Follow Croatian Twitter/Instagram accounts in Croatian',
       'Read Croatian novels or short stories',
       'Watch Croatian standup comedy (Škibby, Relja, Bare)',
       'Listen to Croatian talk radio without notes',
+      'Follow Croatian Twitter/Instagram accounts in Croatian',
     ],
-    habit: 'Croatian media replaces English media for your favorite topics.',
+    habit:
+      'One opinion article + one diary entry per week — and let Croatian media replace English media for your favorite topics.',
   },
 ];
 
@@ -349,8 +339,10 @@ export default function ImmersionHub({
                 }}
               >
                 <div style={{ fontSize: 18 }}>{JOURNEY.find((j) => j.level === l)?.icon}</div>
-                <div style={{ fontSize: 11, fontWeight: 800, color: LC[l] }}>{l}</div>
-                <div style={{ fontSize: 9, color: 'var(--ink-muted-warm)' }}>{LEVEL_LABELS[l]}</div>
+                <div style={{ fontSize: 12, fontWeight: 800, color: LC[l] }}>{l}</div>
+                <div style={{ fontSize: 12, color: 'var(--ink-muted-warm)' }}>
+                  {LEVEL_LABELS[l]}
+                </div>
               </div>
             ))}
           </div>
@@ -563,7 +555,7 @@ export default function ImmersionHub({
               Acquisition happens through exposure to meaningful, interesting content — not through
               study alone."
             </div>
-            <div style={{ fontSize: 11, color: 'var(--ink-warn)', marginTop: 4 }}>
+            <div style={{ fontSize: 12, color: 'var(--ink-warn)', marginTop: 4 }}>
               — Based on Stephen Krashen's Input Hypothesis
             </div>
           </div>
@@ -701,7 +693,7 @@ function JourneyCard({ j, color }: { j: JourneyItem; color: string }) {
               style={{
                 background: `${color}20`,
                 color: accentInk(color),
-                fontSize: 10,
+                fontSize: 12,
                 fontWeight: 800,
                 padding: '2px 7px',
                 borderRadius: 20,
@@ -711,7 +703,7 @@ function JourneyCard({ j, color }: { j: JourneyItem; color: string }) {
               {j.level}
             </span>
           </div>
-          <div style={{ fontSize: 11, color: 'var(--ink-muted-warm)' }}>
+          <div style={{ fontSize: 12, color: 'var(--ink-muted-warm)' }}>
             {j.weeks} · {j.desc.slice(0, 60)}...
           </div>
         </div>
@@ -760,7 +752,7 @@ function JourneyCard({ j, color }: { j: JourneyItem; color: string }) {
             }}
           >
             <div
-              style={{ fontSize: 11, fontWeight: 800, color: accentInk(color), marginBottom: 2 }}
+              style={{ fontSize: 12, fontWeight: 800, color: accentInk(color), marginBottom: 2 }}
             >
               DAILY HABIT
             </div>
@@ -831,7 +823,7 @@ function MediaCard({
               style={{
                 background: `${color}20`,
                 color: accentInk(color),
-                fontSize: 10,
+                fontSize: 12,
                 fontWeight: 800,
                 padding: '2px 7px',
                 borderRadius: 20,
@@ -852,7 +844,7 @@ function MediaCard({
           borderLeft: '3px solid rgba(14,116,144,.2)',
         }}
       >
-        <div style={{ fontSize: 11, fontWeight: 800, color: 'var(--ink-accent)', marginBottom: 3 }}>
+        <div style={{ fontSize: 12, fontWeight: 800, color: 'var(--ink-accent)', marginBottom: 3 }}>
           WHY THIS HELPS
         </div>
         <div style={{ fontSize: 12, color: 'var(--ink-body)', lineHeight: 1.5 }}>{m.tip}</div>
@@ -862,7 +854,7 @@ function MediaCard({
           style={{
             marginTop: 10,
             textAlign: 'right',
-            fontSize: 11,
+            fontSize: 12,
             color: 'var(--ink-accent)',
             fontWeight: 700,
           }}
@@ -897,7 +889,7 @@ function FilterBtn({
         // sweep 157 shipped on 19 routes. The active arm is an 8% tint of the accent, so
         // it already follows the theme; the inactive one has to be told to.
         background: active ? `${color}15` : 'var(--card)',
-        fontSize: 11,
+        fontSize: 12,
         fontWeight: 700,
         cursor: 'pointer',
         color: active ? accentInk(color) : 'var(--ink-muted-warm)',

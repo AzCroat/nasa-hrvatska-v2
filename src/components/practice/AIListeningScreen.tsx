@@ -499,7 +499,7 @@ export default function AIListeningScreen({
                 >
                   {t.hr}
                 </div>
-                <div style={{ fontSize: 11, color: 'var(--subtext)' }}>{t.en}</div>
+                <div style={{ fontSize: 12, color: 'var(--subtext)' }}>{t.en}</div>
               </button>
             );
           })}
@@ -562,7 +562,7 @@ export default function AIListeningScreen({
         >
           <div
             style={{
-              fontSize: 11,
+              fontSize: 12,
               fontWeight: 700,
               color: 'var(--ink-accent)',
               marginBottom: 4,
@@ -601,7 +601,7 @@ export default function AIListeningScreen({
           {audioSource === 'unavailable' && (
             <div
               style={{
-                fontSize: 11,
+                fontSize: 12,
                 color: 'var(--warning, #d97706)',
                 textAlign: 'center',
                 marginTop: 4,

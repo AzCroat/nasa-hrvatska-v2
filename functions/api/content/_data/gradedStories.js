@@ -2513,7 +2513,7 @@ export const GRADED_STORIES = [
 
   {
     id: 'gs_c2_1',
-    level: 'C2',
+    level: 'C1',
     levelColor: '#9d174d',
     levelBg: '#fce7f3',
     icon: '🗝️',
@@ -2522,7 +2522,7 @@ export const GRADED_STORIES = [
     duration: 8,
     focus: 'Abstract/literary register • Identity & belonging • Verbal nouns & nuance',
     intro:
-      'A reflective essay on language, memory, and diaspora identity. Practice abstract literary register, figurative usage, and the kind of nuanced phrasing that separates C1 from C2.',
+      'A reflective essay on language, memory, and diaspora identity. Practice abstract literary register, figurative usage, and the kind of nuanced phrasing that marks a fully fluent reader.',
     paragraphs: [
       {
         hr: 'Postoji osjećaj, blizak svakome tko je odrastao daleko od domovine, da jezik nije tek sredstvo sporazumijevanja, nego svojevrstan zavičaj koji nosimo u sebi. Riječi koje smo čuli u djetinjstvu — uspavanke, imena jela, prve psovke — urezane su dublje od bilo koje naučene gramatike. One ne prenose samo značenje, nego i miris kuhinje, ton bakina glasa i težinu nedjeljnih popodneva.',
@@ -2608,7 +2608,7 @@ export const GRADED_STORIES = [
 
   {
     id: 'gs_c2_2',
-    level: 'C2',
+    level: 'C1',
     levelColor: '#9d174d',
     levelBg: '#fce7f3',
     icon: '🐌',
@@ -6124,7 +6124,7 @@ export const GRADED_STORIES = [
   },
   {
     id: 'gs_c2_3',
-    level: 'C2',
+    level: 'C1',
     levelColor: '#9d174d',
     levelBg: '#fce7f3',
     icon: '🖋️',
@@ -6217,7 +6217,7 @@ export const GRADED_STORIES = [
   },
   {
     id: 'gs_c2_4',
-    level: 'C2',
+    level: 'C1',
     levelColor: '#9d174d',
     levelBg: '#fce7f3',
     icon: '🌉',
@@ -6320,7 +6320,7 @@ export const GRADED_STORIES = [
   },
   {
     id: 'gs_c2_5',
-    level: 'C2',
+    level: 'C1',
     levelColor: '#9d174d',
     levelBg: '#fce7f3',
     icon: '🕰️',
@@ -6418,7 +6418,7 @@ export const GRADED_STORIES = [
   },
   {
     id: 'gs_c2_6',
-    level: 'C2',
+    level: 'C1',
     levelColor: '#9d174d',
     levelBg: '#fce7f3',
     icon: '💨',
@@ -6511,7 +6511,7 @@ export const GRADED_STORIES = [
   },
   {
     id: 'gs_c2_7',
-    level: 'C2',
+    level: 'C1',
     levelColor: '#9d174d',
     levelBg: '#fce7f3',
     icon: '🔍',
@@ -17943,7 +17943,7 @@ export const GRADED_STORIES = [
   },
   {
     id: 'gs_c2_8',
-    level: 'C2',
+    level: 'C1',
     levelColor: '#9d174d',
     levelBg: '#fce7f3',
     icon: '♟️',
@@ -18107,7 +18107,7 @@ export const GRADED_STORIES = [
   },
   {
     id: 'gs_c2_9',
-    level: 'C2',
+    level: 'C1',
     levelColor: '#9d174d',
     levelBg: '#fce7f3',
     icon: '⏳',
@@ -18275,7 +18275,7 @@ export const GRADED_STORIES = [
   },
   {
     id: 'gs_c2_10',
-    level: 'C2',
+    level: 'C1',
     levelColor: '#9d174d',
     levelBg: '#fce7f3',
     icon: '🏝️',
@@ -18431,7 +18431,7 @@ export const GRADED_STORIES = [
   },
   {
     id: 'gs_c2_11',
-    level: 'C2',
+    level: 'C1',
     levelColor: '#9d174d',
     levelBg: '#fce7f3',
     icon: '🔧',
@@ -18595,7 +18595,7 @@ export const GRADED_STORIES = [
   },
   {
     id: 'gs_c2_12',
-    level: 'C2',
+    level: 'C1',
     levelColor: '#9d174d',
     levelBg: '#fce7f3',
     icon: '🫒',
@@ -18759,7 +18759,7 @@ export const GRADED_STORIES = [
   },
   {
     id: 'gs_c2_13',
-    level: 'C2',
+    level: 'C1',
     levelColor: '#9d174d',
     levelBg: '#fce7f3',
     icon: '🤝',
@@ -18919,7 +18919,7 @@ export const GRADED_STORIES = [
   },
   {
     id: 'gs_c2_14',
-    level: 'C2',
+    level: 'C1',
     levelColor: '#9d174d',
     levelBg: '#fce7f3',
     icon: '🌳',
@@ -19079,7 +19079,7 @@ export const GRADED_STORIES = [
   },
   {
     id: 'gs_c2_15',
-    level: 'C2',
+    level: 'C1',
     levelColor: '#9d174d',
     levelBg: '#fce7f3',
     icon: '🌅',
@@ -19239,7 +19239,7 @@ export const GRADED_STORIES = [
   },
   {
     id: 'gs_c2_16',
-    level: 'C2',
+    level: 'C1',
     levelColor: '#9d174d',
     levelBg: '#fce7f3',
     icon: '🍽️',
@@ -19395,7 +19395,7 @@ export const GRADED_STORIES = [
   },
   {
     id: 'gs_c2_17',
-    level: 'C2',
+    level: 'C1',
     levelColor: '#9d174d',
     levelBg: '#fce7f3',
     icon: '✍️',
@@ -19555,7 +19555,7 @@ export const GRADED_STORIES = [
   },
   {
     id: 'gs_c2_18',
-    level: 'C2',
+    level: 'C1',
     levelColor: '#9d174d',
     levelBg: '#fce7f3',
     icon: '🎫',
@@ -19719,7 +19719,7 @@ export const GRADED_STORIES = [
   },
   {
     id: 'gs_c2_19',
-    level: 'C2',
+    level: 'C1',
     levelColor: '#9d174d',
     levelBg: '#fce7f3',
     icon: '🪴',
@@ -19872,7 +19872,7 @@ export const GRADED_STORIES = [
   },
   {
     id: 'gs_c2_20',
-    level: 'C2',
+    level: 'C1',
     levelColor: '#9d174d',
     levelBg: '#fce7f3',
     icon: '🕯️',
@@ -20037,7 +20037,7 @@ export const GRADED_STORIES = [
   },
   {
     id: 'gs_c2_21',
-    level: 'C2',
+    level: 'C1',
     levelColor: '#9d174d',
     levelBg: '#fce7f3',
     icon: '👃',
@@ -20202,7 +20202,7 @@ export const GRADED_STORIES = [
   },
   {
     id: 'gs_c2_22',
-    level: 'C2',
+    level: 'C1',
     levelColor: '#9d174d',
     levelBg: '#fce7f3',
     icon: '👞',

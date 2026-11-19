@@ -7,6 +7,7 @@
 import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { speak } from '../../lib/audio.js';
 import { markQuest } from '../../lib/quests.js';
+import { lessonLockReason, readNextOpenLesson, LESSON_TESTOUT_KEY } from '../../lib/lessonLock';
 import { recordLessonTaught } from '../../lib/teachPractice';
 import { markLessonComplete } from '../../lib/curriculumProgress';
 import { localDateStr } from '../../lib/dateUtils';
@@ -91,11 +92,22 @@ interface Props {
   lesson: LessonData | null;
   goBack: () => void;
   award?: (xp: number, celebrate?: boolean, activityType?: string) => void;
+  /** Opens another lesson (the course launcher) — used by a failed ahead test-out. */
+  onOpenLesson?: (lessonId: string) => Promise<boolean> | void;
 }
 
-export default function AnimatedLesson({ lesson, goBack, award }: Props) {
+export default function AnimatedLesson({ lesson, goBack, award, onOpenLesson }: Props) {
   const { stats, setStats, writeDelta } = useStats();
   const [slide, setSlide] = useState(0);
+  // A LESSON STILL AHEAD OF THE LEARNER OPENS AS ITS TEST-OUT ONLY (owner, 2026-11-19: "You
+  // should be able to test out of any lesson at any time"). Reading stays sequential: the
+  // teaching slides are not shown, only the check and the summary, through the SAME
+  // test-out path an open lesson uses (`testingOut`). Decided once, at opening.
+  const aheadLocked = useMemo(() => {
+    const id = (lesson as { id?: string } | null)?.id;
+    return !!id && !!lessonLockReason(id);
+  }, [lesson]);
+  const aheadOpen = useMemo(() => (aheadLocked ? readNextOpenLesson() : null), [aheadLocked]);
   const [quizAnswers, setQuizAnswers] = useState<Record<number, number>>({});
   const [quizResults, setQuizResults] = useState<Record<number, boolean>>({});
   // Worked examples seen through / guided practice resolved, by slide index.
@@ -121,11 +133,11 @@ export default function AnimatedLesson({ lesson, goBack, award }: Props) {
   // schedule). FAILING it is not a failed lesson; it is the answer to "should I
   // read this?", so it drops the learner into the lesson from the top and
   // records NOTHING — cards and ladders belong to lessons actually learned.
-  const [testingOut, setTestingOut] = useState(false);
+  const [testingOut, setTestingOut] = useState(aheadLocked);
   // Offered ONCE per opening. After a failed test-out the learner has already
   // answered "do I know this?" — putting the button back on the intro slide
   // they were just dropped onto invites a loop and is noise.
-  const [testOutUsed, setTestOutUsed] = useState(false);
+  const [testOutUsed, setTestOutUsed] = useState(aheadLocked);
   const [_done, setDone] = useState(false);
   // Default ON to match Flashcards' reading of the same key — the two screens
   // previously had opposite defaults, so this toggle's state contradicted
@@ -147,7 +159,10 @@ export default function AnimatedLesson({ lesson, goBack, award }: Props) {
     }
   }, [lessonId]);
   const alreadyComplete = !!lessonId && !!stats?.vs?.includes('al_' + lessonId);
-  const slides = lesson?.slides || [];
+  const allSlides = lesson?.slides || [];
+  const slides = aheadLocked
+    ? allSlides.filter((s) => s.type === 'check' || s.type === 'quiz' || s.type === 'summary')
+    : allSlides;
 
   // THE CORRECTIVE DAY (redesign increment 4, owner decision 5). Opened from a
   // corrective session slot — the last real check on THIS lesson failed — the
@@ -361,14 +376,31 @@ export default function AnimatedLesson({ lesson, goBack, award }: Props) {
   useEffect(() => {
     if (!canTestOut || !lessonId) return;
     try {
-      if (sessionStorage.getItem('nh_lesson_testout') !== lessonId) return;
-      sessionStorage.removeItem('nh_lesson_testout');
+      if (sessionStorage.getItem(LESSON_TESTOUT_KEY) !== lessonId) return;
+      sessionStorage.removeItem(LESSON_TESTOUT_KEY);
     } catch {
       return;
     }
     startTestOut();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [canTestOut, lessonId]);
+
+  // The one-shot handoff that brought us here is spent: a stale key would otherwise start
+  // a later opening of this lesson already in its check.
+  useEffect(() => {
+    if (!aheadLocked) return;
+    try {
+      sessionStorage.removeItem(LESSON_TESTOUT_KEY);
+    } catch {
+      /* nothing to clear */
+    }
+  }, [aheadLocked]);
+
+  /** Where a failed test-out of an ahead lesson goes: the lesson that opens next. */
+  function openNextLesson() {
+    if (aheadOpen && onOpenLesson) void onOpenLesson(aheadOpen.id);
+    else goBack();
+  }
 
   /** A failed test-out sends the learner into the lesson from the beginning —
    *  that IS the outcome they asked for by taking the check first. */
@@ -588,6 +620,11 @@ export default function AnimatedLesson({ lesson, goBack, award }: Props) {
               gateKind={gate.kind}
               testedOut={testingOut}
               onRetake={testingOut ? startLessonFromTestOut : retakeCheck}
+              aheadOpen={
+                aheadLocked
+                  ? { title: aheadOpen?.title ?? 'the next lesson', onOpen: openNextLesson }
+                  : null
+              }
               onReview={reviewLesson}
               locked={checkLocked}
               onDone={goBack}
@@ -841,9 +878,11 @@ export default function AnimatedLesson({ lesson, goBack, award }: Props) {
                   : endsHere
                     ? goBack
                     : failedSummary
-                      ? testingOut
-                        ? startLessonFromTestOut
-                        : retakeCheck
+                      ? aheadLocked
+                        ? openNextLesson
+                        : testingOut
+                          ? startLessonFromTestOut
+                          : retakeCheck
                       : goNext
               }
               disabled={!canGoNext}
@@ -854,9 +893,11 @@ export default function AnimatedLesson({ lesson, goBack, award }: Props) {
                   : endsHere
                     ? 'Finish'
                     : failedSummary
-                      ? testingOut
-                        ? 'Take the lesson'
-                        : 'Retake the check'
+                      ? aheadLocked
+                        ? 'Go to the next lesson'
+                        : testingOut
+                          ? 'Take the lesson'
+                          : 'Retake the check'
                       : isLastSlide
                         ? 'Finish lesson'
                         : 'Next slide'

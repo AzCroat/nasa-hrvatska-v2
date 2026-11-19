@@ -39,6 +39,7 @@ const TARGETS = [
   'functions/api/content/_data/lessonsB2.js',
   'functions/api/content/_data/lessonsC1.js',
   'functions/api/content/_data/lessonsC2.js',
+  'functions/api/content/_data/lessonGrammarBook.js',
   'functions/api/content/_data/lessonPracticeA1.js',
   'functions/api/content/_data/lessonClassA1.js',
   'functions/api/content/_data/a1class/units02-05.js',
@@ -163,7 +164,6 @@ const TARGETS = [
   'src/data/cultural/cityHr/B1.js',
   'src/data/cultural/cityHr/B2.js',
   'src/data/cultural/cityHr/C1.js',
-  'src/data/cultural/cityHr/C2.js',
   'functions/api/content/_data/cultural/geography.js',
   'src/data/exercises.js',
   'functions/api/content/_data/cultural/regions.js',
@@ -221,7 +221,6 @@ const TARGETS = [
   'src/components/profile/CroatianErrorInsights.tsx', // 32 Croatian strings, 56% seen
   'src/components/razgovor/partners.ts', // 22 Croatian strings, 100% seen
   'src/components/shared/GrammarReference.tsx', // 21 Croatian strings, 76% seen
-  'src/components/shared/KnightCompanion.tsx', // 6 Croatian strings, 83% seen
   'src/components/shared/OnboardingTour.tsx', // 4 Croatian strings, 50% seen
   'src/data/bakaPhrases.ts', // 9 Croatian strings, 100% seen
   'src/hooks/useNotifications.ts', // 8 Croatian strings, 63% seen
@@ -1098,7 +1097,7 @@ const BAD_CHARS_RE = /[Ѐ-ӿԀ-ԯŢ-ţŞ-şĞ-ğİ-ı­]/g;
 // happened to appear. Found by mutation while grading the history timeline:
 // `hleb` in a `textHr` passed clean; the same word in a drill's `q` was caught.
 // `[a-zA-Z]*Hr[ABC]?[12]?` covers the whole suffix family INCLUDING the graded
-// siblings the history screen now reads (textHrA1 … textHrC2), and the array
+// siblings the history screen now reads (textHrA1 … textHrC1), and the array
 // pass gains `[a-zA-Z]*Hr`. Measured first, as the rule requires: 95,315 →
 // 96,799 strings scanned, zero new findings; mutation-verified in seven
 // positions (textHr, titleHr with a Cyrillic homoglyph, descHr, tHr, eventHr,

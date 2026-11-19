@@ -18,6 +18,7 @@
  */
 
 import { recordSrsOutcome } from './masteryLedger';
+import { localDateStr } from './dateUtils';
 
 // ─── FSRS-4.5 default weights (W0–W18) ───────────────────────────────────────
 // Canonical fsrs4anki v4.5 default parameters. W7–W18 were previously scrambled
@@ -244,6 +245,53 @@ export function getDueReviews(): string[] {
 }
 
 /**
+ * How many NEW words a learner meets every day (owner, 2026-11-19: "if you don't know
+ * the words how can you become fluent?"). Before this, a new deck word appeared only when
+ * fewer than ten reviews were due, and then at most five — so a learner with a full review
+ * queue met none, and one with nothing due was never served a review at all.
+ */
+export const NEW_WORDS_PER_DAY = 10;
+const NEW_WORDS_KEY = 'nh_new_words_day';
+
+/**
+ * Today's new words: a set chosen once per local day, in the order `names` gives (the
+ * learner's own band first), from words that have no card yet. The set is stable for the
+ * day, so the Home count and the Review screen agree, and a word the learner has since
+ * answered (it now has a card) drops out of it. Never more than NEW_WORDS_PER_DAY a day.
+ */
+export function todaysNewWords(names: Iterable<string>): string[] {
+  const sr = getSR();
+  const today = localDateStr();
+  let words: string[] = [];
+  try {
+    const raw = JSON.parse(localStorage.getItem(NEW_WORDS_KEY) || 'null') as {
+      date?: string;
+      words?: unknown;
+    } | null;
+    if (raw && raw.date === today && Array.isArray(raw.words)) {
+      words = raw.words.filter((w): w is string => typeof w === 'string');
+    }
+  } catch (_) {
+    words = [];
+  }
+  if (words.length < NEW_WORDS_PER_DAY) {
+    const have = new Set(words);
+    for (const n of names) {
+      if (words.length >= NEW_WORDS_PER_DAY) break;
+      if (!n || have.has(n) || sr[n]) continue;
+      words.push(n);
+      have.add(n);
+    }
+    try {
+      localStorage.setItem(NEW_WORDS_KEY, JSON.stringify({ date: today, words }));
+    } catch (_) {
+      /* storage full or blocked: the set is rebuilt next call */
+    }
+  }
+  return words.filter((w) => !sr[w]);
+}
+
+/**
  * Pool-aware count of cards that ReviewScreen will actually serve.
  *
  * 2026-05-21 BUG FIX: HomeTab originally counted via getDueReviews() while
@@ -270,7 +318,7 @@ export function getServableReviewCount(poolWords: Set<string>): number {
       newCardBudget--;
     }
   }
-  return count;
+  return count + todaysNewWords(poolWords).length;
 }
 
 /**
@@ -542,17 +590,11 @@ export function getPrioritizedReviewQueue(pool: unknown[][]): unknown[][] {
     .filter((w): w is unknown[] => Boolean(w))
     .slice(0, 20);
 
-  if (result.length < 10 && pool) {
-    const seenWords = new Set(
-      Object.entries(sr)
-        .filter(([w, s]) => poolWords.has(w) && s && s.due)
-        .map(([w]) => w),
-    );
-    const newWords = pool
-      .filter((w) => !seenWords.has(w[0] as string))
-      .slice(0, Math.min(5, 10 - result.length));
-    result.push(...newWords);
-  }
+  // Due words first, then today's new words (a guaranteed set, whatever is due).
+  const fresh = todaysNewWords(pool.map((w) => w[0] as string))
+    .map((n) => poolMap.get(n))
+    .filter((w): w is unknown[] => Boolean(w));
+  result.push(...fresh);
 
   return result;
 }

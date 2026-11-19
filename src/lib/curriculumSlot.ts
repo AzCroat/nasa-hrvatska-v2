@@ -121,11 +121,11 @@ export function rearmCourseHandoff(activityId: string | undefined | null): void 
  * grows past 20 units a level would fall outside it, and the re-arm would then be a
  * no-op — the screen says "no unit test is open", never a wrong unit.
  */
-const KNOWN_LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'] as const;
+const KNOWN_LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1'] as const;
 
 const KNOWN_UNIT_IDS: readonly string[] = (() => {
   const out: string[] = [];
-  for (const level of ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'] as const) {
+  for (const level of ['A1', 'A2', 'B1', 'B2', 'C1'] as const) {
     for (let i = 1; i <= 20; i++) out.push(`${level}-${i}`);
   }
   return out;

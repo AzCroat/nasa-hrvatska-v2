@@ -147,7 +147,7 @@ test.describe('A new learner walks Unit 1 into Unit 2', () => {
     );
   });
 
-  test('five lessons, the unit test, both production tasks, then Unit 2 opens', async ({
+  test('five lessons open Unit 2; production is practice that never gates', async ({
     page,
   }) => {
     test.setTimeout(300_000);
@@ -163,74 +163,22 @@ test.describe('A new learner walks Unit 1 into Unit 2', () => {
 
     for (const id of UNIT_1) await readLesson(page, id);
 
-    // Reading all five is not the bar: the unit stays current and offers its test.
+    // Five lessons passed opens the next unit: Unit 1 is cleared, Unit 2 is where they are.
+    // The unit test and the production tasks are practice, never a gate.
     await page.goto('/coursemap');
-    await expect(page.getByTestId('course-unit-A1-1')).toHaveAttribute(
+    await expect(page.getByTestId('course-unit-A1-2')).toHaveAttribute(
       'data-unit-state',
       'current',
       { timeout: 20_000 },
     );
-    await expect(page.getByTestId('course-unit-A1-2')).toHaveAttribute('data-unit-state', 'locked');
-    const offer = page.getByTestId('course-unit-test-A1-1');
-    await expect(offer).toHaveAttribute('data-offer', 'primary');
-    await offer.click();
-
-    await expect(page.getByTestId('unit-test')).toBeVisible({ timeout: 20_000 });
-    for (let i = 0; i < 15; i++) {
-      await expect(page.getByTestId('unit-test-progress')).toHaveText(`Question ${i + 1} of 15`);
-      const opts = page.locator('[data-testid^="unit-test-opt-"]');
-      const shown = (await opts.allInnerTexts()).map((s) => s.trim());
-      const q = (
-        await page
-          .getByTestId('unit-test')
-          .locator('[data-testid="unit-test-question"], h2, h3, p')
-          .first()
-          .innerText()
-      ).trim();
-      let clicked = false;
-      for (const candidate of [
-        q,
-        ...(await page.getByTestId('unit-test').locator('*').allInnerTexts()),
-      ]) {
-        try {
-          const { index } = answerFor(candidate, shown, UNIT_1);
-          await page.getByTestId(`unit-test-opt-${index}`).click();
-          clicked = true;
-          break;
-        } catch {
-          /* not the question node — try the next text on screen */
-        }
-      }
-      expect(clicked, `question ${i + 1}: no source item matched what is on screen`).toBe(true);
-      await page.getByTestId('unit-test-next').click();
-    }
-    const result = page.getByTestId('unit-test-result');
-    await expect(result).toBeVisible({ timeout: 20_000 });
-    await expect(result).toHaveAttribute('data-passed', '1');
-
-    // Passing the test is HALF the bar: production is still owed, so Unit 2 stays shut.
-    await page.goto('/coursemap');
-    await expect(page.getByTestId('course-unit-A1-2')).toHaveAttribute(
-      'data-unit-state',
-      'locked',
-      { timeout: 20_000 },
-    );
+    await expect(page.getByTestId('course-unit-A1-1')).toHaveAttribute('data-unit-state', 'cleared');
 
     // Production, both halves, typed (a learner without a microphone can finish the course).
     for (const kind of ['write', 'speak']) {
-      // The map offers no write-or-say choice (owner, 2026-11-14): the course serves the task.
-      // Home serves ONE a day — the written task first — so that is reached from Home, and the
-      // spoken one is the next day's, whose handoff is set here as the course sets it.
+      // Production is practice, reached by its own route; the handoff is set as the course sets it.
       await page.goto('/');
-      if (kind === 'write') {
-        const card = page.getByTestId('session-card');
-        await expect(card).toBeVisible({ timeout: 30_000 });
-        await expect(card).toContainText('Unit 1: write', { timeout: 20_000 });
-        await page.getByTestId('session-begin-cta').click();
-      } else {
-        await page.evaluate((k) => sessionStorage.setItem('nh_unit_production', `A1-1|${k}`), kind);
-        await page.goto('/unitproduction', { waitUntil: 'domcontentloaded' });
-      }
+      await page.evaluate((k) => sessionStorage.setItem('nh_unit_production', `A1-1|${k}`), kind);
+      await page.goto('/unitproduction', { waitUntil: 'domcontentloaded' });
       await expect(page.getByTestId('unit-production')).toBeVisible({ timeout: 20_000 });
       const words = Array.from({ length: 80 }, (_, j) => `riječ${j}`).join(' ');
       await page.getByTestId('unit-production-input').fill(words);

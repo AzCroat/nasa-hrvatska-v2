@@ -42,7 +42,7 @@ interface AIConversationConvoSetupProps {
   onStart: () => void;
 }
 
-const LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
+const LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1'];
 const CATS = ['All', 'Errands', 'Out & About', 'Social', 'Practical', 'Culture', 'Professional'];
 const CAT_ICONS = {
   All: '🌐',
@@ -61,7 +61,7 @@ const FREE_TALK_SCENARIO = {
   title: 'Free Conversation',
   hr: 'Slobodan razgovor',
   desc: 'Open-ended — any topic, any direction',
-  levels: ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'],
+  levels: ['A1', 'A2', 'B1', 'B2', 'C1'],
   color: '#7c3aed',
   bg: '#faf5ff',
   aiName: 'Mate',
@@ -156,7 +156,7 @@ export default function AIConversationConvoSetup({
           >
             Free Talk — No Script Needed
           </div>
-          <div style={{ fontSize: 11, color: 'var(--subtext)', marginTop: 2, fontWeight: 600 }}>
+          <div style={{ fontSize: 12, color: 'var(--subtext)', marginTop: 2, fontWeight: 600 }}>
             Open-ended conversation · Mate adapts to your level
           </div>
         </div>
@@ -202,7 +202,7 @@ export default function AIConversationConvoSetup({
       {deriveWeakAreas(stats?.ct || []).length > 0 && (
         <div
           style={{
-            fontSize: 11,
+            fontSize: 12,
             color: 'var(--subtext)',
             fontStyle: 'italic',
             padding: '4px 0 16px',
@@ -314,7 +314,7 @@ export default function AIConversationConvoSetup({
                   <div style={{ position: 'absolute', left: 14, bottom: 10, right: 90, zIndex: 1 }}>
                     <div
                       style={{
-                        fontSize: 9,
+                        fontSize: 12,
                         fontWeight: 800,
                         color: 'rgba(255,255,255,.72)',
                         letterSpacing: '.12em',
@@ -337,7 +337,7 @@ export default function AIConversationConvoSetup({
                     </div>
                     <div
                       style={{
-                        fontSize: 10,
+                        fontSize: 12,
                         fontWeight: 600,
                         color: 'rgba(255,255,255,.72)',
                         marginTop: 2,
@@ -401,7 +401,7 @@ export default function AIConversationConvoSetup({
                         background: accentFill(s.color),
                         borderRadius: 20,
                         padding: '3px 10px',
-                        fontSize: 10,
+                        fontSize: 12,
                         fontWeight: 900,
                         color: 'white',
                         boxShadow: `0 2px 8px ${s.color}50`,
@@ -438,7 +438,7 @@ export default function AIConversationConvoSetup({
                         <span
                           key={l}
                           style={{
-                            fontSize: 10,
+                            fontSize: 12,
                             fontWeight: 800,
                             padding: '2px 7px',
                             borderRadius: 10,
@@ -597,7 +597,7 @@ export default function AIConversationConvoSetup({
                     title: customText.slice(0, 40),
                     hr: customText.slice(0, 40),
                     desc: customText,
-                    levels: ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'],
+                    levels: ['A1', 'A2', 'B1', 'B2', 'C1'],
                     color: '#7c3aed',
                     bg: '#faf5ff',
                     aiName: 'Lokalni stanovnik',

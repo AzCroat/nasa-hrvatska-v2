@@ -39,7 +39,7 @@ test.describe('Tab navigation', () => {
     for (const label of ['Today', 'Course', 'More']) {
       await expect(nav.getByRole('button', { name: label, exact: true })).toBeVisible();
     }
-    // Me is in the Sidebar (desktop) / AppHeader avatar (mobile), not the bottom bar.
+    // Me is the AppHeader avatar on every device (neither nav bar has a Me tab).
     await expect(await meButton(page)).toBeVisible();
   });
 
@@ -122,7 +122,7 @@ test.describe('Tab navigation', () => {
   });
 
   test('navigates to Me tab and shows user name', async ({ page }) => {
-    // Me lives in the Sidebar on desktop and the AppHeader avatar on mobile —
+    // Me is the AppHeader avatar on every device —
     // clickMe resolves the right one. (Active-state assertion lives in me-tab.spec.)
     await clickMe(page);
     await page.waitForURL('/profile', { timeout: 20_000 });

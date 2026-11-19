@@ -21,7 +21,7 @@ export default function TipContent({ tip }: { tip?: string }) {
                 border: '1px solid rgba(14,116,144,0.28)',
                 borderRadius: 20,
                 padding: '1px 8px',
-                fontSize: 11,
+                fontSize: 12,
                 fontWeight: 800,
                 color: 'var(--ink-accent)',
                 marginLeft: 4,

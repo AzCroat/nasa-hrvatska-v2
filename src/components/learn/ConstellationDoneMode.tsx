@@ -109,7 +109,7 @@ export default function ConstellationDoneMode({ finalScore, onReviewCases, goBac
               style={{
                 background: c.color,
                 color: '#fff',
-                fontSize: 10,
+                fontSize: 12,
                 fontWeight: 700,
                 padding: '1px 6px',
                 borderRadius: 10,
@@ -120,7 +120,7 @@ export default function ConstellationDoneMode({ finalScore, onReviewCases, goBac
               {c.abbr}
             </span>
             <span style={{ color: '#cbd5e1', fontSize: 13, flex: 1 }}>{c.name}</span>
-            <span style={{ color: '#94a3b8', fontSize: 11 }}>
+            <span style={{ color: '#94a3b8', fontSize: 12 }}>
               {(c.question.split('(')[0] ?? '').trim()}
             </span>
           </div>

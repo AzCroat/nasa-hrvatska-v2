@@ -86,7 +86,7 @@ export default function AzureResultPanel({ azureResult, onRetry }: AzureResultPa
               <span
                 key={label}
                 style={{
-                  fontSize: 11,
+                  fontSize: 12,
                   fontWeight: 700,
                   color: scoreColor(val ?? 0),
                   background: `${scoreColor(val ?? 0)}15`,
@@ -106,7 +106,7 @@ export default function AzureResultPanel({ azureResult, onRetry }: AzureResultPa
         <div style={{ marginBottom: 12 }}>
           <div
             style={{
-              fontSize: 11,
+              fontSize: 12,
               fontWeight: 800,
               color: 'var(--ink-muted)',
               textTransform: 'uppercase',
@@ -131,7 +131,7 @@ export default function AzureResultPanel({ azureResult, onRetry }: AzureResultPa
                 <div style={{ fontWeight: 800, fontSize: 14, color: scoreColor(w.score) }}>
                   {w.word}
                 </div>
-                <div style={{ fontSize: 11, color: 'var(--subtext,#94a3b8)' }}>{w.score}%</div>
+                <div style={{ fontSize: 12, color: 'var(--subtext,#94a3b8)' }}>{w.score}%</div>
               </div>
             ))}
           </div>

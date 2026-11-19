@@ -60,7 +60,7 @@ function EmergencyScreen({ goBack }: EmergencyScreenProps) {
               }}
             >
               <div style={{ fontSize: 13, fontWeight: 700 }}>{b[0]}</div>
-              <div style={{ fontSize: 11, color: 'var(--subtext)' }}>{b[1]}</div>
+              <div style={{ fontSize: 12, color: 'var(--subtext)' }}>{b[1]}</div>
             </button>
           );
         })}

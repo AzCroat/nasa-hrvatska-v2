@@ -21,7 +21,7 @@ export default function RhythmDrill({ goBack, award }: Props) {
       modeLabels={RHYTHM_MODE_LABELS}
       data={RHYTHM_DRILL_DATA}
       praise={{
-        perfect: 'Savršeno — to je razina C2! 🏆',
+        perfect: 'Savršeno — to je razina C1! 🏆',
         good: 'Vrlo dobro! 💪',
         more: 'Još malo vježbe.',
       }}

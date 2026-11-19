@@ -226,7 +226,7 @@ export default function TranslateDrillsScreen({
           style={{
             background: (CEFR_BG as Record<string, string>)[drill.level],
             color: accentInk((CEFR_COLORS as Record<string, string>)[drill.level]),
-            fontSize: 11,
+            fontSize: 12,
             fontWeight: 700,
             padding: '3px 10px',
             borderRadius: 20,

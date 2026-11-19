@@ -252,7 +252,7 @@ function PlayerCard({ p }: { p: Player }) {
           </div>
           <div
             style={{
-              fontSize: 11,
+              fontSize: 12,
               color: 'rgba(255,255,255,.8)',
               marginTop: 2,
               fontWeight: 600,
@@ -267,7 +267,7 @@ function PlayerCard({ p }: { p: Player }) {
               background: 'rgba(255,255,255,.2)',
               borderRadius: 20,
               padding: '4px 10px',
-              fontSize: 10,
+              fontSize: 12,
               fontWeight: 800,
               color: 'white',
               border: '1px solid rgba(255,255,255,.3)',
@@ -298,13 +298,13 @@ function PlayerCard({ p }: { p: Player }) {
                 border: `1.5px solid ${dc.border}`,
                 borderRadius: 20,
                 padding: '3px 10px',
-                fontSize: 10,
+                fontSize: 12,
                 fontWeight: 800,
               }}
             >
               {p.div}
             </div>
-            <div style={{ fontSize: 10, color: 'var(--ink-muted)', marginTop: 4, fontWeight: 600 }}>
+            <div style={{ fontSize: 12, color: 'var(--ink-muted)', marginTop: 4, fontWeight: 600 }}>
               {p.yr}
             </div>
           </div>
@@ -321,7 +321,7 @@ function PlayerCard({ p }: { p: Player }) {
             border: '1px solid #bae6fd',
             borderRadius: 20,
             padding: '4px 12px',
-            fontSize: 11,
+            fontSize: 12,
             fontWeight: 700,
             marginBottom: 10,
           }}
@@ -349,7 +349,7 @@ function PlayerCard({ p }: { p: Player }) {
         {/* Note */}
         <div
           style={{
-            fontSize: 11.5,
+            fontSize: 12,
             color: 'var(--ink-body)',
             lineHeight: 1.75,
             marginBottom: 14,
@@ -515,7 +515,7 @@ export default function CroatiaAthletes({ goBack }: { goBack: () => void }) {
                   background: 'rgba(255,255,255,.18)',
                   borderRadius: 20,
                   padding: '4px 11px',
-                  fontSize: 11,
+                  fontSize: 12,
                   fontWeight: 800,
                 }}
               >
@@ -553,7 +553,7 @@ export default function CroatiaAthletes({ goBack }: { goBack: () => void }) {
           <div style={{ fontSize: 13, fontWeight: 800, color: 'var(--ink-green)' }}>
             Live Database — RealGM
           </div>
-          <div style={{ fontSize: 11, fontWeight: 600, color: 'var(--ink-green)', opacity: 0.75 }}>
+          <div style={{ fontSize: 12, fontWeight: 600, color: 'var(--ink-green)', opacity: 0.75 }}>
             Always up-to-date · All divisions · Updates automatically each season
           </div>
         </div>
@@ -588,7 +588,7 @@ export default function CroatiaAthletes({ goBack }: { goBack: () => void }) {
                 border: active ? 'none' : '1.5px solid var(--card-b)',
                 background: active ? '#003da5' : 'var(--card)',
                 color: active ? 'white' : 'var(--text)',
-                fontSize: 11.5,
+                fontSize: 12,
                 fontWeight: 700,
                 cursor: 'pointer',
                 display: 'flex',
@@ -608,7 +608,7 @@ export default function CroatiaAthletes({ goBack }: { goBack: () => void }) {
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  fontSize: 10,
+                  fontSize: 12,
                   fontWeight: 900,
                 }}
               >
@@ -645,7 +645,7 @@ export default function CroatiaAthletes({ goBack }: { goBack: () => void }) {
                 />
                 <span
                   style={{
-                    fontSize: 10,
+                    fontSize: 12,
                     fontWeight: 900,
                     color: dc?.text ?? 'var(--ink-muted)',
                     letterSpacing: '.1em',
@@ -681,7 +681,7 @@ export default function CroatiaAthletes({ goBack }: { goBack: () => void }) {
           background: 'var(--surface-mute)',
           borderRadius: 14,
           border: '1px solid #e2e8f0',
-          fontSize: 11,
+          fontSize: 12,
           color: 'var(--ink-muted)',
           lineHeight: 1.8,
           marginBottom: 16,

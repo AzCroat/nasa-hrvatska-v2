@@ -279,7 +279,7 @@ export default function ContactScreen({
       <div style={{ marginBottom: 20 }}>
         <div
           style={{
-            fontSize: 11,
+            fontSize: 12,
             fontWeight: 700,
             color: 'var(--ink-muted)',
             letterSpacing: '.08em',
@@ -334,7 +334,7 @@ export default function ContactScreen({
       <div style={{ marginBottom: 16 }}>
         <div
           style={{
-            fontSize: 11,
+            fontSize: 12,
             fontWeight: 700,
             color: 'var(--ink-muted)',
             letterSpacing: '.08em',
@@ -364,7 +364,7 @@ export default function ContactScreen({
         />
         <div
           style={{
-            fontSize: 11,
+            fontSize: 12,
             color: subject.length > 100 ? '#f59e0b' : 'var(--ink-muted)',
             textAlign: 'right',
             marginTop: 4,
@@ -378,7 +378,7 @@ export default function ContactScreen({
       <div style={{ marginBottom: 16 }}>
         <div
           style={{
-            fontSize: 11,
+            fontSize: 12,
             fontWeight: 700,
             color: 'var(--ink-muted)',
             letterSpacing: '.08em',
@@ -413,7 +413,7 @@ export default function ContactScreen({
         />
         <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 4 }}>
           {descTooShort ? (
-            <span style={{ fontSize: 11, color: 'var(--ink-error)' }}>
+            <span style={{ fontSize: 12, color: 'var(--ink-error)' }}>
               At least 10 characters required
             </span>
           ) : (
@@ -421,7 +421,7 @@ export default function ContactScreen({
           )}
           <span
             style={{
-              fontSize: 11,
+              fontSize: 12,
               color: description.length > 1800 ? '#f59e0b' : 'var(--ink-muted)',
             }}
           >
@@ -434,7 +434,7 @@ export default function ContactScreen({
       <div style={{ marginBottom: 24 }}>
         <div
           style={{
-            fontSize: 11,
+            fontSize: 12,
             fontWeight: 700,
             color: 'var(--ink-muted)',
             letterSpacing: '.08em',
@@ -496,7 +496,7 @@ export default function ContactScreen({
             : 'Send Report'}
       </button>
 
-      <div style={{ fontSize: 11, color: 'var(--ink-muted)', textAlign: 'center', marginTop: 12 }}>
+      <div style={{ fontSize: 12, color: 'var(--ink-muted)', textAlign: 'center', marginTop: 12 }}>
         Reports go directly to the administrator. Max 3 per hour.
       </div>
     </div>

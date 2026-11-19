@@ -197,7 +197,7 @@ export default function InsightsTab() {
                   <div style={{ fontSize: 13, fontWeight: 800, color: 'var(--heading)' }}>
                     {r.name}
                   </div>
-                  <div style={{ fontSize: 10, color: 'var(--info,#0284c7)', fontWeight: 700 }}>
+                  <div style={{ fontSize: 12, color: 'var(--info,#0284c7)', fontWeight: 700 }}>
                     {r.level} · {r.url}
                   </div>
                 </div>
@@ -209,7 +209,7 @@ export default function InsightsTab() {
               </div>
               <div
                 style={{
-                  fontSize: 11,
+                  fontSize: 12,
                   background: 'rgba(14,116,144,.07)',
                   borderRadius: 8,
                   padding: '7px 10px',
@@ -280,7 +280,7 @@ export default function InsightsTab() {
                       {w.accuracy}% accuracy · {w.attempts} attempts
                       <span
                         style={{
-                          fontSize: 10,
+                          fontSize: 12,
                           color: 'var(--ink-warn)',
                           fontWeight: 700,
                           marginLeft: 4,
@@ -598,7 +598,7 @@ export default function InsightsTab() {
         {letterText && (
           <div
             style={{
-              fontSize: 11,
+              fontSize: 12,
               color: 'var(--subtext)',
               marginTop: 8,
               fontStyle: 'italic',

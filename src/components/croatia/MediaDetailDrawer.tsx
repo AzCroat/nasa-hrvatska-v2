@@ -88,7 +88,7 @@ function ExternalCard({
       >
         <div
           style={{
-            fontSize: 11,
+            fontSize: 12,
             fontWeight: 800,
             color: 'var(--subtext)',
             letterSpacing: '.08em',
@@ -282,7 +282,7 @@ export default function MediaDetailDrawer({
                 style={{
                   display: 'inline-block',
                   marginTop: 3,
-                  fontSize: 9,
+                  fontSize: 12,
                   fontWeight: 900,
                   letterSpacing: '.08em',
                   color: accentInk(item.color),
@@ -351,7 +351,7 @@ export default function MediaDetailDrawer({
             >
               <div
                 style={{
-                  fontSize: 10,
+                  fontSize: 12,
                   fontWeight: 800,
                   color: accentInk(item.color),
                   letterSpacing: '.08em',

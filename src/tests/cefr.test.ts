@@ -2,8 +2,8 @@ import { describe, it, expect } from 'vitest';
 import { cefrRank, isUnlocked, getUserCefr, CEFR_ORDER } from '../lib/cefr';
 
 describe('CEFR_ORDER', () => {
-  it('contains 6 levels in correct order', () => {
-    expect(CEFR_ORDER).toEqual(['A1', 'A2', 'B1', 'B2', 'C1', 'C2']);
+  it('contains 5 levels in correct order (the course ends at C1)', () => {
+    expect(CEFR_ORDER).toEqual(['A1', 'A2', 'B1', 'B2', 'C1']);
   });
 });
 
@@ -13,7 +13,7 @@ describe('cefrRank', () => {
   it('returns 2 for B1', () => expect(cefrRank('B1')).toBe(2));
   it('returns 3 for B2', () => expect(cefrRank('B2')).toBe(3));
   it('returns 4 for C1', () => expect(cefrRank('C1')).toBe(4));
-  it('returns 5 for C2', () => expect(cefrRank('C2')).toBe(5));
+  it('reads a stored C2 (retired) as C1', () => expect(cefrRank('C2')).toBe(4));
   it('returns 0 for unknown level', () => expect(cefrRank('X9')).toBe(0));
   it('returns 0 for unknown level like A1+', () => expect(cefrRank('A1+')).toBe(0));
 });
@@ -51,8 +51,9 @@ describe('getUserCefr', () => {
   it('returns B2 at 7999 total', () => expect(getUserCefr(7999, 0, 0)).toBe('B2'));
   it('returns C1 at 8000 total', () => expect(getUserCefr(8000, 0, 0)).toBe('C1'));
   it('returns C1 at 17999 total', () => expect(getUserCefr(17999, 0, 0)).toBe('C1'));
-  it('returns C2 at 18000 total', () => expect(getUserCefr(18000, 0, 0)).toBe('C2'));
-  it('returns C2 for very high total', () => expect(getUserCefr(50000, 0, 0)).toBe('C2'));
+  it('stays C1 at 18000 total (no level above C1)', () =>
+    expect(getUserCefr(18000, 0, 0)).toBe('C1'));
+  it('stays C1 for very high total', () => expect(getUserCefr(50000, 0, 0)).toBe('C1'));
 
   it('weights lc and gc correctly', () => {
     // 10 lessons = 150 (xp) + 150 (lc*15) = 300 total → A2

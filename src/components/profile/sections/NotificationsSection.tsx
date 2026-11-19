@@ -227,7 +227,7 @@ export default function NotificationsSection() {
                 </div>
                 <div
                   style={{
-                    fontSize: 10,
+                    fontSize: 12,
                     color: 'var(--subtext)',
                     marginBottom: 6,
                     lineHeight: 1.4,

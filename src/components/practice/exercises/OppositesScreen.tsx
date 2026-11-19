@@ -34,7 +34,7 @@ function OppositesScreen({ goBack }: Props) {
               }, 'Hear ' + p.ex.a)}
             >
               <div style={{ fontSize: 16, fontWeight: 800, color: 'var(--ink-green)' }}>{p.a}</div>
-              <div style={{ fontSize: 11, color: 'var(--ink-muted-warm)' }}>{p.ex.a}</div>
+              <div style={{ fontSize: 12, color: 'var(--ink-muted-warm)' }}>{p.ex.a}</div>
             </div>
             <div style={{ fontSize: 18, color: '#d6d3d1' }}>↔</div>
             <div
@@ -44,7 +44,7 @@ function OppositesScreen({ goBack }: Props) {
               }, 'Hear ' + p.ex.b)}
             >
               <div style={{ fontSize: 16, fontWeight: 800, color: 'var(--ink-error)' }}>{p.b}</div>
-              <div style={{ fontSize: 11, color: 'var(--ink-muted-warm)' }}>{p.ex.b}</div>
+              <div style={{ fontSize: 12, color: 'var(--ink-muted-warm)' }}>{p.ex.b}</div>
             </div>
           </div>
         );

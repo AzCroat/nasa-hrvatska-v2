@@ -136,7 +136,7 @@ export default function ConversationBubble({ msg, personaCfg }: ConversationBubb
           style={{
             marginLeft: isUser ? 0 : 38,
             marginRight: isUser ? 0 : 0,
-            fontSize: 11,
+            fontSize: 12,
             padding: '4px 10px',
             borderRadius: 8,
             background: 'rgba(245,158,11,0.12)',

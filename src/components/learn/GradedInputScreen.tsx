@@ -38,14 +38,13 @@ function _levelToTopic(level: string): string {
   return 'vocab-a2';
 }
 
-const LEVELS = ['All', 'A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
+const LEVELS = ['All', 'A1', 'A2', 'B1', 'B2', 'C1'];
 const LEVEL_COLOR: Record<string, string> = {
   A1: '#166534',
   A2: '#1e40af',
   B1: '#92400e',
   B2: '#5b21b6',
   C1: '#4c1d95',
-  C2: '#9d174d',
 };
 const LEVEL_BG: Record<string, string> = {
   A1: '#dcfce7',
@@ -53,7 +52,6 @@ const LEVEL_BG: Record<string, string> = {
   B1: '#fef3c7',
   B2: '#ede9fe',
   C1: '#f3e8ff',
-  C2: '#fce7f3',
 };
 
 // ── Types ──────────────────────────────────────────────────────────────────────
@@ -116,7 +114,7 @@ const LevelBadge = ({ level }: { level: string }) => (
     style={{
       background: LEVEL_BG[level] || '#f5f5f4',
       color: LEVEL_COLOR[level] || '#44403c',
-      fontSize: 10,
+      fontSize: 12,
       fontWeight: 800,
       padding: '2px 8px',
       borderRadius: 20,
@@ -301,7 +299,7 @@ function StoryList({ onSelect, goBack }: { onSelect: (id: string) => void; goBac
               <div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
                   <LevelBadge level={story.level} />
-                  <span style={{ fontSize: 11, color: 'var(--subtext)' }}>
+                  <span style={{ fontSize: 12, color: 'var(--subtext)' }}>
                     {story.duration} min
                   </span>
                 </div>
@@ -316,7 +314,7 @@ function StoryList({ onSelect, goBack }: { onSelect: (id: string) => void; goBac
                   {story.title}
                 </div>
                 <div style={{ fontSize: 12, color: 'var(--subtext)' }}>{story.titleEn}</div>
-                <div style={{ fontSize: 11, color: 'var(--info)', marginTop: 4 }}>
+                <div style={{ fontSize: 12, color: 'var(--info)', marginTop: 4 }}>
                   {story.focus}
                 </div>
               </div>
@@ -510,7 +508,7 @@ export function StoryReader({
           <div>
             <div style={{ fontSize: 20, fontWeight: 900, marginBottom: 4 }}>{story.title}</div>
             <div style={{ fontSize: 13, opacity: 0.9, marginBottom: 6 }}>{story.titleEn}</div>
-            <div style={{ fontSize: 11, opacity: 0.8, lineHeight: 1.5 }}>{story.focus}</div>
+            <div style={{ fontSize: 12, opacity: 0.8, lineHeight: 1.5 }}>{story.focus}</div>
           </div>
         </div>
       </div>
@@ -605,7 +603,7 @@ export function StoryReader({
             >
               <div>
                 <span style={{ fontWeight: 700, color: 'var(--heading)' }}>🔊 {v.hr}</span>
-                <div style={{ fontSize: 11, color: 'var(--subtext)', marginTop: 3 }}>{v.ex}</div>
+                <div style={{ fontSize: 12, color: 'var(--subtext)', marginTop: 3 }}>{v.ex}</div>
               </div>
               <span style={{ fontSize: 13, color: 'var(--subtext)', flexShrink: 0 }}>{v.en}</span>
             </div>
@@ -776,7 +774,7 @@ export function StoryReader({
                       >
                         {score}
                       </div>
-                      <div style={{ fontSize: 10, color: 'var(--subtext)', fontWeight: 700 }}>
+                      <div style={{ fontSize: 12, color: 'var(--subtext)', fontWeight: 700 }}>
                         {label}
                       </div>
                     </div>
@@ -803,7 +801,7 @@ export function StoryReader({
                     ))}
                   </div>
                 )}
-                <div style={{ fontSize: 11, color: 'var(--subtext)', marginTop: 6 }}>
+                <div style={{ fontSize: 12, color: 'var(--subtext)', marginTop: 6 }}>
                   Green = good · Yellow = needs work · Red = practice more
                 </div>
               </div>

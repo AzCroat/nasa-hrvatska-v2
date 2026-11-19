@@ -21,7 +21,7 @@ export default function OldTextsDrill({ goBack, award }: Props) {
       modeLabels={OLD_TEXTS_MODE_LABELS}
       data={OLD_TEXTS_DRILL_DATA}
       praise={{
-        perfect: 'Savršeno — to je razina C2! 🏆',
+        perfect: 'Savršeno — to je razina C1! 🏆',
         good: 'Vrlo dobro! 💪',
         more: 'Još malo vježbe.',
       }}

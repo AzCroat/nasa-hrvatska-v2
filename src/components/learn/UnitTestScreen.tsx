@@ -25,8 +25,8 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { H } from '../../data';
 import { getLessons } from '../../lib/contentClient';
-import { readCurriculumSpine, readCompletedLessons } from '../../lib/curriculumProgress';
-import type { CurriculumEntry } from '../../lib/curriculum';
+import { useCurriculumSpine } from '../../hooks/useCurriculumSpine';
+import { readCompletedLessons } from '../../lib/curriculumProgress';
 import { buildCourseUnits, productionOwed, type CourseUnit } from '../../lib/courseUnits';
 import {
   readUnitTestRequest,
@@ -112,7 +112,7 @@ export default function UnitTestScreen({
   const [openFailed, setOpenFailed] = useState(false);
   const [lockedWhy, setLockedWhy] = useState<string | null>(null);
 
-  const spine = useMemo<CurriculumEntry[]>(() => readCurriculumSpine(), []);
+  const { spine, failed: spineFailed } = useCurriculumSpine();
   const units = useMemo(() => buildCourseUnits(spine, COURSE_UNIT_TITLES), [spine]);
 
   // ── Assemble the paper ──────────────────────────────────────────────────
@@ -126,7 +126,7 @@ export default function UnitTestScreen({
       // 2026-09-27): the handoff is cleared on leaving, so pressing Back from the
       // production task onto this screen arrived with no unit at all and told the
       // learner a unit that had just served fifteen questions could not make a test.
-      setPhase(units.length === 0 ? 'failed' : 'missing');
+      setPhase(units.length === 0 ? (spineFailed ? 'failed' : 'loading') : 'missing');
       return;
     }
     setUnit(u);
@@ -178,7 +178,7 @@ export default function UnitTestScreen({
     return () => {
       live = false;
     };
-  }, [unitId, units, attempt, mode]);
+  }, [unitId, units, attempt, mode, spineFailed]);
 
   // Leaving clears the handoff so a later visit cannot land on a stale unit.
   useEffect(() => clearUnitTestRequest, []);
@@ -549,7 +549,7 @@ export default function UnitTestScreen({
         >
           Question {at + 1} of {total}
         </span>
-        <span style={{ fontSize: 11.5, color: 'var(--subtext)' }}>
+        <span style={{ fontSize: 12, color: 'var(--subtext)' }}>
           {needed} of {total} to pass
         </span>
       </div>

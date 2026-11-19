@@ -694,16 +694,7 @@ const LEVELS = {
         answer: 0,
         tip: "'fakat' is colloquial — never in business writing.",
       },
-    ],
-  },
-  C2: {
-    label: 'C2 — Mastery',
-    color: '#fce7f3',
-    border: '#f9a8d4',
-    text: '#9d174d',
-    emoji: '🏔️',
-    desc: 'Literary tenses, rhetoric, irony and near-native judgment',
-    questions: [
+      // The former C2 questions, part of C1 since 2026-11-18 (the course ends at C1).
       {
         q: "'____, vidjeh, pobijedih.' — complete Caesar's boast:",
         opts: ['Dođoh', 'Došao', 'Dolazim', 'Dođem'],
@@ -818,7 +809,7 @@ const LEVELS = {
   },
 };
 
-const LEVEL_KEYS = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
+const LEVEL_KEYS = ['A1', 'A2', 'B1', 'B2', 'C1'];
 
 function gradeMessage(pct: number) {
   if (pct >= 90) return { icon: '🏆', msg: "Excellent! You've mastered this level!" };
@@ -956,7 +947,7 @@ export default function CefrTest({
                 </div>
                 <div
                   style={{
-                    fontSize: 11,
+                    fontSize: 12,
                     color: lv.text,
                     opacity: 0.75,
                     lineHeight: 1.4,
@@ -967,7 +958,7 @@ export default function CefrTest({
                 <div
                   style={{
                     marginTop: 10,
-                    fontSize: 10,
+                    fontSize: 12,
                     fontWeight: 700,
                     color: lv.text,
                     opacity: 0.6,
@@ -1093,7 +1084,7 @@ export default function CefrTest({
       >
         <div
           style={{
-            fontSize: 11,
+            fontSize: 12,
             fontWeight: 800,
             color: level.text,
             opacity: 0.7,
@@ -1176,7 +1167,7 @@ export default function CefrTest({
                         ? '#fca5a5'
                         : 'var(--bar-bg)',
                   color: answered && (optAccepted || i === selected) ? '#fff' : 'var(--subtext)',
-                  fontSize: 11,
+                  fontSize: 12,
                   fontWeight: 800,
                   flexShrink: 0,
                 }}

@@ -138,7 +138,7 @@ export default function ProfileScreen({
           >
             <div
               style={{
-                fontSize: 11,
+                fontSize: 12,
                 fontWeight: 700,
                 color: 'var(--subtext)',
                 marginBottom: 8,
@@ -194,7 +194,7 @@ export default function ProfileScreen({
                   setShowEmojiPicker(false);
                 }}
                 style={{
-                  fontSize: 11,
+                  fontSize: 12,
                   color: 'var(--subtext)',
                   background: 'none',
                   border: 'none',
@@ -232,7 +232,7 @@ export default function ProfileScreen({
           <div key={idx} className="c" style={{ textAlign: 'center' }}>
             <div style={{ fontSize: 24 }}>{i}</div>
             <div style={{ fontSize: 20, fontWeight: 800, marginTop: 4 }}>{v}</div>
-            <div style={{ fontSize: 11, color: 'var(--ink-muted-warm)' }}>{l}</div>
+            <div style={{ fontSize: 12, color: 'var(--ink-muted-warm)' }}>{l}</div>
           </div>
         ))}
       </div>

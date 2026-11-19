@@ -20,7 +20,7 @@ export default function ImmersionStreak() {
     >
       <div style={{ fontSize: 24, flexShrink: 0 }}>🔥</div>
       <div style={{ flex: 1, minWidth: 0 }}>
-        <div style={{ fontSize: 11, fontWeight: 800, color: 'var(--heading)', marginBottom: 6 }}>
+        <div style={{ fontSize: 12, fontWeight: 800, color: 'var(--heading)', marginBottom: 6 }}>
           {count > 0 ? `${count}/7 days this week` : 'Start your immersion streak!'}{' '}
           {count >= 5 ? '🏆' : count >= 3 ? '⭐' : ''}
         </div>
@@ -39,7 +39,7 @@ export default function ImmersionStreak() {
                   transition: 'all .2s',
                 }}
               />
-              <div style={{ fontSize: 8, color: 'var(--subtext)', fontWeight: 600 }}>
+              <div style={{ fontSize: 12, color: 'var(--subtext)', fontWeight: 600 }}>
                 {dayLabels[i]}
               </div>
             </div>
@@ -49,7 +49,7 @@ export default function ImmersionStreak() {
       {count > 0 && (
         <div
           style={{
-            fontSize: 10,
+            fontSize: 12,
             color: 'var(--subtext)',
             fontStyle: 'italic',
             textAlign: 'right',

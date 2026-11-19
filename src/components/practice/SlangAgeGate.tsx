@@ -95,7 +95,7 @@ export default function SlangAgeGate({
             No, go back
           </button>
         </div>
-        <div style={{ marginTop: 14, fontSize: 11, opacity: 0.5 }}>
+        <div style={{ marginTop: 14, fontSize: 12, opacity: 0.5 }}>
           +15 XP for unlocking this module
         </div>
       </div>

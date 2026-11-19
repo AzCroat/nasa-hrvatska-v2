@@ -24,7 +24,7 @@ export default function DeclensionExceptionsDrill({ goBack, award }: Props) {
       modeLabels={DECLENSION_EXCEPTIONS_MODE_LABELS}
       data={DECLENSION_EXCEPTIONS_DRILL_DATA}
       praise={{
-        perfect: 'Savršeno — to je razina C2! 🏆',
+        perfect: 'Savršeno — to je razina C1! 🏆',
         good: 'Vrlo dobro! 💪',
         more: 'Još malo vježbe.',
       }}

@@ -12,7 +12,7 @@ const MAX_AUDIO_B64 = 2_000_000; // ~90s compressed
 // This drives `transcriptSufficiency` below — a transcript-length heuristic, NOT acoustic confidence.
 const MIN_WORDS_FOR_SUFFICIENCY = 3;
 const CLAUDE_MODEL = 'claude-haiku-4-5-20251001';
-const VALID_CEFR = new Set(['A1', 'A2', 'B1', 'B2', 'C1', 'C2']);
+const VALID_CEFR = new Set(['A1', 'A2', 'B1', 'B2', 'C1']);
 
 function sanitizeParam(value, maxLen = 200) {
   return String(value || '')
@@ -76,7 +76,7 @@ export async function onRequestPost(context) {
     return err(400, 'missing_fields', origin);
 
   // Validate level against known CEFR values.
-  const safeLevel = sanitizeParam(level, 2);
+  const safeLevel = ((l) => (l === 'C2' ? 'C1' : l))(sanitizeParam(level, 2)); // C2 retired 2026-11-18
   if (!VALID_CEFR.has(safeLevel)) return err(400, 'invalid_level', origin);
 
   // Sanitize prompt before interpolation into rubric template.

@@ -32,6 +32,7 @@
 import type { SkillCategory } from './adaptive';
 import { CEFR_EXERCISE_POOL } from './sessionPools';
 import { CATEGORY_SCREEN_MAP, CATEGORY_EASIER_SCREEN } from './categoryRoutes';
+import { stampDrilled } from './drillStamps';
 
 /**
  * Every category the pool actually uses. Derived rather than hand-listed so it
@@ -701,6 +702,8 @@ export function recordScreenPractised(screenKey: string, now = Date.now()): void
   const tag = categoryForScreen(screenKey);
   if (tag) satisfied.add(tag);
   if (satisfied.size === 0) return;
+  // A drill finished at the pass mark counts (2026-11-19) — see lib/drillStamps.
+  stampDrilled(satisfied);
 
   const entries = fresh(read(), now);
   const next = entries.filter((e) => !satisfied.has(e.c));

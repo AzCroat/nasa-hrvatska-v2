@@ -48,7 +48,7 @@ function SchoolScreen({ goBack }: Props) {
               <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--heading)' }}>
                 {w[0]!} <span aria-hidden="true">🔊</span>
               </div>
-              <div style={{ fontSize: 11, color: 'var(--subtext)' }}>{w[1]!}</div>
+              <div style={{ fontSize: 12, color: 'var(--subtext)' }}>{w[1]!}</div>
             </button>
           );
         })}
@@ -71,7 +71,7 @@ function SchoolScreen({ goBack }: Props) {
               <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--ink-mode)' }}>
                 {w[0]!} <span aria-hidden="true">🔊</span>
               </div>
-              <div style={{ fontSize: 11, color: 'var(--subtext)' }}>{w[1]!}</div>
+              <div style={{ fontSize: 12, color: 'var(--subtext)' }}>{w[1]!}</div>
             </button>
           );
         })}

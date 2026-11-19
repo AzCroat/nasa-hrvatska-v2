@@ -27,8 +27,10 @@ test.describe('Learn tab', () => {
       await expect(page.getByText('Continue Learning')).toHaveCount(0);
     });
 
-    test('shows the Profesor Kovac tutor hero', async ({ page }) => {
-      await expect(page.getByTestId('portrait-kovac')).toBeVisible();
+    test('shows the course header with no teacher portrait (owner, 2026-11-19)', async ({ page }) => {
+      await expect(page.getByText('Tečaj', { exact: true }).first()).toBeVisible();
+      await expect(page.getByTestId('portrait-kovac')).toHaveCount(0);
+      await expect(page.getByText(/Profesor Kovač/)).toHaveCount(0);
     });
 
     test('shows Grammar Ref button in hero', async ({ page }) => {
@@ -52,7 +54,7 @@ test.describe('Learn tab', () => {
 
     test('the grammar tracks are reachable', async ({ page }) => {
       await find(page, 'grammar track');
-      await expect(page.getByText('Grammar Track A1→C2')).toBeVisible({ timeout: 8_000 });
+      await expect(page.getByText('Grammar Track A1→C1')).toBeVisible({ timeout: 8_000 });
     });
 
     test('the pronunciation tools are reachable', async ({ page }) => {
@@ -68,7 +70,7 @@ test.describe('Learn tab', () => {
       const errors = [];
       page.on('pageerror', (e) => errors.push(e.message));
       await find(page, 'grammar track');
-      await page.getByText('Grammar Track A1→C2').click();
+      await page.getByText('Grammar Track A1→C1').click();
       await page.waitForTimeout(500);
       const unexpected = errors.filter(
         (e) => !e.includes('firebase') && !e.includes('firestore') && !e.includes('fetch'),
@@ -232,7 +234,9 @@ test.describe('Learn tab', () => {
       await page.getByTestId('lc-search').fill('genitive');
       const locked = page.locator('[data-testid="lc-row"][data-kind="lesson"][data-locked="1"]');
       await expect(locked.first()).toBeVisible({ timeout: 10_000 });
-      await expect(locked.first().getByTestId('lc-row-locked-reason')).toContainText('Opens after');
+      await expect(locked.first().getByTestId('lc-row-locked-reason')).toContainText(
+        'test out of it any time',
+      );
       // `aria-disabled` makes Playwright wait for the row to become enabled, which it
       // never will — so the tap is forced, which is exactly what a learner's tap does.
       await locked.first().click({ force: true });

@@ -260,7 +260,7 @@ function NegationScreen({ goBack, award }: Props) {
                 </div>
                 <div
                   style={{
-                    fontSize: 11,
+                    fontSize: 12,
                     color: 'var(--ink-muted-warm)',
                     maxWidth: 140,
                     textAlign: 'right',
@@ -343,7 +343,7 @@ function NegationScreen({ goBack, award }: Props) {
                 {answered && selected !== q.a && (
                   <div
                     style={{
-                      fontSize: 11,
+                      fontSize: 12,
                       marginTop: 5,
                       fontWeight: 700,
                       color: 'var(--ink-error)',
@@ -355,7 +355,7 @@ function NegationScreen({ goBack, award }: Props) {
                 {answered && selected === q.a && (
                   <div
                     style={{
-                      fontSize: 11,
+                      fontSize: 12,
                       marginTop: 5,
                       fontWeight: 700,
                       color: 'var(--ink-green)',

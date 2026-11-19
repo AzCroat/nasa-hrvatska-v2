@@ -3,7 +3,7 @@ import { describe, it, expect, beforeEach } from 'vitest';
 import { getGenerationCefr } from '../lib/cefrCertification';
 
 // getUserCefr: total = xp + lc*15 + gc*25 → A1<300, A2<1200, B1<3500, B2<8000,
-// C1<18000, C2 otherwise. With clean storage (no migration flag) the content-
+// C1 otherwise (the course ends at C1). With clean storage (no migration flag) the content-
 // unlock level is the generous eligible level, so earned == getUserCefr(stats).
 
 describe('getGenerationCefr', () => {
@@ -12,7 +12,7 @@ describe('getGenerationCefr', () => {
   it('returns the earned level when no placement is stored', () => {
     expect(getGenerationCefr({ xp: 0, lc: 0, gc: 0 })).toBe('A1');
     expect(getGenerationCefr({ xp: 10000, lc: 0, gc: 0 })).toBe('C1');
-    expect(getGenerationCefr({ xp: 20000, lc: 0, gc: 0 })).toBe('C2');
+    expect(getGenerationCefr({ xp: 20000, lc: 0, gc: 0 })).toBe('C1');
   });
 
   it('floors at the stored placement level (never below what the user placed at)', () => {
@@ -27,17 +27,20 @@ describe('getGenerationCefr', () => {
   });
 
   it('takes the higher of placement and earned in both directions', () => {
-    localStorage.setItem('nh_level', 'C2');
-    // placement C2 beats an earned C1
-    expect(getGenerationCefr({ xp: 10000, lc: 0, gc: 0 })).toBe('C2');
+    localStorage.setItem('nh_level', 'B2');
+    // placement B2 beats an earned A1
+    expect(getGenerationCefr({ xp: 0, lc: 0, gc: 0 })).toBe('B2');
     localStorage.setItem('nh_level', 'A2');
-    // earned C2 beats an A2 placement
-    expect(getGenerationCefr({ xp: 20000, lc: 0, gc: 0 })).toBe('C2');
+    // earned C1 beats an A2 placement
+    expect(getGenerationCefr({ xp: 20000, lc: 0, gc: 0 })).toBe('C1');
+    // a stored C2 placement (retired 2026-11-18) reads as C1
+    localStorage.setItem('nh_level', 'C2');
+    expect(getGenerationCefr({ xp: 0, lc: 0, gc: 0 })).toBe('C1');
   });
 
   it('ignores an invalid placement value and falls back to earned', () => {
     localStorage.setItem('nh_level', 'not-a-level');
-    expect(getGenerationCefr({ xp: 20000, lc: 0, gc: 0 })).toBe('C2');
+    expect(getGenerationCefr({ xp: 20000, lc: 0, gc: 0 })).toBe('C1');
   });
 
   it('is case-insensitive about the stored placement', () => {
@@ -69,6 +72,6 @@ describe('getGenerationCefr', () => {
   it('reads the legacy `stats` profile key as well as `st`', () => {
     localStorage.setItem('uS', JSON.stringify({ u: 'test@nh.com' }));
     localStorage.setItem('uP_test@nh.com', JSON.stringify({ stats: { xp: 20000 } }));
-    expect(getGenerationCefr()).toBe('C2');
+    expect(getGenerationCefr()).toBe('C1');
   });
 });

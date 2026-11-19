@@ -41,19 +41,15 @@ test.describe('Me tab (Profile)', () => {
   });
 
   // ── 2. Me entry reflects the /profile route ───────────────────────────────
-  test('Me entry reflects the profile route (active on desktop, present on mobile)', async ({
+  test('the header avatar is the Me entry on every device, and no nav bar has a Me tab', async ({
     page,
   }) => {
-    const sidebarMe = page
-      .getByRole('navigation', { name: 'Main navigation' })
-      .getByRole('button', { name: 'Me', exact: true });
-    if (await sidebarMe.isVisible().catch(() => false)) {
-      // Desktop: Me lives in the Sidebar and carries the active class on /profile.
-      await expect(sidebarMe).toHaveClass(/active/);
-    } else {
-      // Mobile: Me moved to the AppHeader avatar (no bottom-bar active state).
-      await expect(page.getByTestId('header-profile')).toBeVisible();
-    }
+    await expect(page.getByTestId('header-profile')).toBeVisible();
+    await expect(
+      page
+        .getByRole('navigation', { name: 'Main navigation' })
+        .getByRole('button', { name: 'Me', exact: true }),
+    ).toHaveCount(0);
   });
 
   // ── 3. User name visible ─────────────────────────────────────────────────

@@ -48,7 +48,7 @@ export default function AspectQuestionPanel({
           <div style={{ fontSize: 15, fontWeight: 900, color: 'var(--info,#0284c7)' }}>
             {item.impf}
           </div>
-          <div style={{ fontSize: 10, color: 'var(--info,#0284c7)', fontWeight: 700 }}>
+          <div style={{ fontSize: 12, color: 'var(--info,#0284c7)', fontWeight: 700 }}>
             IMPERFECTIVE
           </div>
         </div>
@@ -57,7 +57,7 @@ export default function AspectQuestionPanel({
           <div style={{ fontSize: 15, fontWeight: 900, color: 'var(--success,#16a34a)' }}>
             {item.pf}
           </div>
-          <div style={{ fontSize: 10, color: 'var(--success,#16a34a)', fontWeight: 700 }}>
+          <div style={{ fontSize: 12, color: 'var(--success,#16a34a)', fontWeight: 700 }}>
             PERFECTIVE
           </div>
         </div>
@@ -80,7 +80,7 @@ export default function AspectQuestionPanel({
           {!answered && (
             <div
               style={{
-                fontSize: 11,
+                fontSize: 12,
                 color: 'var(--subtext)',
                 marginBottom: 12,
                 fontStyle: 'italic',
@@ -156,7 +156,7 @@ export default function AspectQuestionPanel({
           {!answered && (
             <div
               style={{
-                fontSize: 11,
+                fontSize: 12,
                 color: 'var(--subtext)',
                 marginBottom: 10,
                 fontStyle: 'italic',
@@ -237,7 +237,7 @@ export default function AspectQuestionPanel({
           {!answered && (
             <div
               style={{
-                fontSize: 11,
+                fontSize: 12,
                 color: 'var(--subtext)',
                 marginBottom: 10,
                 fontStyle: 'italic',
@@ -298,7 +298,7 @@ export default function AspectQuestionPanel({
           {!answered && (
             <div
               style={{
-                fontSize: 11,
+                fontSize: 12,
                 color: 'var(--subtext)',
                 marginBottom: 10,
                 fontStyle: 'italic',
@@ -351,7 +351,7 @@ export default function AspectQuestionPanel({
                   )}
                   {answered && opt.aspect === 'impf' && (
                     <span
-                      style={{ fontStyle: 'normal', fontWeight: 700, marginLeft: 6, fontSize: 11 }}
+                      style={{ fontStyle: 'normal', fontWeight: 700, marginLeft: 6, fontSize: 12 }}
                     >
                       ← imperfective
                     </span>
@@ -417,7 +417,7 @@ export default function AspectQuestionPanel({
         <div style={{ marginTop: 12 }}>
           <div
             style={{
-              fontSize: 10,
+              fontSize: 12,
               fontWeight: 700,
               color: 'var(--subtext)',
               textTransform: 'uppercase',

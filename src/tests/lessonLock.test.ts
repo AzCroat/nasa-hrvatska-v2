@@ -70,10 +70,16 @@ describe('openLessonIds — the pure rule', () => {
 describe('lockReasonFor — says what unlocks it, never what it teaches', () => {
   const open = openLessonIds(UNITS, new Set(), new Set(), 1);
   it('names the unit to pass for a later unit', () => {
-    expect(lockReasonFor(U2[0]!, UNITS, open, 1)).toBe('Opens after you pass Unit 1.');
+    // 2026-11-19: every lock also says test-out is open (owner: test out of any lesson at
+    // any time). Without owed-step context the sentence is still derived from the position.
+    expect(lockReasonFor(U2[0]!, UNITS, open, 1)).toBe(
+      'Opens after you pass Unit 1. You can test out of it any time.',
+    );
   });
   it('names the lesson before it for the same unit', () => {
-    expect(lockReasonFor(U1[3]!, UNITS, open, 1)).toBe('Opens after lesson 3 of this unit.');
+    expect(lockReasonFor(U1[3]!, UNITS, open, 1)).toBe(
+      'Finish lesson 3 of this unit to open lesson 4. You can test out of it any time.',
+    );
   });
   it('is null for an open lesson and for an id the spine does not know', () => {
     expect(lockReasonFor(U1[0]!, UNITS, open, 1)).toBeNull();
@@ -92,7 +98,9 @@ describe('from storage, with the real spine', () => {
     seed();
     expect(lessonLockReason(U1[0]!)).toBeNull();
     expect(lessonLockReason(U1[1]!)).not.toBeNull();
-    expect(lessonLockReason(U2[0]!)).toBe('Opens after you pass Unit 1.');
+    // Names the exact owed step (lesson 1 of Unit 1) and says test-out is open (2026-11-19).
+    expect(lessonLockReason(U2[0]!)).toMatch(/lesson 1 of Unit 1/);
+    expect(lessonLockReason(U2[0]!)).toMatch(/test out of it any time/);
     expect(readLockLookup()(SPINE[SPINE.length - 1]!.id)).not.toBeNull();
   });
 
@@ -127,7 +135,9 @@ describe('TEST-OUT SURVIVES THE LOCK (owner requirement, 2026-11-12)', () => {
     const src = readFileSync('src/lib/lessonLock.ts', 'utf8')
       .replace(/^\s*\/\/.*$/gm, '')
       .replace(/\/\*[\s\S]*?\*\//g, '');
-    expect(src).not.toMatch(/testout|testOut|lesson-test-out|recordUnitTest|markLessonComplete/);
+    // 2026-11-19: the module now owns the one-shot test-out HANDOFF KEY (requestLessonTestOut)
+    // so every door can start a test-out; it still never performs one or records progress.
+    expect(src).not.toMatch(/lesson-test-out|recordUnitTest|markLessonComplete/);
   });
 
   it('the lesson test-out is still offered on the intro of an open lesson', () => {
@@ -138,11 +148,15 @@ describe('TEST-OUT SURVIVES THE LOCK (owner requirement, 2026-11-12)', () => {
 
 describe('every door asks the lock', () => {
   const strip = (s: string) => s.replace(/^\s*\/\/.*$/gm, '').replace(/\/\*[\s\S]*?\*\//g, '');
-  it('launchAnimLesson refuses a locked lesson (the backstop)', () => {
+  // 2026-11-19 (owner: "test out of any lesson at any time"): the backstop no longer refuses,
+  // it routes a locked lesson to its test-out (AnimatedLesson then shows only the check).
+  it('launchAnimLesson routes a locked lesson to its test-out (the backstop)', () => {
     const src = strip(readFileSync('src/hooks/useScreenLauncher.ts', 'utf8'));
     const at = src.indexOf('const launchAnimLesson = useCallback(');
     expect(at).toBeGreaterThan(0);
-    expect(src.slice(at, at + 400)).toMatch(/if \(lessonLockReason\(lessonId\)\) return false;/);
+    expect(src.slice(at, at + 400)).toMatch(
+      /if \(lessonLockReason\(lessonId\)\) requestLessonTestOut\(lessonId\);/,
+    );
   });
   it.each([
     ['src/components/learn/LearningCenter.tsx', /readLockLookup/],

@@ -60,8 +60,8 @@ button,input,optgroup,select,textarea{
   --space-3xl: 32px;
 
   /* ── Type scale ──────────────────────────────────────── */
-  --text-xs:   10px;   /* labels, badges */
-  --text-sm:   12px;   /* captions, secondary */
+  --text-xs:   12px;   /* labels, badges */
+  --text-sm:   13px;   /* captions, secondary */
   --text-base: 14px;   /* body copy */
   --text-md:   15px;   /* emphasized body */
   --text-lg:   17px;   /* reading text */
@@ -2086,7 +2086,7 @@ img, video, canvas, .skeleton, [class*="anim-"], [style*="animation"] {
   /* Reduce hero heading on tiny screens */
   .hero-heading { font-size: var(--text-xl) !important; }
   /* Tab nav label size */
-  .nav-label { font-size: 9px !important; }
+  .nav-label { font-size: 12px !important; }
 }
 
 /* ── Top loading progress bar ────────────────────────────────── */
@@ -2812,8 +2812,9 @@ img, video, canvas, .skeleton, [class*="anim-"], [style*="animation"] {
   margin:0 -16px 16px;
 }
 
-/* ── App-wide top header (brand + Me avatar) — Phase 4. Mobile only; desktop
-   uses the Sidebar (which keeps profile access). Full-width sticky bar pulled
+/* ── App-wide top header (brand + Me avatar) — Phase 4. On desktop the Sidebar
+   carries the brand and exactly three tabs, so the header shrinks to the Me
+   avatar alone (2026-11-19: Profile lives in the header on every device). Full-width sticky bar pulled
    out of the .app-content padding; re-adds safe-area as its own top padding. */
 .app-header{
   display:flex; align-items:center; justify-content:space-between; gap:10px;
@@ -2828,7 +2829,6 @@ img, video, canvas, .skeleton, [class*="anim-"], [style*="animation"] {
   -webkit-backdrop-filter:saturate(180%) blur(20px);
   border-bottom:1px solid var(--card-b, rgba(0,0,0,.07));
 }
-@media (min-width:768px){ .app-header{ display:none; } }
 .app-header-brand{ display:flex; align-items:center; gap:8px; min-width:0; }
 .app-header-title{
   font-family:'Playfair Display',serif; font-weight:800; font-size:15px;
@@ -2840,6 +2840,14 @@ img, video, canvas, .skeleton, [class*="anim-"], [style*="animation"] {
   font-weight:800; font-size:14px; font-family:'Outfit',sans-serif;
   display:flex; align-items:center; justify-content:center;
   box-shadow:0 2px 8px rgba(14,116,144,.3);
+}
+@media (min-width:768px){
+  .app-header{
+    justify-content:flex-end; position:static; margin:0 0 8px; padding:12px 20px 0;
+    background:transparent; border-bottom:none;
+    backdrop-filter:none; -webkit-backdrop-filter:none;
+  }
+  .app-header-brand{ display:none; }
 }
 .screen-header__back{
   width:36px;height:36px;
@@ -2907,7 +2915,7 @@ img, video, canvas, .skeleton, [class*="anim-"], [style*="animation"] {
   display:none;
   align-items:center;gap:6px;
   flex-wrap:wrap;
-  font-size:11px;color:var(--subtext);
+  font-size: 12px;color:var(--subtext);
 }
 .kb-key{
   display:inline-flex;align-items:center;justify-content:center;
@@ -2916,7 +2924,7 @@ img, video, canvas, .skeleton, [class*="anim-"], [style*="animation"] {
   border:1.5px solid var(--card-b);
   border-bottom-width:3px;
   border-radius:4px;
-  font-size:11px;font-weight:700;font-family:monospace;
+  font-size: 12px;font-weight:700;font-family:monospace;
   color:var(--subtext);
 }
 /* Keyboard shortcut number rendered via CSS to avoid DOM text nodes (test isolation) */
@@ -2981,7 +2989,7 @@ img, video, canvas, .skeleton, [class*="anim-"], [style*="animation"] {
   letter-spacing: -0.01em !important;
 }
 .section-hdr-sub {
-  font-size: 11px !important;
+  font-size: 12px !important;
   color: var(--subtext) !important;
   font-weight: 500 !important;
   line-height: 1.4 !important;
@@ -3051,7 +3059,7 @@ img, video, canvas, .skeleton, [class*="anim-"], [style*="animation"] {
   font-family: var(--font-sans);
 }
 .exercise-card-desc {
-  font-size: 11px;
+  font-size: 12px;
   color: var(--subtext);
   margin-top: 2px;
   line-height: 1.3;
@@ -3067,7 +3075,7 @@ img, video, canvas, .skeleton, [class*="anim-"], [style*="animation"] {
   position: absolute;
   top: 5px;
   right: 7px;
-  font-size: 9px;
+  font-size: 12px;
   font-weight: 900;
   color: var(--info);
   background: var(--card);
@@ -3114,7 +3122,7 @@ img, video, canvas, .skeleton, [class*="anim-"], [style*="animation"] {
   font-family: 'Playfair Display', serif;
 }
 .cat-tile-count {
-  font-size: 11px;
+  font-size: 12px;
   margin-top: 2px;
   font-family: var(--font-sans);
   font-weight: 500;
@@ -3167,7 +3175,7 @@ img, video, canvas, .skeleton, [class*="anim-"], [style*="animation"] {
 }
 .pc-icon { font-size: 28px; margin-bottom: 4px; }
 .pc-label { font-size: 13px; font-weight: 800; color: #fff; line-height: 1.2; }
-.pc-desc  { font-size: 10px; color: rgba(255,255,255,.65); margin-top: 2px; font-weight: 600; }
+.pc-desc  { font-size: 12px; color: rgba(255,255,255,.65); margin-top: 2px; font-weight: 600; }
 
 /* ── Vocab quick-access pill ─────────────────────────────── */
 .vocab-pill {
@@ -3198,7 +3206,7 @@ img, video, canvas, .skeleton, [class*="anim-"], [style*="animation"] {
   white-space: nowrap;
 }
 .vocab-pill-count {
-  font-size: 10px;
+  font-size: 12px;
   color: var(--subtext);
   white-space: nowrap;
   font-weight: 500;
@@ -3246,7 +3254,7 @@ img, video, canvas, .skeleton, [class*="anim-"], [style*="animation"] {
   font-family: 'Playfair Display', serif;
 }
 .feature-card-desc {
-  font-size: 11px;
+  font-size: 12px;
   margin-top: 2px;
   line-height: 1.4;
   opacity: .85;
@@ -3270,7 +3278,7 @@ img, video, canvas, .skeleton, [class*="anim-"], [style*="animation"] {
   font-size: 13px;
 }
 .feature-card--col .feature-card-desc {
-  font-size: 11px;
+  font-size: 12px;
 }
 
 /* ── PathProgress hero card ─────────────────────────────── */
@@ -3307,7 +3315,7 @@ img, video, canvas, .skeleton, [class*="anim-"], [style*="animation"] {
   pointer-events: none;
 }
 .progress-hero-eyebrow {
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 800;
   color: rgba(255,255,255,.75);
   letter-spacing: .14em;
@@ -3376,7 +3384,7 @@ img, video, canvas, .skeleton, [class*="anim-"], [style*="animation"] {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 900;
   transition: background .3s, border .3s, transform .2s;
 }
@@ -3401,7 +3409,7 @@ img, video, canvas, .skeleton, [class*="anim-"], [style*="animation"] {
   background: rgba(255,255,255,.1);
   display: flex;
   align-items: center;
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 700;
   color: rgba(255,255,255,.6);
 }
@@ -3576,7 +3584,7 @@ img, video, canvas, .skeleton, [class*="anim-"], [style*="animation"] {
   border: 1.5px solid var(--card-b);
 }
 .quest-tile-icon { font-size: 17px; }
-.quest-tile-label { font-size: 10px; font-weight: 700; font-family: var(--font-sans); }
+.quest-tile-label { font-size: 12px; font-weight: 700; font-family: var(--font-sans); }
 .quest-tile--done .quest-tile-label { color: var(--ink-green); }
 .quest-tile--pending .quest-tile-label { color: var(--subtext); }
 
@@ -3785,12 +3793,12 @@ body {
 /* ── Responsive text — prevent tiny text on narrow phones ── */
 @media (max-width: 360px) {
   :root {
-    --text-xs:   9px;
-    --text-sm:   11px;
+    --text-xs:   12px;
+    --text-sm:   12px;
     --text-base: 13px;
   }
   .nav-label {
-    font-size: 10px !important;
+    font-size: 12px !important;
   }
 }
 
@@ -3893,7 +3901,7 @@ body {
   box-shadow: 0 0 0 1.5px rgba(255, 255, 255, .6), 0 0 0 3px rgba(185, 148, 62, .45), 0 6px 20px rgba(0, 0, 0, .18);
 }
 .cp-crest > i { display: block }
-.cp-eyebrow { font-size: 10px; font-weight: 900; letter-spacing: .16em; color: var(--ink-accent); margin-bottom: 8px }
+.cp-eyebrow { font-size: 12px; font-weight: 900; letter-spacing: .16em; color: var(--ink-accent); margin-bottom: 8px }
 .cp-title { font-family: 'Playfair Display', serif; font-size: 26px; font-weight: 800; color: var(--heading); line-height: 1.15; margin-bottom: 4px }
 .cp-subtitle { font-size: 13px; color: var(--subtext); margin-bottom: 14px }
 .cp-lede { font-size: 14px; line-height: 1.6; color: var(--subtext); margin-bottom: 16px }
@@ -3903,7 +3911,7 @@ body {
   content: '✓'; position: absolute; left: 0; top: 0;
   width: 19px; height: 19px; border-radius: 50%;
   background: var(--info-bg); color: var(--ink-accent);
-  font-size: 11px; font-weight: 900;
+  font-size: 12px; font-weight: 900;
   display: flex; align-items: center; justify-content: center;
 }
 .cp-cta { width: 100%; margin-bottom: 6px }
@@ -3927,7 +3935,7 @@ body {
 .exam-close:hover { color: var(--heading) }
 .exam-progress-wrap { flex: 1 }
 .exam-progress-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 7px }
-.exam-progress-meta .eyebrow { font-size: 10px; font-weight: 900; letter-spacing: .16em; color: var(--subtext); text-transform: uppercase }
+.exam-progress-meta .eyebrow { font-size: 12px; font-weight: 900; letter-spacing: .16em; color: var(--subtext); text-transform: uppercase }
 .exam-progress-meta .count { font-size: 13px; font-weight: 800; color: var(--heading); font-variant-numeric: tabular-nums }
 .exam-bar { height: 6px; border-radius: 99px; background: var(--bar-bg); overflow: hidden }
 .exam-bar > i { display: block; height: 100%; border-radius: 99px; background: linear-gradient(90deg, #0e7490, #164e63); transition: width .4s ease }
@@ -3936,7 +3944,7 @@ body {
 .exam-cta { padding: 14px 20px 22px; padding-bottom: max(22px, env(safe-area-inset-bottom)) }
 .exam-cta .b { width: 100% }
 
-.q-skill { display: inline-flex; align-items: center; gap: 6px; padding: 5px 12px; border-radius: 9999px; font-size: 11px; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; background: var(--info-bg); color: var(--ink-navy); border: 1px solid var(--info-b); margin: 14px 0 0 }
+.q-skill { display: inline-flex; align-items: center; gap: 6px; padding: 5px 12px; border-radius: 9999px; font-size: 12px; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; background: var(--info-bg); color: var(--ink-navy); border: 1px solid var(--info-b); margin: 14px 0 0 }
 .q-skill.violet { background: #f5f3ff; color: #6d28d9; border-color: #ddd6fe }
 .q-passage { background: var(--card); border: 1px solid var(--card-b); border-left: 4px solid #002868; border-radius: 16px; padding: 16px 18px; font-size: 15px; line-height: 1.65; color: var(--heading); margin: 14px 0 18px }
 .q-stem { font-size: 19px; font-weight: 800; color: var(--heading); line-height: 1.35; margin: 14px 0 18px }
@@ -3962,7 +3970,7 @@ body {
 .cp-lvl-chip { padding: 6px 16px; border-radius: 9999px; font-weight: 900; font-size: 15px }
 .cp-lvl-chip.from { background: var(--bar-bg); color: var(--subtext) }
 .cp-lvl-chip.to { background: #002868; color: #fff }
-.cp-result-lab { font-size: 10px; font-weight: 900; letter-spacing: .16em; text-transform: uppercase; color: var(--subtext); margin-bottom: 10px }
+.cp-result-lab { font-size: 12px; font-weight: 900; letter-spacing: .16em; text-transform: uppercase; color: var(--subtext); margin-bottom: 10px }
 .cp-result-list { list-style: none; padding: 0; margin: 0 0 20px; display: flex; flex-wrap: wrap; gap: 8px; justify-content: center }
 .cp-result-list li { background: var(--card); border: 1px solid var(--card-b); border-radius: 9999px; padding: 6px 14px; font-size: 13px; font-weight: 700; color: var(--heading) }
 

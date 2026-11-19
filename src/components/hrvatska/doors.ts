@@ -406,7 +406,7 @@ export const DOOR_ITEMS: DoorItem[] = [
     doorId: 'povijest',
     icon: '🌊',
     title: 'Immersion Hub',
-    sub: 'A1 → C2 pathway',
+    sub: 'A1 → C1 pathway',
     color: '#0e7490',
   },
 

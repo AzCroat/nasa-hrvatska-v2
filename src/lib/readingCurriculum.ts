@@ -48,7 +48,7 @@ const BUCKET_BADGE: Record<string, string> = {
   advanced: 'B1-B2',
   b2: 'B2',
   c1: 'C1',
-  c2: 'C2',
+  c2: 'C1', // the former C2 reader texts are C1 since 2026-11-18
 };
 
 // Which reader buckets make up each CEFR level's path, in reading order.
@@ -57,11 +57,10 @@ const LEVEL_BUCKETS: Record<string, string[]> = {
   A2: ['beginner', 'a2'], // dedicated A2 texts follow the shared beginner base
   B1: ['intermediate', 'advanced'],
   B2: ['advanced', 'b2'],
-  C1: ['c1'],
-  C2: ['c1', 'c2'], // mastery texts follow the C1 base
+  C1: ['c1', 'c2'], // the former C2 texts follow the C1 base (the course ends at C1 since 2026-11-18)
 };
 
-const VALID_LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
+const VALID_LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1'];
 
 /**
  * The stats.vs key a passage maps to. Must stay byte-identical to the key
@@ -72,7 +71,8 @@ export function readingKeyFor(title: string): string {
 }
 
 function normLevel(level: string | null | undefined): string {
-  return level && VALID_LEVELS.includes(level) ? level : 'A1';
+  const lv = level === 'C2' ? 'C1' : level; // a stored C2 (retired 2026-11-18) reads as C1
+  return lv && VALID_LEVELS.includes(lv) ? lv : 'A1';
 }
 
 /** All reading units that make up the path at a given CEFR level, in order. */

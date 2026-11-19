@@ -298,7 +298,7 @@ export default function GrammarDiagnosisScreen({
               >
                 <span>{chip.icon}</span>
                 <span>{chip.label}</span>
-                {chip.active && <span style={{ fontSize: 11 }}>✓</span>}
+                {chip.active && <span style={{ fontSize: 12 }}>✓</span>}
               </div>
             ))}
           </div>
@@ -541,7 +541,7 @@ export default function GrammarDiagnosisScreen({
                     borderRadius: 6,
                     background: accentFill(sev.color),
                     color: '#fff',
-                    fontSize: 10,
+                    fontSize: 12,
                     fontWeight: 800,
                     letterSpacing: 0.5,
                   }}
@@ -611,7 +611,7 @@ export default function GrammarDiagnosisScreen({
                         <div style={{ marginBottom: 20 }}>
                           <div
                             style={{
-                              fontSize: 11,
+                              fontSize: 12,
                               fontWeight: 700,
                               color: 'var(--subtext)',
                               letterSpacing: 0.5,
@@ -635,7 +635,7 @@ export default function GrammarDiagnosisScreen({
                             >
                               <div
                                 style={{
-                                  fontSize: 11,
+                                  fontSize: 12,
                                   fontWeight: 700,
                                   color: 'var(--ink-error)',
                                   marginBottom: 6,
@@ -674,7 +674,7 @@ export default function GrammarDiagnosisScreen({
                             >
                               <div
                                 style={{
-                                  fontSize: 11,
+                                  fontSize: 12,
                                   fontWeight: 700,
                                   color: 'var(--ink-green)',
                                   marginBottom: 6,
@@ -710,7 +710,7 @@ export default function GrammarDiagnosisScreen({
                     <div>
                       <div
                         style={{
-                          fontSize: 11,
+                          fontSize: 12,
                           fontWeight: 700,
                           color: 'var(--subtext)',
                           letterSpacing: 0.5,
@@ -806,7 +806,7 @@ export default function GrammarDiagnosisScreen({
                                           display: 'flex',
                                           alignItems: 'center',
                                           justifyContent: 'center',
-                                          fontSize: 11,
+                                          fontSize: 12,
                                           fontWeight: 800,
                                           color:
                                             answered && (isCorrect || (isChosen && !isCorrect))

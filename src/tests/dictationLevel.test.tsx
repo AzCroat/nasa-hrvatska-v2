@@ -37,7 +37,7 @@ vi.mock('../lib/apiFetch.js', () => ({ apiFetch: vi.fn() }));
 vi.mock('../lib/adaptive.js', () => ({ recordTopicResult: vi.fn() }));
 vi.mock('../lib/quests.js', () => ({ markQuest: vi.fn() }));
 
-const ORDER = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'] as const;
+const ORDER = ['A1', 'A2', 'B1', 'B2', 'C1'] as const;
 const rank = (l: string) => ORDER.indexOf(l as (typeof ORDER)[number]);
 
 function makeCtx(xp = 0) {
@@ -119,9 +119,13 @@ describe('the bank is levelled — the precondition, and the size of the defect'
 });
 
 describe('_levelledDictation', () => {
-  it('A1 keeps only A1; C2 keeps the whole bank', () => {
+  it('A1 keeps only A1; C1 (the top level) keeps the whole bank', () => {
     expect(_levelledDictation(DICTATION_DATA, 'A1').every((q) => q.level === 'A1')).toBe(true);
-    expect(_levelledDictation(DICTATION_DATA, 'C2')).toHaveLength(DICTATION_DATA.length);
+    expect(_levelledDictation(DICTATION_DATA, 'C1')).toHaveLength(DICTATION_DATA.length);
+    expect(
+      DICTATION_DATA.some((q) => (q.level as string) === 'C2'),
+      'nothing is tagged C2',
+    ).toBe(false);
   });
 
   it('every level gets a full ten-sentence round, so the fallback is not load-bearing', () => {
@@ -180,14 +184,14 @@ describe('the screen applies it (wiring, not just the helper)', () => {
     expect(lv.some((l) => rank(l) > 0)).toBe(true);
   });
 
-  it('at C2 nothing is withheld', async () => {
-    await expect(servedLevels('C2')).resolves.toHaveLength(10);
-    expect(_levelledDictation(DICTATION_DATA, 'C2').map((q) => q.level)).toContain('C2');
+  it('at C1 (the top level) nothing is withheld', async () => {
+    await expect(servedLevels('C1')).resolves.toHaveLength(10);
+    expect(_levelledDictation(DICTATION_DATA, 'C1').map((q) => q.level)).toContain('C1');
   });
 });
 
 describe('the badge can name every level the bank holds', () => {
-  it('C1 and C2 have a color, not an undefined one', async () => {
+  it('every level has a color, not an undefined one (C1 is the top)', async () => {
     const src = await import('node:fs').then((fs) =>
       fs.readFileSync('src/components/practice/DictationScreen.tsx', 'utf8'),
     );

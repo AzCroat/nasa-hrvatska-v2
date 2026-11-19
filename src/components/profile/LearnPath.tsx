@@ -330,7 +330,7 @@ export default function LearnPath({
             >
               {pathMissing ? '—' : `${pct}%`}
             </div>
-            <div style={{ fontSize: 9, color: 'var(--ink-muted)', fontWeight: 600 }}>done</div>
+            <div style={{ fontSize: 12, color: 'var(--ink-muted)', fontWeight: 600 }}>done</div>
           </div>
         </div>
 
@@ -378,7 +378,7 @@ export default function LearnPath({
           <div style={{ textAlign: 'left' }}>
             <div
               style={{
-                fontSize: 11,
+                fontSize: 12,
                 color: 'rgba(255,255,255,.75)',
                 fontWeight: 700,
                 textTransform: 'uppercase',
@@ -454,7 +454,7 @@ export default function LearnPath({
                 <div style={{ flex: 1, minWidth: 0 }}>
                   <div
                     style={{
-                      fontSize: 11,
+                      fontSize: 12,
                       color: 'rgba(255,255,255,.7)',
                       fontWeight: 700,
                       textTransform: 'uppercase',
@@ -630,7 +630,7 @@ export default function LearnPath({
                                     display: 'flex',
                                     alignItems: 'center',
                                     justifyContent: 'center',
-                                    fontSize: 9,
+                                    fontSize: 12,
                                     fontWeight: 900,
                                     color: '#fff',
                                     zIndex: 3,
@@ -661,7 +661,7 @@ export default function LearnPath({
                             {isActive && (
                               <div
                                 style={{
-                                  fontSize: 10,
+                                  fontSize: 12,
                                   fontWeight: 800,
                                   textTransform: 'uppercase',
                                   letterSpacing: '.08em',
@@ -691,7 +691,7 @@ export default function LearnPath({
                             {isActive && (
                               <div
                                 style={{
-                                  fontSize: 11,
+                                  fontSize: 12,
                                   color: 'var(--ink-accent)',
                                   fontWeight: 700,
                                   marginTop: 3,
@@ -716,7 +716,7 @@ export default function LearnPath({
                                   border: 'none',
                                   borderRadius: 20,
                                   color: '#fff',
-                                  fontSize: 10,
+                                  fontSize: 12,
                                   fontWeight: 800,
                                   padding: '3px 10px',
                                   cursor: 'pointer',
@@ -797,7 +797,7 @@ export default function LearnPath({
                   </div>
                   <div
                     style={{
-                      fontSize: 11,
+                      fontSize: 12,
                       color: passedCheckpoints.has(li)
                         ? 'var(--ink-green)'
                         : 'var(--ink-muted-warm)',

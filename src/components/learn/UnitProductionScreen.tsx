@@ -37,7 +37,7 @@ import {
 import { recordMasteryEvent } from '../../lib/masteryLedger';
 import { applyWritingErrorsToAdaptive } from '../../lib/adaptiveFeedback';
 import { requestSpeakingCoach } from '../../lib/speakingCoach';
-import { readCurriculumSpine } from '../../lib/curriculumProgress';
+import { useCurriculumSpine } from '../../hooks/useCurriculumSpine';
 import { buildCourseUnits, type CourseUnit } from '../../lib/courseUnits';
 import { COURSE_UNIT_TITLES } from '../../data/courseUnitTitles';
 import { recordUnitProduction, markProductionUnavailable } from '../../lib/courseUnitProgress';
@@ -54,7 +54,6 @@ import {
   type ProductionKind,
 } from '../../lib/unitProduction';
 import type { CefrLevel } from '../../lib/cefr';
-import type { CurriculumEntry } from '../../lib/curriculum';
 import { canDoFor } from '../../data/courseUnitCanDo';
 import { heardCroatian } from '../../lib/heardCroatian';
 import { recognizerErrorMessage } from '../../lib/recognizerError';
@@ -77,7 +76,7 @@ interface Change {
 
 export default function UnitProductionScreen({ goBack, award }: Props) {
   const req = useMemo(() => readUnitProductionRequest(), []);
-  const spine = useMemo<CurriculumEntry[]>(() => readCurriculumSpine(), []);
+  const { spine } = useCurriculumSpine();
   const units = useMemo(() => buildCourseUnits(spine, COURSE_UNIT_TITLES), [spine]);
   const unit: CourseUnit | null = req ? (units.find((u) => u.id === req.unitId) ?? null) : null;
   const kind: ProductionKind = req?.kind ?? 'write';
@@ -360,7 +359,7 @@ export default function UnitProductionScreen({ goBack, award }: Props) {
       <div
         data-testid="unit-production-count"
         style={{
-          fontSize: 11.5,
+          fontSize: 12,
           color: enough ? 'var(--ink-green)' : 'var(--subtext)',
           fontWeight: 700,
           margin: '6px 2px 12px',

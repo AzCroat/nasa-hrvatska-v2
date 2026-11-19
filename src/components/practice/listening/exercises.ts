@@ -2964,16 +2964,6 @@ export const EXERCISES = {
           },
         ],
       },
-    ],
-  },
-  C2: {
-    label: 'C2 — Mastery',
-    color: '#9d174d',
-    headerBg: 'linear-gradient(135deg,#9d174d,#831843)',
-    bg: 'var(--grad-rose)',
-    border: '#fbcfe8',
-    desc: 'Native-speed rhetoric — irony, abstraction and the literary register',
-    sets: [
       {
         title: 'Abstraction & Rhetoric',
         icon: '🧠',

@@ -223,7 +223,7 @@ export function ScenePicker({
         <div>
           <div
             style={{
-              fontSize: 11,
+              fontSize: 12,
               opacity: 0.65,
               fontWeight: 600,
               marginBottom: 2,
@@ -286,7 +286,7 @@ export function ScenePicker({
                     color: 'white',
                     borderRadius: 20,
                     padding: '2px 8px',
-                    fontSize: 10,
+                    fontSize: 12,
                     fontWeight: 800,
                   }}
                 >
@@ -299,12 +299,12 @@ export function ScenePicker({
               >
                 {scene.title}
               </div>
-              <div style={{ fontSize: 11, color: 'var(--ink-muted-warm)', marginBottom: 10 }}>
+              <div style={{ fontSize: 12, color: 'var(--ink-muted-warm)', marginBottom: 10 }}>
                 {scene.titleEn}
               </div>
               <div
                 style={{
-                  fontSize: 11,
+                  fontSize: 12,
                   color: accentInk(scene.color),
                   fontWeight: 700,
                   marginBottom: 6,
@@ -401,7 +401,7 @@ export function ItemButton({
         <span style={{ fontSize: 20, lineHeight: 1 }}>{item.icon}</span>
         <span
           style={{
-            fontSize: 8,
+            fontSize: 12,
             fontWeight: 700,
             color: 'var(--ink-ink)',
             lineHeight: 1,
@@ -548,7 +548,7 @@ export function ItemPopup({
               border: `1.5px solid ${scene.color}44`,
               borderRadius: 20,
               padding: '3px 10px',
-              fontSize: 11,
+              fontSize: 12,
               fontWeight: 800,
             }}
           >

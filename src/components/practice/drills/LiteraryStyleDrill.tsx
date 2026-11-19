@@ -24,7 +24,7 @@ export default function LiteraryStyleDrill({ goBack, award }: Props) {
       modeLabels={LITERARY_STYLE_MODE_LABELS}
       data={LITERARY_STYLE_DRILL_DATA}
       praise={{
-        perfect: 'Savršeno — to je razina C2! 🏆',
+        perfect: 'Savršeno — to je razina C1! 🏆',
         good: 'Vrlo dobro! 💪',
         more: 'Još malo vježbe.',
       }}

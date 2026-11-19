@@ -38,7 +38,6 @@ const LEVEL_STYLE = {
   B1: { levelColor: '#92400e', levelBg: '#fef3c7' },
   B2: { levelColor: '#6b21a8', levelBg: '#f3e8ff' },
   C1: { levelColor: '#b91c1c', levelBg: '#fee2e2' },
-  C2: { levelColor: '#0f172a', levelBg: '#f1f5f9' },
 };
 
 // ─── Map READ library to GrammarReader format ─────────────────────────────────
@@ -453,7 +452,7 @@ function Tag({ label, sub, color }: { label: string; sub: string; color: string 
       }}
     >
       <span style={{ fontSize: 'var(--text-xs)', fontWeight: 900, color }}>{label}</span>
-      <span style={{ fontSize: 10, color: 'var(--subtext)', marginTop: 1 }}>{sub}</span>
+      <span style={{ fontSize: 12, color: 'var(--subtext)', marginTop: 1 }}>{sub}</span>
     </div>
   );
 }
@@ -678,7 +677,7 @@ function TextPicker({ onSelect, goBack }: { onSelect: (t: TextItem) => void; goB
                 </span>
                 <span
                   style={{
-                    fontSize: 10,
+                    fontSize: 12,
                     fontWeight: 800,
                     color: t.levelColor,
                     background: t.levelBg,

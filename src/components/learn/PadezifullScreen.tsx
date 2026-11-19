@@ -203,7 +203,7 @@ export default function PadezifullScreen({
                           <td
                             style={{
                               padding: '8px 10px',
-                              fontSize: 11,
+                              fontSize: 12,
                               color: 'var(--ink-muted-warm)',
                               width: '25%',
                             }}

@@ -126,7 +126,7 @@ function AcquisitionRow({ q, title }: { q: LessonQuality; title: string }) {
       >
         {title}
       </div>
-      <div style={{ fontSize: 11, color: 'var(--subtext)', marginTop: 2 }}>
+      <div style={{ fontSize: 12, color: 'var(--subtext)', marginTop: 2 }}>
         First reading {first.score}/{first.total}
         {q.passedOnAttempt ? ` · passed on attempt ${q.passedOnAttempt}` : ' · not passed yet'}
         {q.firstAttemptMissed.length > 0 &&

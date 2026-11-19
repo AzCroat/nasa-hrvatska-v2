@@ -105,7 +105,7 @@ function QuizBlock({
             {ans && (
               <div
                 style={{
-                  fontSize: 11,
+                  fontSize: 12,
                   lineHeight: 1.5,
                   marginTop: 4,
                   padding: '6px 10px',

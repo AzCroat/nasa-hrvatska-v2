@@ -37,7 +37,7 @@ import { recordMasteryEvent, MIN_SAMPLES } from '../lib/masteryLedger';
 import { markLessonComplete, readCompletedLessons } from '../lib/curriculumProgress';
 import { readCourseState } from '../lib/courseStep';
 import { readCourseAhead } from '../lib/courseGate';
-import { LESSON_TAUGHT_CATEGORY } from '../lib/teachPractice';
+import { LESSON_TAUGHT_CATEGORY, recordScreenPractised } from '../lib/teachPractice';
 import { CATEGORY_SCREEN_MAP, CATEGORY_EASIER_SCREEN, SCREEN_CEFR } from '../lib/categoryRoutes';
 import { isUnlocked } from '../lib/cefr';
 import { localDateStr } from '../lib/dateUtils';
@@ -114,11 +114,11 @@ beforeEach(() => {
 });
 
 describe('the order (owner, 2026-09-29)', () => {
-  it('a failed check leads, then due review, then shaky, then passed-not-retained, then words, then measured skills', () => {
+  it('a failed check leads, then due review, then shaky, then words, then measured skills — and a passed lesson is NOT served early', () => {
     seedCourseAt(2);
     const unit = readCourseState().units.find((u) => u.index === 2)!;
     const [l0, l1, l2] = unit.lessons;
-    // Tier 4: passed, not re-checked (due in the future).
+    // Passed, not yet due for its check-up: must NOT come back today (owner, 2026-11-19).
     readAndPass(l0!.id, TODAY);
     // Tier 3: shaky.
     makeShaky(l1!.id);
@@ -138,12 +138,12 @@ describe('the order (owner, 2026-09-29)', () => {
     const passed = idx((a) => a.id === `keep_drill_${l0!.id}`);
     const words = idx((a) => a.screen === 'review');
     const speak = idx((a) => a.id === 'keep_weak_speak');
-    for (const [name, i] of Object.entries({ failed, shaky, passed, words, speak })) {
+    for (const [name, i] of Object.entries({ failed, shaky, words, speak })) {
       expect(i, `${name} is a candidate`).toBeGreaterThanOrEqual(0);
     }
+    expect(passed, 'a lesson passed today is not re-served before its check-up is due').toBe(-1);
     expect(failed).toBeLessThan(shaky);
-    expect(shaky).toBeLessThan(passed);
-    expect(passed).toBeLessThan(words);
+    expect(shaky).toBeLessThan(words);
     expect(words).toBeLessThan(speak);
     // Tier 7 appears only when nothing above remains.
     expect(cands.some((c) => c.tier === 7)).toBe(false);
@@ -204,7 +204,9 @@ describe('nothing before the cases (owner, 2026-11-13)', () => {
   it('a learner whose open lessons teach no case gets word practice, not sentence building', () => {
     seedCourseAt(1);
     const cands = gatherKeepCandidates('A1', { activities: [] }, 3, deps());
-    const screens = cands.map((c) => c.activity.screen);
+    // 2026-11-19: the course's next lesson (tier 3.5) now precedes the word practice;
+    // what this test pins is the tier-7 floor, so it reads that tier.
+    const screens = cands.filter((c) => c.tier === 7).map((c) => c.activity.screen);
     expect(screens).toEqual(['flashcards', 'mcgame']);
     expect(screens).not.toContain('speaking_guided');
     expect(screens).not.toContain('writing_guided');
@@ -231,7 +233,9 @@ describe('never an untaught lesson, never a new lesson, never a closed check', (
       1,
       gatherKeepCandidates('A1', { activities: [] }, 1, deps({ dueReviews: 5 })),
     );
-    expect(block.some(isLesson)).toBe(false);
+    // (2026-11-19: the lesson step is withheld while its check is closed — the
+    // corrective day serves it tomorrow — though other lessons may now be offered.)
+    expect(block.some((a) => a.id === `curriculum_${lesson.id}`)).toBe(false);
     // Its missed items are not due until tomorrow, which is what the lock promises.
     expect(block.some((a) => a.screen === 'lessonreview')).toBe(false);
   });
@@ -286,6 +290,66 @@ describe('never an untaught lesson, never a new lesson, never a closed check', (
       });
     }
   }
+});
+
+describe('the course moves a learner forward (owner, 2026-11-19, reverses 2026-09-29)', () => {
+  const REVIEW_TIERS_BELOW = [1, 2, 3];
+  it('a learner with nothing failed is served the next lesson ahead of old passed-concept drills', () => {
+    seedCourseAt(1);
+    const unit = readCourseState().units.find((u) => u.index === 1)!;
+    readAndPass(unit.lessons[0]!.id);
+    const cands = gatherKeepCandidates('A1', { activities: [] }, 1, deps());
+    const course = cands.find((c) => c.tier === 3.5)!;
+    expect(course.activity.id).toBe(`curriculum_${unit.lessons[1]!.id}`);
+    expect(course.activity.screen).toBe('animlesson');
+    const firstPassed = cands.findIndex((c) => c.tier === 4);
+    if (firstPassed >= 0) expect(cands.indexOf(course)).toBeLessThan(firstPassed);
+    expect(
+      REVIEW_TIERS_BELOW.every(
+        (t) => cands.findIndex((c) => c.tier === t) <= cands.indexOf(course),
+      ),
+    ).toBe(true);
+  });
+
+  it('with the unit passed it is served the next unit’s lesson, then the unit test as a recommendation', () => {
+    seedCourseAt(1);
+    const unit = readCourseState().units.find((u) => u.index === 1)!;
+    unit.lessons.forEach((l) => readAndPass(l.id));
+    const cands = gatherKeepCandidates('A1', { activities: [] }, 1, deps());
+    const course = cands.filter((c) => c.tier === 3.5);
+    // 2026-11-19 (owner: five of five passed opens the next unit): the next lesson is the
+    // step, and the unit test follows as a recommendation — never a gate, never first.
+    expect(course[0]!.activity.screen).toBe('animlesson');
+    const test = course.find((c) => c.activity.id === `course_unit_test_${unit.id}`)!;
+    expect(test.activity.screen).toBe('unittest');
+  });
+
+  it('a lesson already in today’s plan is not listed twice', () => {
+    seedCourseAt(1);
+    const unit = readCourseState().units.find((u) => u.index === 1)!;
+    readAndPass(unit.lessons[0]!.id);
+    const id = `curriculum_${unit.lessons[1]!.id}`;
+    const cands = gatherKeepCandidates('A1', { activities: [act_(id, 'animlesson')] }, 1, deps());
+    expect(cands.some((c) => c.activity.id === id)).toBe(false);
+  });
+});
+
+describe('a passed lesson does not come back early (owner, 2026-11-19)', () => {
+  it('a lesson passed today is not served as a drill, before or after practising it', () => {
+    seedCourseAt(2);
+    const lesson = readCourseState()
+      .units.find((u) => u.index === 1)!
+      .lessons.find((l) => LESSON_TAUGHT_CATEGORY[l.id])!;
+    readAndPass(lesson.id, TODAY);
+    const id = `keep_drill_${lesson.id}`;
+    const has = () =>
+      gatherKeepCandidates('A1', { activities: [] }, 1, deps()).some((c) => c.activity.id === id);
+    expect(has()).toBe(false);
+    const cat = LESSON_TAUGHT_CATEGORY[lesson.id]!;
+    const screen = CATEGORY_SCREEN_MAP[cat] || CATEGORY_EASIER_SCREEN[cat]!;
+    recordScreenPractised(screen);
+    expect(has()).toBe(false);
+  });
 });
 
 describe('a repeated screen is credited to the activity that was launched', () => {
@@ -403,14 +467,15 @@ describe('the progress line counts what the flow draws from', () => {
     const unit = readCourseState().units[0]!;
     readAndPass(unit.lessons[0]!.id, TODAY);
     makeShaky(unit.lessons[1]!.id);
-    expect(keepProgress()).toEqual({ unitIndex: 1, line: '2 concepts still to prove in Unit 1' });
+    // The passed lesson waits for its check-up; only the shaky one is still to prove.
+    expect(keepProgress()).toEqual({ unitIndex: 1, line: '1 concept still to prove in Unit 1' });
   });
 
-  it('counts a passed unit whose check-ups have not held it', () => {
+  it('does not count a passed unit as still to prove — it waits for its check-up', () => {
     seedCourseAt(2);
     const p = keepProgress();
     expect(p.unitIndex).toBe(2);
-    expect(p.line).toMatch(/^5 concepts from earlier units still to prove$/);
+    expect(p.line).toBe('Everything taught so far is proven · Unit 2');
   });
 
   it('says everything is proven when nothing is taught and unproven', () => {

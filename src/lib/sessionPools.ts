@@ -372,7 +372,7 @@ export const CEFR_EXERCISE_POOL: CefrPoolEntry[] = [
     screen: 'listening_comprehension',
     cefr: 'A1',
     category: 'listening',
-    adaptive: true, // graded-story audio bank spans A1-C2 per level
+    adaptive: true, // graded-story audio bank spans A1-C1 per level
   },
   {
     id: 'aiListening',
@@ -429,7 +429,7 @@ export const CEFR_EXERCISE_POOL: CefrPoolEntry[] = [
   // recognition, administrative nominal style, and comma rules.
   {
     id: 'c2drill',
-    label: 'C2 Structure',
+    label: 'Advanced Structure',
     screen: 'c2drill',
     cefr: 'C1',
     category: 'nominalization',
@@ -604,7 +604,7 @@ export const CEFR_EXERCISE_POOL: CefrPoolEntry[] = [
     screen: 'graded_input',
     cefr: 'A1',
     category: 'reading',
-    adaptive: true, // list opens at the learner's level; catalog spans A1–C2
+    adaptive: true, // list opens at the learner's level; catalog spans A1–C1
   },
   // AI story: one bounded personalized story (A2–B1 prompt), single quota-gated
   // /api/maja call per story, explicit Done award. Same cost posture as

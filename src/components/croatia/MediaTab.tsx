@@ -194,7 +194,7 @@ function CarouselCard({
               right: 6,
               background: 'rgba(0,0,0,.45)',
               color: '#fff',
-              fontSize: 8,
+              fontSize: 12,
               fontWeight: 900,
               padding: '1px 5px',
               borderRadius: 4,
@@ -211,7 +211,7 @@ function CarouselCard({
               left: 5,
               background: 'rgba(212,0,48,.85)',
               color: '#fff',
-              fontSize: 7,
+              fontSize: 12,
               fontWeight: 900,
               padding: '1px 5px',
               borderRadius: 3,
@@ -224,7 +224,7 @@ function CarouselCard({
       <div style={{ padding: '8px 9px 10px', flex: 1 }}>
         <div
           style={{
-            fontSize: 11,
+            fontSize: 12,
             fontWeight: 800,
             color: 'var(--heading)',
             lineHeight: 1.25,
@@ -233,7 +233,7 @@ function CarouselCard({
         >
           {(m.name || '').length > 28 ? (m.name || '').slice(0, 26) + '…' : m.name}
         </div>
-        <div style={{ fontSize: 9, color: 'var(--subtext)', lineHeight: 1.35 }}>
+        <div style={{ fontSize: 12, color: 'var(--subtext)', lineHeight: 1.35 }}>
           {(m.desc || '').length > 52 ? (m.desc || '').slice(0, 50) + '…' : m.desc}
         </div>
       </div>
@@ -293,7 +293,7 @@ function PickCard({ m, onOpen, isTop }: { m: MediaItem; onOpen: () => void; isTo
               left: 6,
               background: 'rgba(255,255,255,.28)',
               color: '#fff',
-              fontSize: 7,
+              fontSize: 12,
               fontWeight: 900,
               padding: '1px 5px',
               borderRadius: 4,
@@ -306,7 +306,7 @@ function PickCard({ m, onOpen, isTop }: { m: MediaItem; onOpen: () => void; isTo
       <div style={{ padding: '7px 9px 9px', flex: 1 }}>
         <div
           style={{
-            fontSize: 10,
+            fontSize: 12,
             fontWeight: 800,
             color: 'var(--heading)',
             lineHeight: 1.25,
@@ -315,7 +315,7 @@ function PickCard({ m, onOpen, isTop }: { m: MediaItem; onOpen: () => void; isTo
         >
           {(m.name || '').length > 22 ? (m.name || '').slice(0, 20) + '…' : m.name}
         </div>
-        <div style={{ fontSize: 9, color: 'var(--subtext)', lineHeight: 1.3 }}>
+        <div style={{ fontSize: 12, color: 'var(--subtext)', lineHeight: 1.3 }}>
           {(m.desc || '').length > 40 ? (m.desc || '').slice(0, 38) + '…' : m.desc}
         </div>
       </div>
@@ -379,7 +379,7 @@ function GridCard({ m, onOpen }: { m: MediaItem; onOpen: () => void }) {
               right: 7,
               background: 'rgba(0,0,0,.45)',
               color: '#fff',
-              fontSize: 8,
+              fontSize: 12,
               fontWeight: 900,
               padding: '2px 5px',
               borderRadius: 5,
@@ -401,7 +401,7 @@ function GridCard({ m, onOpen }: { m: MediaItem; onOpen: () => void }) {
         >
           {m.name}
         </div>
-        <div style={{ fontSize: 10, color: 'var(--subtext)', lineHeight: 1.4, flex: 1 }}>
+        <div style={{ fontSize: 12, color: 'var(--subtext)', lineHeight: 1.4, flex: 1 }}>
           {(m.desc || '').length > 55 ? (m.desc || '').slice(0, 52) + '…' : m.desc}
         </div>
       </div>
@@ -534,7 +534,7 @@ export default function MediaTab() {
             />
             <span
               style={{
-                fontSize: 10,
+                fontSize: 12,
                 fontWeight: 900,
                 color: 'rgba(255,255,255,.45)',
                 letterSpacing: '.18em',
@@ -562,7 +562,7 @@ export default function MediaTab() {
               <span
                 key={t}
                 style={{
-                  fontSize: 10,
+                  fontSize: 12,
                   fontWeight: 700,
                   color: 'rgba(255,255,255,.55)',
                   background: 'rgba(255,255,255,.07)',
@@ -586,7 +586,7 @@ export default function MediaTab() {
         <div style={{ marginBottom: 20 }}>
           <div
             style={{
-              fontSize: 11,
+              fontSize: 12,
               fontWeight: 900,
               color: 'var(--subtext)',
               textTransform: 'uppercase',
@@ -618,7 +618,7 @@ export default function MediaTab() {
         <div style={{ marginBottom: 20 }}>
           <div
             style={{
-              fontSize: 11,
+              fontSize: 12,
               fontWeight: 900,
               color: 'var(--subtext)',
               textTransform: 'uppercase',
@@ -692,7 +692,7 @@ export default function MediaTab() {
             />
             <span
               style={{
-                fontSize: 11,
+                fontSize: 12,
                 fontWeight: 900,
                 color: 'var(--ink-error)',
                 textTransform: 'uppercase',
@@ -722,7 +722,7 @@ export default function MediaTab() {
                     <div style={{ fontSize: 28, marginBottom: 4 }}>{mi.icon}</div>
                     <div
                       style={{
-                        fontSize: 10,
+                        fontSize: 12,
                         fontWeight: 900,
                         color: 'white',
                         lineHeight: 1.25,
@@ -736,7 +736,7 @@ export default function MediaTab() {
                     </div>
                     <div
                       style={{
-                        fontSize: 9,
+                        fontSize: 12,
                         color: 'rgba(255,255,255,.4)',
                         lineHeight: 1.3,
                         marginBottom: 6,
@@ -794,7 +794,7 @@ export default function MediaTab() {
               <div style={{ fontSize: 14, fontWeight: 900, color: 'var(--heading)' }}>
                 Croatian Music on Spotify
               </div>
-              <div style={{ fontSize: 11, color: 'var(--subtext)', marginTop: 1 }}>
+              <div style={{ fontSize: 12, color: 'var(--subtext)', marginTop: 1 }}>
                 14 curated playlists · tap to expand
               </div>
             </div>
@@ -837,13 +837,13 @@ export default function MediaTab() {
                 {meta.title}
               </span>
               {userGoal && (
-                <span style={{ fontSize: 9, color: 'var(--subtext)', fontStyle: 'italic' }}>
+                <span style={{ fontSize: 12, color: 'var(--subtext)', fontStyle: 'italic' }}>
                   sorted for you
                 </span>
               )}
               <span
                 style={{
-                  fontSize: 10,
+                  fontSize: 12,
                   color: 'var(--subtext)',
                   fontWeight: 600,
                   background: 'var(--bar-bg)',
@@ -886,7 +886,7 @@ export default function MediaTab() {
                     >
                       <span
                         style={{
-                          fontSize: 11,
+                          fontSize: 12,
                           fontWeight: 800,
                           color: accentInk(meta.accent),
                           fontStyle: 'italic',
@@ -894,7 +894,7 @@ export default function MediaTab() {
                       >
                         {hr}
                       </span>
-                      <span style={{ fontSize: 9, color: 'var(--subtext)', fontWeight: 600 }}>
+                      <span style={{ fontSize: 12, color: 'var(--subtext)', fontWeight: 600 }}>
                         {en}
                       </span>
                     </div>
@@ -945,7 +945,7 @@ export default function MediaTab() {
                       <span style={{ fontSize: 22, color: accentInk(meta.accent) }}>›</span>
                       <span
                         style={{
-                          fontSize: 10,
+                          fontSize: 12,
                           fontWeight: 800,
                           color: accentInk(meta.accent),
                           textAlign: 'center',

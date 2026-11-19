@@ -200,7 +200,7 @@ function CategoryBadge({ category }: { category: string }) {
         display: 'inline-flex',
         alignItems: 'center',
         gap: 4,
-        fontSize: 10,
+        fontSize: 12,
         fontWeight: 800,
         letterSpacing: '.07em',
         textTransform: 'uppercase',
@@ -296,7 +296,7 @@ function ErrorCard({
             }}
           >
             <CategoryBadge category={error.category} />
-            <span style={{ fontSize: 10, fontWeight: 700, color: accentInk(urgencyColor) }}>
+            <span style={{ fontSize: 12, fontWeight: 700, color: accentInk(urgencyColor) }}>
               {error.count}× caught
             </span>
           </div>
@@ -338,7 +338,7 @@ function ErrorCard({
             >
               <div
                 style={{
-                  fontSize: 11,
+                  fontSize: 12,
                   fontWeight: 800,
                   color: 'var(--subtext)',
                   textTransform: 'uppercase',
@@ -521,7 +521,7 @@ function WeakTopicCard({
           </div>
           <span
             style={{
-              fontSize: 11,
+              fontSize: 12,
               fontWeight: 800,
               color: accentInk(color),
               minWidth: 32,
@@ -531,7 +531,7 @@ function WeakTopicCard({
             {pct}%
           </span>
         </div>
-        <div style={{ fontSize: 10, color: 'var(--subtext)', marginTop: 2 }}>
+        <div style={{ fontSize: 12, color: 'var(--subtext)', marginTop: 2 }}>
           {topic.attempts} attempts
         </div>
       </div>
@@ -645,7 +645,7 @@ export default function CroatianErrorInsights() {
         {totalErrors > 0 && (
           <div
             style={{
-              fontSize: 11,
+              fontSize: 12,
               fontWeight: 700,
               color: 'var(--subtext)',
               background: 'var(--card)',
@@ -701,7 +701,7 @@ export default function CroatianErrorInsights() {
               {tab.count > 0 && (
                 <span
                   style={{
-                    fontSize: 10,
+                    fontSize: 12,
                     fontWeight: 900,
                     background: activeTab === tab.key ? 'rgba(255,255,255,.25)' : 'var(--card-b)',
                     borderRadius: 10,
@@ -736,7 +736,7 @@ export default function CroatianErrorInsights() {
                           display: 'flex',
                           alignItems: 'center',
                           gap: 5,
-                          fontSize: 11,
+                          fontSize: 12,
                           fontWeight: 700,
                           color: meta.color,
                           background: meta.bg,
@@ -764,7 +764,7 @@ export default function CroatianErrorInsights() {
 
               <div
                 style={{
-                  fontSize: 11,
+                  fontSize: 12,
                   color: 'var(--subtext)',
                   textAlign: 'center',
                   marginTop: 4,

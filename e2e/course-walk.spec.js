@@ -67,18 +67,9 @@ async function openMap(page) {
 }
 
 async function beginUnitTask(page, kind) {
-  // The unit's written and spoken tasks are not a menu on the map (owner, 2026-11-14): the course
-  // serves them. Home serves ONE a day — the written task first — so the written task is reached
-  // from Home, where the session leads with it; the spoken one is the next day's, and its
-  // one-shot handoff is set here as the course sets it when that day comes.
-  if (kind === 'write') {
-    await page.goto('/');
-    const card = page.getByTestId('session-card');
-    await expect(card).toBeVisible({ timeout: 30_000 });
-    await expect(card).toContainText('Unit 1: write', { timeout: 20_000 });
-    await page.getByTestId('session-begin-cta').click();
-    return;
-  }
+  // 2026-11-19 (owner: production never gates): a unit's written and spoken tasks are
+  // RECOMMENDED — Keep Learning and the Course tab offer them — and Home leads with the next
+  // unit's lesson, so each task opens through its one-shot handoff, as those buttons do.
   await page.goto('/');
   await page.evaluate((k) => sessionStorage.setItem('nh_unit_production', `A1-1|${k}`), kind);
   await page.goto('/unitproduction', { waitUntil: 'domcontentloaded' });
@@ -112,7 +103,8 @@ test('writing and speaking the Unit 1 tasks opens Unit 2, and Home teaches it', 
     }),
   );
   await openMap(page);
-  expect(await unitState(page, 'A1-2')).toBe('locked');
+  // 2026-11-19: the test alone opens the next unit — production no longer gates.
+  expect(await unitState(page, 'A1-2')).toBe('current');
 
   for (const k of ['write', 'speak']) {
     await beginUnitTask(page, k);

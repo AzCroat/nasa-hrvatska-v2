@@ -174,7 +174,7 @@ const QUIZ_SECTION = ({ quiz, accent }: { quiz: QuizItem[]; accent: string }) =>
             <div
               style={{
                 marginTop: 8,
-                fontSize: 11,
+                fontSize: 12,
                 color: q.opts[answers[i]!] === q.a ? 'var(--ink-green)' : 'var(--ink-error)',
                 fontWeight: 700,
               }}
@@ -239,7 +239,7 @@ function ProfessionsScreen({ goBack }: { goBack: () => void }) {
                   borderRadius: 20,
                   border: 'none',
                   cursor: 'pointer',
-                  fontSize: 11,
+                  fontSize: 12,
                   fontWeight: 700,
                   background: catIdx === i ? '#1d4ed8' : '#f5f5f4',
                   color: catIdx === i ? 'white' : '#44403c',
@@ -294,7 +294,7 @@ function ProfessionsScreen({ goBack }: { goBack: () => void }) {
                     {j.note && (
                       <div
                         style={{
-                          fontSize: 11,
+                          fontSize: 12,
                           color: 'var(--ink-info)',
                           fontStyle: 'italic',
                           marginTop: 3,

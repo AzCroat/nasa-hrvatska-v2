@@ -533,7 +533,7 @@ export default function AIConversationResult({
                   setSavedVocab((s) => new Set([...s, i]));
                 }}
                 style={{
-                  fontSize: 11,
+                  fontSize: 12,
                   fontWeight: 800,
                   padding: '4px 12px',
                   borderRadius: 20,

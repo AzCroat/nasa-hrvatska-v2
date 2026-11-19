@@ -364,7 +364,7 @@ export default function SurvivalDinner({ goBack }: Props) {
                     >
                       {p.en}
                     </div>
-                    <div style={{ fontSize: 11, color: 'var(--subtext)', fontStyle: 'italic' }}>
+                    <div style={{ fontSize: 12, color: 'var(--subtext)', fontStyle: 'italic' }}>
                       /{p.ph}/
                     </div>
                   </div>
@@ -474,7 +474,7 @@ export default function SurvivalDinner({ goBack }: Props) {
               >
                 {sc.title}
               </div>
-              <div style={{ fontSize: 11, color: 'var(--subtext)', fontWeight: 600 }}>
+              <div style={{ fontSize: 12, color: 'var(--subtext)', fontWeight: 600 }}>
                 {sc.phrases.length} phrases · tap any to hear
               </div>
             </div>

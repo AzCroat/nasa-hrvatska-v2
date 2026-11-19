@@ -288,7 +288,7 @@ export default function MicroLessonScreen({
           >
             <div
               style={{
-                fontSize: 11,
+                fontSize: 12,
                 fontWeight: 800,
                 color: 'var(--subtext)',
                 textTransform: 'uppercase',
@@ -314,7 +314,7 @@ export default function MicroLessonScreen({
                   </span>
                   <span
                     style={{
-                      fontSize: 11,
+                      fontSize: 12,
                       fontWeight: 800,
                       color: 'var(--ink-error)',
                       background: 'var(--error-bg)',
@@ -471,7 +471,7 @@ export default function MicroLessonScreen({
           >
             <span
               style={{
-                fontSize: 11,
+                fontSize: 12,
                 fontWeight: 800,
                 color: 'var(--ink-accent)',
                 letterSpacing: '.08em',
@@ -512,7 +512,7 @@ export default function MicroLessonScreen({
         <div style={{ marginBottom: 6 }}>
           <div
             style={{
-              fontSize: 11,
+              fontSize: 12,
               fontWeight: 800,
               color: 'var(--subtext)',
               textTransform: 'uppercase',
@@ -588,7 +588,7 @@ export default function MicroLessonScreen({
                   <div
                     style={{
                       display: 'inline-block',
-                      fontSize: 11,
+                      fontSize: 12,
                       fontWeight: 700,
                       color: 'var(--ink-warn)',
                       background: 'var(--warning-bg)',
@@ -695,7 +695,7 @@ export default function MicroLessonScreen({
         >
           <div
             style={{
-              fontSize: 11,
+              fontSize: 12,
               fontWeight: 800,
               color: 'var(--subtext)',
               textTransform: 'uppercase',
@@ -792,7 +792,7 @@ export default function MicroLessonScreen({
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      fontSize: 11,
+                      fontSize: 12,
                       fontWeight: 800,
                       color: 'var(--subtext)',
                     }}
@@ -948,7 +948,7 @@ export default function MicroLessonScreen({
           >
             <div
               style={{
-                fontSize: 11,
+                fontSize: 12,
                 fontWeight: 800,
                 opacity: 0.6,
                 textTransform: 'uppercase',
@@ -991,7 +991,7 @@ export default function MicroLessonScreen({
           >
             <div
               style={{
-                fontSize: 11,
+                fontSize: 12,
                 fontWeight: 800,
                 color: 'var(--ink-warn)',
                 textTransform: 'uppercase',
@@ -1022,7 +1022,7 @@ export default function MicroLessonScreen({
           >
             <div
               style={{
-                fontSize: 11,
+                fontSize: 12,
                 fontWeight: 800,
                 color: 'var(--subtext)',
                 textTransform: 'uppercase',
@@ -1051,7 +1051,7 @@ export default function MicroLessonScreen({
                   </span>
                   <span
                     style={{
-                      fontSize: 10,
+                      fontSize: 12,
                       fontWeight: 800,
                       color: 'var(--ink-error)',
                       background: 'var(--error-bg)',

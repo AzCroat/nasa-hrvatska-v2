@@ -19,7 +19,7 @@ const PASSWORD = process.env.TEST_PASSWORD;
 async function readStats(page, label) {
   // Navigate to profile tab for reliable stats (not dependent on HomeTab layout)
   try {
-    const meBtn = page.locator('[aria-label="Main navigation"] button', { hasText: 'Me' });
+    const meBtn = page.getByTestId('header-profile');
     if (await meBtn.isVisible({ timeout: 2000 }).catch(() => false)) {
       await meBtn.click();
       await page.waitForTimeout(2000);
@@ -126,7 +126,7 @@ test.describe('Cross-device sync — nasahrvatska.com', () => {
 
     // ── Logout + re-login on Device B ──
     console.log(`\n  ── Re-login: sign out then back in on Device B ──`);
-    const profileNav = pageB.locator('[aria-label="Main navigation"] button', { hasText: 'Me' });
+    const profileNav = pageB.getByTestId('header-profile');
     if (await profileNav.isVisible({ timeout: 2000 }).catch(() => false)) {
       await profileNav.click();
       await pageB.waitForTimeout(500);

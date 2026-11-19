@@ -126,7 +126,7 @@ export default function MajaIdleCard({
               right: -4,
               background: accentFill(personaCfg.accentColor),
               color: '#fff',
-              fontSize: 10,
+              fontSize: 12,
               fontWeight: 700,
               padding: '2px 6px',
               borderRadius: 10,
@@ -152,7 +152,7 @@ export default function MajaIdleCard({
       {memory.sessionCount > 0 && (
         <span
           style={{
-            fontSize: 11,
+            fontSize: 12,
             color: accentInk(personaCfg.accentColor),
             background: personaCfg.accentColor + '14',
             border: `1px solid ${personaCfg.accentColor}33`,

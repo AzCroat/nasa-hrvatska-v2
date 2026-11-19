@@ -215,7 +215,7 @@ export function HeardWords({
           >
             {w.word}
             {w.status !== 'good' && (
-              <span style={{ fontSize: 11, fontWeight: 600 }}>
+              <span style={{ fontSize: 12, fontWeight: 600 }}>
                 {' '}
                 ({STATUS_STYLE[w.status].label})
               </span>

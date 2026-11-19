@@ -72,7 +72,7 @@ export default function ProfileTab({
               alignItems: 'center',
               gap: 3,
               padding: '11px 4px 9px',
-              fontSize: 10,
+              fontSize: 12,
               fontWeight: ptab === t.id ? 800 : 600,
               border: 'none',
               background: 'transparent',

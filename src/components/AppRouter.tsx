@@ -1324,7 +1324,7 @@ export default function AppRouter(props: Record<string, any>) {
                           </div>
                           <span
                             style={{
-                              fontSize: 10,
+                              fontSize: 12,
                               padding: '3px 9px',
                               borderRadius: 20,
                               fontWeight: 700,
@@ -1935,7 +1935,12 @@ export default function AppRouter(props: Record<string, any>) {
           // ═══ ANIMATED LESSON ═══
           currentScreen === 'animlesson' && animLesson && (
             <ScreenErrorBoundary key="animlesson" name="animlesson">
-              <AnimatedLesson lesson={animLesson} goBack={goBack} award={award} />
+              <AnimatedLesson
+                lesson={animLesson}
+                goBack={goBack}
+                award={award}
+                onOpenLesson={launchAnimLesson}
+              />
             </ScreenErrorBoundary>
           )
         }

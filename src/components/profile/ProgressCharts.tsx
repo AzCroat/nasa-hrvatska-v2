@@ -181,7 +181,7 @@ const ProgressCharts = React.memo(function ProgressCharts({
             >
               {value}
             </div>
-            <div style={{ fontSize: 10, color: 'var(--subtext)', fontWeight: 600, marginTop: 3 }}>
+            <div style={{ fontSize: 12, color: 'var(--subtext)', fontWeight: 600, marginTop: 3 }}>
               {label}
             </div>
           </div>
@@ -207,7 +207,7 @@ const ProgressCharts = React.memo(function ProgressCharts({
             display: 'flex',
             justifyContent: 'space-between',
             marginTop: 4,
-            fontSize: 10,
+            fontSize: 12,
             color: 'var(--subtext)',
           }}
         >

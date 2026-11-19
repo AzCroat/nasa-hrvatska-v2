@@ -251,7 +251,7 @@ export const RHYTHM_DRILL_DATA: ModeDrillItem[] = [
     en: 'Reading a long sentence, find:',
     opts: ['glavnu rečenicu', 'zadnji zarez', 'subjekt', 'glagol na kraju'],
     answer: 'glavnu rečenicu',
-    tip: 'Find it, then reread — the C2 reading instruction in four words.',
+    tip: 'Find it, then reread — the advanced reading instruction in four words.',
   },
   {
     mode: 'izlaz',

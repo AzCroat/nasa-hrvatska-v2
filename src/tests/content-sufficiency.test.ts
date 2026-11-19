@@ -19,7 +19,7 @@ import { SPEAKING_TASKS } from '../data/speakingTasks';
 import { WRITING_TASKS } from '../data/writingTasks';
 import {
   EQUIVALENCY_TESTS,
-  C2_MASTERY_SET,
+  C1_MASTERY_SET,
   type EquivalencyTestSet,
 } from '../data/cefrEquivalencyItems';
 
@@ -34,7 +34,7 @@ function countBySkill(set: EquivalencyTestSet): Record<string, number> {
 describe('Level Check banks measure every certifiable skill', () => {
   const EXAM_FLOORS = { vocab: 60, grammar: 60, reading: 30, listening: 10 };
 
-  it.each(['A1', 'A2', 'B1', 'B2', 'C1'] as const)(
+  it.each(['A1', 'A2', 'B1', 'B2'] as const)(
     'the %s set meets the per-skill item floors',
     (levelFrom) => {
       const set = EQUIVALENCY_TESTS[levelFrom];
@@ -46,9 +46,9 @@ describe('Level Check banks measure every certifiable skill', () => {
     },
   );
 
-  it('the C2 mastery bank includes listening', () => {
-    expect(C2_MASTERY_SET).toBeTruthy();
-    const c = countBySkill(C2_MASTERY_SET!);
+  it('the C1 mastery bank (the C1 checkpoint, with the former C2 items) includes listening', () => {
+    expect(C1_MASTERY_SET).toBeTruthy();
+    const c = countBySkill(C1_MASTERY_SET!);
     expect(c.listening ?? 0).toBeGreaterThanOrEqual(6);
     expect(c.vocab ?? 0).toBeGreaterThanOrEqual(18);
     expect(c.grammar ?? 0).toBeGreaterThanOrEqual(18);
@@ -56,7 +56,7 @@ describe('Level Check banks measure every certifiable skill', () => {
   });
 
   it('every listening item carries spoken text and never leaks it into the question', () => {
-    const sets = [...Object.values(EQUIVALENCY_TESTS), C2_MASTERY_SET].filter(
+    const sets = [...Object.values(EQUIVALENCY_TESTS), C1_MASTERY_SET].filter(
       (s): s is EquivalencyTestSet => !!s,
     );
     for (const set of sets) {
@@ -73,7 +73,7 @@ describe('Level Check banks measure every certifiable skill', () => {
 });
 
 describe('production task banks', () => {
-  it('speaking tasks: at least 4 per level, A1 through C2', () => {
+  it('speaking tasks: at least 4 per level, A1 through C1', () => {
     for (const lvl of LEVELS) {
       expect((SPEAKING_TASKS[lvl] ?? []).length, `speaking tasks at ${lvl}`).toBeGreaterThanOrEqual(
         4,
@@ -81,8 +81,8 @@ describe('production task banks', () => {
     }
   });
 
-  it('writing tasks: at least 3 per level, A2 through C2 (retakes must not repeat prompts)', () => {
-    for (const lvl of ['A2', 'B1', 'B2', 'C1', 'C2'] as const) {
+  it('writing tasks: at least 3 per level, A2 through C1 (retakes must not repeat prompts)', () => {
+    for (const lvl of ['A2', 'B1', 'B2', 'C1'] as const) {
       expect((WRITING_TASKS[lvl] ?? []).length, `writing tasks at ${lvl}`).toBeGreaterThanOrEqual(
         3,
       );
@@ -104,9 +104,8 @@ describe('daily practice covers every skill at every level', () => {
   };
 
   // The course ends at C1 (2026-11-18): the daily session is built at the course level,
-  // which is never C2, and every former C2 drill is now tagged C1. C2 is still a tag on
-  // non-course content (vocabulary tier, Level Check), so LEVELS keeps it elsewhere.
-  const SESSION_LEVELS = LEVELS.filter((l) => l !== 'C2');
+  // which tops out at C1, and every former C2 drill is now tagged C1.
+  const SESSION_LEVELS = LEVELS;
   it.each(SESSION_LEVELS)('%s has serving practice content per skill', (level) => {
     const rank = LEVELS.indexOf(level);
     const counts: Record<string, number> = { vocab: 0, grammar: 0, reading: 0, listening: 0 };

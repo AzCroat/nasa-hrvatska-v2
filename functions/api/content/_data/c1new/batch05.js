@@ -145,7 +145,7 @@ export const LESSONS = [
       {
         type: 'rule',
         title: 'Dvojica Declines Like Žena',
-        body: 'dvojica, trojica, četvorica and the rest are nouns: dvojica, dvojice, dvojici, dvojicu, dvojicom. The noun counted follows in the genitive plural: dvojica studenata, s trojicom kolega, pomogli smo četvorici turista. They count MALE PERSONS only: two women are dvije žene, two cars dva automobila, and a mixed group takes dvoje, troje — the collective numbers of the next lesson.',
+        body: 'dvojica, trojica, četvorica and the rest are nouns: dvojica, dvojice, dvojici, dvojicu, dvojicom. The noun counted follows in the genitive plural: dvojica studenata, s trojicom kolega, pomogli smo četvorici turista. They count MALE PERSONS only: two women are dvije žene, two cars dva automobila, and a mixed group takes a different kind of numeral, which a later lesson teaches.',
         highlight: 'MALE PERSONS only',
       },
       {

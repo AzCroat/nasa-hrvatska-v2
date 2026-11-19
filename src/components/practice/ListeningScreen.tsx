@@ -338,7 +338,7 @@ export default function ListeningScreen({
           {q.tip && (
             <div
               style={{
-                fontSize: 11,
+                fontSize: 12,
                 color: 'var(--ink-warn)',
                 marginTop: 6,
                 padding: '6px 10px',
@@ -371,7 +371,7 @@ export default function ListeningScreen({
             🔊 Listen again
           </button>
           {replayed && !isCorrect && (
-            <div style={{ fontSize: 11, color: 'var(--ink-accent)', marginTop: 4 }}>
+            <div style={{ fontSize: 12, color: 'var(--ink-accent)', marginTop: 4 }}>
               Focus on the sound — then tap Next when ready
             </div>
           )}

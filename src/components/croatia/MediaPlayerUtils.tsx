@@ -17,7 +17,6 @@ export const LEVEL_COLORS = {
   B1: '#ca8a04',
   B2: '#b45309',
   C1: '#0e7490',
-  C2: '#7c3aed',
 };
 export const CAT_LABELS = {
   tv: '📺 TV & News',
@@ -117,7 +116,7 @@ export function tagMediaForGoal(m: MediaItem, goal: string): string | null {
 export function sortMediaForGoal(items: MediaItem[], goal: string): MediaItem[] {
   if (goal === 'fluent')
     return [...items].sort((a, b) => {
-      const order = { A1: 0, A2: 1, B1: 2, B2: 3, C1: 4, C2: 5 };
+      const order = { A1: 0, A2: 1, B1: 2, B2: 3, C1: 4, C2: 4 }; // a stored C2 (retired 2026-11-18) reads as C1
       return (
         ((order as Record<string, number>)[a.level as string] ?? 9) -
         ((order as Record<string, number>)[b.level as string] ?? 9)

@@ -45,7 +45,7 @@ export interface UnpooledScreen {
 export const UNPOOLED_SCREENS: readonly UnpooledScreen[] = [
   {
     screen: 'grammar_track',
-    label: 'Grammar Track A1→C2',
+    label: 'Grammar Track A1→C1',
     subtitle: 'The whole grammar syllabus, level by level',
     icon: '⚙️',
   },

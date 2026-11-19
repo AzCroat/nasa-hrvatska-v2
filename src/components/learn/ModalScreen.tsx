@@ -163,7 +163,7 @@ export default function ModalScreen({
                 <div style={{ fontSize: 14, fontWeight: 800, color: 'var(--ink-mode)' }}>
                   {v.inf}
                 </div>
-                <div style={{ fontSize: 11, color: 'var(--ink-muted-warm)' }}>{v.en}</div>
+                <div style={{ fontSize: 12, color: 'var(--ink-muted-warm)' }}>{v.en}</div>
               </div>
             ))}
           </div>
@@ -180,7 +180,7 @@ export default function ModalScreen({
                   <button
                     key={mi}
                     className={'b ' + (m7v === mi ? 'bv' : 'bg')}
-                    style={{ fontSize: 11, padding: '8px 14px' }}
+                    style={{ fontSize: 12, padding: '8px 14px' }}
                     onClick={() => sM7v(mi)}
                   >
                     {mv.icon} {mv.inf}
@@ -384,7 +384,7 @@ export default function ModalScreen({
               <div className="c" style={{ marginTop: 16 }}>
                 <div
                   style={{
-                    fontSize: 11,
+                    fontSize: 12,
                     color: 'var(--ink-mode)',
                     fontWeight: 700,
                     marginBottom: 6,

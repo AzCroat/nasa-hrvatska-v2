@@ -1888,7 +1888,7 @@ export const VERBS_OF_MOTION = {
 
 export const VERBAL_ADVERBS = {
   id: 'verbal-adverbs',
-  cefr: 'C2',
+  cefr: 'C1',
   title: 'Glagolski prilozi — Verbal Adverbs (Gerunds)',
   subtitle: 'present (-ći) for simultaneous action, past (-vši) for prior action',
   focus:
@@ -2045,13 +2045,13 @@ export const VERBAL_ADVERBS = {
 
 export const LITERARY_PAST_TENSES = {
   id: 'literary-past-tenses',
-  cefr: 'C2',
+  cefr: 'C1',
   title: 'Aorist, imperfekt i pluskvamperfekt — Literary Past Tenses',
   subtitle: 'The past tenses of literature, proverbs, and expressive messaging',
   focus:
     'aorist, imperfekt, pluskvamperfekt, literary past tenses, pripovijedanje, narrative style',
   intro:
-    'Everyday Croatian uses the perfekt for all past reference — but three further past tenses survive in literature, proverbs, and expressive speech, and a C2 reader meets them constantly. The AORIST (from perfective verbs: rekoh, dođe, pobijedih) narrates sharp, completed events and thrives today in text messages for punchy immediacy (Stigoh!). The IMPERFEKT (from imperfective verbs: bijaše, gledaše, sjeđaše) paints background states in older prose and is now practically confined to bijaše. The PLUSKVAMPERFEKT (bio sam došao / bijah došao) marks a past action completed before another past action. You need active control of the pluperfect, receptive mastery of the rest — and the aorist of biti (bih, bi, bismo…) you already use daily: it is the conditional auxiliary.',
+    'Everyday Croatian uses the perfekt for all past reference — but three further past tenses survive in literature, proverbs, and expressive speech, and an advanced reader meets them constantly. The AORIST (from perfective verbs: rekoh, dođe, pobijedih) narrates sharp, completed events and thrives today in text messages for punchy immediacy (Stigoh!). The IMPERFEKT (from imperfective verbs: bijaše, gledaše, sjeđaše) paints background states in older prose and is now practically confined to bijaše. The PLUSKVAMPERFEKT (bio sam došao / bijah došao) marks a past action completed before another past action. You need active control of the pluperfect, receptive mastery of the rest — and the aorist of biti (bih, bi, bismo…) you already use daily: it is the conditional auxiliary.',
   forms: [
     { label: 'Aorist: reći (ja)', hr: 'rekoh', en: 'I said' },
     { label: 'Aorist: doći (on)', hr: 'dođe', en: 'he came' },

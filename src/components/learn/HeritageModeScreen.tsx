@@ -286,7 +286,7 @@ export default function HeritageModeScreen({
                 cursor: 'pointer',
                 fontFamily: "'Outfit',sans-serif",
                 fontWeight: 700,
-                fontSize: 11,
+                fontSize: 12,
                 lineHeight: 1.3,
                 background: active
                   ? 'var(--fill-info)'
@@ -324,7 +324,7 @@ export default function HeritageModeScreen({
         >
           <div
             style={{
-              fontSize: 11,
+              fontSize: 12,
               fontWeight: 900,
               letterSpacing: '.1em',
               textTransform: 'uppercase',
@@ -376,7 +376,7 @@ export default function HeritageModeScreen({
                   <div style={{ fontSize: 13, color: 'var(--subtext)', marginTop: 2 }}>{w.en}</div>
                   <div
                     style={{
-                      fontSize: 11,
+                      fontSize: 12,
                       color: 'var(--subtext)',
                       marginTop: 3,
                       fontStyle: 'italic',
@@ -397,7 +397,7 @@ export default function HeritageModeScreen({
                         background: 'var(--fill-success)',
                         color: '#fff',
                         fontWeight: 700,
-                        fontSize: 11,
+                        fontSize: 12,
                         fontFamily: "'Outfit',sans-serif",
                       }}
                     >
@@ -413,7 +413,7 @@ export default function HeritageModeScreen({
                         background: 'var(--card)',
                         color: 'var(--subtext)',
                         fontWeight: 700,
-                        fontSize: 11,
+                        fontSize: 12,
                         fontFamily: "'Outfit',sans-serif",
                       }}
                     >
@@ -495,7 +495,7 @@ export default function HeritageModeScreen({
         >
           <div
             style={{
-              fontSize: 11,
+              fontSize: 12,
               fontWeight: 900,
               letterSpacing: '.1em',
               textTransform: 'uppercase',
@@ -554,7 +554,7 @@ export default function HeritageModeScreen({
                   >
                     {d.name}
                   </div>
-                  <div style={{ fontSize: 11, color: 'var(--subtext)' }}>{d.regions}</div>
+                  <div style={{ fontSize: 12, color: 'var(--subtext)' }}>{d.regions}</div>
                 </div>
                 {active && (
                   <span
@@ -574,7 +574,7 @@ export default function HeritageModeScreen({
               >
                 Marker word: <strong>{d.marker}</strong> — e.g. "{d.example}"
               </div>
-              <div style={{ fontSize: 11, color: 'var(--subtext)', marginTop: 4, lineHeight: 1.4 }}>
+              <div style={{ fontSize: 12, color: 'var(--subtext)', marginTop: 4, lineHeight: 1.4 }}>
                 {d.note}
               </div>
             </button>
@@ -605,7 +605,7 @@ export default function HeritageModeScreen({
             >
               <div
                 style={{
-                  fontSize: 10,
+                  fontSize: 12,
                   fontWeight: 800,
                   color: 'var(--subtext)',
                   textTransform: 'uppercase',
@@ -615,7 +615,7 @@ export default function HeritageModeScreen({
               </div>
               <div
                 style={{
-                  fontSize: 10,
+                  fontSize: 12,
                   fontWeight: 800,
                   color: 'var(--subtext)',
                   textTransform: 'uppercase',
@@ -625,7 +625,7 @@ export default function HeritageModeScreen({
               </div>
               <div
                 style={{
-                  fontSize: 10,
+                  fontSize: 12,
                   fontWeight: 800,
                   color: 'var(--info)',
                   textTransform: 'uppercase',
@@ -645,7 +645,7 @@ export default function HeritageModeScreen({
                   borderTop: i === 0 ? 'none' : '1px solid var(--info-b)',
                 }}
               >
-                <div style={{ fontSize: 11, color: 'var(--subtext)' }}>{c.label}</div>
+                <div style={{ fontSize: 12, color: 'var(--subtext)' }}>{c.label}</div>
                 <div style={{ fontSize: 12, fontWeight: 700, color: 'var(--heading)' }}>
                   {c.standard}
                 </div>
@@ -697,7 +697,7 @@ export default function HeritageModeScreen({
         >
           <div
             style={{
-              fontSize: 11,
+              fontSize: 12,
               fontWeight: 900,
               letterSpacing: '.1em',
               textTransform: 'uppercase',
@@ -738,7 +738,7 @@ export default function HeritageModeScreen({
                   </div>
                   <div
                     style={{
-                      fontSize: 11,
+                      fontSize: 12,
                       color: 'var(--subtext)',
                       marginTop: 3,
                       fontStyle: 'italic',
@@ -752,7 +752,7 @@ export default function HeritageModeScreen({
               {/* Star rating 1-3 */}
               <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
                 <span
-                  style={{ fontSize: 11, color: 'var(--subtext)', fontWeight: 600, marginRight: 4 }}
+                  style={{ fontSize: 12, color: 'var(--subtext)', fontWeight: 600, marginRight: 4 }}
                 >
                   My confidence:
                 </span>
@@ -776,7 +776,7 @@ export default function HeritageModeScreen({
                   </button>
                 ))}
                 {rating > 0 && (
-                  <span style={{ fontSize: 11, color: 'var(--subtext)', marginLeft: 4 }}>
+                  <span style={{ fontSize: 12, color: 'var(--subtext)', marginLeft: 4 }}>
                     {rating === 1 ? 'Needs work' : rating === 2 ? 'Getting there' : 'Pretty good'}
                   </span>
                 )}
@@ -795,7 +795,7 @@ export default function HeritageModeScreen({
                         background: 'var(--info-bg)',
                         color: 'var(--info)',
                         fontWeight: 700,
-                        fontSize: 11,
+                        fontSize: 12,
                         cursor: 'pointer',
                         fontFamily: "'Outfit',sans-serif",
                       }}
@@ -872,7 +872,7 @@ export default function HeritageModeScreen({
         >
           <div
             style={{
-              fontSize: 11,
+              fontSize: 12,
               fontWeight: 900,
               letterSpacing: '.1em',
               textTransform: 'uppercase',
@@ -1135,7 +1135,7 @@ export default function HeritageModeScreen({
       >
         <div
           style={{
-            fontSize: 11,
+            fontSize: 12,
             fontWeight: 900,
             letterSpacing: '.12em',
             textTransform: 'uppercase',

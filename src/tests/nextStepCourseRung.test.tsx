@@ -54,24 +54,25 @@ describe('the next-step engine offers the course once the session is done', () =
     expect(step.label).toContain(UNITS[0]!.lessons[1]!.title);
   });
 
-  it('once today’s session is done it offers NO new lesson (owner, 2026-09-29: review, not new concepts)', () => {
+  it('once today’s session is done it offers the NEXT lesson (owner, 2026-11-19, reverses the 2026-09-29 rule)', () => {
     writeCurriculumSpine(SPINE);
     markLessonComplete(UNITS[0]!.lessons[0]!.id, '2026-09-27');
     finishTodaysSession();
     const step = getNextStep({ userCefr: 'A2', poolWords: new Set() });
-    expect(step.screen).not.toBe('animlesson');
-    expect(step.kind).not.toBe('course');
+    expect(step.screen).toBe('animlesson');
+    expect(step.kind).toBe('course');
   });
 
-  it('with the unit read, it offers the unit test — and the handoff waits for the tap', () => {
+  // 2026-11-19 (owner: five of five passed opens the next unit; the unit test is
+  // recommended, never the step): with Unit 1 passed the rung offers Unit 2's lesson.
+  it('with the unit passed, it offers the next unit’s lesson — and the handoff waits for the tap', () => {
     writeCurriculumSpine(SPINE);
     for (const l of UNITS[0]!.lessons) markLessonComplete(l.id, '2026-09-27');
     finishTodaysSession();
     const step = getNextStep({ userCefr: 'A2', poolWords: new Set() });
     expect(step.kind).toBe('course');
-    expect(step.screen).toBe('unittest');
-    expect(step.label).toBe('Take the Unit 1 test');
-    expect(step.course).toEqual({ unitId: UNITS[0]!.id, request: 'unit-test' });
+    expect(step.screen).toBe('animlesson');
+    expect(step.label).toContain(UNITS[1]!.lessons[0]!.title);
     // getNextStep is read-only: computing the step must not make the handoff.
     expect(readUnitTestRequest()).toBeNull();
   });
@@ -95,15 +96,17 @@ describe('the next-step engine offers the course once the session is done', () =
     expect(getNextStep({ userCefr: 'A2', poolWords: new Set() }).kind).not.toBe('course');
   });
 
-  it('a passed test with production owed sends the learner to produce', () => {
+  // 2026-11-19: production never gates, so a passed test with production owed no longer
+  // holds the course on that unit — the rung offers the next lesson (production is a
+  // recommended Keep Learning item).
+  it('a passed test with production owed does not hold the course back', () => {
     writeCurriculumSpine(SPINE);
     for (const l of UNITS[0]!.lessons) markLessonComplete(l.id, '2026-09-27');
     recordUnitTest(UNITS[0]!.id, 15, 15, true);
     finishTodaysSession();
     const step = getNextStep({ userCefr: 'A2', poolWords: new Set() });
     expect(step.kind).toBe('course');
-    expect(step.screen).toBe('unitproduction');
-    expect(step.course?.request).toBe('production');
+    expect(step.screen).toBe('animlesson');
   });
 });
 

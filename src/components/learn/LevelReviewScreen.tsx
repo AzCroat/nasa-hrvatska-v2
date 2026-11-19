@@ -21,8 +21,7 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { H } from '../../data';
 import { getLessons } from '../../lib/contentClient';
-import { readCurriculumSpine } from '../../lib/curriculumProgress';
-import type { CurriculumEntry } from '../../lib/curriculum';
+import { useCurriculumSpine } from '../../hooks/useCurriculumSpine';
 import { buildCourseUnits, type CourseUnit } from '../../lib/courseUnits';
 import {
   readLevelReviewRequest,
@@ -96,7 +95,7 @@ export default function LevelReviewScreen({
   const [openFailed, setOpenFailed] = useState(false);
   const [lockedWhy, setLockedWhy] = useState<string | null>(null);
 
-  const spine = useMemo<CurriculumEntry[]>(() => readCurriculumSpine(), []);
+  const { spine, failed: spineFailed } = useCurriculumSpine();
   const units = useMemo(() => buildCourseUnits(spine, COURSE_UNIT_TITLES), [spine]);
   const levelUnits = useMemo<CourseUnit[]>(
     () => (level ? units.filter((u) => u.level === level) : []),
@@ -107,7 +106,7 @@ export default function LevelReviewScreen({
   useEffect(() => {
     let live = true;
     if (!level || levelUnits.length === 0) {
-      setPhase(units.length === 0 ? 'failed' : 'missing');
+      setPhase(units.length === 0 ? (spineFailed ? 'failed' : 'loading') : 'missing');
       return;
     }
     getLessons()
@@ -141,7 +140,7 @@ export default function LevelReviewScreen({
     return () => {
       live = false;
     };
-  }, [level, levelUnits, units.length, attempt]);
+  }, [level, levelUnits, units.length, attempt, spineFailed]);
 
   // Leaving clears the handoff so a later visit cannot land on a stale level.
   useEffect(() => clearLevelReviewRequest, []);
@@ -389,7 +388,7 @@ export default function LevelReviewScreen({
         >
           {isRepeat ? 'Another try' : `Question ${Math.min(pos + 1, total)} of ${total}`}
         </span>
-        <span style={{ fontSize: 11.5, color: 'var(--subtext)' }}>
+        <span style={{ fontSize: 12, color: 'var(--subtext)' }}>
           {unitName(levelUnits, item.unitId)} · practice, not scored
         </span>
       </div>

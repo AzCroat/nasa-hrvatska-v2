@@ -31,7 +31,7 @@ const MODEL = 'claude-haiku-4-5-20251001';
 // Conversation turns are expensive (streaming + TTS per turn).
 // Level-based caps: A1 learners fatigue faster; B2+ can sustain longer sessions.
 // These are enforced via the client sending turnCount; server validates hard max.
-const MAX_TURNS_BY_LEVEL = { A1: 8, A2: 10, B1: 15, B2: 20, C1: 25, C2: 25 };
+const MAX_TURNS_BY_LEVEL = { A1: 8, A2: 10, B1: 15, B2: 20, C1: 25 };
 const MAX_TURNS_PER_SESSION = 10; // fallback if level unknown
 const SESSION_RATE_LIMIT_PER_MINUTE = 4; // ~3 sessions/hour = 1 every 20 min, 4/min is generous
 
@@ -55,7 +55,7 @@ function sanitizeParam(value, maxLen = 200) {
   );
 }
 
-const VALID_LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
+const VALID_LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1'];
 const VALID_TOPICS = [
   'free',
   'introductions',
@@ -73,6 +73,7 @@ const VALID_TOPICS = [
 ];
 
 function sanitizeLevel(level) {
+  if (level === 'C2') level = 'C1'; // C2 retired 2026-11-18: an older app version may still send it
   return VALID_LEVELS.includes(level) ? level : 'A2';
 }
 
@@ -161,14 +162,6 @@ const LANGUAGE_RULES = {
 - Offer corrections only for register errors (e.g., too informal for context) or subtle usage mistakes — not grammar basics.
 - Introduce stylistic variation naturally, and regional expressions only from the place your character lives in or is set in (never one region's slang for another).
 - Always return scaffolding_level 0. Never populate english_gloss.`,
-
-  C2: `C2 RULES:
-- Write as you would to an educated native Croatian speaker.
-- Complex sentences, rich vocabulary, idiomatic speech, literary devices all welcome; regional color only if it genuinely belongs to your character's own region.
-- No scaffolding, no glosses, no simplification.
-- Correct only for pragmatic failures (wrong register, cultural misstep) — not grammar.
-- Discuss literature, history, politics, philosophy, humor in fully natural Croatian.
-- Always return scaffolding_level 0. Never populate english_gloss.`,
 };
 
 // ── Topic scenario injection ──
@@ -250,7 +243,7 @@ WHEN TO DE-ESCALATE:
 - After any scaffolded turn, if learner responds correctly in Croatian → drop scaffolding_level by 1
 - Never stay at level 3 for more than 2 consecutive turns — it breaks immersion
 
-C1/C2 OVERRIDE: For C1 or C2 level, scaffolding_level is ALWAYS 0. Never populate english_gloss for C1/C2 learners regardless of confusion signals — respond with simpler Croatian only, never English.
+C1 OVERRIDE: For C1 level, scaffolding_level is ALWAYS 0. Never populate english_gloss for C1 learners regardless of confusion signals — respond with simpler Croatian only, never English.
 
 
 CORRECTION STRATEGY:
@@ -464,7 +457,7 @@ export async function onRequestPost(context) {
   } = body;
 
   // Validate turn count — hard cap enforced server-side, level-adjusted
-  const safeLevel = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'].includes(level) ? level : null;
+  const safeLevel = ['A1', 'A2', 'B1', 'B2', 'C1'].includes(level) ? level : null;
   const maxTurns = (safeLevel && MAX_TURNS_BY_LEVEL[safeLevel]) || MAX_TURNS_PER_SESSION;
   const safeTurnCount = sanitizeTurnCount(turnCount);
   if (safeTurnCount >= maxTurns) {

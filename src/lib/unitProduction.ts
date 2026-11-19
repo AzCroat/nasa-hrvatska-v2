@@ -45,7 +45,6 @@ export const UNIT_WRITE_FLOOR: Record<string, number> = {
   B1: 40,
   B2: 50,
   C1: 60,
-  C2: 70,
 };
 
 /** Words of SPOKEN Croatian, lower at every level — see the note above. */
@@ -55,7 +54,6 @@ export const UNIT_SPEAK_FLOOR: Record<string, number> = {
   B1: 25,
   B2: 30,
   C1: 40,
-  C2: 50,
 };
 
 export type ProductionKind = 'write' | 'speak';

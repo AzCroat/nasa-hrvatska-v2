@@ -1735,11 +1735,12 @@ export const PRACTICE = {
           explanation: 'Vidim psa.',
         },
         {
-          q: 'Poznajem Ivu ___. (Marić — her surname)',
+          q: 'Poznajem Ivana ___. (Marić — his surname)',
           options: ['Marića', 'Marić', 'Mariću', 'Marićem'],
-          correct: 1,
-          hint: "Whose surname is it — a man's or a woman's?",
-          explanation: "Poznajem Ivu Marić. — a woman's surname never changes; only Iva → Ivu.",
+          correct: 0,
+          hint: 'Ivan is a man, so his name ends in -a here (Ivana) — and his surname does the same.',
+          explanation:
+            "Poznajem Ivana Marića. — a man's surname declines with his first name: Ivan → Ivana, Marić → Marića.",
         },
         {
           type: 'type',
@@ -1758,7 +1759,7 @@ export const PRACTICE = {
         explanation: 'A doctor is alive: liječnika.',
       },
       {
-        q: 'Complete: "Gledam ___." (a film)',
+        q: 'Complete: "Gledam ___." (a movie)',
         options: ['filma', 'filmu', 'film', 'filmom'],
         correct: 2,
         explanation: 'A film is a thing: no change.',

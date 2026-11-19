@@ -256,7 +256,7 @@ function NarrativePart({
         <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12 }}>
           <span
             style={{
-              fontSize: 11,
+              fontSize: 12,
               fontWeight: 800,
               color: accentInk(accentColor),
               backgroundColor: accentColor + '18',
@@ -625,7 +625,7 @@ export default function HeritageStoryScreen({
                     </div>
                     <div
                       style={{
-                        fontSize: 11,
+                        fontSize: 12,
                         color: 'var(--subtext)',
                         marginTop: 2,
                         lineHeight: 1.3,
@@ -892,7 +892,7 @@ export default function HeritageStoryScreen({
               <span
                 key={label}
                 style={{
-                  fontSize: 11,
+                  fontSize: 12,
                   padding: '4px 10px',
                   borderRadius: 20,
                   backgroundColor: accentColor + '18',

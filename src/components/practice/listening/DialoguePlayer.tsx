@@ -117,7 +117,7 @@ export default function DialoguePlayer({
             alignItems: 'center',
             gap: 6,
             marginTop: 8,
-            fontSize: 11,
+            fontSize: 12,
             color: 'var(--subtext)',
             cursor: 'pointer',
             width: 'fit-content',

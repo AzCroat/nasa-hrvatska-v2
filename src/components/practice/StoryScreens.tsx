@@ -265,7 +265,7 @@ export default function StoryScreens({
                     backdropFilter: 'blur(4px)',
                     borderRadius: 20,
                     padding: '2px 8px',
-                    fontSize: 9,
+                    fontSize: 12,
                     fontWeight: 800,
                     color: '#fff',
                     letterSpacing: '.04em',
@@ -281,7 +281,7 @@ export default function StoryScreens({
                   backdropFilter: 'blur(4px)',
                   borderRadius: 20,
                   padding: '2px 8px',
-                  fontSize: 10,
+                  fontSize: 12,
                   fontWeight: 700,
                   color: '#fff',
                 }}

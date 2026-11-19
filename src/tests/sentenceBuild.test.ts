@@ -193,8 +193,16 @@ describe('the authored build sentences', () => {
     // (pickSpeakingUnit walks a stored pointer from 0), so unit 0 really is the
     // learner's first at that level and a flat floor meant their first ever
     // spoken task was the same size as their last.
-    for (const lvl of ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'] as const) {
-      const us = SPEAKING_CURRICULUM.filter((u) => u.level === lvl);
+    // 2026-11-18: the course ends at C1 and the former C2 units are tagged C1 after
+    // the C1 ones, so the ladder is checked within each ORIGINAL block (the c1- and
+    // c2- id prefixes), never across the merged level.
+    const blocks: [string, typeof SPEAKING_CURRICULUM][] = [];
+    for (const lvl of ['A1', 'A2', 'B1', 'B2'] as const) {
+      blocks.push([lvl, SPEAKING_CURRICULUM.filter((u) => u.level === lvl)]);
+    }
+    blocks.push(['C1 (c1- block)', SPEAKING_CURRICULUM.filter((u) => u.id.startsWith('c1-'))]);
+    blocks.push(['C1 (c2- block)', SPEAKING_CURRICULUM.filter((u) => u.id.startsWith('c2-'))]);
+    for (const [lvl, us] of blocks) {
       expect(us.length).toBeGreaterThan(1);
       const floors = us.map((u) => u.minWords);
       for (let i = 1; i < floors.length; i++) {

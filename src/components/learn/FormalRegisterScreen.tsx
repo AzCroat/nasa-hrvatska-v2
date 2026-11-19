@@ -143,7 +143,7 @@ function QuizBlock({ questions, award }: QuizBlockProps) {
             {ans && (
               <div
                 style={{
-                  fontSize: 11,
+                  fontSize: 12,
                   lineHeight: 1.5,
                   marginTop: 4,
                   padding: '6px 10px',
@@ -410,7 +410,7 @@ function FormalRegisterScreen({ goBack, award }: ScreenProps) {
                         textAlign: 'left',
                         fontWeight: 700,
                         color: 'var(--ink-body)',
-                        fontSize: 11,
+                        fontSize: 12,
                       }}
                     >
                       {h}
@@ -499,7 +499,7 @@ function FormalRegisterScreen({ goBack, award }: ScreenProps) {
                 }}
                 onClick={() => speak(p.hr)}
               >
-                <div style={{ fontSize: 11, color: 'var(--ink-muted-warm)', marginBottom: 3 }}>
+                <div style={{ fontSize: 12, color: 'var(--ink-muted-warm)', marginBottom: 3 }}>
                   {p.label}
                 </div>
                 <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--ink-info)' }}>

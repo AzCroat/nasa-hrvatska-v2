@@ -150,7 +150,7 @@ export default function LearningInsights({ st }: { st: Partial<Stats> }) {
             <div style={{ fontWeight: 900, fontSize: 18, color: accentInk(s.color) }}>
               {s.value}
             </div>
-            <div style={{ fontSize: 10, color: 'var(--subtext)', fontWeight: 600 }}>{s.label}</div>
+            <div style={{ fontSize: 12, color: 'var(--subtext)', fontWeight: 600 }}>{s.label}</div>
           </div>
         ))}
       </div>
@@ -185,7 +185,7 @@ export default function LearningInsights({ st }: { st: Partial<Stats> }) {
             7-Day Activity
           </div>
           {totalMinsThisWeek > 0 && (
-            <div style={{ fontSize: 11, fontWeight: 700, color: 'var(--info)' }}>
+            <div style={{ fontSize: 12, fontWeight: 700, color: 'var(--info)' }}>
               ⏱ {totalMinsThisWeek}m this week
             </div>
           )}
@@ -204,7 +204,7 @@ export default function LearningInsights({ st }: { st: Partial<Stats> }) {
             >
               {day.xp > 0 && (
                 <div
-                  style={{ fontSize: 8, color: 'var(--subtext)', fontWeight: 700, lineHeight: 1 }}
+                  style={{ fontSize: 12, color: 'var(--subtext)', fontWeight: 700, lineHeight: 1 }}
                 >
                   {day.xp}
                 </div>
@@ -224,7 +224,7 @@ export default function LearningInsights({ st }: { st: Partial<Stats> }) {
               />
               <div
                 style={{
-                  fontSize: 9,
+                  fontSize: 12,
                   color: day.isToday ? 'var(--info)' : 'var(--subtext)',
                   fontWeight: day.isToday ? 800 : 600,
                 }}
@@ -277,10 +277,10 @@ export default function LearningInsights({ st }: { st: Partial<Stats> }) {
             />
           </div>
           <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 4 }}>
-            <span style={{ fontSize: 11, color: 'var(--ink-green)' }}>
+            <span style={{ fontSize: 12, color: 'var(--ink-green)' }}>
               ✅ {vocab.mastered} mastered
             </span>
-            <span style={{ fontSize: 11, color: '#f59e0b' }}>📖 {vocab.learning} learning</span>
+            <span style={{ fontSize: 12, color: '#f59e0b' }}>📖 {vocab.learning} learning</span>
           </div>
         </div>
       )}
@@ -329,7 +329,7 @@ export default function LearningInsights({ st }: { st: Partial<Stats> }) {
               >
                 {w.word}
               </span>
-              <span style={{ fontSize: 11, color: 'var(--ink-error)' }}>
+              <span style={{ fontSize: 12, color: 'var(--ink-error)' }}>
                 {w.wrong}× missed · {w.right}× right
               </span>
             </div>

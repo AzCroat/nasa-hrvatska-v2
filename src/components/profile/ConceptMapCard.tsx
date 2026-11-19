@@ -115,7 +115,7 @@ export default function ConceptMapCard({ setScr, spine }: Props) {
           flexWrap: 'wrap',
           gap: 10,
           margin: '8px 0 0',
-          fontSize: 11,
+          fontSize: 12,
           color: 'var(--subtext)',
         }}
       >
@@ -202,7 +202,7 @@ function ConceptRow({ entry, setScr }: { entry: ConceptEntry; setScr: (s: string
         >
           {entry.title}
         </div>
-        <div style={{ fontSize: 11, color: 'var(--subtext)', marginTop: 2 }}>
+        <div style={{ fontSize: 12, color: 'var(--subtext)', marginTop: 2 }}>
           {entry.level}
           {entry.openMisses > 0 &&
             ` · ${entry.openMisses} question${entry.openMisses === 1 ? '' : 's'} to redo`}
@@ -210,7 +210,7 @@ function ConceptRow({ entry, setScr }: { entry: ConceptEntry; setScr: (s: string
       </div>
       <span
         style={{
-          fontSize: 10,
+          fontSize: 12,
           fontWeight: 800,
           padding: '3px 7px',
           borderRadius: 6,

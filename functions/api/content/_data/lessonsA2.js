@@ -1231,7 +1231,7 @@ export const LESSONS_A2 = [
               'A masculine plural object takes -e: otoke. "Otoci" is the subject form, "otoka" the genitive plural, and "otocima" the shared dative-locative-instrumental.',
           },
           {
-            q: 'Complete: "Imam dvadeset ___." (I have twenty books — knjiga.)',
+            q: 'Complete: "Imam dvadeset ___." (I have twenty books.)',
             options: ['knjige', 'knjigama', 'knjiga', 'knjigu'],
             correct: 2,
             explanation:
@@ -1479,7 +1479,7 @@ export const LESSONS_A2 = [
               '"Malo" takes the genitive, and "vrijeme" is uncountable, so the genitive singular: vremena. "Vremenu" is the dative or locative and "vremenom" the instrumental.',
           },
           {
-            q: 'Complete: "Na koncertu je bilo puno ___." (a lot of people — ljudi)',
+            q: 'Complete: "Na koncertu je bilo puno ___." (a lot of people)',
             options: ['ljudi', 'ljude', 'ljudima', 'ljudom'],
             correct: 0,
             explanation:

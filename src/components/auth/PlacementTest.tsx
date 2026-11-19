@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Bar } from '../../data';
-import CharacterPortrait from '../family/CharacterPortrait';
 import { lsSet } from '../../lib/safeStorage';
 import { grantProvisionalPlacement } from '../../lib/cefrCertification';
 import type { CefrLevel } from '../../lib/cefr';
@@ -230,9 +229,10 @@ const LEVEL_NAMES = [
   'B1 Communicator',
   'B2 Explorer',
   'C1 Hrvat',
-  'C2 Majstor',
+  'C1 Majstor',
 ];
-const LEVEL_TO_CEFR = ['', 'A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
+// The top two bands of the test both place at C1: the course ends there (2026-11-18).
+const LEVEL_TO_CEFR = ['', 'A1', 'A2', 'B1', 'B2', 'C1', 'C1'];
 const LEVEL_DESC = [
   '',
   "You're just starting out — let's build your foundations with greetings, numbers, and everyday words.",
@@ -319,9 +319,6 @@ export default function PlacementTest({ onComplete, onCancel }: PlacementTestPro
     return (
       <div className="scr-wrap">
         <div style={{ textAlign: 'center', padding: '28px 20px 16px' }}>
-          <span style={{ display: 'block', textAlign: 'center', margin: '0 auto 12px' }}>
-            <CharacterPortrait name="kovac" size={100} />
-          </span>
           <h2
             style={{
               fontFamily: "'Playfair Display',serif",
@@ -391,9 +388,6 @@ export default function PlacementTest({ onComplete, onCancel }: PlacementTestPro
   if (done) {
     return (
       <div className="scr-wrap" style={{ paddingBottom: 80, textAlign: 'center' }}>
-        <span style={{ display: 'block', textAlign: 'center', margin: '0 auto 12px' }}>
-          <CharacterPortrait name="kovac" size={90} />
-        </span>
         <h2
           style={{
             fontFamily: "'Playfair Display',serif",
@@ -510,7 +504,7 @@ export default function PlacementTest({ onComplete, onCancel }: PlacementTestPro
             color: '#fff',
             borderRadius: 10,
             padding: '4px 10px',
-            fontSize: 11,
+            fontSize: 12,
             fontWeight: 800,
           }}
         >
@@ -538,7 +532,7 @@ export default function PlacementTest({ onComplete, onCancel }: PlacementTestPro
       </div>
       <div
         style={{
-          fontSize: 10,
+          fontSize: 12,
           color: 'rgba(255,255,255,0.5)',
           textAlign: 'center',
           marginBottom: 8,
@@ -587,7 +581,6 @@ export default function PlacementTest({ onComplete, onCancel }: PlacementTestPro
         {answered && (
           <>
             <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 10 }}>
-              <CharacterPortrait name="kovac" size={50} />
               <div
                 style={{
                   fontSize: 14,

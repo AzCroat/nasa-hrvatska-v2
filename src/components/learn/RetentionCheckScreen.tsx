@@ -227,7 +227,7 @@ export default function RetentionCheckScreen({ lessons, goBack, award }: Props) 
       >
         <span
           style={{
-            fontSize: 11,
+            fontSize: 12,
             fontWeight: 800,
             color: 'var(--subtext)',
             textTransform: 'uppercase',

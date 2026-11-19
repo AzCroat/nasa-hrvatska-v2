@@ -23,7 +23,7 @@ import {
 import type { CurriculumEntry } from '../lib/curriculum';
 
 const UNITS = buildCourseUnits(CURRICULUM as unknown as CurriculumEntry[], COURSE_UNIT_TITLES);
-const LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'] as const;
+const LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1'] as const;
 
 describe('the floors', () => {
   it('rise with the level, in both modes', () => {

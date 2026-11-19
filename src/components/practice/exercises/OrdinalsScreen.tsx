@@ -61,8 +61,8 @@ function OrdinalsScreen({ goBack, award }: Props) {
                 {o.num}.
               </div>
               <div style={{ fontSize: 13, fontWeight: 700 }}>{o.hr}</div>
-              <div style={{ fontSize: 11, color: 'var(--ink-muted-warm)' }}>{o.en}</div>
-              <div style={{ fontSize: 10, color: 'var(--ink-warn)', marginTop: 2 }}>
+              <div style={{ fontSize: 12, color: 'var(--ink-muted-warm)' }}>{o.en}</div>
+              <div style={{ fontSize: 12, color: 'var(--ink-warn)', marginTop: 2 }}>
                 {'na '}
                 {o.loc}om
               </div>

@@ -52,14 +52,14 @@ export function courseUnitLevel(): CefrLevel | null {
  * The level CONTENT is served at outside the session — the Practice tab, the
  * vocabulary deck, the AI generators (owner decision, 2026-09-29: "the Practice tab
  * and the deck follow the COURSE level, as the session already does"). The course
- * unit's level; C2 once the course is finished; null when there is no curriculum data,
+ * unit's level; C1 once the course is finished (the course ends at C1); null when there is no curriculum data,
  * so the caller keeps its old answer rather than serving nothing.
  */
 export function courseContentLevel(): CefrLevel | null {
   try {
     const state = readCourseState();
     if (state.units.length === 0) return null;
-    if (state.currentIndex === null) return 'C2';
+    if (state.currentIndex === null) return 'C1';
     const unit = state.units.find((u) => u.index === state.currentIndex);
     return unit ? unit.level : null;
   } catch {

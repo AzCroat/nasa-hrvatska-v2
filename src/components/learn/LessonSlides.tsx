@@ -495,7 +495,7 @@ export function QuizSlide({
                 borderRadius: '50%',
                 textAlign: 'center',
                 lineHeight: '22px',
-                fontSize: 11,
+                fontSize: 12,
                 fontWeight: 900,
                 marginRight: 10,
                 background: 'currentColor',

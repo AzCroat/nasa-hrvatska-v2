@@ -174,7 +174,7 @@ const QUIZ_SECTION = ({ quiz, accent }: { quiz: QuizItem[]; accent: string }) =>
             <div
               style={{
                 marginTop: 8,
-                fontSize: 11,
+                fontSize: 12,
                 color: q.opts[answers[i]!] === q.a ? 'var(--ink-green)' : 'var(--ink-error)',
                 fontWeight: 700,
               }}
@@ -246,11 +246,11 @@ function WeatherScreen({ goBack }: { goBack: () => void }) {
                   <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--ink-accent)' }}>
                     {v.hr}
                   </div>
-                  <div style={{ fontSize: 11, color: 'var(--ink-muted-warm)' }}>{v.en}</div>
+                  <div style={{ fontSize: 12, color: 'var(--ink-muted-warm)' }}>{v.en}</div>
                   {v.note && (
                     <div
                       style={{
-                        fontSize: 10,
+                        fontSize: 12,
                         color: 'var(--ink-info)',
                         fontStyle: 'italic',
                         marginTop: 1,
@@ -331,10 +331,10 @@ function WeatherScreen({ goBack }: { goBack: () => void }) {
                   <div style={{ fontSize: 13, color: 'var(--ink-muted-warm)' }}>{s.en}</div>
                 </div>
               </div>
-              <div style={{ fontSize: 11, color: 'var(--ink-body)', marginBottom: 4 }}>
+              <div style={{ fontSize: 12, color: 'var(--ink-body)', marginBottom: 4 }}>
                 <strong>Adjective:</strong> {s.adj}
               </div>
-              <div style={{ fontSize: 11, color: 'var(--ink-body)' }}>
+              <div style={{ fontSize: 12, color: 'var(--ink-body)' }}>
                 <strong>Months:</strong> {s.months}
               </div>
             </div>

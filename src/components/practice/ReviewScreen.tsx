@@ -12,7 +12,6 @@ import { useStats } from '../../context/StatsContext';
 import { logError } from '../../lib/learnerErrors.js';
 import { _aiPost } from '../../lib/aiPost';
 import { playFanfare as _playFanfare } from '../../lib/soundSettings.js';
-import CharacterPortrait from '../family/CharacterPortrait';
 import { knightSpeak } from '../../lib/knightSpeak.js';
 
 interface AiExplanation {
@@ -99,7 +98,7 @@ export default function ReviewScreen({ goBack, award, allCats }: ReviewScreenPro
 
   const questions = useMemo(() => {
     if (dueWords.length === 0) return [];
-    return (dueWords as string[][]).slice(0, 20).map((w: string[]) => {
+    return (dueWords as string[][]).map((w: string[]) => {
       // Filter to words with a different English meaning, then deduplicate
       // meanings — prevents synonyms from making the correct answer appear twice.
       const seen = new Set([w[1]]);
@@ -351,10 +350,6 @@ export default function ReviewScreen({ goBack, award, allCats }: ReviewScreenPro
             gap: 0,
           }}
         >
-          <div style={{ textAlign: 'center', marginBottom: 8, animation: 'bounce-in .5s ease' }}>
-            <CharacterPortrait name="kovac" size={90} />
-          </div>
-
           <div style={{ fontSize: 56, marginBottom: 8, animation: 'bounce-in .5s ease .1s both' }}>
             {pct >= 80 ? '🌟' : pct >= 50 ? '🎉' : '💪'}
           </div>
@@ -487,7 +482,7 @@ export default function ReviewScreen({ goBack, award, allCats }: ReviewScreenPro
                 setStats((prev) => ({ ...prev, srsTotal: (prev.srsTotal || 0) + 1 }));
               }}
             >
-              <span style={{ opacity: 0.4, fontSize: 11, marginRight: 6 }}>{i + 1}</span>
+              <span style={{ opacity: 0.4, fontSize: 12, marginRight: 6 }}>{i + 1}</span>
               {opt}
             </button>
           );
@@ -507,7 +502,7 @@ export default function ReviewScreen({ goBack, award, allCats }: ReviewScreenPro
             >
               <div
                 style={{
-                  fontSize: 11,
+                  fontSize: 12,
                   fontWeight: 800,
                   color: 'var(--info)',
                   textTransform: 'uppercase',
@@ -581,7 +576,7 @@ export default function ReviewScreen({ goBack, award, allCats }: ReviewScreenPro
                     alignItems: 'center',
                     gap: 6,
                     marginBottom: 8,
-                    fontSize: 11,
+                    fontSize: 12,
                     fontWeight: 800,
                     color: 'var(--ink-mode)',
                     textTransform: 'uppercase',

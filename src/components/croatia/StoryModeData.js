@@ -27,7 +27,7 @@ export const CITY_PHOTOS = {
   default: '/images/scenes/dalmatian-ai.webp',
 };
 
-export const LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
+export const LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1'];
 
 export const GOAL_META = {
   heritage: {

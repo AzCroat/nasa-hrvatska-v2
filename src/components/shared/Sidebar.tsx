@@ -8,7 +8,6 @@ const TABS = [
   { id: 'home', label: 'Today', cro: 'Dom', sub: 'Home' },
   { id: 'learn', label: 'Course', cro: 'Tečaj', sub: 'Course' },
   { id: 'more', label: 'More', cro: 'Više', sub: 'More' },
-  { id: 'profile', label: 'Me', cro: 'Ja', sub: 'Me' },
 ];
 
 // Tabs that stay valid (routes, URLs) but live behind the More door.
@@ -343,7 +342,7 @@ export default function Sidebar({
             </div>
             <div
               style={{
-                fontSize: 10,
+                fontSize: 12,
                 color: 'var(--subtext)',
                 fontWeight: 600,
                 marginTop: 2,
@@ -390,7 +389,7 @@ export default function Sidebar({
             >
               {name || 'Learner'}
             </div>
-            <div style={{ fontSize: 11, color: 'var(--subtext)', marginTop: 1 }}>
+            <div style={{ fontSize: 12, color: 'var(--subtext)', marginTop: 1 }}>
               Level {level} · {st.xp.toLocaleString()} XP
             </div>
           </div>
@@ -416,7 +415,7 @@ export default function Sidebar({
           </div>
           <div
             style={{
-              fontSize: 9,
+              fontSize: 12,
               color: 'var(--subtext)',
               marginTop: 3,
               textAlign: 'right',
@@ -556,7 +555,7 @@ export default function Sidebar({
               </span>
               <span style={{ flex: 1 }}>
                 {t.cro}
-                <span style={{ fontSize: 11, opacity: 0.55, fontWeight: 600, marginLeft: 6 }}>
+                <span style={{ fontSize: 12, opacity: 0.55, fontWeight: 600, marginLeft: 6 }}>
                   {t.sub}
                 </span>
               </span>

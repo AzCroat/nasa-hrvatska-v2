@@ -132,7 +132,7 @@ export default function SprintFeedbackPhase({
       >
         <span
           style={{
-            fontSize: 11,
+            fontSize: 12,
             fontWeight: 700,
             color: 'var(--ink-green)',
             display: 'block',
@@ -159,7 +159,7 @@ export default function SprintFeedbackPhase({
         >
           <span
             style={{
-              fontSize: 11,
+              fontSize: 12,
               fontWeight: 700,
               color: 'var(--ink-accent)',
               display: 'block',
@@ -192,7 +192,7 @@ export default function SprintFeedbackPhase({
         >
           <span
             style={{
-              fontSize: 11,
+              fontSize: 12,
               fontWeight: 700,
               color: 'var(--subtext)',
               display: 'block',
@@ -219,7 +219,7 @@ export default function SprintFeedbackPhase({
       >
         <span
           style={{
-            fontSize: 11,
+            fontSize: 12,
             fontWeight: 700,
             color: 'var(--ink-mode)',
             display: 'block',

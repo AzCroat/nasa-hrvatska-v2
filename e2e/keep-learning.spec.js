@@ -78,8 +78,11 @@ test.describe('Keep Learning', () => {
     const stored = await page.evaluate(() => JSON.parse(localStorage.getItem('nh_daily_session')));
     const block = stored.activities.filter((a) => a.keep === 1);
     expect(block.length).toBeGreaterThan(0);
-    // Never a lesson after the session (owner: review, not new concepts).
-    expect(block.some((a) => a.screen === 'animlesson' || a.screen === 'unittest')).toBe(false);
+    // 2026-11-19 (owner: "why are we giving them the same material?"): after the session the
+    // block MAY lead with the course's next lesson or unit test — this asserted none (the
+    // 2026-09-29 review-only rule). What still holds: nothing is listed twice.
+    const ids = stored.activities.map((a) => a.id);
+    expect(new Set(ids).size).toBe(ids.length);
   });
 
   test('a finished block is followed by the next one, and a plan the Stretch build called "Day Complete" is not', async ({

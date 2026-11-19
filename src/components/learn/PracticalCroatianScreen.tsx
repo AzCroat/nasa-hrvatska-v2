@@ -457,7 +457,7 @@ function DiffBadge({ level }: { level: string }) {
     <span
       style={{
         display: 'inline-block',
-        fontSize: 10,
+        fontSize: 12,
         fontWeight: 800,
         color: '#fff',
         background: accentFill((DIFF_COLOR as Record<string, string>)[level] || '#64748b'),
@@ -507,19 +507,19 @@ function MenuView({ onSelect }: { onSelect: (s: Scenario) => void }) {
             </span>
           </div>
           <div
-            style={{ fontSize: 11, color: 'var(--subtext)', fontStyle: 'italic', lineHeight: 1.3 }}
+            style={{ fontSize: 12, color: 'var(--subtext)', fontStyle: 'italic', lineHeight: 1.3 }}
           >
             {s.titleEn}
           </div>
           <DiffBadge level={s.difficulty} />
-          <div style={{ fontSize: 11, color: 'var(--subtext)', lineHeight: 1.4, marginTop: 2 }}>
+          <div style={{ fontSize: 12, color: 'var(--subtext)', lineHeight: 1.4, marginTop: 2 }}>
             {s.description}
           </div>
           <div
             style={{
               marginTop: 4,
               display: 'inline-block',
-              fontSize: 11,
+              fontSize: 12,
               fontWeight: 700,
               color: accentInk(s.color),
               borderTop: `2px solid ${s.color}`,
@@ -578,7 +578,7 @@ function PhrasesTab({ phrases }: { phrases: Phrase[] }) {
             </div>
             <div style={{ fontSize: 13, color: 'var(--subtext)', marginBottom: 4 }}>{p.en}</div>
             <div
-              style={{ fontSize: 11, color: 'var(--subtext)', fontStyle: 'italic', opacity: 0.75 }}
+              style={{ fontSize: 12, color: 'var(--subtext)', fontStyle: 'italic', opacity: 0.75 }}
             >
               {p.note}
             </div>
@@ -592,7 +592,7 @@ function PhrasesTab({ phrases }: { phrases: Phrase[] }) {
               border: 'none',
               borderRadius: 8,
               padding: '5px 9px',
-              fontSize: 11,
+              fontSize: 12,
               fontWeight: 700,
               color: copied === i ? 'var(--ink-green)' : 'var(--subtext)',
               cursor: 'pointer',
@@ -625,7 +625,7 @@ function DialogueTab({ dialogue }: { dialogue: DialogueLine[] }) {
           >
             <div
               style={{
-                fontSize: 10,
+                fontSize: 12,
                 fontWeight: 700,
                 color: 'var(--subtext)',
                 marginBottom: 4,
@@ -659,7 +659,7 @@ function DialogueTab({ dialogue }: { dialogue: DialogueLine[] }) {
               </div>
               <div
                 style={{
-                  fontSize: 11,
+                  fontSize: 12,
                   fontStyle: 'italic',
                   opacity: isA ? 0.85 : 1,
                   color: isA ? 'rgba(255,255,255,.88)' : 'var(--subtext)',

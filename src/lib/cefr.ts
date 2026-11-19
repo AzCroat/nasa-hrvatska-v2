@@ -35,8 +35,23 @@
  * consume `getUserCefr` directly for a user-facing claim or a content gate.
  */
 
-export const CEFR_ORDER = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'] as const;
+// THE COURSE ENDS AT C1 (owner decision, 2026-11-18): the former C2 level was folded into
+// C1 and no longer exists in the app. A stored 'C2' (an old placement, pass or synced
+// level) is read as C1 by `normalizeCefr` and `cefrRank` — never as unknown, which would
+// read as A1.
+export const CEFR_ORDER = ['A1', 'A2', 'B1', 'B2', 'C1'] as const;
 export type CefrLevel = (typeof CEFR_ORDER)[number];
+
+/** The retired top level, as it may still appear in stored or synced data. */
+export const LEGACY_TOP_LEVEL = 'C2';
+
+/** A stored level as a current one: the retired 'C2' is C1; anything unknown is null. */
+export function normalizeCefr(raw: unknown): CefrLevel | null {
+  if (raw === LEGACY_TOP_LEVEL) return 'C1';
+  return typeof raw === 'string' && (CEFR_ORDER as readonly string[]).includes(raw)
+    ? (raw as CefrLevel)
+    : null;
+}
 
 /**
  * Returns the numeric rank (index) for a CEFR level.
@@ -45,6 +60,7 @@ export type CefrLevel = (typeof CEFR_ORDER)[number];
  * @example cefrRank('X9') → 0
  */
 export function cefrRank(cefr: string): number {
+  if (cefr === LEGACY_TOP_LEVEL) return CEFR_ORDER.length - 1;
   const i = CEFR_ORDER.indexOf(cefr as CefrLevel);
   return i === -1 ? 0 : i;
 }
@@ -145,8 +161,7 @@ export const CEFR_BANDS: ReadonlyArray<{
   { level: 'A2', floor: 300, ceiling: 1200 },
   { level: 'B1', floor: 1200, ceiling: 3500 },
   { level: 'B2', floor: 3500, ceiling: 8000 },
-  { level: 'C1', floor: 8000, ceiling: 18000 },
-  { level: 'C2', floor: 18000, ceiling: null },
+  { level: 'C1', floor: 8000, ceiling: null },
 ];
 
 /** The progress score a level is derived from: XP plus weighted completions. */
@@ -165,12 +180,12 @@ export function cefrBand(level: CefrLevel): { floor: number; ceiling: number | n
  *
  * Formula: total = xp + lc*15 + gc*25 (`cefrScore`)
  * Thresholds: `CEFR_BANDS` above — A1 (<300) → A2 (<1200) → B1 (<3500) →
- * B2 (<8000) → C1 (<18000) → C2.
+ * B2 (<8000) → C1.
  *
  * @param xp - Total XP earned
  * @param lc - Lesson completions
  * @param gc - Grammar completions
- * @returns CEFR level (one of: A1, A2, B1, B2, C1, C2)
+ * @returns CEFR level (one of: A1, A2, B1, B2, C1)
  *
  * @example getUserCefr(0, 0, 0) → 'A1'
  * @example getUserCefr(300, 0, 0) → 'A2'
@@ -181,5 +196,5 @@ export function getUserCefr(xp: number, lc: number, gc: number): CefrLevel {
   for (const band of CEFR_BANDS) {
     if (band.ceiling === null || total < band.ceiling) return band.level;
   }
-  return 'C2';
+  return 'C1';
 }

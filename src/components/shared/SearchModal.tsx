@@ -174,7 +174,7 @@ export default function SearchModal({
           <div key={type} style={{ marginBottom: 16 }}>
             <div
               style={{
-                fontSize: 11,
+                fontSize: 12,
                 fontWeight: 700,
                 color: 'var(--subtext)',
                 textTransform: 'uppercase',

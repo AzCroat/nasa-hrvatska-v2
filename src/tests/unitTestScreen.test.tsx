@@ -110,6 +110,23 @@ beforeEach(() => {
   getLessons.mockResolvedValue(LESSONS as unknown[]);
 });
 
+describe('a locked unit can be tested out of (owner, 2026-11-19)', () => {
+  // "You should be able to test out of any lesson at any time." Assembling the paper reads
+  // lesson BODIES, which is not reading the lessons, so a unit the course has not opened
+  // builds and passes like any other; the pass is kept as a test-out (production waived)
+  // and does not open the unit by itself.
+  it('builds the paper for Unit 3 while Units 1 and 2 are untouched, and keeps the pass', async () => {
+    seed('A1-3');
+    const items = paper('A1-3');
+    mount();
+    await sit(items);
+    const result = await screen.findByTestId('unit-test-result');
+    expect(result.getAttribute('data-passed')).toBe('1');
+    expect([...passedUnits()]).toEqual(['A1-3']);
+    expect(unitRecord('A1-3')?.testedOut).toBe(true);
+  });
+});
+
 describe('a passing sitting', () => {
   it('records the pass, pays once, and says the count needed', async () => {
     seed();
@@ -266,7 +283,8 @@ describe('a failing sitting', () => {
     )!;
     fireEvent.click(screen.getByTestId(`unit-test-review-${later}`));
     expect((await screen.findByTestId('unit-test-lesson-locked')).textContent).toMatch(
-      /isn't open yet\. Opens after lesson \d of this unit\./,
+      // 2026-11-19: names the owed step and says test-out is open (reading stays closed).
+      /isn't open yet\. Finish lesson \d of this unit to open lesson \d\. You can test out of it any time\./,
     );
     expect(onOpenLesson).not.toHaveBeenCalled();
     expect(screen.queryByTestId('unit-test-open-failed')).toBeNull();

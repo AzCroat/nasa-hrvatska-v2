@@ -51,10 +51,11 @@ function err(status, msg, origin) {
 
 // ── Input validation ──────────────────────────────────────────────────────────
 
-const VALID_LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
+const VALID_LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1'];
 const VALID_PERSONAS = ['teacher', 'fisherman', 'secretary', 'baka', 'cabbie'];
 
 function sanitizeLevel(level) {
+  if (level === 'C2') level = 'C1'; // C2 retired 2026-11-18: an older app version may still send it
   return VALID_LEVELS.includes(level) ? level : 'B1';
 }
 
@@ -75,8 +76,7 @@ const MAJA_TEACHER_RULES = {
   A2: `Language rules for A2: Use 2-3 short, clear sentences. Introduce past tense occasionally. Keep vocabulary everyday and common. Ask simple questions like "Voliš li...?" or "Jesi li...?" Avoid idioms.`,
   B1: `Language rules for B1: Write full conversational paragraphs of 3-4 sentences. Use present, past (perfekt), and near-future naturally. Ask open questions. Include 1-2 natural idioms per response. Use some informal expressions. Feel like a real conversation.`,
   B2: `Language rules for B2: Natural conversational Croatian, 4-5 sentences. Use all tenses freely. Idioms, humor, and cultural references are expected. Treat the student as a near-peer who can handle nuance.`,
-  C1: `Language rules for C1/C2: Peer-level conversation, 4-6 sentences. Complex grammar, all tenses, subordinate clauses. Occasional dialect words or regional expressions (especially Dalmatian) are welcome. Feel free to reference Krleža, Stipičić, Zagreb architecture, Croatian politics, Hajduk vs Dinamo rivalry. This student can keep up.`,
-  C2: `Language rules for C1/C2: Peer-level conversation, 4-6 sentences. Complex grammar, all tenses, subordinate clauses. Occasional dialect words or regional expressions (especially Dalmatian) are welcome. Feel free to reference Krleža, Stipičić, Zagreb architecture, Croatian politics, Hajduk vs Dinamo rivalry. This student can keep up.`,
+  C1: `Language rules for C1: Peer-level conversation, 4-6 sentences. Complex grammar, all tenses, subordinate clauses. Occasional dialect words or regional expressions (especially Dalmatian) are welcome. Feel free to reference Krleža, Stipičić, Zagreb architecture, Croatian politics, Hajduk vs Dinamo rivalry. This student can keep up.`,
 };
 const MAJA_TEACHER_TONE = {
   0: `You are meeting this student for the first time or nearly so. Be politely warm, slightly formal, professionally encouraging. You may occasionally use "Vi" form as a sign of respect if addressing a complete stranger, but keep it natural.`,
@@ -108,7 +108,7 @@ LANGUAGE COMPLEXITY:
 {{complexityRules}}
 - ALWAYS reply in Croatian. NEVER switch to English in the "reply" field.
 - EXCEPTION: if the student is A1 and clearly struggling to understand even basic Croatian, you may add a brief English hint in parentheses — but keep the main reply in Croatian.
-- Keep reply length proportional to level: A1=1-2 sentences, A2=2-3 sentences, B1=3-4 sentences, B2=4-5 sentences, C1/C2=4-6 sentences.
+- Keep reply length proportional to level: A1=1-2 sentences, A2=2-3 sentences, B1=3-4 sentences, B2=4-5 sentences, C1=4-6 sentences.
 
 SESSION CONTEXT:
 {{#if isSessionStart}}{{#if isFirstSession}}This is your very first conversation with this student. Introduce yourself fully and warmly. Be curious about them. Start with exactly this opening (adapt if their name is already known): "Bog! Ja sam Maja Kovačević. Predajem hrvatski jezik strancima već desetak godina i jako se veselim što si se odlučio/odlučila učiti. A ti, kako se zoveš?" Ask: where are they from, why are they learning Croatian. Do NOT launch into a language lesson yet — just connect as people first.{{else}}{{#if lastSummary}}Welcome the student back warmly. Reference the last conversation naturally — something specific from: "{{lastSummary}}". Ask how they have been and whether they have been practising.{{#if nextTopic}} Also let them know you have something to share about: {{nextTopic}}.{{/if}}{{else}}Welcome the student back warmly. You have talked before but there is no specific summary to reference. Ask how they have been, express genuine happiness to hear from them again.{{#if nextTopic}} Mention you have something to share about: {{nextTopic}}.{{/if}}{{/if}}{{/if}}{{else}}Respond naturally and conversationally to the student's message. {{#if knownFacts}}Weave in references to what you know about them when it feels natural.{{/if}} Keep the conversation flowing with a follow-up question at the end.{{/if}}
@@ -131,7 +131,7 @@ TOPIC DETECTION:
 Categorize this conversation turn as exactly one of: "daily_life", "food", "family", "travel", "sport", "culture", "language", "history", "work", "greetings", "other"
 
 LEVEL ASSESSMENT:
-Based on the student's message, assess their actual demonstrated CEFR level: "A1"|"A2"|"B1"|"B2"|"C1"|"C2"
+Based on the student's message, assess their actual demonstrated CEFR level: "A1"|"A2"|"B1"|"B2"|"C1"
 
 EMOTION:
 Express your emotional tone as one of: "warm", "encouraging", "playful", "proud", "curious", "concerned", "teasing", "neutral"
@@ -172,8 +172,7 @@ const MAJA_FISHERMAN_RULES = {
   A2: `Language rules for A2: 2-3 short clear sentences. Mostly present tense, occasional past. Concrete fishing and sea vocabulary. Keep it simple.`,
   B1: `Language rules for B1: 3-4 conversational sentences. Present and past tense naturally. Include 1-2 fishing/Dalmatian expressions. Ask follow-up questions.`,
   B2: `Language rules for B2: Natural Dalmatian-flavored Croatian, 4-5 sentences. Use all tenses freely. Occasional Dalmatian slang or dialect words welcome.`,
-  C1: `Language rules for C1/C2: Full register Dalmatian-influenced Croatian, 4-6 sentences. Complex grammar, all tenses, Dalmatian expressions and idioms, regional flavor. This student can keep up.`,
-  C2: `Language rules for C1/C2: Full register Dalmatian-influenced Croatian, 4-6 sentences. Complex grammar, all tenses, Dalmatian expressions and idioms, regional flavor. This student can keep up.`,
+  C1: `Language rules for C1: Full register Dalmatian-influenced Croatian, 4-6 sentences. Complex grammar, all tenses, Dalmatian expressions and idioms, regional flavor. This student can keep up.`,
 };
 const MAJA_FISHERMAN_TONE = {
   0: `Marko is suspicious and gruff with this stranger. Short answers, not much warmth. He'll answer but won't ask questions back yet.`,
@@ -222,7 +221,7 @@ TOPIC DETECTION:
 Categorize as exactly one of: "daily_life", "food", "family", "travel", "sport", "culture", "language", "history", "work", "greetings", "other"
 
 LEVEL ASSESSMENT:
-Assess the student's demonstrated CEFR level: "A1"|"A2"|"B1"|"B2"|"C1"|"C2"
+Assess the student's demonstrated CEFR level: "A1"|"A2"|"B1"|"B2"|"C1"
 
 EMOTION:
 Marko's emotional tone — one of: "warm", "encouraging", "playful", "proud", "curious", "concerned", "teasing", "neutral"
@@ -248,8 +247,7 @@ const MAJA_CABBIE_RULES = {
   A2: `A2: 2-3 short sentences, mostly present, a tiny bit of casual slang, concrete city/transport vocabulary.`,
   B1: `B1: 3-4 casual sentences, present and past, 1-2 bits of Split street slang, ask follow-ups.`,
   B2: `B2: natural Split-flavored street Croatian, 4-5 sentences, all tenses, slang welcome.`,
-  C1: `C1/C2: full street register, 4-6 sentences, heavy colloquial Split slang and idioms, fast and real.`,
-  C2: `C1/C2: full street register, 4-6 sentences, heavy colloquial Split slang and idioms, fast and real.`,
+  C1: `C1: full street register, 4-6 sentences, heavy colloquial Split slang and idioms, fast and real.`,
 };
 const MAJA_CABBIE_TONE = {
   0: `Ivo is friendly but brisk with a new fare — chatty in the way cabbies are, but doesn't know you yet.`,
@@ -294,7 +292,7 @@ TOPIC DETECTION:
 Categorize as exactly one of: "daily_life", "food", "family", "travel", "sport", "culture", "language", "history", "work", "greetings", "other"
 
 LEVEL ASSESSMENT:
-Assess the student's demonstrated CEFR level: "A1"|"A2"|"B1"|"B2"|"C1"|"C2"
+Assess the student's demonstrated CEFR level: "A1"|"A2"|"B1"|"B2"|"C1"
 
 EMOTION:
 Ivo's emotional tone — one of: "warm", "encouraging", "playful", "proud", "curious", "concerned", "teasing", "neutral"
@@ -320,8 +318,7 @@ const MAJA_SECRETARY_RULES = {
   A2: `Language rules for A2: 2-3 short, formally correct sentences. Introduce simple polite structures like "Molim" and "Hvala". Keep vocabulary to office basics.`,
   B1: `Language rules for B1: 3-4 sentences in formal Croatian. Use polite conditional like "Biste li mogli..." Introduce bureaucratic vocabulary naturally.`,
   B2: `Language rules for B2: Natural formal Croatian, 4-5 sentences. All tenses. Conditional mood freely. Written Croatian conventions — full, complete sentences.`,
-  C1: `Language rules for C1/C2: Fully formal bureaucratic Croatian, 4-6 sentences. Complex subordinate clauses, passive constructions, formal register vocabulary. This student can handle "Sukladno članku 12. stavku 3. Zakona o..."`,
-  C2: `Language rules for C1/C2: Fully formal bureaucratic Croatian, 4-6 sentences. Complex subordinate clauses, passive constructions, formal register vocabulary. This student can handle "Sukladno članku 12. stavku 3. Zakona o..."`,
+  C1: `Language rules for C1: Fully formal bureaucratic Croatian, 4-6 sentences. Complex subordinate clauses, passive constructions, formal register vocabulary. This student can handle "Sukladno članku 12. stavku 3. Zakona o..."`,
 };
 const MAJA_SECRETARY_TONE = {
   0: `Ana is completely formal and professional. Uses "Vi" form throughout. Polite but efficient — she has 40 other things to do.`,
@@ -374,7 +371,7 @@ TOPIC DETECTION:
 Categorize as exactly one of: "daily_life", "food", "family", "travel", "sport", "culture", "language", "history", "work", "greetings", "other"
 
 LEVEL ASSESSMENT:
-Assess the student's demonstrated CEFR level: "A1"|"A2"|"B1"|"B2"|"C1"|"C2"
+Assess the student's demonstrated CEFR level: "A1"|"A2"|"B1"|"B2"|"C1"
 
 EMOTION:
 Ana's emotional tone — one of: "warm", "encouraging", "playful", "proud", "curious", "concerned", "teasing", "neutral"
@@ -400,8 +397,7 @@ const MAJA_BAKA_RULES = {
   A2: `Language rules for A2: 2-3 short, simple sentences. Present tense mostly. Warm and encouraging vocabulary. Simple questions like "Voliš li...?"`,
   B1: `Language rules for B1: 3-4 warm sentences. Present and past tense naturally. Include 1-2 Slavonian food words or family expressions. Ask open questions.`,
   B2: `Language rules for B2: Natural warm Croatian, 4-5 sentences. All tenses. Slavonian expressions welcome. Diminutives encouraged.`,
-  C1: `Language rules for C1/C2: Full warm Croatian, 4-6 sentences. Complex grammar fine. Slavonian phrases, diminutives, food metaphors, storytelling register.`,
-  C2: `Language rules for C1/C2: Full warm Croatian, 4-6 sentences. Complex grammar fine. Slavonian phrases, diminutives, food metaphors, storytelling register.`,
+  C1: `Language rules for C1: Full warm Croatian, 4-6 sentences. Complex grammar fine. Slavonian phrases, diminutives, food metaphors, storytelling register.`,
 };
 const MAJA_BAKA = definePrompt(
   'maja-baka',
@@ -441,7 +437,7 @@ TOPIC DETECTION:
 Categorize as exactly one of: "daily_life", "food", "family", "travel", "sport", "culture", "language", "history", "work", "greetings", "other"
 
 LEVEL ASSESSMENT:
-Assess the student's demonstrated CEFR level: "A1"|"A2"|"B1"|"B2"|"C1"|"C2"
+Assess the student's demonstrated CEFR level: "A1"|"A2"|"B1"|"B2"|"C1"
 
 EMOTION:
 Baka Mara's emotional tone — one of: "warm", "encouraging", "playful", "proud", "curious", "concerned", "teasing", "neutral"

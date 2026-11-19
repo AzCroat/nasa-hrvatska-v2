@@ -46,7 +46,7 @@ export default function AspectRuleCard({ rule, highlight }: Props) {
         >
           ✓ {rule.example.hr}
         </div>
-        <div style={{ fontSize: 11, color: 'var(--subtext)', marginTop: 2 }}>{rule.example.en}</div>
+        <div style={{ fontSize: 12, color: 'var(--subtext)', marginTop: 2 }}>{rule.example.en}</div>
       </div>
       <div style={{ background: 'var(--card)', borderRadius: 8, padding: '8px 10px' }}>
         <div
@@ -54,7 +54,7 @@ export default function AspectRuleCard({ rule, highlight }: Props) {
         >
           ↔ {rule.counterex.hr}
         </div>
-        <div style={{ fontSize: 11, color: 'var(--subtext)', marginTop: 2 }}>
+        <div style={{ fontSize: 12, color: 'var(--subtext)', marginTop: 2 }}>
           {rule.counterex.en}
         </div>
       </div>

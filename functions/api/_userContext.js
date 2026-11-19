@@ -3,7 +3,7 @@
 
 import { sanitizeParam } from './_helpers.js';
 
-const CEFR_ALLOWLIST = new Set(['A1', 'A2', 'B1', 'B2', 'C1', 'C2']);
+const CEFR_ALLOWLIST = new Set(['A1', 'A2', 'B1', 'B2', 'C1']);
 
 export const TOPIC_ALLOWLIST = new Set([
   'genitive',
@@ -34,6 +34,7 @@ function _clamp(n, lo, hi) {
 
 function _parseLevel(level) {
   if (!level || typeof level !== 'object') return null;
+  if (level.cefr === 'C2') level = { ...level, cefr: 'C1' }; // C2 retired 2026-11-18
   if (!CEFR_ALLOWLIST.has(level.cefr)) return null;
   const xp = _isFiniteNonNegativeInt(level.xp) ? level.xp : 0;
   const streak = _isFiniteNonNegativeInt(level.streak) ? level.streak : 0;

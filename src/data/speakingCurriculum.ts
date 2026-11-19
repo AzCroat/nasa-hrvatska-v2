@@ -6255,7 +6255,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
   // ── C2 — nuance and register play ───────────────────────────────────────────
   {
     id: 'c2-nuance',
-    level: 'C2',
+    level: 'C1',
     title: 'Hold a position with precision',
     prompt:
       'Zauzmi stav o pitanju o kojem se ne slažeš ni s jednom stranom u potpunosti. Reci točno koliko se slažeš, s čime, i gdje prestaje tvoje slaganje.',
@@ -6355,7 +6355,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
   },
   {
     id: 'c2-irony',
-    level: 'C2',
+    level: 'C1',
     title: 'Use understatement and make it land',
     prompt:
       'Komentiraj situaciju koja je otišla po zlu, ali bez izravne kritike: koristi ironiju ili blagu izjavu i pazi da ne ispadneš zloban.',
@@ -6463,7 +6463,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
   },
   {
     id: 'c2-synthesise',
-    level: 'C2',
+    level: 'C1',
     title: 'Synthesise several sources aloud',
     prompt:
       'Tri izvora govore o istoj temi i ne slažu se. Sažmi ih, pokaži gdje se točno razilaze i reci što se iz svega zajedno može zaključiti.',
@@ -6493,7 +6493,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       {
         hr: 'odnosno neulaganja',
         en: 'or rather the lack of it',
-        why: '"odnosno" corrects your own word mid-sentence — precision performed out loud, which is exactly the C2 register.',
+        why: '"odnosno" corrects your own word mid-sentence — precision performed out loud, which is exactly the advanced register.',
       },
       {
         hr: 'skromniji je nego što bi svi željeli',
@@ -6566,7 +6566,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
   },
   {
     id: 'c2-mediate',
-    level: 'C2',
+    level: 'C1',
     title: 'Mediate between two people',
     prompt:
       'Dvoje kolega se posvađalo i oboje imaju pravo u nečemu. Prevedi jedno drugome što zapravo govore i predloži izlaz koji nitko ne gubi obraz.',
@@ -6666,7 +6666,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
   },
   {
     id: 'c2-rebut',
-    level: 'C2',
+    level: 'C1',
     title: 'Rebut an unexpected point',
     prompt:
       'Usred rasprave netko iznese argument koji nisi predvidio i koji zvuči jako. Ne izbjegavaj ga: preformuliraj ga pošteno, pa odgovori.',
@@ -6773,7 +6773,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
   },
   {
     id: 'c2-register',
-    level: 'C2',
+    level: 'C1',
     title: 'Say the same thing twice, in two registers',
     prompt:
       'Prenesi istu poruku dvaput: jednom službeno, nekome na visokom položaju, i jednom prijatelju. Neka sadržaj bude isti, a sve ostalo drukčije.',
@@ -6874,7 +6874,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
   },
   {
     id: 'c2-farewell',
-    level: 'C2',
+    level: 'C1',
     title: 'Speak at a farewell',
     prompt:
       'Kolega odlazi nakon mnogo godina. Govori kratko, konkretno i bez patetike: reci što odlazi s njim i što ostaje.',
@@ -6978,7 +6978,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
   },
   {
     id: 'c2-distinction',
-    level: 'C2',
+    level: 'C1',
     title: 'Defend a fine distinction',
     prompt:
       'Netko koristi dvije riječi kao da znače isto. Objasni razliku, pokaži gdje se ona vidi u praksi i priznaj kad je razlika nevažna.',
@@ -7086,7 +7086,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
 
   {
     id: 'c2-escalate',
-    level: 'C2',
+    level: 'C1',
     title: 'Escalate a complaint without raising your voice',
     prompt:
       'Treći put zoveš zbog istoga kvara. Sugovornik je ljubazan i nemoćan. Zatraži da razgovaraš s nekim tko odlučuje, bez povišenog tona, i reci točno što očekuješ i do kada.',
@@ -7192,7 +7192,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
   },
   {
     id: 'c2-anecdote',
-    level: 'C2',
+    level: 'C1',
     title: 'Tell an anecdote and land the ending',
     prompt:
       'Ispričaj kratku istinitu zgodu u društvu: postavi prizor u dvije riječi, uspori pred poantom i završi jednom rečenicom — bez objašnjavanja zašto je smiješno.',
@@ -7302,7 +7302,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
   },
   {
     id: 'c2-concede',
-    level: 'C2',
+    level: 'C1',
     title: 'Concede a point and keep the argument',
     prompt:
       'U raspravi ti sugovornik iznese činjenicu koja je točna i ide protiv tebe. Priznaj je jasno, bez „ali” u istom dahu, pa objasni zašto tvoj zaključak ipak stoji.',
@@ -7411,7 +7411,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
   },
   {
     id: 'c2-layperson',
-    level: 'C2',
+    level: 'C1',
     title: 'Explain your field to a layperson',
     prompt:
       'Objasni nešto iz svojega posla ili struke nekome tko o tome ne zna ništa: bez stručnih riječi, s jednom usporedbom iz svakodnevice, i provjeri je li te razumio.',

@@ -46,7 +46,8 @@ function sanitizeParam(value, maxLen = 200) {
 }
 
 function sanitizeLevel(level) {
-  const VALID = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
+  const VALID = ['A1', 'A2', 'B1', 'B2', 'C1'];
+  if (level === 'C2') level = 'C1'; // C2 retired 2026-11-18: an older app version may still send it
   return VALID.includes(level) ? level : 'B1';
 }
 
@@ -75,7 +76,6 @@ const AC_CONVO_RULES = {
   B1: 'Use present, past (perfective), and near-future naturally. 2-3 sentences. Conversational vocabulary.',
   B2: 'Speak naturally and fluently. 3-4 sentences. You may use idioms, participles, and varied tenses.',
   C1: 'Speak exactly as you would to a native speaker. Rich vocabulary, idioms, subordinate clauses, all tenses.',
-  C2: 'Full native speaker register. Idiomatic speech and cultural references are welcome; use a regional expression only if it genuinely belongs to the place the conversation is set in, never slang from one region passed off as another.',
 };
 const AC_CONVO = definePrompt(
   'ai-chat-convo',
@@ -100,7 +100,7 @@ const AC_EVAL = definePrompt(
 Return ONLY a valid JSON object with this exact structure (no markdown, no explanation, just JSON):
 {
   "score": <integer 0-100>,
-  "level_demonstrated": "<A1|A2|B1|B2|C1|C2>",
+  "level_demonstrated": "<A1|A2|B1|B2|C1>",
   "strengths": ["<specific positive observation>", "<another strength>"],
   "mistakes": [
     {"original": "<exact learner phrase with error>", "correction": "<corrected form>", "rule": "<brief grammar rule>", "errorType": "<one of: case | aspect | tense | word_order | vocab | agreement | spelling | other>" }
@@ -136,7 +136,7 @@ const AC_WRITEEVAL = definePrompt(
 Return ONLY a valid JSON object (no markdown, no explanation):
 {
   "score": <integer 0-100>,
-  "level_demonstrated": "<A1|A2|B1|B2|C1|C2>",
+  "level_demonstrated": "<A1|A2|B1|B2|C1>",
   "corrected_text": "<the full text with corrections applied>",
   "changes": [
     {"original": "<exact phrase with error>", "corrected": "<corrected version>", "note": "<brief English grammar rule>", "errorType": "<one of: case | aspect | tense | word_order | vocab | agreement | spelling | other>"}
@@ -222,7 +222,6 @@ const AC_STORY_RULES = {
   B1: 'Use present and past tense naturally. Conversational vocabulary. Include some cultural details. No English hints needed — context makes meaning clear.',
   B2: 'Write like a skilled author for a native Croatian teen. All tenses, idioms welcome. Rich descriptive language. Cultural depth.',
   C1: 'Write literary Croatian. Complex sentences, subordinate clauses, all tenses, idiomatic expressions. Rich and authentic.',
-  C2: 'Write like a published Croatian author. Use regional color genuine to the region of the story (never slang from another region), colloquialisms, literary devices. Completely authentic native-level Croatian.',
 };
 const AC_STORY = definePrompt(
   'ai-chat-story',
@@ -348,7 +347,6 @@ const AC_ADAPTIVE_RULES = {
   B1: 'Use present, past (perfective), and near-future naturally. 2-3 sentences. Conversational vocabulary.',
   B2: 'Speak naturally and fluently. 3-4 sentences. You may use idioms, participles, and varied tenses.',
   C1: 'Speak exactly as you would to a native speaker. Rich vocabulary, idioms, subordinate clauses, all tenses.',
-  C2: 'Full native speaker register. Idiomatic speech and cultural references are welcome; use a regional expression only if it genuinely belongs to the place the conversation is set in, never slang from one region passed off as another.',
 };
 const AC_ADAPTIVE = definePrompt(
   'ai-chat-adaptive-convo',

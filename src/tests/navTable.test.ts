@@ -26,7 +26,7 @@ import { dirname, join } from 'node:path';
 const __dir = dirname(fileURLToPath(import.meta.url));
 const root = join(__dir, '../..');
 // Test-only reads over repo-relative path literals — no user input reaches them.
-const DOC = readFileSync(join(root, 'CLAUDE.md'), 'utf8');
+const DOC = readFileSync(join(root, 'docs/history/CLAUDE-full-history.md'), 'utf8');
 const TABBAR = readFileSync(join(root, 'src/components/shared/TabBar.tsx'), 'utf8');
 const SIDEBAR = readFileSync(join(root, 'src/components/shared/Sidebar.tsx'), 'utf8');
 const ROUTER = readFileSync(join(root, 'src/components/AppRouter.tsx'), 'utf8');
@@ -62,19 +62,17 @@ describe('the nav table in CLAUDE.md is derived, not remembered', () => {
     expect(docRun('**Desktop rail (`Sidebar.tsx`')).toEqual(real);
   });
 
-  it('records that Me is desktop-only, for as long as that is true', () => {
-    // The asymmetry is the part a spec author gets wrong: a `Me` tab click
-    // passes on desktop and fails on a phone. Pinned in BOTH directions so the
-    // warning is deleted if the bars ever agree.
-    const inBar = labelsOf(TABBAR).includes('Me');
-    const inRail = labelsOf(SIDEBAR).includes('Me');
-    if (!inBar && inRail) {
-      expect(DOC).toMatch(/`Me` IS NOT IN THE BOTTOM BAR/);
-    } else {
-      expect(DOC, 'the bars now agree — delete the mobile/desktop warning').not.toMatch(
-        /`Me` IS NOT IN THE BOTTOM BAR/,
-      );
-    }
+  it('Me is in neither bar: the header avatar is the one route to profile on every device', () => {
+    // 2026-11-19: the desktop rail had a fourth `Me` tab; the design is three tabs
+    // (Today, Course, More) with Profile in the header. Pinned in BOTH places.
+    expect(labelsOf(TABBAR)).not.toContain('Me');
+    expect(labelsOf(SIDEBAR)).not.toContain('Me');
+    expect(DOC).toMatch(/`Me` IS IN NEITHER BAR, ON ANY DEVICE/);
+    const header = readFileSync(join(root, 'src/components/shared/AppHeader.tsx'), 'utf8');
+    expect(header).toContain('aria-label="Me"');
+    // ...and the header must not be hidden at desktop widths.
+    const css = readFileSync(join(root, 'src/index.css'), 'utf8');
+    expect(css).not.toMatch(/@media \(min-width:768px\)\{\s*\.app-header\{\s*display:none/);
   });
 });
 

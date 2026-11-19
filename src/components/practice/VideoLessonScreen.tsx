@@ -66,7 +66,7 @@ const TOPICS = [
   { key: 'city', emoji: '🏙️', hr: 'Grad', en: 'City', scene: '/images/scenes/zagreb.webp' },
 ];
 
-const LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
+const LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1'];
 
 interface Topic {
   key: string;
@@ -375,7 +375,7 @@ export default function VideoLessonScreen({ goBack, award }: VideoLessonProps) {
         {/* Topic selector */}
         <div
           style={{
-            fontSize: 11,
+            fontSize: 12,
             fontWeight: 800,
             color: 'var(--subtext)',
             textTransform: 'uppercase',
@@ -428,7 +428,7 @@ export default function VideoLessonScreen({ goBack, award }: VideoLessonProps) {
                 >
                   {t.hr}
                 </div>
-                <div style={{ fontSize: 11, color: 'var(--subtext)' }}>{t.en}</div>
+                <div style={{ fontSize: 12, color: 'var(--subtext)' }}>{t.en}</div>
               </div>
             </button>
           ))}
@@ -437,7 +437,7 @@ export default function VideoLessonScreen({ goBack, award }: VideoLessonProps) {
         {/* Level selector */}
         <div
           style={{
-            fontSize: 11,
+            fontSize: 12,
             fontWeight: 800,
             color: 'var(--subtext)',
             textTransform: 'uppercase',
@@ -554,7 +554,7 @@ export default function VideoLessonScreen({ goBack, award }: VideoLessonProps) {
             <div>
               <div
                 style={{
-                  fontSize: 9,
+                  fontSize: 12,
                   fontWeight: 800,
                   color: 'rgba(255,255,255,.65)',
                   letterSpacing: '.14em',
@@ -566,7 +566,7 @@ export default function VideoLessonScreen({ goBack, award }: VideoLessonProps) {
               </div>
               <div style={{ fontSize: 16, fontWeight: 900, color: '#fff' }}>{content.title}</div>
               {content.en_summary && (
-                <div style={{ fontSize: 11, color: 'rgba(255,255,255,.7)', marginTop: 4 }}>
+                <div style={{ fontSize: 12, color: 'rgba(255,255,255,.7)', marginTop: 4 }}>
                   {content.en_summary}
                 </div>
               )}
@@ -663,7 +663,7 @@ export default function VideoLessonScreen({ goBack, award }: VideoLessonProps) {
                 >
                   <div
                     style={{
-                      fontSize: 10,
+                      fontSize: 12,
                       fontWeight: 800,
                       color: currentLine === i ? 'var(--info,#0284c7)' : 'var(--subtext)',
                       marginBottom: 3,
@@ -692,7 +692,7 @@ export default function VideoLessonScreen({ goBack, award }: VideoLessonProps) {
             <div style={{ marginBottom: 14 }}>
               <div
                 style={{
-                  fontSize: 11,
+                  fontSize: 12,
                   fontWeight: 800,
                   color: 'var(--subtext)',
                   textTransform: 'uppercase',

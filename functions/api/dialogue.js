@@ -159,7 +159,7 @@ export const SCENARIO_CONTEXTS = {
       'a public round-table debate on emigration in Croatia; the learner argues that emigration is also an opportunity',
     role: 'You are the moderator of a Croatian round-table on emigration; you may also voice an opposing panellist ("easy to say from Zagreb…"). Pose pointed questions and invite the learner to concede, counter and conclude. V-form. Formal, articulate register. 1-3 sentences.',
   },
-  // ── B2/C1/C2 expansion (2026-08-25) — parity with dialogueScenarios.js.
+  // ── B2/C1 expansion (2026-08-25) — parity with dialogueScenarios.js.
   // A scenario without an entry here answers HTTP 400 'Invalid scenario' in AI
   // mode; that is the 16/26 breakage the parity test exists to prevent.
   opcina: {
@@ -228,7 +228,7 @@ export const SCENARIO_CONTEXTS = {
     role: 'You are a Croatian novelist discussing your book at a literary evening. Reflect on its themes, ask what the learner saw in it, and welcome interpretation and polite challenge. V-form. Rich, literary register. 1-3 sentences.',
   },
 
-  // ── 2026-09-05 register pairs (B1–C2). Each pair is the same speech act once
+  // ── 2026-09-05 register pairs (B1–C1). Each pair is the same speech act once
   // formally and once with a friend or relative; the `role` names the register
   // the NPC holds so the AI mode matches the guided mode's lesson.
   pozivnica_susjedi: {
@@ -812,7 +812,6 @@ const LEVEL_GUIDANCE = {
   B1: 'Use varied tenses naturally. Intermediate vocabulary is fine.',
   B2: 'Use rich natural Croatian. All tenses and connectives appropriate.',
   C1: 'Use sophisticated, idiomatic Croatian with complex structures.',
-  C2: 'Use fully natural, native-level Croatian.',
 };
 
 // The in-character rules the NPC plays by. Scenario details (who, where, which
@@ -857,7 +856,7 @@ COACHING: [one coaching tip in English, max 80 chars, ONLY if there's a clear gr
 // leaving 16 scenarios' AI mode returning HTTP 400). Pages Functions ignore
 // extra named exports.
 export const VALID_SCENARIO_IDS = Object.keys(SCENARIO_CONTEXTS);
-const VALID_LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
+const VALID_LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1'];
 
 export async function onRequestOptions({ request }) {
   return new Response(null, {
@@ -895,7 +894,7 @@ export async function onRequestPost(context) {
   const safeMsg = sanitizeParam(userMessage, 500);
   if (!safeMsg) return err(400, 'Empty message after sanitization', origin);
 
-  const safeLevel = VALID_LEVELS.includes(level) ? level : 'A2';
+  const safeLevel = ((l) => (VALID_LEVELS.includes(l) ? l : 'A2'))(level === 'C2' ? 'C1' : level); // C2 retired 2026-11-18
   // Older clients send no scenarioLevel; they keep exactly the old behaviour.
   const speakLevel =
     VALID_LEVELS.includes(scenarioLevel) &&
@@ -955,7 +954,6 @@ export async function onRequestPost(context) {
             B1: 320,
             B2: 400,
             C1: 400,
-            C2: 400,
           }[safeLevel] || 280,
         system: systemPrompt + '\n\n' + CROATIAN_SCRIPT_RULE,
         messages,

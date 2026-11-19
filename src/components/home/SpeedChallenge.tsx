@@ -334,7 +334,7 @@ export default function SpeedChallenge({ onXP }: { onXP?: (xp: number) => void }
                 border: '1px solid var(--card-b)',
                 borderRadius: 8,
                 padding: '4px 10px',
-                fontSize: 11,
+                fontSize: 12,
                 fontWeight: 600,
                 color: 'var(--subtext)',
                 cursor: 'pointer',
@@ -413,7 +413,7 @@ export default function SpeedChallenge({ onXP }: { onXP?: (xp: number) => void }
               </div>
               <div
                 style={{
-                  fontSize: 10,
+                  fontSize: 12,
                   color: 'var(--subtext)',
                   fontWeight: 600,
                   textTransform: 'uppercase',
@@ -537,7 +537,7 @@ export default function SpeedChallenge({ onXP }: { onXP?: (xp: number) => void }
       <div style={{ textAlign: 'center', marginBottom: 16 }}>
         <div
           style={{
-            fontSize: 11,
+            fontSize: 12,
             fontWeight: 700,
             color: 'var(--subtext)',
             textTransform: 'uppercase',

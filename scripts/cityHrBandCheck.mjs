@@ -2,7 +2,7 @@
 // cityHrBandCheck.mjs — the author's dry run for City of the Day band text.
 //
 //   node scripts/cityHrBandCheck.mjs            # every band that ships
-//   node scripts/cityHrBandCheck.mjs A2 B2 C2   # a tranche in progress
+//   node scripts/cityHrBandCheck.mjs A2 B2   # a tranche in progress
 //
 // Reports, per band: coverage against CROATIAN_CITIES, word-range misses, the
 // monotonic ladder (a higher band must be a longer text at every city), Cyrillic
@@ -55,16 +55,20 @@ const show = (msg) => {
 
 for (const b of bandsToCheck) {
   const map = loaded[b] ?? {};
-  const ws = Object.values(map).map(wordsIn).sort((x, y) => x - y);
+  const ws = Object.values(map)
+    .map(wordsIn)
+    .sort((x, y) => x - y);
   const total = ws.reduce((a, c) => a + c, 0);
   console.log(
     `\n${b}  ${Object.keys(map).length}/${names.length} cities  ${total.toLocaleString('en-US')} words  ` +
       `(min ${ws[0] ?? 0} median ${ws[Math.floor(ws.length / 2)] ?? 0} max ${ws[ws.length - 1] ?? 0}; want ${BAND_RULES[b].words.join('-')})`,
   );
   const missing = names.filter((n) => typeof map[n] !== 'string' || !map[n].trim());
-  if (missing.length) show(`${b}: ${missing.length} cities missing — e.g. ${missing.slice(0, 5).join(', ')}`);
+  if (missing.length)
+    show(`${b}: ${missing.length} cities missing — e.g. ${missing.slice(0, 5).join(', ')}`);
   const orphans = Object.keys(map).filter((k) => !names.includes(k));
-  if (orphans.length) show(`${b}: ${orphans.length} entries name no real city — ${orphans.slice(0, 5).join(', ')}`);
+  if (orphans.length)
+    show(`${b}: ${orphans.length} entries name no real city — ${orphans.slice(0, 5).join(', ')}`);
   const texts = Object.values(map).filter((t) => typeof t === 'string');
   if (texts.length && !bandIsCroatian(texts))
     show(`${b}: the band as a whole carries almost no Croatian diacritics`);
@@ -72,7 +76,8 @@ for (const b of bandsToCheck) {
 
 for (const city of names) {
   const bands = {};
-  for (const b of bandsToCheck) if (typeof loaded[b]?.[city] === 'string') bands[b] = loaded[b][city];
+  for (const b of bandsToCheck)
+    if (typeof loaded[b]?.[city] === 'string') bands[b] = loaded[b][city];
   for (const p of checkCity(city, bands)) show(p);
   for (const [b, text] of Object.entries(bands)) {
     if (containsCyrillic(text)) show(`${city} ${b}: CYRILLIC in the text`);

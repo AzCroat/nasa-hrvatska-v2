@@ -409,16 +409,7 @@ const LEVELS = [
         unitId: 'word-order',
         qs: 12,
       },
-    ],
-  },
-  {
-    id: 'C2',
-    label: 'C2 — Mastery',
-    color: '#9d174d',
-    bg: 'linear-gradient(135deg,#fff1f2,#ffe4e6)',
-    border: '#fbcfe8',
-    headerBg: 'linear-gradient(135deg,#9d174d,#831843)',
-    units: [
+      // The former C2 units, part of C1 since 2026-11-18 (the course ends at C1).
       {
         id: 'verbal-adverbs',
         icon: '🎯',
@@ -583,7 +574,7 @@ export default function GrammarTrackScreen({
         </button>
         <div
           style={{
-            fontSize: 10,
+            fontSize: 12,
             fontWeight: 900,
             color: 'rgba(255,255,255,.5)',
             textTransform: 'uppercase',
@@ -605,7 +596,7 @@ export default function GrammarTrackScreen({
           Grammar Track
         </div>
         <div style={{ fontSize: 13, color: 'rgba(255,255,255,.65)', marginBottom: 14 }}>
-          A1 → C2 · {LEVELS.reduce((s, l) => s + l.units.length, 0)} units · Structured grammar
+          A1 → C1 · {LEVELS.reduce((s, l) => s + l.units.length, 0)} units · Structured grammar
           progression
         </div>
 
@@ -672,14 +663,14 @@ export default function GrammarTrackScreen({
               <span
                 style={{
                   marginLeft: 6,
-                  fontSize: 10,
+                  fontSize: 12,
                   fontWeight: 700,
                   color: isActive ? 'rgba(255,255,255,.75)' : 'var(--subtext)',
                 }}
               >
                 {lvlDone}/{l.units.length}
               </span>
-              {lvlPct === 100 && <span style={{ marginLeft: 4, fontSize: 10 }}>✓</span>}
+              {lvlPct === 100 && <span style={{ marginLeft: 4, fontSize: 12 }}>✓</span>}
             </button>
           );
         })}
@@ -696,7 +687,7 @@ export default function GrammarTrackScreen({
       >
         <div
           style={{
-            fontSize: 10,
+            fontSize: 12,
             fontWeight: 900,
             color: 'rgba(255,255,255,.55)',
             textTransform: 'uppercase',
@@ -722,7 +713,7 @@ export default function GrammarTrackScreen({
               }}
             />
           </div>
-          <span style={{ fontSize: 11, color: 'rgba(255,255,255,.7)', fontWeight: 700 }}>
+          <span style={{ fontSize: 12, color: 'rgba(255,255,255,.7)', fontWeight: 700 }}>
             {level.units.filter((u) => done.includes(u.id)).length}/{level.units.length} complete
           </span>
         </div>
@@ -794,7 +785,7 @@ export default function GrammarTrackScreen({
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      fontSize: 9,
+                      fontSize: 12,
                       color: 'white',
                       fontWeight: 900,
                     }}
@@ -816,7 +807,7 @@ export default function GrammarTrackScreen({
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      fontSize: 9,
+                      fontSize: 12,
                       color: 'white',
                       fontWeight: 900,
                     }}
@@ -841,7 +832,7 @@ export default function GrammarTrackScreen({
                     <span
                       style={{
                         marginLeft: 6,
-                        fontSize: 9,
+                        fontSize: 12,
                         fontWeight: 900,
                         color: accentInk(level.color),
                         background: level.color + '18',
@@ -862,7 +853,7 @@ export default function GrammarTrackScreen({
                 </div>
                 {unit.qs && (
                   <div
-                    style={{ fontSize: 10, color: 'var(--subtext)', marginTop: 4, fontWeight: 600 }}
+                    style={{ fontSize: 12, color: 'var(--subtext)', marginTop: 4, fontWeight: 600 }}
                   >
                     {unit.qs} exercises
                   </div>
@@ -872,7 +863,7 @@ export default function GrammarTrackScreen({
               {/* Status badge */}
               <div
                 style={{
-                  fontSize: 10,
+                  fontSize: 12,
                   fontWeight: 800,
                   padding: '4px 8px',
                   borderRadius: 8,
@@ -912,7 +903,7 @@ export default function GrammarTrackScreen({
             {level.id} Complete!
           </div>
           <div style={{ fontSize: 13, color: 'var(--ink-green)' }}>
-            {activeLevel !== 'C2'
+            {activeLevel !== 'C1'
               ? `Move on to ${LEVELS[LEVELS.findIndex((l) => l.id === activeLevel) + 1]?.id} when ready`
               : "You've mastered Croatian grammar — Odlično!"}
           </div>
@@ -932,7 +923,7 @@ export default function GrammarTrackScreen({
         >
           <div style={{ fontSize: 32, marginBottom: 8 }}>🏆</div>
           <div style={{ fontSize: 16, fontWeight: 900, color: 'white', marginBottom: 4 }}>
-            A1 → C2 Complete!
+            A1 → C1 Complete!
           </div>
           <div style={{ fontSize: 13, color: 'rgba(255,255,255,.7)' }}>
             All {LEVELS.reduce((s, l) => s + l.units.length, 0)} grammar units visited. Bravo —

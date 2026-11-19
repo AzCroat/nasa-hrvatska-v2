@@ -128,8 +128,7 @@ export const WRITING_TASKS: Partial<Record<CefrLevel, WritingTask[]>> = {
         'You have read the claim that social media harms young people more than it benefits them. Write a piece for a student magazine: take a clear position, anticipate the strongest counter-argument, and answer it.',
       minWords: 120,
     },
-  ],
-  C2: [
+    // The former C2 tasks, part of C1 since 2026-11-18 (the course ends at C1).
     {
       id: 'c2-w1',
       prompt:

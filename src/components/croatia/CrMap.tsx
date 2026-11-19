@@ -107,7 +107,7 @@ export default function CrMap({ goBack }: CrMapProps) {
                 </div>
                 <div
                   style={{
-                    fontSize: 11,
+                    fontSize: 12,
                     padding: '3px 8px',
                     background: catInfo ? catInfo.color + '18' : 'var(--surface-mute)',
                     borderRadius: 10,

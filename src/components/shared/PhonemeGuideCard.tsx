@@ -28,7 +28,7 @@ export default function PhonemeGuideCard({ phoneme }: { phoneme: string }) {
           border: 'none',
           cursor: 'pointer',
           padding: '3px 0',
-          fontSize: 11,
+          fontSize: 12,
           color: 'var(--ink-accent)',
           fontWeight: 700,
           fontFamily: "'Outfit',sans-serif",
@@ -125,7 +125,7 @@ export default function PhonemeGuideCard({ phoneme }: { phoneme: string }) {
                   <span
                     key={label}
                     style={{
-                      fontSize: 10,
+                      fontSize: 12,
                       fontWeight: 700,
                       padding: '2px 8px',
                       borderRadius: 20,

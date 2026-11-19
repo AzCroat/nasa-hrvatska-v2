@@ -110,7 +110,7 @@ export default function GradMap({
           <div
             data-testid="karta-progress"
             style={{
-              fontSize: 10.5,
+              fontSize: 12,
               fontWeight: 700,
               letterSpacing: '.06em',
               color: 'rgba(255,255,255,.92)',
@@ -167,7 +167,7 @@ export default function GradMap({
           <span
             style={{
               display: 'block',
-              fontSize: 10,
+              fontSize: 12,
               fontWeight: 800,
               letterSpacing: '.13em',
               textTransform: 'uppercase',
@@ -209,7 +209,7 @@ export default function GradMap({
       {/* PLACE LIST */}
       <div
         style={{
-          fontSize: 11,
+          fontSize: 12,
           fontWeight: 800,
           letterSpacing: '.14em',
           textTransform: 'uppercase',
@@ -274,7 +274,7 @@ export default function GradMap({
               >
                 {p.name} {mastered ? <span style={{ color: accentInk(GOLD) }}>★</span> : null}
               </span>
-              <span style={{ display: 'block', fontSize: 11, color: 'var(--subtext)' }}>
+              <span style={{ display: 'block', fontSize: 12, color: 'var(--subtext)' }}>
                 {p.nameEn}
               </span>
               {!locked && (
@@ -310,7 +310,7 @@ export default function GradMap({
                   style={{
                     background: '#D40030',
                     color: '#fff',
-                    fontSize: 11,
+                    fontSize: 12,
                     fontWeight: 900,
                     minWidth: 20,
                     height: 20,

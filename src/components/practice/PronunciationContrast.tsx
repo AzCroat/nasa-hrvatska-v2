@@ -238,7 +238,7 @@ function ArticulationGuide({ opts }: ArticulationGuideProps) {
     >
       <div
         style={{
-          fontSize: 11,
+          fontSize: 12,
           fontWeight: 700,
           color: 'var(--ink-muted)',
           textTransform: 'uppercase',

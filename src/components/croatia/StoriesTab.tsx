@@ -126,7 +126,7 @@ function WordTile({ w, award }: WordTileProps): React.ReactElement {
           knightSpeak('happy', `"${w.hr}" saved to My Words! 📚`);
         }}
         style={{
-          fontSize: 9,
+          fontSize: 12,
           fontWeight: 700,
           color: saved ? 'var(--success,#16a34a)' : 'var(--info)',
           background: 'none',
@@ -174,7 +174,7 @@ function TodaysLetterSpotlight({ letter, isRead, onOpen }: SpotlightProps): Reac
     >
       <div
         style={{
-          fontSize: 10,
+          fontSize: 12,
           fontWeight: 800,
           letterSpacing: '.12em',
           color: accentInk(meta.tint),
@@ -191,7 +191,7 @@ function TodaysLetterSpotlight({ letter, isRead, onOpen }: SpotlightProps): Reac
               borderRadius: 4,
               background: 'var(--success-bg)',
               color: 'var(--ink-green)',
-              fontSize: 9,
+              fontSize: 12,
             }}
           >
             ✓ READ
@@ -247,7 +247,7 @@ function TodaysLetterSpotlight({ letter, isRead, onOpen }: SpotlightProps): Reac
         style={{
           display: 'flex',
           gap: 12,
-          fontSize: 11,
+          fontSize: 12,
           color: 'var(--subtext)',
           flexWrap: 'wrap',
           marginBottom: 12,
@@ -339,7 +339,7 @@ function SenderFilterChips({
               color: '#fff',
               borderRadius: 8,
               padding: '1px 5px',
-              fontSize: 9,
+              fontSize: 12,
               fontWeight: 800,
             }}
             aria-label={`${unread} unread`}
@@ -449,7 +449,7 @@ function LetterRow({ letter, isRead, isOpen, onToggle, award }: RowProps): React
                     // dark-mode rationale.
                     background: '#0e7490',
                     color: '#fff',
-                    fontSize: 8,
+                    fontSize: 12,
                     fontWeight: 800,
                     padding: '2px 6px',
                     borderRadius: 999,
@@ -463,7 +463,7 @@ function LetterRow({ letter, isRead, isOpen, onToggle, award }: RowProps): React
             </div>
             <div
               style={{
-                fontSize: 11,
+                fontSize: 12,
                 color: 'var(--subtext)',
                 marginTop: 2,
                 display: 'flex',
@@ -654,7 +654,7 @@ export default function StoriesTab(): React.ReactElement {
         {/* Browse-all section header */}
         <div
           style={{
-            fontSize: 11,
+            fontSize: 12,
             fontWeight: 800,
             color: 'var(--subtext)',
             textTransform: 'uppercase' as const,

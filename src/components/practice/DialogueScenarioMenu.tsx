@@ -12,7 +12,6 @@ const DIFF_COLORS = {
   B1: '#fef3c7',
   B2: '#fce7f3',
   C1: '#f3e8ff',
-  C2: '#ffe4e6',
 };
 const DIFF_TEXT = {
   A1: '#166534',
@@ -20,7 +19,6 @@ const DIFF_TEXT = {
   B1: '#92400e',
   B2: '#9d174d',
   C1: '#6b21a8',
-  C2: '#9f1239',
 };
 
 export default function DialogueScenarioMenu({
@@ -107,7 +105,7 @@ export default function DialogueScenarioMenu({
               >
                 {s.title.split(' ').slice(1).join(' ')}
               </div>
-              <div style={{ fontSize: 11, color: 'var(--subtext)', marginTop: 4 }}>
+              <div style={{ fontSize: 12, color: 'var(--subtext)', marginTop: 4 }}>
                 {s.subtitle}
               </div>
               {s.difficulty && (
@@ -115,7 +113,7 @@ export default function DialogueScenarioMenu({
                   <span
                     style={{
                       display: 'inline-block',
-                      fontSize: 10,
+                      fontSize: 12,
                       fontWeight: 800,
                       background:
                         (DIFF_COLORS as Record<string, string>)[s.difficulty] || '#f3f4f6',
@@ -128,7 +126,7 @@ export default function DialogueScenarioMenu({
                     {s.difficulty}
                   </span>
                   {stretch && (
-                    <span style={{ fontSize: 9, fontWeight: 800, color: 'var(--subtext)' }}>
+                    <span style={{ fontSize: 12, fontWeight: 800, color: 'var(--subtext)' }}>
                       ↑ stretch
                     </span>
                   )}

@@ -90,14 +90,15 @@ describe('increment 0 — how much of the session is on material the course has 
     vi.clearAllMocks();
   });
 
-  /** Two day shapes: a LESSON day (P0 = lesson + drill) and a UNIT-TEST day (P0 = test only). */
-  type Day = 'lesson' | 'unit-test';
+  /** Two day shapes: a LESSON day, and the day AFTER a whole unit is read (owner, 2026-11-19: the
+   * course moves on to the next unit's lesson; the unit test is recommended later, never the day's slot). */
+  type Day = 'lesson' | 'unit-done';
 
   function seed(pos: number, day: Day): void {
     localStorage.clear();
     sessionStorage.clear();
     seedCourseAt(pos);
-    if (day === 'unit-test') readWholeUnit(pos);
+    if (day === 'unit-done') readWholeUnit(pos);
   }
 
   interface Cell {
@@ -130,9 +131,7 @@ describe('increment 0 — how much of the session is on material the course has 
         // Anchor: P0 must be the shape this table claims, or the row describes
         // some other day.
         const first = buildSessionActivities(lv)[0];
-        expect(first?.screen, `P0 at unit ${pos}/${lv} (${day} day)`).toBe(
-          day === 'lesson' ? 'animlesson' : 'unittest',
-        );
+        expect(first?.screen, `P0 at unit ${pos}/${lv} (${day} day)`).toBe('animlesson');
 
         let concept = 0;
         let conceptUntaught = 0;
@@ -190,9 +189,9 @@ describe('increment 0 — how much of the session is on material the course has 
   }
 
   const lesson = measure('lesson');
-  const test = measure('unit-test');
+  const test = measure('unit-done');
 
-  it('measures, for a LESSON day and a UNIT-TEST day, per course position × XP level', () => {
+  it('measures, for a LESSON day and the day after a unit is read, per course position × XP level', () => {
     console.log(
       [
         '',
@@ -202,7 +201,7 @@ describe('increment 0 — how much of the session is on material the course has 
         'LESSON DAY (P0 = lesson + its drill)',
         ...lesson.rows,
         '',
-        'UNIT-TEST DAY (P0 = the unit test only)',
+        'DAY AFTER A UNIT IS READ (P0 = the next unit’s lesson)',
         ...test.rows,
         '',
       ].join('\n'),
@@ -260,11 +259,13 @@ describe('increment 0 — how much of the session is on material the course has 
         [],
       );
     }
+    // The day after a unit is read is a lesson day too: the unit test is no longer the
+    // day's slot, so the lesson's own produce step carries the production.
     for (const c of test.cells) {
       expect(
         c.skillScreens.has('lessonproduce'),
-        `unit ${c.pos} / xp ${c.lv}: produce step on a unit-test day`,
-      ).toBe(false);
+        `unit ${c.pos} / xp ${c.lv}: no produce step the day after a unit is read`,
+      ).toBe(true);
     }
   });
 });

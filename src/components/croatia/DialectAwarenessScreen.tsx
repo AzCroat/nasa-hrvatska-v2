@@ -267,7 +267,7 @@ function DialectCard({ dialect, onTap }: { dialect: Dialect; onTap: (d: Dialect)
                 style={{
                   background: accentFill(dialect.color),
                   color: '#fff',
-                  fontSize: 10,
+                  fontSize: 12,
                   fontWeight: 700,
                   padding: '2px 7px',
                   borderRadius: 20,
@@ -301,7 +301,7 @@ function DialectCard({ dialect, onTap }: { dialect: Dialect; onTap: (d: Dialect)
           display: 'inline-block',
           background: `${dialect.color}18`,
           color: accentInk(dialect.color),
-          fontSize: 11,
+          fontSize: 12,
           fontWeight: 600,
           padding: '3px 9px',
           borderRadius: 20,
@@ -340,7 +340,7 @@ function ComparisonTable({ features }: { features: DialectFeature[] }) {
       >
         <div
           style={{
-            fontSize: 11,
+            fontSize: 12,
             fontWeight: 700,
             color: 'var(--subtext)',
             textTransform: 'uppercase',
@@ -351,7 +351,7 @@ function ComparisonTable({ features }: { features: DialectFeature[] }) {
         </div>
         <div
           style={{
-            fontSize: 11,
+            fontSize: 12,
             fontWeight: 700,
             color: 'var(--subtext)',
             textTransform: 'uppercase',
@@ -362,7 +362,7 @@ function ComparisonTable({ features }: { features: DialectFeature[] }) {
         </div>
         <div
           style={{
-            fontSize: 11,
+            fontSize: 12,
             fontWeight: 700,
             color: 'var(--subtext)',
             textTransform: 'uppercase',
@@ -474,7 +474,7 @@ function DetailView({ dialect, onBack }: { dialect: Dialect; onBack: () => void 
                 marginLeft: 'auto',
                 background: accentFill(dialect.color),
                 color: '#fff',
-                fontSize: 11,
+                fontSize: 12,
                 fontWeight: 700,
                 padding: '4px 10px',
                 borderRadius: 20,
@@ -507,7 +507,7 @@ function DetailView({ dialect, onBack }: { dialect: Dialect; onBack: () => void 
       <div className="c" style={{ marginBottom: 12 }}>
         <div
           style={{
-            fontSize: 11,
+            fontSize: 12,
             fontWeight: 700,
             color: 'var(--subtext)',
             textTransform: 'uppercase',
@@ -526,7 +526,7 @@ function DetailView({ dialect, onBack }: { dialect: Dialect; onBack: () => void 
       <div className="c" style={{ marginBottom: 12 }}>
         <div
           style={{
-            fontSize: 11,
+            fontSize: 12,
             fontWeight: 700,
             color: 'var(--subtext)',
             textTransform: 'uppercase',
@@ -545,7 +545,7 @@ function DetailView({ dialect, onBack }: { dialect: Dialect; onBack: () => void 
       <div style={{ marginBottom: 4 }}>
         <div
           style={{
-            fontSize: 11,
+            fontSize: 12,
             fontWeight: 700,
             color: 'var(--subtext)',
             textTransform: 'uppercase',
@@ -570,7 +570,7 @@ function DetailView({ dialect, onBack }: { dialect: Dialect; onBack: () => void 
       >
         <div
           style={{
-            fontSize: 11,
+            fontSize: 12,
             fontWeight: 700,
             color: accentInk(dialect.color),
             textTransform: 'uppercase',
@@ -608,7 +608,7 @@ function DetailView({ dialect, onBack }: { dialect: Dialect; onBack: () => void 
       >
         <div
           style={{
-            fontSize: 11,
+            fontSize: 12,
             fontWeight: 700,
             color: 'var(--subtext)',
             textTransform: 'uppercase',
@@ -635,7 +635,7 @@ function DetailView({ dialect, onBack }: { dialect: Dialect; onBack: () => void 
       >
         <div
           style={{
-            fontSize: 11,
+            fontSize: 12,
             fontWeight: 700,
             color: 'var(--ink-warn)',
             textTransform: 'uppercase',

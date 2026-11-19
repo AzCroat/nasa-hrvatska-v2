@@ -24,7 +24,7 @@ export default function LanguageSocietyDrill({ goBack, award }: Props) {
       modeLabels={LANGUAGE_SOCIETY_MODE_LABELS}
       data={LANGUAGE_SOCIETY_DRILL_DATA}
       praise={{
-        perfect: 'Savršeno — to je razina C2! 🏆',
+        perfect: 'Savršeno — to je razina C1! 🏆',
         good: 'Vrlo dobro! 💪',
         more: 'Još malo vježbe.',
       }}

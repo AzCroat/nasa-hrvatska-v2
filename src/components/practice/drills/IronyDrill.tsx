@@ -21,7 +21,7 @@ export default function IronyDrill({ goBack, award }: Props) {
       modeLabels={IRONY_MODE_LABELS}
       data={IRONY_DRILL_DATA}
       praise={{
-        perfect: 'Savršeno — to je razina C2! 🏆',
+        perfect: 'Savršeno — to je razina C1! 🏆',
         good: 'Vrlo dobro! 💪',
         more: 'Još malo vježbe.',
       }}

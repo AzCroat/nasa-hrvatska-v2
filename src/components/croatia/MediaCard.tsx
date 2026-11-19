@@ -79,7 +79,7 @@ export function LearningModeToggle({
       <span style={{ fontSize: 14 }}>{enabled ? '🎓' : '👁️'}</span>
       <span
         style={{
-          fontSize: 11,
+          fontSize: 12,
           fontWeight: 700,
           color: enabled ? 'var(--ink-error)' : 'var(--subtext)',
           whiteSpace: 'nowrap',
@@ -124,7 +124,7 @@ export function GoalTag({ label }: { label: string }) {
       style={{
         background: 'rgba(212,0,48,.08)',
         color: 'var(--ink-red)',
-        fontSize: 9,
+        fontSize: 12,
         fontWeight: 800,
         padding: '2px 7px',
         borderRadius: 20,
@@ -152,7 +152,7 @@ function VocabPreview({ cat }: { cat: string }) {
     >
       <div
         style={{
-          fontSize: 9,
+          fontSize: 12,
           fontWeight: 900,
           color: 'var(--ink-error)',
           letterSpacing: '.08em',
@@ -171,7 +171,7 @@ function VocabPreview({ cat }: { cat: string }) {
               border: '1px solid var(--card-b)',
               borderRadius: 8,
               padding: '4px 8px',
-              fontSize: 10,
+              fontSize: 12,
             }}
           >
             <span style={{ fontWeight: 800, color: 'var(--ink-accent)' }}>{w.hr}</span>
@@ -219,7 +219,7 @@ function ComprehensionCard({ cat, itemId }: { cat: string; itemId: string }) {
     >
       <div
         style={{
-          fontSize: 9,
+          fontSize: 12,
           fontWeight: 900,
           color: 'var(--ink-accent)',
           letterSpacing: '.08em',
@@ -229,11 +229,11 @@ function ComprehensionCard({ cat, itemId }: { cat: string; itemId: string }) {
       >
         Comprehension Check
       </div>
-      <div style={{ fontSize: 11, color: 'var(--text)', lineHeight: 1.5, marginBottom: 8 }}>
+      <div style={{ fontSize: 12, color: 'var(--text)', lineHeight: 1.5, marginBottom: 8 }}>
         {q}
       </div>
       {done ? (
-        <span style={{ fontSize: 10, color: 'var(--ink-green)', fontWeight: 800 }}>
+        <span style={{ fontSize: 12, color: 'var(--ink-green)', fontWeight: 800 }}>
           ✓ Completed
         </span>
       ) : (
@@ -245,7 +245,7 @@ function ComprehensionCard({ cat, itemId }: { cat: string; itemId: string }) {
             border: 'none',
             background: '#0e7490',
             color: 'white',
-            fontSize: 10,
+            fontSize: 12,
             fontWeight: 700,
             cursor: 'pointer',
           }}
@@ -362,7 +362,7 @@ export default function MediaCard({
                 style={{
                   background: `${lc}18`,
                   color: accentInk(lc),
-                  fontSize: 9,
+                  fontSize: 12,
                   fontWeight: 800,
                   padding: '2px 6px',
                   borderRadius: 20,
@@ -378,7 +378,7 @@ export default function MediaCard({
                 style={{
                   background: 'rgba(220,38,38,.08)',
                   color: 'var(--ink-error)',
-                  fontSize: 9,
+                  fontSize: 12,
                   fontWeight: 800,
                   padding: '2px 6px',
                   borderRadius: 20,
@@ -394,7 +394,7 @@ export default function MediaCard({
                 style={{
                   background: 'rgba(14,116,144,.08)',
                   color: 'var(--ink-accent)',
-                  fontSize: 9,
+                  fontSize: 12,
                   fontWeight: 800,
                   padding: '2px 6px',
                   borderRadius: 20,
@@ -410,7 +410,7 @@ export default function MediaCard({
                 style={{
                   background: 'rgba(220,38,38,.08)',
                   color: 'var(--ink-error)',
-                  fontSize: 9,
+                  fontSize: 12,
                   fontWeight: 800,
                   padding: '2px 6px',
                   borderRadius: 20,
@@ -586,7 +586,7 @@ export default function MediaCard({
             border: `1px solid ${done ? 'var(--success-b,#86efac)' : 'var(--card-b)'}`,
             background: done ? 'var(--success-bg,#f0fdf4)' : 'var(--bar-bg)',
             color: done ? 'var(--success,#16a34a)' : 'var(--subtext)',
-            fontSize: 11,
+            fontSize: 12,
             fontWeight: 700,
             cursor: 'pointer',
             display: 'flex',

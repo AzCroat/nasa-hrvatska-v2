@@ -156,7 +156,7 @@ export default function QuestionView({ quiz }: { quiz: ListeningQuiz }) {
             padding: '3px 10px',
             borderRadius: 20,
             background: accentFill(ld.headerBg),
-            fontSize: 11,
+            fontSize: 12,
             fontWeight: 800,
             color: 'white',
             flexShrink: 0,
@@ -180,7 +180,7 @@ export default function QuestionView({ quiz }: { quiz: ListeningQuiz }) {
       {/* Set progress indicator */}
       <div
         style={{
-          fontSize: 11,
+          fontSize: 12,
           color: 'var(--subtext)',
           fontWeight: 600,
           marginBottom: 14,
@@ -200,7 +200,7 @@ export default function QuestionView({ quiz }: { quiz: ListeningQuiz }) {
           voiceA={narrator}
           voiceB={narrator === 'srecko' ? undefined : 'srecko'}
           accentColor={ld.color}
-          allowNativePace={['B2', 'C1', 'C2'].includes(selectedLevel!)}
+          allowNativePace={['B2', 'C1'].includes(selectedLevel!)}
         />
       )}
 
@@ -247,7 +247,7 @@ export default function QuestionView({ quiz }: { quiz: ListeningQuiz }) {
       >
         <div
           style={{
-            fontSize: 10,
+            fontSize: 12,
             fontWeight: 900,
             color: accentInk(ld.color),
             textTransform: 'uppercase',
@@ -270,7 +270,7 @@ export default function QuestionView({ quiz }: { quiz: ListeningQuiz }) {
           &ldquo;{q.hr}&rdquo;
         </div>
         <div
-          style={{ fontSize: 11, color: 'var(--subtext)', fontStyle: 'italic', marginBottom: 0 }}
+          style={{ fontSize: 12, color: 'var(--subtext)', fontStyle: 'italic', marginBottom: 0 }}
         >
           What does this mean in English?
         </div>

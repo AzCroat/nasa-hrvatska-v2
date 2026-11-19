@@ -32,7 +32,12 @@ const TAB_IDS: Set<string> = (() => {
   const ids = [...block.matchAll(/id: '([a-z_]+)'/g)].map((m) => m[1]!);
   // Tabs that are no longer in the bar but stay valid (routes, URLs): the MORE_TABS list.
   const more = src.match(/const MORE_TABS = \[([^\]]*)\]/)?.[1] ?? '';
-  return new Set([...ids, ...[...more.matchAll(/'([a-z_]+)'/g)].map((m) => m[1]!)]);
+  const tabs = new Set([...ids, ...[...more.matchAll(/'([a-z_]+)'/g)].map((m) => m[1]!)]);
+  // The profile ("Me") tab has no nav entry any more (owner, 2026-11-19): the header avatar is its
+  // one door on every device. Derived from the header, not restated: the avatar must still exist.
+  const header = readFileSync('src/components/shared/AppHeader.tsx', 'utf8');
+  if (header.includes('header-profile')) tabs.add('profile');
+  return tabs;
 })();
 
 /**

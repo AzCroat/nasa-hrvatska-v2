@@ -1499,7 +1499,7 @@ export const SCENARIOS = [
     id: 'okrugli_stol',
     title: '🎙️ Okrugli stol o iseljavanju',
     subtitle: 'Hold your own in a public debate — concede, counter, conclude',
-    difficulty: 'C2',
+    difficulty: 'C1',
     turns: [
       {
         speaker: 'Moderatorica',
@@ -1512,7 +1512,7 @@ export const SCENARIOS = [
           'Pa, to je komplicirano pitanje i ima puno strana, teško je reći.',
         ],
         answer: 0,
-        tip: "Concede-then-counter: 'Ne umanjujem…, ali…'. Reframing the question is a C2 rhetorical move.",
+        tip: "Concede-then-counter: 'Ne umanjujem…, ali…'. Reframing the question is an advanced rhetorical move.",
       },
       {
         speaker: 'Sugovornik',
@@ -1538,7 +1538,7 @@ export const SCENARIOS = [
           'To nije moje pitanje, ja nisam ekonomist.',
         ],
         answer: 0,
-        tip: "Chiasmus-like closing ('možemo li si priuštiti da ne…') — rhetorical inversion at C2.",
+        tip: "Chiasmus-like closing ('možemo li si priuštiti da ne…') — rhetorical inversion at the advanced level.",
       },
       {
         speaker: 'Sugovornik',
@@ -1551,7 +1551,7 @@ export const SCENARIOS = [
           'To je teško pitanje za neku drugu emisiju.',
         ],
         answer: 0,
-        tip: "'Nikamo nisu mrdnuli' — colloquial punch inside formal argument; controlled register mixing is C2.",
+        tip: "'Nikamo nisu mrdnuli' — colloquial punch inside formal argument; controlled register mixing is an advanced skill.",
       },
       {
         speaker: 'Moderatorica',
@@ -1572,7 +1572,7 @@ export const SCENARIOS = [
     id: 'knjizevna_vecer',
     title: '📚 Književna večer',
     subtitle: 'Discuss a novel with its author — interpretation and polite challenge',
-    difficulty: 'C2',
+    difficulty: 'C1',
     turns: [
       {
         speaker: 'Autorica',
@@ -1637,7 +1637,7 @@ export const SCENARIOS = [
           'Kraj bih promijenio, kraj je najslabiji.',
         ],
         answer: 0,
-        tip: 'Aphoristic close with parallel structure — the C2 signature.',
+        tip: 'Aphoristic close with parallel structure — the advanced signature.',
       },
     ],
   },
@@ -2134,7 +2134,7 @@ export const SCENARIOS = [
     id: 'akademska_rasprava',
     title: '🎓 Obrana teze',
     subtitle: 'Defend a claim under expert cross-examination',
-    difficulty: 'C2',
+    difficulty: 'C1',
     turns: [
       {
         speaker: 'Profesorica',
@@ -2194,7 +2194,7 @@ export const SCENARIOS = [
     id: 'pregovori_ugovor',
     title: '📜 Pregovaranje ugovora',
     subtitle: 'Trade terms without conceding the one that matters',
-    difficulty: 'C2',
+    difficulty: 'C1',
     turns: [
       {
         speaker: 'Pravnica',
@@ -2254,7 +2254,7 @@ export const SCENARIOS = [
     id: 'novinarsko_ispitivanje',
     title: '📰 Novinarsko ispitivanje',
     subtitle: 'Hold your position under hostile questioning',
-    difficulty: 'C2',
+    difficulty: 'C1',
     turns: [
       {
         speaker: 'Novinarka',
@@ -2314,7 +2314,7 @@ export const SCENARIOS = [
     id: 'sucut',
     title: '🕯️ Izraziti sućut',
     subtitle: 'Offer condolences in the right register — and mean it',
-    difficulty: 'C2',
+    difficulty: 'C1',
     turns: [
       {
         speaker: 'Udovica',
@@ -3533,7 +3533,7 @@ export const SCENARIOS = [
     id: 'posredovanje_odbor',
     title: '⚖️ Posredovanje u odboru',
     subtitle: 'Mediate between two colleagues in a formal meeting — reframe, never take sides',
-    difficulty: 'C2',
+    difficulty: 'C1',
     turns: [
       {
         speaker: 'Član odbora Krznarić',
@@ -3593,7 +3593,7 @@ export const SCENARIOS = [
     id: 'posredovanje_obitelj',
     title: '🍷 Mir za stolom',
     subtitle: 'Cool a family argument at the table — informal register, the same mediator craft',
-    difficulty: 'C2',
+    difficulty: 'C1',
     turns: [
       {
         speaker: 'Tetak Zlatko',
@@ -3654,7 +3654,7 @@ export const SCENARIOS = [
     title: '🎓 Neslaganje s profesoricom',
     subtitle:
       "Challenge a professor's reading of your thesis — with evidence, in the register of the seminar",
-    difficulty: 'C2',
+    difficulty: 'C1',
     turns: [
       {
         speaker: 'Profesorica Barić',
@@ -3714,7 +3714,7 @@ export const SCENARIOS = [
     id: 'neslaganje_s_ocem',
     title: '🌳 Razgovor s ocem',
     subtitle: 'Disagree with your father about the family story — informal "ti", full weight',
-    difficulty: 'C2',
+    difficulty: 'C1',
     turns: [
       {
         speaker: 'Otac',
@@ -3775,7 +3775,7 @@ export const SCENARIOS = [
     title: '📰 Zahtjev za ispravak',
     subtitle:
       'Get a newspaper to correct a factual error — cite the right calmly, propose the wording',
-    difficulty: 'C2',
+    difficulty: 'C1',
     turns: [
       {
         speaker: 'Urednik Lončar',
@@ -3835,7 +3835,7 @@ export const SCENARIOS = [
     id: 'kritika_rukopisa',
     title: '✍️ Kritika rukopisa',
     subtitle: 'Give a friend honest feedback on their manuscript — precise, kind, and not a lie',
-    difficulty: 'C2',
+    difficulty: 'C1',
     turns: [
       {
         speaker: 'Prijatelj Vedran',
@@ -8503,7 +8503,7 @@ export const SCENARIOS = [
     title: '🏛️ Govor na obljetnici',
     subtitle:
       "Give the tribute at a diaspora society's 50th jubilee — formal register, a room of elders",
-    difficulty: 'C2',
+    difficulty: 'C1',
     turns: [
       {
         speaker: 'Predsjednica društva',
@@ -8563,7 +8563,7 @@ export const SCENARIOS = [
     id: 'zdravica_vjencanje',
     title: '💍 Kumova zdravica',
     subtitle: "Toast your best friend at his wedding — informal 'ti', warmth with a sting of wit",
-    difficulty: 'C2',
+    difficulty: 'C1',
     turns: [
       {
         speaker: 'Mladoženja Luka',
@@ -8623,7 +8623,7 @@ export const SCENARIOS = [
     id: 'ironija_kolege',
     title: '🧐 Ironija na sastanku',
     subtitle: "Answer a senior colleague's veiled jibe with grace — formal register, no bait taken",
-    difficulty: 'C2',
+    difficulty: 'C1',
     turns: [
       {
         speaker: 'Dr. Horvat',
@@ -8683,7 +8683,7 @@ export const SCENARIOS = [
     id: 'ironija_prijatelja',
     title: '😏 Zafrkancija staroga prijatelja',
     subtitle: "Parry an old friend's teasing about your diaspora Croatian — ironic, warm, 'ti'",
-    difficulty: 'C2',
+    difficulty: 'C1',
     turns: [
       {
         speaker: 'Prijatelj Dino',
@@ -8743,7 +8743,7 @@ export const SCENARIOS = [
     id: 'upozorenje_ravnateljici',
     title: '⚠️ Upozorenje ravnateljici',
     subtitle: 'Warn your director that a flagship opening is at risk — hedged, evidenced, loyal',
-    difficulty: 'C2',
+    difficulty: 'C1',
     turns: [
       {
         speaker: 'Ravnateljica Kovačević',
@@ -8804,7 +8804,7 @@ export const SCENARIOS = [
     title: '🚩 Upozorenje prijatelju',
     subtitle:
       "Warn a close friend about his new business partner — tact, 'ti', and the risk of losing him",
-    difficulty: 'C2',
+    difficulty: 'C1',
     turns: [
       {
         speaker: 'Prijatelj Marko',
@@ -8865,7 +8865,7 @@ export const SCENARIOS = [
     title: '🏆 Čestitka novoj pročelnici',
     subtitle:
       'Congratulate the colleague who got the post you applied for — sincerely, with dignity',
-    difficulty: 'C2',
+    difficulty: 'C1',
     turns: [
       {
         speaker: 'Profesorica Babić',
@@ -8925,7 +8925,7 @@ export const SCENARIOS = [
     id: 'cestitka_bratu',
     title: '🤝 Čestitka bratu',
     subtitle: "Congratulate your brother on the job you both wanted — generous, honest, 'ti'",
-    difficulty: 'C2',
+    difficulty: 'C1',
     turns: [
       {
         speaker: 'Brat Ivan',
@@ -8985,7 +8985,7 @@ export const SCENARIOS = [
     id: 'povlacenje_odbor',
     title: '📜 Povlačenje iz odbora',
     subtitle: 'Step down from a role you promised to fill — formally, without leaving a vacuum',
-    difficulty: 'C2',
+    difficulty: 'C1',
     turns: [
       {
         speaker: 'Predsjednik Radić',
@@ -9046,7 +9046,7 @@ export const SCENARIOS = [
     title: '🫒 Povlačenje iz dogovora',
     subtitle:
       "Tell your cousin you're pulling out of the olive-grove plan — honest, 'ti', keeping the family",
-    difficulty: 'C2',
+    difficulty: 'C1',
     turns: [
       {
         speaker: 'Bratić Ante',
@@ -9107,7 +9107,7 @@ export const SCENARIOS = [
     title: '🗺️ Javno savjetovanje',
     subtitle:
       'Concede a strong point at a public hearing while holding your position — formal register',
-    difficulty: 'C2',
+    difficulty: 'C1',
     turns: [
       {
         speaker: 'Konzervatorica Jurić',
@@ -9168,7 +9168,7 @@ export const SCENARIOS = [
     title: '🏠 Tata i dom',
     subtitle:
       "Concede your sister is right about the burden, and still hold your ground on Dad — 'ti'",
-    difficulty: 'C2',
+    difficulty: 'C1',
     turns: [
       {
         speaker: 'Sestra Lucija',

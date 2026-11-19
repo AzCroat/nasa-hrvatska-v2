@@ -91,11 +91,11 @@ export default function BadgesScreen({
                 <BadgeArtwork badgeId={b.id} size={52} earned={u} />
               </div>
               <div style={{ fontSize: 14, fontWeight: 700 }}>{b.n}</div>
-              <div style={{ fontSize: 11, color: 'var(--subtext)', marginTop: 4 }}>{b.d}</div>
+              <div style={{ fontSize: 12, color: 'var(--subtext)', marginTop: 4 }}>{b.d}</div>
               {u ? (
                 <div
                   style={{
-                    fontSize: 11,
+                    fontSize: 12,
                     color: 'var(--warning-dark, #b45309)',
                     marginTop: 6,
                     fontWeight: 700,
@@ -124,13 +124,13 @@ export default function BadgesScreen({
                       }}
                     />
                   </div>
-                  <div style={{ fontSize: 10, color: 'var(--subtext)', fontWeight: 700 }}>
+                  <div style={{ fontSize: 12, color: 'var(--subtext)', fontWeight: 700 }}>
                     🔒 {prog.cur.toLocaleString()} / {prog.total.toLocaleString()}
                   </div>
                 </div>
               ) : (
                 <div
-                  style={{ fontSize: 10, color: 'var(--subtext)', marginTop: 6, fontWeight: 600 }}
+                  style={{ fontSize: 12, color: 'var(--subtext)', marginTop: 6, fontWeight: 600 }}
                 >
                   🔒 {b.d}
                 </div>

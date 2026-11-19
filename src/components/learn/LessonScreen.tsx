@@ -14,7 +14,6 @@ function LoadingState() {
 function ErrorState({ message }: { message: string }) {
   return <div style={{ padding: 24, textAlign: 'center', color: 'var(--info)' }}>{message}</div>;
 }
-import CharacterPortrait from '../family/CharacterPortrait';
 import { knightSpeak } from '../../lib/knightSpeak.js';
 import { CelebrationScene } from '../illustrations';
 import Flashcards from '../practice/Flashcards';
@@ -421,7 +420,7 @@ export default function LessonScreen({
                           border: '1px solid rgba(14,116,144,.2)',
                           borderRadius: 8,
                           padding: '2px 8px',
-                          fontSize: 11,
+                          fontSize: 12,
                         }}
                       >
                         <span style={{ color: 'var(--info)', fontWeight: 700 }}>
@@ -617,7 +616,7 @@ export default function LessonScreen({
           {/* Direction label — mirrors DuoLingo's exercise-type header */}
           <div
             style={{
-              fontSize: 11,
+              fontSize: 12,
               fontWeight: 700,
               color: 'var(--subtext)',
               marginBottom: 10,
@@ -739,7 +738,7 @@ export default function LessonScreen({
                   left: 12,
                   top: '50%',
                   transform: 'translateY(-50%)',
-                  fontSize: 10,
+                  fontSize: 12,
                   fontWeight: 800,
                   color: 'var(--subtext)',
                   opacity: 0.5,
@@ -966,10 +965,6 @@ export default function LessonScreen({
             alignItems: 'center',
           }}
         >
-          <div style={{ textAlign: 'center', marginBottom: 16, animation: 'bounce-in .5s ease' }}>
-            <CharacterPortrait name="kovac" size={90} />
-          </div>
-
           {/* Trophy / emoji */}
           <div
             style={{
@@ -1118,7 +1113,7 @@ export default function LessonScreen({
                 </div>
                 <div
                   style={{
-                    fontSize: 10,
+                    fontSize: 12,
                     color: 'rgba(255,255,255,.45)',
                     fontWeight: 700,
                     textTransform: 'uppercase',
@@ -1142,7 +1137,7 @@ export default function LessonScreen({
                 </div>
                 <div
                   style={{
-                    fontSize: 10,
+                    fontSize: 12,
                     color: 'rgba(255,255,255,.45)',
                     fontWeight: 700,
                     textTransform: 'uppercase',
@@ -1166,7 +1161,7 @@ export default function LessonScreen({
                 </div>
                 <div
                   style={{
-                    fontSize: 10,
+                    fontSize: 12,
                     color: 'rgba(255,255,255,.45)',
                     fontWeight: 700,
                     textTransform: 'uppercase',
@@ -1204,7 +1199,7 @@ export default function LessonScreen({
             >
               <div
                 style={{
-                  fontSize: 10,
+                  fontSize: 12,
                   fontWeight: 800,
                   color: 'rgba(255,255,255,.5)',
                   letterSpacing: '.1em',
@@ -1340,7 +1335,7 @@ export default function LessonScreen({
                 <span style={{ fontSize: 20 }}>{ex.icon}</span>
                 <div>
                   <div style={{ fontSize: 13, fontWeight: 700, color: 'white' }}>{ex.title}</div>
-                  <div style={{ fontSize: 11, color: 'rgba(255,255,255,.6)' }}>{ex.desc}</div>
+                  <div style={{ fontSize: 12, color: 'rgba(255,255,255,.6)' }}>{ex.desc}</div>
                 </div>
               </button>
             ))}

@@ -138,7 +138,7 @@ export default function GradedStoryModal({ story, onClose }: { story: any; onClo
           <div>
             <div
               style={{
-                fontSize: 11,
+                fontSize: 12,
                 fontWeight: 800,
                 color: 'var(--ink-mode)',
                 textTransform: 'uppercase',
@@ -375,7 +375,7 @@ export default function GradedStoryModal({ story, onClose }: { story: any; onClo
           <>
             <div
               style={{
-                fontSize: 11,
+                fontSize: 12,
                 fontWeight: 800,
                 color: 'var(--ink-mode)',
                 textTransform: 'uppercase',

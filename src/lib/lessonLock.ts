@@ -24,9 +24,9 @@
 // the spine is a cached fetch, and a learner must never be locked out because it has
 // not arrived. A lesson id the spine does not know is never locked either.
 
-import { readCourseState } from './courseStep';
+import { readCourseState, currentOwedStep } from './courseStep';
 import { readCompletedLessons } from './curriculumProgress';
-import type { CourseUnit } from './courseUnits';
+import type { CourseUnit, OwedStep } from './courseUnits';
 
 /**
  * Pure: the lessons a learner may open, given the course's units, the lessons they
@@ -62,26 +62,62 @@ export function readOpenLessons(): Set<string> | null {
 
 /**
  * Pure: why a lesson is locked, in a sentence the learner can act on — or null when it
- * is open or unknown. The sentence names what unlocks it, never what it teaches.
+ * is open or unknown. The sentence names the exact step that opens it (`step`, from
+ * `currentOwedStep`) and says the lesson can be tested out of — TEST-OUT IS OPEN FOR ANY
+ * LESSON AT ANY TIME (owner, 2026-11-19), reading ahead is not.
  */
 export function lockReasonFor(
   lessonId: string,
   units: readonly CourseUnit[],
   open: ReadonlySet<string>,
   currentIndex: number | null,
+  ctx?: { step?: OwedStep | null; completed?: ReadonlySet<string> },
 ): string | null {
   if (open.has(lessonId)) return null;
   const unit = units.find((u) => u.lessons.some((l) => l.id === lessonId));
   if (!unit) return null;
+  const tail = ' You can test out of it any time.';
   if (currentIndex != null && unit.index > currentIndex) {
-    return `Opens after you pass Unit ${unit.index - 1}.`;
+    return `${ctx?.step ? `${ctx.step.text}. That opens Unit ${currentIndex + 1} in order.` : `Opens after you pass Unit ${unit.index - 1}.`}${tail}`;
   }
   // Inside the unit the learner stands on, behind the lesson the course serves today:
   // it opens once the lesson before it is done (or tested out).
   const at = unit.lessons.findIndex((l) => l.id === lessonId);
-  return at >= 1
-    ? `Opens after lesson ${at} of this unit.`
-    : `Opens after you pass Unit ${Math.max(1, unit.index - 1)}.`;
+  if (at >= 1) {
+    const done = ctx?.completed;
+    const today = done ? unit.lessons.findIndex((l) => !done.has(l.id)) : at - 1;
+    const f = today >= 0 && today < at ? today : at - 1;
+    return `Finish lesson ${f + 1} of this unit to open lesson ${at + 1}.${tail}`;
+  }
+  return `Opens after you pass Unit ${Math.max(1, unit.index - 1)}.${tail}`;
+}
+
+/**
+ * The lesson that opens next — the first unfinished lesson of the unit the learner
+ * stands on — or null (no spine, course finished). Where a failed test-out sends them.
+ */
+export function readNextOpenLesson(): { id: string; title: string } | null {
+  try {
+    const state = readCourseState();
+    const unit = state.units.find((u) => u.index === state.currentIndex);
+    if (!unit) return null;
+    const done = readCompletedLessons();
+    const l = unit.lessons.find((x) => !done.has(x.id));
+    return l ? { id: l.id, title: l.title || l.id } : null;
+  } catch {
+    return null;
+  }
+}
+
+/** The one-shot handoff AnimatedLesson consumes to open a lesson already in its check. */
+export const LESSON_TESTOUT_KEY = 'nh_lesson_testout';
+
+export function requestLessonTestOut(lessonId: string): void {
+  try {
+    sessionStorage.setItem(LESSON_TESTOUT_KEY, lessonId);
+  } catch {
+    /* the lesson still opens; its own button remains */
+  }
 }
 
 /**
@@ -92,13 +128,11 @@ export function readLockLookup(): (lessonId: string) => string | null {
   try {
     const state = readCourseState();
     if (state.units.length === 0) return () => null;
-    const open = openLessonIds(
-      state.units,
-      readCompletedLessons(),
-      state.advanced,
-      state.currentIndex,
-    );
-    return (lessonId) => lockReasonFor(lessonId, state.units, open, state.currentIndex);
+    const completed = readCompletedLessons();
+    const open = openLessonIds(state.units, completed, state.advanced, state.currentIndex);
+    const step = currentOwedStep(state);
+    return (lessonId) =>
+      lockReasonFor(lessonId, state.units, open, state.currentIndex, { step, completed });
   } catch {
     return () => null;
   }

@@ -43,7 +43,7 @@ describe('two-voice dialogue sets', () => {
 });
 
 describe('long connected passages at B2+', () => {
-  it.each(['B2', 'C1', 'C2'])('%s has a passage of at least six sentences', (lvl) => {
+  it.each(['B2', 'C1'])('%s has a passage of at least six sentences', (lvl) => {
     const long = levels[lvl]!.sets.filter(
       (s) => typeof s.passage === 'string' && (s.passage.match(/[.!?]/g)?.length ?? 0) >= 6,
     );
@@ -57,7 +57,7 @@ describe('playback plumbing (source pins)', () => {
     expect(src).toContain('DialoguePlayer');
     expect(src).toMatch(/voiceB=\{narrator === 'srecko' \? undefined : 'srecko'\}/);
     // Native pace is a B2+ affordance.
-    expect(src).toMatch(/allowNativePace=\{\['B2', 'C1', 'C2'\]/);
+    expect(src).toMatch(/allowNativePace=\{\['B2', 'C1'\]/);
   });
 
   it('speakAzure supports a per-call prosody rate that is part of the cache identity', () => {

@@ -84,13 +84,24 @@ beforeEach(() => {
 });
 
 describe('the pool now has an own tier to serve at every level', () => {
-  it.each(['B2', 'C1', 'C2'])('%s has at least 8 own-tier entries (was 1)', (level) => {
+  it.each(['B2', 'C1'])('%s has at least 8 own-tier entries (was 1)', (level) => {
     expect(ownTier(level).length).toBeGreaterThanOrEqual(8);
+  });
+
+  it('C1 is the top level: it holds both essay blocks (16 own-tier essays) and nothing is tagged C2', () => {
+    // 2026-11-18: the course ends at C1 and the eight former C2 essays are tagged C1.
+    const c1Essays = CROATIA_POOL.filter(
+      (c) => c.id.startsWith('kultura_c1_') || c.id.startsWith('kultura_c2_'),
+    );
+    expect(c1Essays.length).toBe(16);
+    for (const e of c1Essays) expect(e.cefr, e.id).toBe('C1');
+    expect(ownTier('C1').length).toBeGreaterThanOrEqual(16);
+    expect(CROATIA_POOL.filter((c) => c.cefr === 'C2').map((c) => c.id)).toEqual([]);
   });
 
   it('croatianews is self-levelling and counts as own tier from B1 up', () => {
     expect(byId.get('croatianews')!.adaptive).toBe(true);
-    for (const l of ['B1', 'B2', 'C1', 'C2'])
+    for (const l of ['B1', 'B2', 'C1'])
       expect(ownTier(l).map((c) => c.id)).toContain('croatianews');
     expect(ownTier('A2').map((c) => c.id)).not.toContain('croatianews'); // still B1-gated
   });
@@ -100,7 +111,7 @@ describe('the pool now has an own tier to serve at every level', () => {
     // lib/gradedHr, so for a C2 learner the Homeland War timeline is C2 prose,
     // not the B1 baseline everyone used to get — and the slot may say so.
     expect(byId.get('history')!.adaptive).toBe(true);
-    for (const l of ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'])
+    for (const l of ['A1', 'A2', 'B1', 'B2', 'C1'])
       expect(
         ownTier(l).map((c) => c.id),
         l,
@@ -109,7 +120,7 @@ describe('the pool now has an own tier to serve at every level', () => {
 });
 
 describe('the rotation alternates own tier and lower, LRS within each', () => {
-  it.each(['A2', 'B1', 'B2', 'C1', 'C2'])(
+  it.each(['A2', 'B1', 'B2', 'C1'])(
     '%s — over 40 days, own-level content is served on roughly half (was ≤ 1 of 40 at B2+)',
     (level) => {
       const own = new Set(ownTier(level).map((c) => c.id));
@@ -125,7 +136,7 @@ describe('the rotation alternates own tier and lower, LRS within each', () => {
   );
 
   it('the first culture day of an advanced learner is at level', () => {
-    for (const l of ['B2', 'C1', 'C2']) {
+    for (const l of ['B2', 'C1']) {
       localStorage.clear();
       localStorage.setItem('nh_cityofday_date', localDateStr());
       expect(ownTier(l).map((c) => c.id)).toContain(culturePick(l).id);
@@ -156,9 +167,9 @@ describe('the rotation alternates own tier and lower, LRS within each', () => {
   it('the reason names the level only when the pick really is own tier', () => {
     localStorage.clear();
     localStorage.setItem('nh_cityofday_date', localDateStr());
-    const first = culturePick('C2') as { id: string; reason?: string };
+    const first = culturePick('C1') as { id: string; reason?: string };
     expect(first.reason).toBe('Culture at your level.');
-    const second = culturePick('C2') as { id: string; reason?: string };
+    const second = culturePick('C1') as { id: string; reason?: string };
     expect(second.reason).toBe("Today's culture pick.");
   });
 
@@ -188,7 +199,7 @@ describe('daily builds (City of the Day NOT visited) — the branch production a
     localStorage.clear();
   });
 
-  it.each(['B1', 'B2', 'C1', 'C2'])(
+  it.each(['B1', 'B2', 'C1'])(
     '%s serves cityofday as a rotation entry (1–3 of 40), alternates from day one, own-level ≈ half',
     (level) => {
       const own = new Set(ownTier(level).map((c) => c.id));
@@ -206,7 +217,7 @@ describe('daily builds (City of the Day NOT visited) — the branch production a
     },
   );
 
-  it.each(['B1', 'B2', 'C1', 'C2'])(
+  it.each(['B1', 'B2', 'C1'])(
     '%s — the cityofday pick claims "at your level" exactly when the entry has that band',
     (level) => {
       const entry = byId.get('cityofday')!;
@@ -239,7 +250,7 @@ describe('daily builds (City of the Day NOT visited) — the branch production a
     },
   );
 
-  it.each(['B1', 'C2'])(
+  it.each(['B1', 'C1'])(
     '%s — the visited flag no longer matters: the 40-day series is identical with and without it',
     (level) => {
       // At A1–A2 "not visited" forces City of the Day (the ritual). From B1 up
@@ -272,7 +283,7 @@ describe('daily builds (City of the Day NOT visited) — the branch production a
     // makes it true.
     expect(rotationFor('B1').map((c) => c.id)).toContain('cityofday');
     expect(rotationFor('A2').map((c) => c.id)).not.toContain('cityofday');
-    for (const l of ['B1', 'B2', 'C1', 'C2'])
+    for (const l of ['B1', 'B2', 'C1'])
       expect(
         ownTier(l).map((c) => c.id),
         `own tier at ${l}`,

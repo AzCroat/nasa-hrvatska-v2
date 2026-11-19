@@ -24,7 +24,7 @@ export default function DialectsDeepDrill({ goBack, award }: Props) {
       modeLabels={DIALECTS_DEEP_MODE_LABELS}
       data={DIALECTS_DEEP_DRILL_DATA}
       praise={{
-        perfect: 'Savršeno — to je razina C2! 🏆',
+        perfect: 'Savršeno — to je razina C1! 🏆',
         good: 'Vrlo dobro! 💪',
         more: 'Još malo vježbe.',
       }}

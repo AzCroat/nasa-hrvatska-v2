@@ -26,7 +26,7 @@ export default function AspectTimeline({ aspect, dimmed }: Props) {
         <span style={{ fontSize: 14 }}>{isPf ? '✓' : '🔄'}</span>
         <span
           style={{
-            fontSize: 11,
+            fontSize: 12,
             fontWeight: 700,
             color: accentInk(color),
             textTransform: 'uppercase',

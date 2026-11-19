@@ -896,7 +896,7 @@ export default function ClozeEngine({ goBack, award }: Props) {
               setTypedAnswer('');
             }}
             style={{
-              fontSize: 11,
+              fontSize: 12,
               fontWeight: 700,
               padding: '4px 10px',
               borderRadius: 8,
@@ -1079,7 +1079,7 @@ export default function ClozeEngine({ goBack, award }: Props) {
           {aiExplain.rule && (
             <div
               style={{
-                fontSize: 11,
+                fontSize: 12,
                 fontWeight: 800,
                 color: 'var(--ink-info)',
                 marginBottom: 4,
@@ -1177,7 +1177,7 @@ export default function ClozeEngine({ goBack, award }: Props) {
               >
                 <div
                   style={{
-                    fontSize: 11,
+                    fontSize: 12,
                     color: 'var(--subtext)',
                     fontWeight: 700,
                     marginBottom: 4,

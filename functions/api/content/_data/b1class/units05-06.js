@@ -1735,8 +1735,8 @@ export const CLASS_B1_U05_06 = {
           en: 'This morning the mayor of Zagreb opened a new bridge across the Sava.',
         },
         {
-          hr: 'Izjavio je da će preko mosta svaki dan prelaziti dvadeset tisuća automobila.',
-          en: 'He stated that twenty thousand cars will cross the bridge every day.',
+          hr: 'Preko mosta će svaki dan prelaziti dvadeset tisuća automobila.',
+          en: 'Twenty thousand cars will cross the bridge every day.',
         },
         {
           hr: 'Policija javlja da je na autocesti prema Splitu velika gužva, ali da nema nesreća.',

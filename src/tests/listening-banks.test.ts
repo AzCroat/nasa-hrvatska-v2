@@ -1,6 +1,6 @@
 /**
  * listening-banks.test.ts — Structural guards for the Batch 3a listening depth
- * expansion: comprehension EXERCISES (now A1–C2), DICTATION_DATA (A1–C2
+ * expansion: comprehension EXERCISES (now A1–C1), DICTATION_DATA (A1–C2
  * ladder), and the level-tagged LISTEN pool.
  */
 import { describe, it, expect } from 'vitest';
@@ -8,10 +8,10 @@ import { EXERCISES } from '../components/practice/listening/exercises';
 import { DICTATION_DATA } from '../components/practice/DictationScreen';
 import { LISTEN } from '../data/exercises.js';
 
-const CEFR = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
+const CEFR = ['A1', 'A2', 'B1', 'B2', 'C1'];
 
 describe('comprehension EXERCISES', () => {
-  it('covers all six CEFR levels', () => {
+  it('covers all five CEFR levels (the course ends at C1)', () => {
     expect(Object.keys(EXERCISES)).toEqual(CEFR);
   });
 
@@ -52,7 +52,7 @@ describe('comprehension EXERCISES', () => {
 });
 
 describe('DICTATION_DATA', () => {
-  it('has ≥80 items spanning all six levels with ≥18 at C1 and ≥16 at C2', () => {
+  it('has ≥80 items spanning every level with ≥34 at C1 (old C1 18 + old C2 16) and none tagged C2', () => {
     // C1/C2 floors raised by the 2026-07 dictation depth expansion (+10 each).
     expect(DICTATION_DATA.length).toBeGreaterThanOrEqual(80);
     const by: Record<string, number> = {};
@@ -62,8 +62,8 @@ describe('DICTATION_DATA', () => {
       expect(CEFR, d.text).toContain(d.level);
       by[d.level] = (by[d.level] ?? 0) + 1;
     }
-    expect(by['C1'] ?? 0).toBeGreaterThanOrEqual(18);
-    expect(by['C2'] ?? 0).toBeGreaterThanOrEqual(16);
+    expect(by['C1'] ?? 0).toBeGreaterThanOrEqual(34);
+    expect(by['C2'] ?? 0).toBe(0);
   });
 
   it('texts are unique', () => {
@@ -97,10 +97,15 @@ describe('LISTEN pool', () => {
     // time, and a C2 round was mostly sentences from lower levels, because
     // levelledBank serves everything AT OR BELOW the learner. The ≥B1 total
     // above could not see either — it passed at 30 with C2 holding four.
-    for (const lv of CEFR) {
+    // 2026-11-18: the former C2 sentences are tagged C1, so C2 holds none.
+    for (const lv of CEFR.filter((l) => l !== 'C2')) {
       const n = LISTEN.filter((x) => x.level === lv).length;
       expect(n, `${lv} has ${n} own-level listening sentences`).toBeGreaterThanOrEqual(20);
     }
+    expect(
+      LISTEN.filter((x) => x.level === 'C2').length,
+      'no listening sentence is tagged C2',
+    ).toBe(0);
   });
 
   it('no Croatian sentence contains a numeral (TTS reads it unpredictably)', () => {
@@ -120,7 +125,7 @@ import { SHADOWING } from '../data/cultural/language.js';
 import { readFileSync } from 'node:fs';
 
 describe('3b — connected-speech passage sets', () => {
-  const CEFR = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
+  const CEFR = ['A1', 'A2', 'B1', 'B2', 'C1'];
 
   it('every level has at least four passage sets with valid structure', () => {
     // Floor raised from 1 by the 2026-07 connected-speech expansion.
@@ -149,7 +154,7 @@ describe('3b — connected-speech passage sets', () => {
 });
 
 describe('3b — shadowing level tags', () => {
-  const CEFR = new Set(['A1', 'A2', 'B1', 'B2', 'C1', 'C2']);
+  const CEFR = new Set(['A1', 'A2', 'B1', 'B2', 'C1']);
 
   it('every shadowing item carries hr/en/tip and a valid CEFR level', () => {
     expect(SHADOWING.length).toBeGreaterThanOrEqual(36);

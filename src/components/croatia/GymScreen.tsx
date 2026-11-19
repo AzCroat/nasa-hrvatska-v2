@@ -83,7 +83,7 @@ function SportScreen({ data, accent, heroGradient, heroIcon }: SportScreenProps)
               style={{
                 background: 'rgba(255,255,255,.18)',
                 color: 'white',
-                fontSize: 11,
+                fontSize: 12,
                 fontWeight: 700,
                 padding: '4px 10px',
                 borderRadius: 20,
@@ -95,7 +95,7 @@ function SportScreen({ data, accent, heroGradient, heroIcon }: SportScreenProps)
               style={{
                 background: 'rgba(255,255,255,.18)',
                 color: 'white',
-                fontSize: 11,
+                fontSize: 12,
                 fontWeight: 700,
                 padding: '4px 10px',
                 borderRadius: 20,
@@ -152,7 +152,7 @@ function SportScreen({ data, accent, heroGradient, heroIcon }: SportScreenProps)
                   marginLeft: 6,
                   background: isActive ? accent + '18' : 'var(--surface-mute)',
                   color: isActive ? accentInk(accent) : 'var(--ink-muted-warm)',
-                  fontSize: 10,
+                  fontSize: 12,
                   fontWeight: 700,
                   padding: '1px 6px',
                   borderRadius: 10,
@@ -177,7 +177,7 @@ function SportScreen({ data, accent, heroGradient, heroIcon }: SportScreenProps)
             {section.icon} {section.title}
           </div>
           <div
-            style={{ fontSize: 11, color: 'var(--ink-muted-warm)', marginTop: 2, fontWeight: 500 }}
+            style={{ fontSize: 12, color: 'var(--ink-muted-warm)', marginTop: 2, fontWeight: 500 }}
           >
             {section.en} &nbsp;·&nbsp; {section.phrases.length} items
           </div>
@@ -233,7 +233,7 @@ function SportScreen({ data, accent, heroGradient, heroIcon }: SportScreenProps)
                 >
                   <span
                     style={{
-                      fontSize: 10,
+                      fontSize: 12,
                       fontWeight: 700,
                       color: accentInk(accent, 0.6),
                       fontVariantNumeric: 'tabular-nums',
@@ -264,7 +264,7 @@ function SportScreen({ data, accent, heroGradient, heroIcon }: SportScreenProps)
                 </div>
                 <div
                   style={{
-                    fontSize: 11,
+                    fontSize: 12,
                     color: 'var(--ink-muted-warm)',
                     marginTop: 3,
                     lineHeight: 1.4,
@@ -313,7 +313,7 @@ function SportScreen({ data, accent, heroGradient, heroIcon }: SportScreenProps)
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    fontSize: 11,
+                    fontSize: 12,
                     fontWeight: 800,
                     color: isPlaying ? 'white' : accentInk(accent, 0.5),
                     transition: 'all .18s',
@@ -349,11 +349,11 @@ function SportScreen({ data, accent, heroGradient, heroIcon }: SportScreenProps)
                         padding: '3px 8px',
                       }}
                     >
-                      <span style={{ fontSize: 10, color: accentInk(accent), fontWeight: 700 }}>
+                      <span style={{ fontSize: 12, color: accentInk(accent), fontWeight: 700 }}>
                         ⓘ
                       </span>
                       <span
-                        style={{ fontSize: 10, color: accentInk(accent, 0.8), lineHeight: 1.4 }}
+                        style={{ fontSize: 12, color: accentInk(accent, 0.8), lineHeight: 1.4 }}
                       >
                         {p.note}
                       </span>

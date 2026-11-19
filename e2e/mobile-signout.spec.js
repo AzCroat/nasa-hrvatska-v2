@@ -74,7 +74,7 @@ test.describe('Mobile sign-out bug', () => {
 
     // Find the "Me" tab (Profile)
     console.log('\nLooking for Me / Profile tab...');
-    const meTab = page.locator('button').filter({ hasText: /^Me$/ }).first();
+    const meTab = page.getByTestId('header-profile');
     const meTabVisible = await meTab.isVisible({ timeout: 5000 }).catch(() => false);
     if (!meTabVisible) {
       // Try Profile
@@ -219,7 +219,7 @@ test.describe('Mobile sign-out bug', () => {
     await login(page);
 
     // Navigate to profile
-    const meTab = page.locator('button').filter({ hasText: /^Me$|^Profile$/ }).first();
+    const meTab = page.getByTestId('header-profile');
     if (!await meTab.isVisible({ timeout: 5000 }).catch(() => false)) {
       console.log('❌ Me/Profile tab not visible');
       return;

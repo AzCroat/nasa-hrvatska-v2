@@ -342,7 +342,7 @@ export default function AIStoryScreen({
           >
             <div
               style={{
-                fontSize: 11,
+                fontSize: 12,
                 fontWeight: 800,
                 color: 'var(--info)',
                 letterSpacing: '.08em',
@@ -356,7 +356,7 @@ export default function AIStoryScreen({
               {renderHighlightedStory(story, wordsUsed)}
             </p>
             <div
-              style={{ fontSize: 11, color: 'var(--subtext)', marginTop: 12, fontStyle: 'italic' }}
+              style={{ fontSize: 12, color: 'var(--subtext)', marginTop: 12, fontStyle: 'italic' }}
             >
               Tap highlighted words to hear pronunciation
             </div>
@@ -424,7 +424,7 @@ export default function AIStoryScreen({
             <div style={{ marginBottom: 20 }}>
               <div
                 style={{
-                  fontSize: 11,
+                  fontSize: 12,
                   fontWeight: 800,
                   color: 'var(--subtext)',
                   letterSpacing: '.06em',

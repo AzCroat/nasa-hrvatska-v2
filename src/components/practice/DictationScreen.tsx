@@ -206,42 +206,42 @@ export const DICTATION_DATA = [
   {
     text: 'Njegova šutnja bila je rječitija od svakoga govora.',
     en: 'His silence was more eloquent than any speech.',
-    level: 'C2',
+    level: 'C1',
   },
   {
     text: 'Sloboda bez odgovornosti izrodi se u samovolju.',
     en: 'Freedom without responsibility degenerates into arbitrariness.',
-    level: 'C2',
+    level: 'C1',
   },
   {
     text: 'Bijaše to jutro kakvo se pamti cijeli život.',
     en: 'It was a morning one remembers all one’s life.',
-    level: 'C2',
+    level: 'C1',
   },
   {
     text: 'Povijest se ne ponavlja, ali se rimuje.',
     en: 'History does not repeat itself, but it rhymes.',
-    level: 'C2',
+    level: 'C1',
   },
   {
     text: 'U njezinu se glasu naslućivala prešućena tuga.',
     en: 'In her voice one sensed an unspoken sorrow.',
-    level: 'C2',
+    level: 'C1',
   },
   {
     text: 'Obilje izbora katkad više sputava nego što oslobađa.',
     en: 'An abundance of choice sometimes constrains more than it liberates.',
-    level: 'C2',
+    level: 'C1',
   },
   {
     text: 'Zaboravu usprkos, neka imena ostaju.',
     en: 'In spite of oblivion, some names remain.',
-    level: 'C2',
+    level: 'C1',
   },
   {
     text: 'Ostaje otvorenim pitanje tko snosi odgovornost.',
     en: 'The question of who bears responsibility remains open.',
-    level: 'C2',
+    level: 'C1',
   },
   // ── 2026-07 C1/C2 dictation depth (+20) ──
   {
@@ -297,52 +297,52 @@ export const DICTATION_DATA = [
   {
     text: 'Šutnja koja je dugo vladala među njima napokon je postala nepodnošljivom.',
     en: 'The silence that had long persisted between them finally became unbearable.',
-    level: 'C2',
+    level: 'C1',
   },
   {
     text: 'Nedovršeni rukopis, ostavljen na stolu, čekao je desetljećima na svog čitatelja.',
     en: 'The unfinished manuscript, left on the table, waited decades for its reader.',
-    level: 'C2',
+    level: 'C1',
   },
   {
     text: 'Nepovjerenje prema institucijama proizlazi izravno iz dugogodišnjeg zanemarivanja javnog interesa.',
     en: 'Distrust of institutions stems directly from years of neglecting the public interest.',
-    level: 'C2',
+    level: 'C1',
   },
   {
     text: 'Da mu se barem jednom obratila iskreno, možda bi sve bilo drukčije.',
     en: 'Had she at least once addressed him honestly, perhaps everything would have been different.',
-    level: 'C2',
+    level: 'C1',
   },
   {
     text: 'Unatoč svemu što im se dogodilo, njihovo je prijateljstvo ostalo nepokolebljivo.',
     en: 'Despite everything that had happened to them, their friendship remained unshaken.',
-    level: 'C2',
+    level: 'C1',
   },
   {
     text: 'Iznenađen vlastitom hrabrošću, nije znao objasniti otkud mu ta odlučnost.',
     en: 'Surprised by his own courage, he could not explain where that resolve had come from.',
-    level: 'C2',
+    level: 'C1',
   },
   {
     text: 'Postupno urušavanje starih vrijednosti ostavlja iza sebe prazninu koju nitko ne popunjava.',
     en: 'The gradual collapse of old values leaves behind a void that no one fills.',
-    level: 'C2',
+    level: 'C1',
   },
   {
     text: 'Da mu se ranije posvetila pažnja, možda bi se izbjegla čitava nesreća.',
     en: 'Had attention been paid to him earlier, perhaps the whole disaster could have been avoided.',
-    level: 'C2',
+    level: 'C1',
   },
   {
     text: 'Odluka, donesena bez uvida u sve okolnosti, izazvala je opravdano negodovanje javnosti.',
     en: 'The decision, made without insight into all the circumstances, provoked justified public outrage.',
-    level: 'C2',
+    level: 'C1',
   },
   {
     text: 'Nije riječ o slučajnom podudaranju, nego o dugo pripremanom slijedu događaja.',
     en: 'This is not a matter of coincidental overlap, but of a long-prepared sequence of events.',
-    level: 'C2',
+    level: 'C1',
   },
 ];
 
@@ -382,7 +382,6 @@ const levelColor: Record<string, string> = {
   B1: '#fef3c7',
   B2: '#f3e8ff',
   C1: '#ffe4e6',
-  C2: '#e2e8f0',
 };
 const levelText: Record<string, string> = {
   A1: '#166534',
@@ -390,7 +389,6 @@ const levelText: Record<string, string> = {
   B1: '#92400e',
   B2: '#6b21a8',
   C1: '#9f1239',
-  C2: '#334155',
 };
 
 function normalise(s: string) {
@@ -649,7 +647,7 @@ export default function DictationScreen({ goBack, award }: Props) {
               color: levelText[q.level],
               borderRadius: 6,
               padding: '2px 8px',
-              fontSize: 11,
+              fontSize: 12,
               fontWeight: 800,
             }}
           >
@@ -832,7 +830,7 @@ export default function DictationScreen({ goBack, award }: Props) {
               {aiExplain.rule && (
                 <div
                   style={{
-                    fontSize: 11,
+                    fontSize: 12,
                     fontWeight: 800,
                     color: 'var(--ink-info)',
                     marginBottom: 3,

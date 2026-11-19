@@ -297,28 +297,28 @@ const TRANSFORMS = [
     instruction: 'Aorist (ja)',
     target: 'Rekoh.',
     type: 'transform',
-    level: 'C2',
+    level: 'C1',
   },
   {
     src: 'Došao je i vidio je.',
     instruction: 'Aorist: Dođe i…',
     target: 'Dođe i vidje.',
     type: 'transform',
-    level: 'C2',
+    level: 'C1',
   },
   {
     src: 'Vlak je otišao prije našeg dolaska.',
     instruction: 'Pluskvamperfekt: Vlak je već…',
     target: 'Vlak je već bio otišao.',
     type: 'transform',
-    level: 'C2',
+    level: 'C1',
   },
   {
     src: 'Bilo je jednom jedno kraljevstvo.',
     instruction: 'Imperfekt od biti: …',
     target: 'Bijaše jednom jedno kraljevstvo.',
     type: 'transform',
-    level: 'C2',
+    level: 'C1',
   },
 ];
 
@@ -743,7 +743,7 @@ function LevelBadge({ level }: LevelBadgeProps) {
   return (
     <span
       style={{
-        fontSize: 10,
+        fontSize: 12,
         fontWeight: 800,
         padding: '2px 7px',
         borderRadius: 99,
@@ -1033,7 +1033,7 @@ function ModeTranslate({ onDone, onBack, award, onCorrect, onWrong, level }: Mod
       >
         <div
           style={{
-            fontSize: 11,
+            fontSize: 12,
             fontWeight: 800,
             color: 'var(--subtext)',
             textTransform: 'uppercase',
@@ -1452,7 +1452,7 @@ function ModeErrorCorrect({ onDone, onBack, award, onCorrect, onWrong, level }: 
         <span style={{ fontSize: 13, fontWeight: 700, color: 'var(--subtext)' }}>
           {idx + 1}/{total}
         </span>
-        <span style={{ fontSize: 11, color: 'var(--subtext)', fontStyle: 'italic' }}>
+        <span style={{ fontSize: 12, color: 'var(--subtext)', fontStyle: 'italic' }}>
           {item.en}
         </span>
       </div>
@@ -1469,7 +1469,7 @@ function ModeErrorCorrect({ onDone, onBack, award, onCorrect, onWrong, level }: 
       >
         <div
           style={{
-            fontSize: 11,
+            fontSize: 12,
             fontWeight: 800,
             color: 'var(--subtext)',
             textTransform: 'uppercase',
@@ -1802,7 +1802,7 @@ export default function ProductionDrillScreen({ goBack, award }: ProductionDrill
                     <div style={{ display: 'flex', gap: 8 }}>
                       <span
                         style={{
-                          fontSize: 10,
+                          fontSize: 12,
                           fontWeight: 800,
                           color: accentInk(m.color),
                           background: `${m.color}18`,
@@ -1812,7 +1812,7 @@ export default function ProductionDrillScreen({ goBack, award }: ProductionDrill
                       >
                         {m.difficulty}
                       </span>
-                      <span style={{ fontSize: 10, fontWeight: 700, color: 'var(--subtext)' }}>
+                      <span style={{ fontSize: 12, fontWeight: 700, color: 'var(--subtext)' }}>
                         ⏱ {m.time}
                       </span>
                     </div>

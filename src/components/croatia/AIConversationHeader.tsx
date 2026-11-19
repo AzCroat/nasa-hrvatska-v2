@@ -148,7 +148,7 @@ export default function AIConversationHeader({
             </div>
             <div style={{ marginTop: 6, display: 'flex', gap: 4, alignItems: 'center' }}>
               <div style={{ width: 8, height: 8, borderRadius: '50%', background: '#22c55e' }} />
-              <span style={{ fontSize: 11, fontWeight: 700, opacity: 0.85 }}>
+              <span style={{ fontSize: 12, fontWeight: 700, opacity: 0.85 }}>
                 Online · Ready to talk
               </span>
             </div>

@@ -40,12 +40,7 @@ describe('nav lists', () => {
   it('TabBar is exactly home, learn, more', () => {
     expect(idsOf('src/components/shared/TabBar.tsx')).toEqual(['home', 'learn', 'more']);
   });
-  it('Sidebar is home, learn, more plus the profile entry', () => {
-    expect(idsOf('src/components/shared/Sidebar.tsx')).toEqual([
-      'home',
-      'learn',
-      'more',
-      'profile',
-    ]);
+  it('Sidebar is exactly home, learn, more — the header avatar is the way to the profile', () => {
+    expect(idsOf('src/components/shared/Sidebar.tsx')).toEqual(['home', 'learn', 'more']);
   });
 });

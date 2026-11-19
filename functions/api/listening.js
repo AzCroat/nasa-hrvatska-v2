@@ -40,7 +40,7 @@ function err(status, msg, origin) {
 
 // ── Input validation ──────────────────────────────────────────────────────────
 
-const VALID_LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
+const VALID_LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1'];
 const VALID_TOPICS = [
   'cafe',
   'market',
@@ -61,6 +61,7 @@ const VALID_TOPICS = [
 const VALID_STYLES = ['dialogue', 'monologue'];
 
 function sanitizeLevel(level) {
+  if (level === 'C2') level = 'C1'; // C2 retired 2026-11-18: an older app version may still send it
   return VALID_LEVELS.includes(level) ? level : 'B1';
 }
 

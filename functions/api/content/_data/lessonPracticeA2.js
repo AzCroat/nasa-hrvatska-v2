@@ -770,7 +770,7 @@ export const PRACTICE_A2 = {
           explanation: 'na stolicu — motion onto, so accusative; feminine -a → -u.',
         },
         {
-          q: 'Tražim ___. (the key — ključ)',
+          q: 'Tražim ___. (the key)',
           options: ['ključa', 'ključ', 'ključu', 'ključem'],
           correct: 1,
           hint: 'Ask whether a key is alive before you add anything.',
@@ -1255,7 +1255,7 @@ export const PRACTICE_A2 = {
           'The keys are lying there — static location, so na + locative: stolu. stol would mean putting them onto it.',
       },
       {
-        q: 'Complete: "Sutra idemo u ___." (to the museum — muzej)',
+        q: 'Complete: "Sutra idemo u ___." (to the museum)',
         options: ['muzeju', 'muzeja', 'muzej', 'muzejom'],
         correct: 2,
         explanation:
@@ -1377,14 +1377,14 @@ export const PRACTICE_A2 = {
           explanation: 'Smijemo li parkirati ovdje? — smjeti for permission, mi form.',
         },
         {
-          q: 'Moram ___ baku. (call — nazvati)',
+          q: 'Moram ___ baku. (to call)',
           options: ['nazovem', 'nazvati', 'nazovi', 'nazvao'],
           correct: 1,
           hint: 'What form does the verb after a modal take?',
           explanation: 'Moram nazvati baku. The second verb is always the infinitive.',
         },
         {
-          q: 'Trebam ___. (a new phone — novi mobitel)',
+          q: 'Trebam ___. (a new phone)',
           options: ['novog mobitela', 'novom mobitelu', 'novi mobitel', 'nova mobitela'],
           correct: 2,
           hint: 'trebati can take a noun as its object — and a phone is not alive.',
@@ -2714,7 +2714,7 @@ export const PRACTICE_A2 = {
           'A masculine plural object takes -e: pse. psi is the subject form, pasa the genitive plural.',
       },
       {
-        q: 'Complete: "Kupila sam šest ___." (six apples — jabuka)',
+        q: 'Complete: "Kupila sam šest ___." (six apples)',
         options: ['jabuke', 'jabukama', 'jabuku', 'jabuka'],
         correct: 3,
         explanation:

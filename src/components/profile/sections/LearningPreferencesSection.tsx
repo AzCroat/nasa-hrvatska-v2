@@ -171,13 +171,13 @@ export default function LearningPreferencesSection() {
               borderRadius: 8,
               padding: '10px 12px',
               fontFamily: 'monospace',
-              fontSize: 10,
+              fontSize: 12,
               color: '#ddd',
               maxHeight: 180,
               overflowY: 'auto',
             }}
           >
-            <div style={{ color: 'var(--ink-muted)', marginBottom: 4, fontSize: 9 }}>
+            <div style={{ color: 'var(--ink-muted)', marginBottom: 4, fontSize: 12 }}>
               Audio Debug Log — {JSON.stringify(getAudioDebugState())}
             </div>
             {audioDebugLines.map((e, i) => (
@@ -456,7 +456,7 @@ export default function LearningPreferencesSection() {
                 cursor: 'pointer',
                 fontFamily: "'Outfit',sans-serif",
                 fontWeight: 700,
-                fontSize: 11,
+                fontSize: 12,
                 background: voicePref === v.id ? 'var(--info-bg,#e0f2fe)' : 'var(--bar-bg,#f1f5f9)',
                 color: voicePref === v.id ? 'var(--info,#0284c7)' : 'var(--subtext,#64748b)',
                 boxShadow: voicePref === v.id ? 'inset 0 0 0 2px var(--info,#0284c7)' : 'none',
@@ -467,7 +467,7 @@ export default function LearningPreferencesSection() {
             </button>
           ))}
         </div>
-        <div style={{ fontSize: 10, color: 'var(--subtext)', marginTop: 6, lineHeight: 1.4 }}>
+        <div style={{ fontSize: 12, color: 'var(--subtext)', marginTop: 6, lineHeight: 1.4 }}>
           {voicePref === 'charlotte'
             ? '📌 ElevenLabs Charlotte — natural modern voice, slight non-native accent on Croatian'
             : '📌 Azure hr-HR-GabrijelaNeural — native Croatian pronunciation, phonemically accurate'}
@@ -504,7 +504,7 @@ export default function LearningPreferencesSection() {
                 cursor: 'pointer',
                 fontFamily: "'Outfit',sans-serif",
                 fontWeight: 700,
-                fontSize: 11,
+                fontSize: 12,
                 background:
                   speechRate === opt.rate ? 'var(--info-bg,#e0f2fe)' : 'var(--bar-bg,#f1f5f9)',
                 color: speechRate === opt.rate ? 'var(--info,#0284c7)' : 'var(--subtext,#64748b)',
@@ -516,7 +516,7 @@ export default function LearningPreferencesSection() {
             </button>
           ))}
         </div>
-        <div style={{ fontSize: 10, color: 'var(--subtext)', marginTop: 6, lineHeight: 1.4 }}>
+        <div style={{ fontSize: 12, color: 'var(--subtext)', marginTop: 6, lineHeight: 1.4 }}>
           📌 Applies to all Croatian audio playback (lessons, examples, story narration)
         </div>
       </div>

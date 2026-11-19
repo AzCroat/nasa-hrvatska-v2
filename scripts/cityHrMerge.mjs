@@ -3,7 +3,7 @@
 //
 //   node scripts/cityHrMerge.mjs <dirOfTrancheResults> [--write]
 //
-// A tranche result is `{ "<city>": { "A2": "…", "B2": "…", "C2": "…" }, … }`.
+// A tranche result is `{ "<city>": { "A2": "…", "B2": "…" }, … }`.
 //
 // WHY THE AUTHORING HAPPENS OUTSIDE `src/data/cultural/cityHr/`: a band module
 // that exists on disk but is not in `CITY_HR_BANDS` never loads, and the test
@@ -32,7 +32,7 @@ if (!dir) {
   process.exit(2);
 }
 
-const NEW_BANDS = ['A2', 'B2', 'C2'];
+const NEW_BANDS = ['A2', 'B2'];
 const names = CROATIAN_CITIES.map((c) => c.name);
 const nameSet = new Set(names);
 
@@ -71,7 +71,6 @@ for (const [city, bands] of Object.entries(authored)) {
     B1: CITY_INTRO_HR_B1[city]?.introHr,
     B2: bands.B2,
     C1: CITY_INTRO_HR_C1[city]?.introHrC1,
-    C2: bands.C2,
   };
   for (const k of Object.keys(ladder)) if (typeof ladder[k] !== 'string') delete ladder[k];
   for (const p of checkCity(city, ladder)) say(p);

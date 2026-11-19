@@ -3067,7 +3067,7 @@ export const PRACTICE_B2 = {
           explanation: 's konja — s + genitive for movement down from.',
         },
         {
-          q: 'Dopuni: "Sjela je među ___." (She sat down among her friends — prijateljice.)',
+          q: 'Dopuni: "Sjela je među ___." (She sat down among her friends.)',
           options: ['prijateljice', 'prijateljicama', 'prijateljica', 'prijateljicu'],
           correct: 0,
           hint: 'sjela je describes moving into place, and među is in the motion group.',

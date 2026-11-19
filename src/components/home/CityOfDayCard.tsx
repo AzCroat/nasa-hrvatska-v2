@@ -100,7 +100,7 @@ export default function CityOfDayCard({ setScr }: CityOfDayCardProps) {
           >
             <span
               style={{
-                fontSize: 8,
+                fontSize: 12,
                 fontWeight: 900,
                 color: accentInk(CROATIAN_RED),
                 letterSpacing: '.22em',
@@ -112,7 +112,7 @@ export default function CityOfDayCard({ setScr }: CityOfDayCardProps) {
             </span>
             <span
               style={{
-                fontSize: 8,
+                fontSize: 12,
                 fontWeight: 700,
                 color: 'var(--ink-muted)',
                 letterSpacing: '.1em',
@@ -172,7 +172,7 @@ export default function CityOfDayCard({ setScr }: CityOfDayCardProps) {
               border: '1px solid rgba(204,0,0,.2)',
               borderRadius: 8,
               padding: '5px 10px',
-              fontSize: 9,
+              fontSize: 12,
               fontWeight: 900,
               color: accentInk(CROATIAN_RED),
               fontFamily: "'Outfit', sans-serif",
@@ -180,7 +180,7 @@ export default function CityOfDayCard({ setScr }: CityOfDayCardProps) {
               textTransform: 'uppercase',
             }}
           >
-            <span style={{ fontSize: 11 }}>🗺️</span>
+            <span style={{ fontSize: 12 }}>🗺️</span>
             Explore →
           </div>
         </div>

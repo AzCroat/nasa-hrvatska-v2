@@ -272,7 +272,7 @@ export default function QuestTracker({
             <div style={{ flex: 1, minWidth: 0 }}>
               <div
                 style={{
-                  fontSize: 11,
+                  fontSize: 12,
                   fontWeight: 800,
                   color: 'rgba(255,255,255,.7)',
                   textTransform: 'uppercase',
@@ -315,7 +315,7 @@ export default function QuestTracker({
             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 5 }}>
               <span
                 style={{
-                  fontSize: 11,
+                  fontSize: 12,
                   fontWeight: 700,
                   color: 'rgba(255,255,255,.65)',
                   fontFamily: 'var(--font-sans)',
@@ -327,7 +327,7 @@ export default function QuestTracker({
               </span>
               <span
                 style={{
-                  fontSize: 11,
+                  fontSize: 12,
                   fontWeight: 800,
                   color: allQuestsDone ? '#e9d5ff' : 'rgba(255,255,255,.85)',
                   fontFamily: 'var(--font-sans)',
@@ -407,7 +407,7 @@ export default function QuestTracker({
                     right: 8,
                     background: qc.bg,
                     color: qc.text,
-                    fontSize: 9,
+                    fontSize: 12,
                     fontWeight: 900,
                     padding: '2px 6px',
                     borderRadius: 8,
@@ -452,7 +452,7 @@ export default function QuestTracker({
               </div>
               <div
                 style={{
-                  fontSize: 11,
+                  fontSize: 12,
                   color: 'var(--subtext)',
                   fontWeight: 500,
                   marginBottom: 8,
@@ -485,7 +485,7 @@ export default function QuestTracker({
                     }
                     style={{
                       marginTop: 'auto',
-                      fontSize: 11,
+                      fontSize: 12,
                       fontWeight: 800,
                       color: qc.text,
                       background: qc.bg,

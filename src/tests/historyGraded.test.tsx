@@ -3,9 +3,9 @@
  * (content expansion item 6, 2026-09-05).
  *
  * The culture data's Croatian layer (`introHr` / `textHr`) was written at one
- * register and served identically to an A1 beginner and a C2 reader. HISTORY
+ * register and served identically to an A1 beginner and a C1 reader. HISTORY
  * now carries the same event at every level in sibling fields (textHrA1 …
- * textHrC2; the bare field stays the B1 baseline), the screen picks by the
+ * textHrC1; the bare field stays the B1 baseline), the screen picks by the
  * learner's level through lib/gradedHr, and the pool entry is `adaptive` so the
  * culture slot counts it as own-tier for everyone.
  *
@@ -59,7 +59,7 @@ describe('HISTORY — graded Croatian data', () => {
       expect(w.A1, 'A1 stays short').toBeLessThanOrEqual(35);
       expect(w.A1).toBeLessThan(w.A2!);
       expect(w.A2).toBeLessThan(w.B2!);
-      for (const l of ['B2', 'C1', 'C2'])
+      for (const l of ['B2', 'C1'])
         expect(w[l], `${l} is a full paragraph`).toBeGreaterThanOrEqual(80);
     },
   );
@@ -89,18 +89,17 @@ describe('pickGradedHr', () => {
     expect(pick.atLevel).toBe(true);
   });
 
-  it('never serves a level ABOVE the learner: with the C1/C2 texts gone a C2 learner gets B2', () => {
+  it('never serves a level ABOVE the learner: with the C1 text gone a C1 learner gets B2', () => {
     const stale = { ...entry };
     delete stale.textHrC1;
-    delete stale.textHrC2;
-    const pick = pickGradedHr(stale, 'textHr', 'C2')!;
+    const pick = pickGradedHr(stale, 'textHr', 'C1')!;
     expect(pick.level).toBe('B2');
     expect(pick.atLevel).toBe(false);
   });
 
   it('…and a B2 learner whose B2 text is missing gets B1, not the C1 that exists above', () => {
-    // The C2 case above cannot catch a picker that climbs, because nothing sits
-    // above C2. Mutation-found: a ladder of [own, above…, below…] passed it.
+    // The C1 case above cannot catch a picker that climbs, because nothing sits
+    // above C1. Mutation-found: a ladder of [own, above…, below…] passed it.
     const gap = { ...entry };
     delete gap.textHrB2;
     const pick = pickGradedHr(gap, 'textHr', 'B2')!;
@@ -176,7 +175,7 @@ describe('CroatiaHistoryScreen', () => {
     expect(home).toMatch(/getContentUnlockLevel\(\s*getUserCefr\(/);
   });
 
-  it.each(['A1', 'B2', 'C2'])('at %s renders that level of the intro and of every entry', (l) => {
+  it.each(['A1', 'B2', 'C1'])('at %s renders that level of the intro and of every entry', (l) => {
     mockLevel = l;
     render(<CroatiaHistoryScreen goBack={vi.fn()} />);
     expect(screen.getByText(String(H[gradedField('introHr', l)]))).toBeInTheDocument();

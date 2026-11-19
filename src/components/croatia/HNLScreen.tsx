@@ -339,7 +339,7 @@ export default function HNLScreen({ goBack }: { goBack: () => void }) {
         </div>
         <div
           style={{
-            fontSize: 11,
+            fontSize: 12,
             fontWeight: 700,
             letterSpacing: 1,
             opacity: 0.8,
@@ -361,8 +361,8 @@ export default function HNLScreen({ goBack }: { goBack: () => void }) {
           ].map(([icon, yr, label]) => (
             <div key={yr} style={{ textAlign: 'center' }}>
               <div style={{ fontSize: 18 }}>{icon}</div>
-              <div style={{ fontSize: 11, fontWeight: 800 }}>{yr}</div>
-              <div style={{ fontSize: 10, opacity: 0.8 }}>{label}</div>
+              <div style={{ fontSize: 12, fontWeight: 800 }}>{yr}</div>
+              <div style={{ fontSize: 12, opacity: 0.8 }}>{label}</div>
             </div>
           ))}
         </div>
@@ -388,7 +388,7 @@ export default function HNLScreen({ goBack }: { goBack: () => void }) {
               <div style={{ fontSize: 13, fontWeight: 700, color: accentInk(l.color) }}>
                 {l.label} ↗
               </div>
-              <div style={{ fontSize: 11, color: 'var(--subtext)' }}>{l.sub}</div>
+              <div style={{ fontSize: 12, color: 'var(--subtext)' }}>{l.sub}</div>
             </div>
           </button>
         ))}
@@ -466,7 +466,7 @@ export default function HNLScreen({ goBack }: { goBack: () => void }) {
                 padding: '8px 12px',
                 background: '#003da5',
                 color: 'white',
-                fontSize: 11,
+                fontSize: 12,
                 fontWeight: 700,
               }}
             >
@@ -582,7 +582,7 @@ export default function HNLScreen({ goBack }: { goBack: () => void }) {
                 padding: '8px 12px',
                 display: 'flex',
                 gap: 16,
-                fontSize: 10,
+                fontSize: 12,
                 color: 'var(--ink-muted-warm)',
                 borderTop: '1px solid rgba(0,0,0,.06)',
               }}
@@ -606,7 +606,7 @@ export default function HNLScreen({ goBack }: { goBack: () => void }) {
               gap: 4,
               marginBottom: 4,
               padding: '6px 12px',
-              fontSize: 11,
+              fontSize: 12,
               fontWeight: 700,
               color: 'var(--ink-muted-warm)',
             }}
@@ -636,7 +636,7 @@ export default function HNLScreen({ goBack }: { goBack: () => void }) {
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  fontSize: 11,
+                  fontSize: 12,
                   fontWeight: 800,
                   color: MEDALS[i]?.ink ?? 'var(--ink-muted-warm)',
                   flexShrink: 0,
@@ -652,7 +652,7 @@ export default function HNLScreen({ goBack }: { goBack: () => void }) {
               <div
                 style={{
                   width: 80,
-                  fontSize: 11,
+                  fontSize: 12,
                   color: 'var(--ink-muted-warm)',
                   overflow: 'hidden',
                   textOverflow: 'ellipsis',
@@ -775,7 +775,7 @@ export default function HNLScreen({ goBack }: { goBack: () => void }) {
               <div>
                 <div
                   style={{
-                    fontSize: 11,
+                    fontSize: 12,
                     fontWeight: 700,
                     opacity: 0.8,
                     textTransform: 'uppercase',
@@ -809,7 +809,7 @@ export default function HNLScreen({ goBack }: { goBack: () => void }) {
                 >
                   <div style={{ fontSize: 18 }}>{icon}</div>
                   <div style={{ fontSize: 12, fontWeight: 800 }}>{yr}</div>
-                  <div style={{ fontSize: 10, opacity: 0.85 }}>{desc}</div>
+                  <div style={{ fontSize: 12, opacity: 0.85 }}>{desc}</div>
                 </div>
               ))}
             </div>
@@ -847,7 +847,7 @@ export default function HNLScreen({ goBack }: { goBack: () => void }) {
                   <div style={{ fontSize: 15, fontWeight: 800, color: accentInk(t.color) }}>
                     {t.name}
                   </div>
-                  <div style={{ fontSize: 11, color: 'var(--ink-muted-warm)' }}>
+                  <div style={{ fontSize: 12, color: 'var(--ink-muted-warm)' }}>
                     {t.city} · Est. {t.founded} · {t.stadium} ({t.capacity})
                   </div>
                 </div>
@@ -855,7 +855,7 @@ export default function HNLScreen({ goBack }: { goBack: () => void }) {
                   <div style={{ fontSize: 18, fontWeight: 900, color: accentInk(t.color) }}>
                     {t.titles}
                   </div>
-                  <div style={{ fontSize: 9, color: 'var(--ink-muted-warm)', fontWeight: 600 }}>
+                  <div style={{ fontSize: 12, color: 'var(--ink-muted-warm)', fontWeight: 600 }}>
                     TITLES
                   </div>
                 </div>
@@ -879,7 +879,7 @@ export default function HNLScreen({ goBack }: { goBack: () => void }) {
                     style={{
                       background: t.color + '12',
                       color: accentInk(t.color),
-                      fontSize: 11,
+                      fontSize: 12,
                       fontWeight: 600,
                       padding: '3px 8px',
                       borderRadius: 20,
@@ -893,7 +893,7 @@ export default function HNLScreen({ goBack }: { goBack: () => void }) {
               <div style={{ background: 'rgba(0,0,0,.03)', borderRadius: 10, padding: '8px 12px' }}>
                 <div
                   style={{
-                    fontSize: 11,
+                    fontSize: 12,
                     fontWeight: 700,
                     color: 'var(--ink-muted-warm)',
                     marginBottom: 2,
@@ -911,7 +911,7 @@ export default function HNLScreen({ goBack }: { goBack: () => void }) {
                 >
                   "{t.chant}"
                 </div>
-                <div style={{ fontSize: 11, color: 'var(--ink-muted-warm)' }}>"{t.chantEn}"</div>
+                <div style={{ fontSize: 12, color: 'var(--ink-muted-warm)' }}>"{t.chantEn}"</div>
               </div>
             </div>
           ))}
@@ -938,7 +938,7 @@ export default function HNLScreen({ goBack }: { goBack: () => void }) {
                 <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--ink-flag)' }}>
                   {w[0]} <span aria-hidden="true">🔊</span>
                 </div>
-                <div style={{ fontSize: 11, color: 'var(--subtext)', marginTop: 2 }}>{w[1]}</div>
+                <div style={{ fontSize: 12, color: 'var(--subtext)', marginTop: 2 }}>{w[1]}</div>
               </button>
             ))}
           </div>
@@ -977,7 +977,7 @@ export default function HNLScreen({ goBack }: { goBack: () => void }) {
               </div>
               <div
                 style={{
-                  fontSize: 10,
+                  fontSize: 12,
                   background: 'rgba(14,116,144,.1)',
                   color: 'var(--ink-accent)',
                   padding: '3px 8px',
@@ -1019,7 +1019,7 @@ export default function HNLScreen({ goBack }: { goBack: () => void }) {
                 <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--ink-accent)' }}>
                   {w[0]} <span aria-hidden="true">🔊</span>
                 </div>
-                <div style={{ fontSize: 11, color: 'var(--subtext)', marginTop: 2 }}>{w[1]}</div>
+                <div style={{ fontSize: 12, color: 'var(--subtext)', marginTop: 2 }}>{w[1]}</div>
               </button>
             ))}
           </div>

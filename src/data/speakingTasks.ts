@@ -158,11 +158,8 @@ export const SPEAKING_TASKS: Partial<Record<CefrLevel, SpeakingTask[]>> = {
         'Does technological progress necessarily lead to a better society? Weigh the arguments for and against, and take a stance.',
       seconds: 60,
     },
-  ],
-  // C2 — mastery maintenance: register control, synthesis, idiomatic precision.
-  // Consumed by the periodic checkpoints for C2-certified learners; before this
-  // key existed, a C2 checkpoint had no speaking section at all.
-  C2: [
+    // The former C2 tasks (register control, synthesis, idiomatic precision), part of C1
+    // since 2026-11-18: the course ends at C1.
     {
       id: 'c2-dialects',
       prompt:

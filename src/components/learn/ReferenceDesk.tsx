@@ -73,7 +73,7 @@ function Example({ hr, en, note }: { hr: string; en: string; note?: string }) {
         {en}
       </div>
       {note && (
-        <div style={{ fontSize: 11, color: 'var(--ink-accent)', paddingLeft: 13, marginTop: 3 }}>
+        <div style={{ fontSize: 12, color: 'var(--ink-accent)', paddingLeft: 13, marginTop: 3 }}>
           {note}
         </div>
       )}
@@ -114,7 +114,7 @@ function DeclensionPanel(): React.ReactElement {
 
       {ambiguous && (
         <div data-testid="rd-gender-choice" style={{ marginTop: 10 }}>
-          <div style={{ fontSize: 11, color: 'var(--subtext)', marginBottom: 6, lineHeight: 1.5 }}>
+          <div style={{ fontSize: 12, color: 'var(--subtext)', marginBottom: 6, lineHeight: 1.5 }}>
             A noun ending in a consonant can be masculine (<span lang="hr">grad</span>) or feminine
             (<span lang="hr">stvar</span>) — the spelling cannot tell them apart, so pick one.
           </div>
@@ -156,7 +156,7 @@ function DeclensionPanel(): React.ReactElement {
 
       {table && (
         <div data-testid="rd-declension-table" style={{ marginTop: 12 }}>
-          <div style={{ fontSize: 11, color: 'var(--subtext)', marginBottom: 6 }}>
+          <div style={{ fontSize: 12, color: 'var(--subtext)', marginBottom: 6 }}>
             {table.paradigm} ·{' '}
             {table.attested ? (
               <strong>attested paradigm</strong>
@@ -166,7 +166,7 @@ function DeclensionPanel(): React.ReactElement {
           </div>
           <table style={{ width: '100%', fontSize: 13, borderCollapse: 'collapse' }}>
             <thead>
-              <tr style={{ fontSize: 11, color: 'var(--subtext)', textAlign: 'left' }}>
+              <tr style={{ fontSize: 12, color: 'var(--subtext)', textAlign: 'left' }}>
                 <th style={{ padding: '4px 6px 4px 0', fontWeight: 700 }}>case</th>
                 <th style={{ padding: '4px 6px 4px 0', fontWeight: 700 }}>singular</th>
                 <th style={{ padding: '4px 0', fontWeight: 700 }}>plural</th>
@@ -198,7 +198,7 @@ function DeclensionPanel(): React.ReactElement {
           {table.alternatePlural && (
             <p
               data-testid="alternate-plural"
-              style={{ fontSize: 11, color: 'var(--text)', lineHeight: 1.6, marginTop: 8 }}
+              style={{ fontSize: 12, color: 'var(--text)', lineHeight: 1.6, marginTop: 8 }}
             >
               A second plural, for {table.alternatePlural.meaning}:{' '}
               <span lang="hr">
@@ -210,7 +210,7 @@ function DeclensionPanel(): React.ReactElement {
             </p>
           )}
           {table.note && (
-            <p style={{ fontSize: 11, color: 'var(--subtext)', lineHeight: 1.6, marginTop: 8 }}>
+            <p style={{ fontSize: 12, color: 'var(--subtext)', lineHeight: 1.6, marginTop: 8 }}>
               {table.note}
             </p>
           )}
@@ -322,7 +322,7 @@ export default function ReferenceDesk({
 
   return (
     <div data-testid="reference-desk">
-      <div style={{ fontSize: 11, color: 'var(--subtext)', marginBottom: 10, lineHeight: 1.5 }}>
+      <div style={{ fontSize: 12, color: 'var(--subtext)', marginBottom: 10, lineHeight: 1.5 }}>
         Worked out on your device from the rules — no connection needed, and nothing here counts
         towards your progress.
       </div>
@@ -363,7 +363,7 @@ export default function ReferenceDesk({
                   <span
                     style={{
                       display: 'block',
-                      fontSize: 11,
+                      fontSize: 12,
                       color: 'var(--subtext)',
                       marginTop: 2,
                       lineHeight: 1.4,
@@ -408,7 +408,7 @@ export default function ReferenceDesk({
           </div>
         );
       })}
-      <div style={{ fontSize: 11, color: 'var(--subtext)', marginTop: 4 }}>
+      <div style={{ fontSize: 12, color: 'var(--subtext)', marginTop: 4 }}>
         {CASE_CONCEPTS.length} concept cards · {Object.keys(PREPOSITION_CASE).length} prepositions
       </div>
     </div>

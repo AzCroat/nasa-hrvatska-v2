@@ -1597,7 +1597,7 @@ export const LESSONS_A1 = [
               '"More" is neuter, and neuter nouns never change as the object: Vidim more. The other three are feminine in -a and take -u.',
           },
           {
-            q: 'Complete: "Gledam ___." (I am watching a film — a masculine thing.)',
+            q: 'Complete: "Gledam ___." (I am watching a movie — a masculine thing.)',
             options: ['filma', 'film', 'filmu', 'filme'],
             correct: 1,
             explanation:
@@ -3892,7 +3892,7 @@ export const LESSONS_A1 = [
               '"Više volim X nego Y" is "I prefer X to Y". The thing before nego is the one preferred — here, the sea.',
           },
           {
-            q: 'Complete: "Voli li tvoj brat ___?" (Does your brother like soccer? — "nogomet".)',
+            q: 'Complete: "Voli li tvoj brat ___?" (Does your brother like soccer?)',
             options: ['nogomet', 'nogometa', 'nogometu', 'nogometom'],
             correct: 0,
             explanation:
@@ -4639,7 +4639,7 @@ export const LESSONS_A1 = [
             explanation: 'What you order is an object, so the feminine "juha" takes -u: juhu.',
           },
           {
-            q: 'Complete: "Za mene ___, molim." (tea — "čaj")',
+            q: 'Complete: "Za mene ___, molim." (tea)',
             options: ['čaju', 'čajem', 'čaj', 'čajevi'],
             correct: 2,
             explanation:
@@ -5112,7 +5112,7 @@ export const LESSONS_A1 = [
         title: 'Mastery Check',
         items: [
           {
-            q: 'Complete: "Oprostite, gdje je ___?" (Excuse me, where is the station? — "kolodvor".)',
+            q: 'Complete: "Oprostite, gdje je ___?" (Excuse me, where is the station?)',
             options: ['kolodvora', 'kolodvor', 'kolodvoru', 'kolodvorom'],
             correct: 1,
             explanation:
@@ -5437,7 +5437,7 @@ export const LESSONS_A1 = [
               'The subjectless pattern goes beyond weather: Kasno je is "it is late". "He is late" would need a subject and a different word — kasni.',
           },
           {
-            q: 'Complete: "Pada ___." (It is snowing — "snijeg".)',
+            q: 'Complete: "Pada ___." (It is snowing.)',
             options: ['snijeg', 'snijega', 'snijegu', 'snijegom'],
             correct: 0,
             explanation:

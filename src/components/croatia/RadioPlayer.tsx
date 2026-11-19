@@ -231,7 +231,7 @@ export default function RadioPlayer({
             </div>
             <div
               style={{
-                fontSize: 9,
+                fontSize: 12,
                 color: accentInk(color),
                 fontWeight: 700,
                 letterSpacing: '.02em',

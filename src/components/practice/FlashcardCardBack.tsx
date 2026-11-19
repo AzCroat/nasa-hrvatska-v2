@@ -232,7 +232,7 @@ export default function FlashcardCardBack({ card, aiLoading, aiSentence, aiError
         >
           <div
             style={{
-              fontSize: 11,
+              fontSize: 12,
               fontWeight: 700,
               color: 'var(--subtext)',
               marginBottom: 3,
@@ -245,7 +245,7 @@ export default function FlashcardCardBack({ card, aiLoading, aiSentence, aiError
           <div style={{ fontSize: 12, fontStyle: 'italic', color: 'var(--text)', lineHeight: 1.5 }}>
             {tip.hr}
           </div>
-          <div style={{ fontSize: 11, color: 'var(--subtext)', marginTop: 2 }}>{tip.en}</div>
+          <div style={{ fontSize: 12, color: 'var(--subtext)', marginTop: 2 }}>{tip.en}</div>
         </div>
       ) : tip && tip.type === 'adj' ? (
         <div
@@ -257,7 +257,7 @@ export default function FlashcardCardBack({ card, aiLoading, aiSentence, aiError
             textAlign: 'center',
           }}
         >
-          <div style={{ fontSize: 11, color: 'var(--subtext)', lineHeight: 1.5 }}>{tip.en}</div>
+          <div style={{ fontSize: 12, color: 'var(--subtext)', lineHeight: 1.5 }}>{tip.en}</div>
         </div>
       ) : tip && tip.type === 'noun' && tip.gender ? (
         (() => {
@@ -296,7 +296,7 @@ export default function FlashcardCardBack({ card, aiLoading, aiSentence, aiError
         >
           <div
             style={{
-              fontSize: 10,
+              fontSize: 12,
               fontWeight: 800,
               color: 'var(--ink-accent)',
               textTransform: 'uppercase',
@@ -341,7 +341,7 @@ export default function FlashcardCardBack({ card, aiLoading, aiSentence, aiError
               {aiSentence.note && (
                 <div
                   style={{
-                    fontSize: 11,
+                    fontSize: 12,
                     color: 'var(--ink-accent)',
                     marginTop: 4,
                     fontWeight: 600,

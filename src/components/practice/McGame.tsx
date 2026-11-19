@@ -685,7 +685,7 @@ export default function McGame({
               alignItems: 'center',
               gap: 6,
               marginBottom: 8,
-              fontSize: 11,
+              fontSize: 12,
               fontWeight: 800,
               color: 'var(--ink-mode)',
               textTransform: 'uppercase',

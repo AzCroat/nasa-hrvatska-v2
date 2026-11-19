@@ -123,13 +123,13 @@ function ProfessionGenderScreen({ goBack, award }: Props) {
               borderRadius: 8,
             }}
           >
-            <div style={{ fontSize: 11, fontWeight: 800, color: 'rgba(255,255,255,.7)' }}>
+            <div style={{ fontSize: 12, fontWeight: 800, color: 'rgba(255,255,255,.7)' }}>
               ENGLISH
             </div>
-            <div style={{ fontSize: 11, fontWeight: 800, color: '#93c5fd', textAlign: 'center' }}>
+            <div style={{ fontSize: 12, fontWeight: 800, color: '#93c5fd', textAlign: 'center' }}>
               👨 MALE
             </div>
-            <div style={{ fontSize: 11, fontWeight: 800, color: '#f9a8d4', textAlign: 'center' }}>
+            <div style={{ fontSize: 12, fontWeight: 800, color: '#f9a8d4', textAlign: 'center' }}>
               👩 FEMALE
             </div>
           </div>
@@ -253,7 +253,7 @@ function ProfessionGenderScreen({ goBack, award }: Props) {
                 {chosen !== undefined && (
                   <div
                     style={{
-                      fontSize: 11,
+                      fontSize: 12,
                       marginTop: 5,
                       fontWeight: 700,
                       color: 'var(--ink-green)',

@@ -26,7 +26,7 @@ import { parseModelJson } from './_modelJson.js';
 
 const ANTHROPIC_URL = 'https://api.anthropic.com/v1/messages';
 const MODEL = 'claude-haiku-4-5-20251001';
-const VALID_LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
+const VALID_LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1'];
 const VALID_ERROR_TYPES = new Set([
   'case',
   'aspect',
@@ -90,7 +90,7 @@ export async function onRequestPost(context) {
     return err(400, 'Missing transcript', origin);
   const safeTranscript = sanitizeParam(transcript, 800);
   const safePrompt = sanitizeParam(prompt || 'Speak freely in Croatian', 300);
-  const safeLevel = VALID_LEVELS.includes(level) ? level : 'B1';
+  const safeLevel = ((l) => (VALID_LEVELS.includes(l) ? l : 'B1'))(level === 'C2' ? 'C1' : level); // C2 retired 2026-11-18
   // Words of the transcript the RECORDING did not bear out (Guided Speaking's audio check,
   // 2026-09-29): the recogniser may have written a correct form the learner did not say.
   // Letters only, bounded, so nothing but words can reach the prompt.

@@ -167,7 +167,7 @@ const WRITE_PROMPTS = [
   },
   {
     id: 'w_cultural',
-    level: 'C2',
+    level: 'C1',
     icon: '🏛️',
     title: 'Cultural Reflection',
     hr: 'Kulturni osvrt',
@@ -176,7 +176,7 @@ const WRITE_PROMPTS = [
   },
   {
     id: 'w_news',
-    level: 'C2',
+    level: 'C1',
     icon: '📰',
     title: 'News Article',
     hr: 'Novinarski članak',

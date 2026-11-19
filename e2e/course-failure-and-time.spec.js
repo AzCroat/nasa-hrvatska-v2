@@ -208,6 +208,13 @@ async function openHome(page) {
 }
 
 /** Open Home, assert the session card leads with `label`, and press Begin. */
+/** Open a unit's test the way the map's button does: the one-shot handoff, then the route. */
+async function openUnitTestDirect(page, unitId) {
+  await page.goto('/');
+  await page.evaluate((id) => sessionStorage.setItem('nh_unit_test', id), unitId);
+  await page.goto('/unittest', { waitUntil: 'domcontentloaded' });
+}
+
 async function beginFromHome(page, label) {
   const card = await openHome(page);
   await expect(card, `Home leads with "${label}"`).toContainText(label, { timeout: 20_000 });
@@ -334,11 +341,19 @@ async function sitUnitTest(page, pickWrong) {
   return seen;
 }
 
-/** Both production tasks, each from Home on its own day (Home serves one a day). */
-async function produceFromHome(page, unitNumber, advanceDays) {
+/**
+ * Both production tasks. 2026-11-19 (owner: production never gates): Home no longer serves a
+ * unit's task as the day's step — it is RECOMMENDED (Keep Learning, the Course tab) — so each
+ * task opens through its one-shot handoff, as those buttons do.
+ */
+async function produceFromHome(page, unitNumber, _advanceDays) {
   for (const kind of ['write', 'speak']) {
-    if (kind === 'speak') await advanceDays(1);
-    await beginFromHome(page, `Unit ${unitNumber}: ${kind}`);
+    await page.goto('/');
+    await page.evaluate(
+      ([id, k]) => sessionStorage.setItem('nh_unit_production', `${id}|${k}`),
+      [`A1-${unitNumber}`, kind],
+    );
+    await page.goto('/unitproduction', { waitUntil: 'domcontentloaded' });
     await expect(page.getByTestId('unit-production')).toBeVisible({ timeout: 20_000 });
     await page.getByTestId('unit-production-input').fill(WORDS);
     await page.getByTestId('unit-production-submit').click();
@@ -447,8 +462,10 @@ test.describe('When a learner fails, and when time passes', () => {
     for (const id of unit.lessons)
       for (const k of [...FORMS.get(id).A, ...FORMS.get(id).B]) lessonOfKey.set(k, id);
 
-    // Every lesson read: Home's step is the unit test.
-    await beginFromHome(page, 'Unit 1 test');
+    // Every lesson passed. 2026-11-19 (owner: five of five passed opens the next unit): Home now
+    // leads with Unit 2's lesson and the unit test is a RECOMMENDED step, so the test is opened
+    // through its own handoff (as the map's and Keep Learning's buttons do).
+    await openUnitTestDirect(page, unit.id);
     const xpBefore = await xpNow(page);
     // Miss five of fifteen: 10 of 15, under the 13 needed.
     const MISS = new Set([0, 3, 6, 9, 12]);
@@ -473,14 +490,15 @@ test.describe('When a learner fails, and when time passes', () => {
     await page.getByTestId(`unit-test-review-${tapTo}`).click();
     await expect(page.getByTestId('lesson-nav-next')).toBeVisible({ timeout: 20_000 });
 
-    // The unit is not passed and the next one stays locked.
+    // The test is not passed, but the unit has ADVANCED on its five passed lessons (2026-11-19),
+    // so it shows cleared and the next unit is open.
     await openMap(page);
-    expect(await unitState(page, unit.id)).toBe('current');
-    expect(await unitState(page, UNITS[1].id)).toBe('locked');
+    expect(await unitState(page, unit.id)).toBe('cleared');
+    expect(await unitState(page, UNITS[1].id)).toBe('current');
 
     // The retake (next day, from Home) draws a different paper, and passes.
     await advanceDays(1);
-    await beginFromHome(page, 'Unit 1 test');
+    await openUnitTestDirect(page, unit.id);
     const paper2 = await sitUnitTest(page, () => false);
     await expect(page.getByTestId('unit-test-result')).toHaveAttribute('data-passed', '1');
     expect(paper2.join('#')).not.toBe(paper1.join('#'));
@@ -491,9 +509,8 @@ test.describe('When a learner fails, and when time passes', () => {
     expect(rec2?.passedAt).toBeTruthy();
     expect(rec2?.attempts?.length).toBe(2);
 
-    // Production, then the next unit opens.
-    await advanceDays(1);
-    await produceFromHome(page, 1, advanceDays);
+    // Production is recommended, never a gate (2026-11-19): the unit is cleared and the next
+    // unit is current without it.
     await openMap(page);
     expect(await unitState(page, unit.id)).toBe('cleared');
     expect(await unitState(page, UNITS[1].id)).toBe('current');
@@ -541,7 +558,7 @@ test.describe('When a learner fails, and when time passes', () => {
     expect(await unitState(page, 'A1-1'), 'one check-up held is not mastery').toBe('cleared');
     await expect(page.getByTestId('course-unit-recheck-A1-1')).toHaveCount(0);
     await expect(page.getByTestId('course-units-mastered')).toHaveText(
-      `0 of ${TOTAL_UNITS} units mastered`,
+      `1 of ${TOTAL_UNITS} units passed`,
     );
 
     // Thirty days after that: the second check-up.
@@ -562,7 +579,7 @@ test.describe('When a learner fails, and when time passes', () => {
     await openMap(page);
     expect(await unitState(page, 'A1-1')).toBe('mastered');
     await expect(page.getByTestId('course-units-mastered')).toHaveText(
-      `1 of ${TOTAL_UNITS} units mastered`,
+      `1 of ${TOTAL_UNITS} units passed`,
     );
     // A check-up pays no XP; it confirms.
     expect(await xpNow(page)).toBe(xpBefore);
@@ -587,7 +604,7 @@ test.describe('When a learner fails, and when time passes', () => {
     expect(await unitState(page, 'A1-1')).toBe('cleared');
     expect(await unitState(page, 'A1-2')).toBe('current');
     await expect(page.getByTestId('course-units-mastered')).toHaveText(
-      `0 of ${TOTAL_UNITS} units mastered`,
+      `1 of ${TOTAL_UNITS} units passed`,
     );
 
     // The same day it is not served again; the next day it is.
@@ -625,11 +642,12 @@ test.describe('When a learner fails, and when time passes', () => {
 
     // Fail the unit test, then pass it on another day.
     await advanceDays(1);
-    await beginFromHome(page, `Unit ${A1_UNITS} test`);
+    // (2026-11-19: the test is recommended, not Home's step — opened through its handoff.)
+    await openUnitTestDirect(page, `A1-${A1_UNITS}`);
     await sitUnitTest(page, (i) => i < 4);
     await expect(page.getByTestId('unit-test-result')).toHaveAttribute('data-passed', '0');
     await advanceDays(1);
-    await beginFromHome(page, `Unit ${A1_UNITS} test`);
+    await openUnitTestDirect(page, `A1-${A1_UNITS}`);
     await sitUnitTest(page, () => false);
     await expect(page.getByTestId('unit-test-result')).toHaveAttribute('data-passed', '1');
     await advanceDays(1);

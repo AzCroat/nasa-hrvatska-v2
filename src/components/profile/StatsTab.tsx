@@ -29,8 +29,7 @@ const CEFR_LABELS: Record<string, { label: string; color: string; next: string |
   A2: { label: 'Elementary', color: 'var(--success)', next: 'B1' },
   B1: { label: 'Intermediate', color: 'var(--warning)', next: 'B2' },
   B2: { label: 'Upper-Int.', color: 'var(--warning)', next: 'C1' },
-  C1: { label: 'Advanced', color: 'var(--info)', next: 'C2' },
-  C2: { label: 'Mastery', color: 'var(--lavender)', next: null },
+  C1: { label: 'Advanced', color: 'var(--info)', next: null },
 };
 
 const CEFR_META: Record<
@@ -80,7 +79,7 @@ function getWordsLearned() {
 // pins the pairing. (Until 2026-08 this widget still showed the old 5-stage
 // path plus a locked "Stage 6" teaser, so C1/C2 users were displayed as
 // mid-path forever and the top two stages never appeared at all.)
-const STAGE_CEFR = ['A1', 'A2', 'B1', 'B2', 'B2+', 'C1', 'C2'];
+const STAGE_CEFR = ['A1', 'A2', 'B1', 'B2', 'B2+', 'C1', 'C1'];
 const STAGE_NAMES_PROFILE = [
   'Survivor',
   'Settler',
@@ -219,10 +218,10 @@ export default function StatsTab({ onSyncNow }: { onSyncNow?: () => void }) {
           }}
         >
           <div style={{ fontSize: 28, fontWeight: 900, lineHeight: 1 }}>{streak.count} 🔥</div>
-          <div style={{ fontSize: 11, fontWeight: 700, opacity: 0.9, marginTop: 4 }}>
+          <div style={{ fontSize: 12, fontWeight: 700, opacity: 0.9, marginTop: 4 }}>
             Day Streak
           </div>
-          <div style={{ fontSize: 10, opacity: 0.75, marginTop: 2 }}>
+          <div style={{ fontSize: 12, opacity: 0.75, marginTop: 2 }}>
             {streak.count >= 30 ? 'Legendary!' : streak.count >= 7 ? 'On fire!' : 'Keep going!'}
           </div>
         </div>
@@ -236,10 +235,10 @@ export default function StatsTab({ onSyncNow }: { onSyncNow?: () => void }) {
           }}
         >
           <div style={{ fontSize: 28, fontWeight: 900, lineHeight: 1 }}>{cefr.level}</div>
-          <div style={{ fontSize: 11, fontWeight: 700, opacity: 0.9, marginTop: 4 }}>
+          <div style={{ fontSize: 12, fontWeight: 700, opacity: 0.9, marginTop: 4 }}>
             CEFR Level
           </div>
-          <div style={{ fontSize: 10, opacity: 0.75, marginTop: 2 }}>{cefr.label}</div>
+          <div style={{ fontSize: 12, opacity: 0.75, marginTop: 2 }}>{cefr.label}</div>
         </div>
       </div>
 
@@ -371,7 +370,7 @@ export default function StatsTab({ onSyncNow }: { onSyncNow?: () => void }) {
                     : 'Start your session streak'}
                 </div>
                 <div
-                  style={{ fontSize: 11, color: 'var(--subtext)', fontWeight: 500, marginTop: 2 }}
+                  style={{ fontSize: 12, color: 'var(--subtext)', fontWeight: 500, marginTop: 2 }}
                 >
                   Complete today's session to keep the streak going
                 </div>
@@ -428,7 +427,7 @@ export default function StatsTab({ onSyncNow }: { onSyncNow?: () => void }) {
           <span style={{ fontSize: 24 }}>🧠</span>
           <div>
             <div style={{ fontSize: 12, fontWeight: 800, color: 'var(--text)' }}>{styleLabel}</div>
-            <div style={{ fontSize: 11, color: 'var(--subtext)' }}>
+            <div style={{ fontSize: 12, color: 'var(--subtext)' }}>
               Based on {stylePrefs?.dataPoints || 0} sessions
               {stylePrefs?.preferredTypes?.[0] ? ` · Loves ${stylePrefs.preferredTypes[0]}` : ''}
             </div>
@@ -458,7 +457,6 @@ export default function StatsTab({ onSyncNow }: { onSyncNow?: () => void }) {
           B1: 2,
           B2: 3,
           C1: 5,
-          C2: 6,
         };
         const cefrStageIdx = CEFR_TO_STAGE_IDX[cefr.level] ?? 0;
         return (
@@ -775,7 +773,7 @@ export default function StatsTab({ onSyncNow }: { onSyncNow?: () => void }) {
       <div style={{ marginTop: 16, marginBottom: 8 }}>
         <div
           style={{
-            fontSize: 11,
+            fontSize: 12,
             fontWeight: 800,
             color: 'var(--subtext)',
             letterSpacing: '.08em',
@@ -816,7 +814,7 @@ export default function StatsTab({ onSyncNow }: { onSyncNow?: () => void }) {
               <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--text)' }}>
                 {item.label}
               </div>
-              <div style={{ fontSize: 11, color: 'var(--subtext)' }}>{item.desc}</div>
+              <div style={{ fontSize: 12, color: 'var(--subtext)' }}>{item.desc}</div>
             </div>
             <span style={{ marginLeft: 'auto', color: 'var(--ink-muted)', fontSize: 14 }}>›</span>
           </button>
@@ -846,7 +844,7 @@ export default function StatsTab({ onSyncNow }: { onSyncNow?: () => void }) {
           <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--ink-error)' }}>
             Report a Bug
           </div>
-          <div style={{ fontSize: 11, color: 'var(--subtext)' }}>
+          <div style={{ fontSize: 12, color: 'var(--subtext)' }}>
             Something not working? Let us know.
           </div>
         </div>

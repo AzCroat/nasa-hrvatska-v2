@@ -227,7 +227,7 @@ export default function FrazeologijaDrill({ goBack, award }: Props) {
     <ModeDrill
       id="frazeologija"
       title={'🪢 Frazeologija'}
-      subtitle={'doći na zelenu granu — idioms the C2 way'}
+      subtitle={'doći na zelenu granu — idioms at the top level'}
       modeLabels={MODE_LABEL}
       data={DATA}
       praise={{

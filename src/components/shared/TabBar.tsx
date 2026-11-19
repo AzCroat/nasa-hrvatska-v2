@@ -9,7 +9,7 @@ import { localDateStr } from '../../lib/dateUtils';
 // visible Croatian primary; `sub` is the visible English subtitle. Renaming the
 // visible text without touching the accessible name = visible rebrand, zero test churn.
 // Three places on the mobile bottom bar (Today, Course, More). "Me" moved off the bar to the top-corner
-// AppHeader avatar (Phase 4). Desktop Sidebar keeps a profile entry.
+// AppHeader avatar (Phase 4). The desktop Sidebar has the same three tabs; the header avatar (shown on desktop too) is the route to profile everywhere.
 const TABS = [
   { id: 'home', label: 'Today', cro: 'Dom', sub: 'Home' },
   { id: 'learn', label: 'Course', cro: 'Tečaj', sub: 'Course' },
@@ -397,7 +397,7 @@ export default function TabBar({
                 <span
                   className="nav-label"
                   style={{
-                    fontSize: 11,
+                    fontSize: 12,
                     fontWeight: isActive ? 800 : 600,
                     color: isActive
                       ? t.id === 'croatia'
@@ -414,10 +414,10 @@ export default function TabBar({
                   {t.cro}
                   <span
                     style={{
-                      fontSize: 9,
+                      fontSize: 12,
                       display: 'block',
                       color: 'inherit',
-                      opacity: 0.7,
+                      opacity: 1,
                       lineHeight: 1,
                       fontWeight: isActive ? 700 : 500,
                       letterSpacing: '.01em',
@@ -451,7 +451,7 @@ export default function TabBar({
                       right: 2,
                       background: 'linear-gradient(135deg,#6366f1,#8b5cf6)',
                       color: '#fff',
-                      fontSize: 9,
+                      fontSize: 12,
                       fontWeight: 800,
                       minWidth: 16,
                       height: 16,

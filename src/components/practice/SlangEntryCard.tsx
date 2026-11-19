@@ -143,7 +143,7 @@ export default function SlangEntryCard({
             <div>
               <div
                 style={{
-                  fontSize: 11,
+                  fontSize: 12,
                   fontWeight: 800,
                   color: 'var(--subtext)',
                   textTransform: 'uppercase',
@@ -200,7 +200,7 @@ export default function SlangEntryCard({
                     </div>
                     <div
                       style={{
-                        fontSize: 11,
+                        fontSize: 12,
                         color: 'var(--subtext)',
                         marginTop: 2,
                         fontWeight: 500,

@@ -143,12 +143,12 @@ function LetterList({
               >
                 {l.letter.toUpperCase()}
               </div>
-              <div style={{ fontSize: 11, color: 'var(--subtext)', fontFamily: 'monospace' }}>
+              <div style={{ fontSize: 12, color: 'var(--subtext)', fontFamily: 'monospace' }}>
                 {l.ipa}
               </div>
               <div
                 style={{
-                  fontSize: 10,
+                  fontSize: 12,
                   color: practiced ? accentInk(l.color) : 'var(--subtext)',
                   fontWeight: 700,
                   marginTop: 4,

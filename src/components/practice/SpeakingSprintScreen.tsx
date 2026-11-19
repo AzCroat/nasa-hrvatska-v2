@@ -238,8 +238,6 @@ const PROMPTS = {
       model_response:
         'Bojim se da je rastače. Navikli smo na podražaje svakih nekoliko sekundi, pa nam je i deset minuta tišine postalo neizdrživo. Primijetio sam to i na sebi: knjigu koju bih prije pročitao u komadu sad čitam u zalogajima. Zato svjesno vježbam dosadu — zvuči smiješno, ali djeluje.',
     },
-  ],
-  C2: [
     {
       hr: '„Tko ne poznaje svoju prošlost, osuđen je ponavljati je." Slažeš li se?',
       en: '"Those who do not know their past are condemned to repeat it." Do you agree?',

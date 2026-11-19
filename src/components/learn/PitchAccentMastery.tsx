@@ -11,7 +11,6 @@ import { speakProsody } from '../../lib/audio.js';
 import { markQuest } from '../../lib/quests.js';
 import { useStats } from '../../context/StatsContext';
 import { knightSpeak } from '../../lib/knightSpeak.js';
-import CharacterPortrait from '../family/CharacterPortrait';
 import { PITCH_ACCENT_LESSONS } from '../../data/pitchAccentContent.js';
 import PassGateNotice from '../shared/PassGateNotice';
 import { passedLesson } from '../../lib/lessonGate';
@@ -550,20 +549,7 @@ export default function PitchAccentMastery({
             marginBottom: 20,
           }}
         >
-          <CharacterPortrait name="kovac" size={52} />
           <div style={{ flex: 1 }}>
-            <div
-              style={{
-                fontSize: 11,
-                fontWeight: 800,
-                color: 'var(--ink-mode)',
-                textTransform: 'uppercase',
-                letterSpacing: '.08em',
-                marginBottom: 4,
-              }}
-            >
-              prof. Kovač kaže
-            </div>
             <div style={{ fontSize: 13, color: 'var(--text)', lineHeight: 1.6 }}>
               Pitch accent is why Croatian sounds like music to foreign ears. It&apos;s also why two
               words can be spelled identically but mean completely different things. Master this and
@@ -576,7 +562,7 @@ export default function PitchAccentMastery({
         <div style={{ marginBottom: 20 }}>
           <div
             style={{
-              fontSize: 11,
+              fontSize: 12,
               fontWeight: 900,
               color: 'var(--ink-muted-warm)',
               textTransform: 'uppercase',
@@ -614,7 +600,7 @@ export default function PitchAccentMastery({
                   }}
                 >
                   {a.nameEn}{' '}
-                  <span style={{ fontWeight: 500, color: 'var(--ink-muted-warm)', fontSize: 11 }}>
+                  <span style={{ fontWeight: 500, color: 'var(--ink-muted-warm)', fontSize: 12 }}>
                     ({a.name})
                   </span>
                   <span
@@ -623,7 +609,7 @@ export default function PitchAccentMastery({
                     {LESSON_BY_ACCENT[a.id as keyof typeof LESSON_BY_ACCENT]?.cefr ?? 'B1'}
                   </span>
                 </div>
-                <div style={{ fontSize: 11, color: 'var(--ink-muted-warm)', marginTop: 1 }}>
+                <div style={{ fontSize: 12, color: 'var(--ink-muted-warm)', marginTop: 1 }}>
                   {a.rule}
                 </div>
               </div>
@@ -653,7 +639,7 @@ export default function PitchAccentMastery({
         >
           <div
             style={{
-              fontSize: 11,
+              fontSize: 12,
               fontWeight: 900,
               color: 'var(--ink-warn)',
               textTransform: 'uppercase',
@@ -740,7 +726,7 @@ export default function PitchAccentMastery({
               ))}
             </div>
           </div>
-          <div style={{ fontSize: 11, fontWeight: 700, color: 'var(--subtext)' }}>
+          <div style={{ fontSize: 12, fontWeight: 700, color: 'var(--subtext)' }}>
             {accentIdx + 1}/{ACCENTS.length}
           </div>
         </div>
@@ -812,7 +798,7 @@ export default function PitchAccentMastery({
                 background: lessonPhase === tab.id ? accentFill(accent.color) : 'var(--card)',
                 color: lessonPhase === tab.id ? '#fff' : 'var(--subtext)',
                 fontWeight: 700,
-                fontSize: 11,
+                fontSize: 12,
                 cursor: 'pointer',
                 transition: 'all .2s',
                 fontFamily: "'Outfit',sans-serif",
@@ -864,7 +850,7 @@ export default function PitchAccentMastery({
                   >
                     <div
                       style={{
-                        fontSize: 11,
+                        fontSize: 12,
                         fontWeight: 900,
                         color: accentInk(accent.color),
                         textTransform: 'uppercase',
@@ -927,7 +913,7 @@ export default function PitchAccentMastery({
           <div>
             <div
               style={{
-                fontSize: 11,
+                fontSize: 12,
                 fontWeight: 900,
                 color: 'var(--ink-muted-warm)',
                 textTransform: 'uppercase',
@@ -973,7 +959,7 @@ export default function PitchAccentMastery({
                   </div>
                   <div
                     style={{
-                      fontSize: 11,
+                      fontSize: 12,
                       color: 'var(--subtext)',
                       marginTop: 3,
                       fontStyle: 'italic',
@@ -1126,7 +1112,7 @@ export default function PitchAccentMastery({
                 </div>
                 <div
                   style={{
-                    fontSize: 11,
+                    fontSize: 12,
                     color: 'var(--subtext)',
                     fontStyle: 'italic',
                     lineHeight: 1.5,
@@ -1196,7 +1182,7 @@ export default function PitchAccentMastery({
             >
               <div
                 style={{
-                  fontSize: 11,
+                  fontSize: 12,
                   fontWeight: 800,
                   color: accentInk(accent.color),
                   textTransform: 'uppercase',
@@ -1339,7 +1325,7 @@ export default function PitchAccentMastery({
         <div style={{ marginBottom: 16 }}>
           <div
             style={{
-              fontSize: 11,
+              fontSize: 12,
               fontWeight: 900,
               color: 'var(--ink-muted-warm)',
               textTransform: 'uppercase',
@@ -1432,7 +1418,7 @@ export default function PitchAccentMastery({
             <div key={a.id} style={{ textAlign: 'center' }}>
               <div style={{ fontSize: 28 }}>{a.emoji}</div>
               <div
-                style={{ fontSize: 10, fontWeight: 800, color: accentInk(a.color), marginTop: 2 }}
+                style={{ fontSize: 12, fontWeight: 800, color: accentInk(a.color), marginTop: 2 }}
               >
                 {a.nameEn.split('-')[0]}
               </div>

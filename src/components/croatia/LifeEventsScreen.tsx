@@ -329,7 +329,7 @@ export default function LifeEventsScreen({ goBack }: Props) {
           <div key={si} style={{ marginBottom: 20 }}>
             <div
               style={{
-                fontSize: 11,
+                fontSize: 12,
                 fontWeight: 800,
                 color: 'var(--subtext)',
                 letterSpacing: '.08em',
@@ -393,7 +393,7 @@ export default function LifeEventsScreen({ goBack }: Props) {
                       {item.ph && (
                         <div
                           style={{
-                            fontSize: 10,
+                            fontSize: 12,
                             color: 'var(--subtext)',
                             fontStyle: 'italic',
                             marginTop: 1,
@@ -408,7 +408,7 @@ export default function LifeEventsScreen({ goBack }: Props) {
                     <div
                       style={{
                         padding: '6px 14px 10px',
-                        fontSize: 11,
+                        fontSize: 12,
                         color: 'var(--subtext)',
                         fontStyle: 'italic',
                         lineHeight: 1.5,

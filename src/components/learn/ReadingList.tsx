@@ -18,7 +18,7 @@ const LEVEL_META = {
   advanced: { badge: 'B1-B2', color: '#7c3aed', label: 'Advanced' },
   b2: { badge: 'B2', color: '#b45309', label: 'Upper-Intermediate' },
   c1: { badge: 'C1', color: '#dc2626', label: 'Advanced' },
-  c2: { badge: 'C2', color: '#7e22ce', label: 'Mastery' },
+  c2: { badge: 'C1', color: '#7e22ce', label: 'Mastery' },
 };
 
 type LevelMeta = { badge: string; color: string; label: string };
@@ -159,7 +159,7 @@ export default function ReadingList({
                   background: accentFill(meta.color),
                   color: '#fff',
                   borderRadius: 4,
-                  fontSize: 11,
+                  fontSize: 12,
                   fontWeight: 700,
                   padding: '2px 7px',
                   letterSpacing: '0.04em',
@@ -224,7 +224,7 @@ export default function ReadingList({
                   </div>
                   <div
                     style={{
-                      fontSize: 11,
+                      fontSize: 12,
                       marginTop: 4,
                       color: accentInk(meta.color),
                       fontWeight: 700,

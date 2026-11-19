@@ -351,7 +351,7 @@ export default function TensesScreen({
                             <td
                               style={{
                                 padding: '10px 14px',
-                                fontSize: 11,
+                                fontSize: 12,
                                 color: 'var(--ink-muted-warm)',
                               }}
                             >

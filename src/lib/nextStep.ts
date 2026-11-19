@@ -185,7 +185,7 @@ export function getNextStep(opts: { userCefr: string; poolWords?: Set<string> })
         return {
           kind: 'srs',
           screen: 'review',
-          label: `Review ${due} phrase${due === 1 ? '' : 's'} with prof. Kovač`,
+          label: `Review ${due} phrase${due === 1 ? '' : 's'}`,
           reason: 'Reviews are due now — spaced repetition works when it is on time.',
         };
       }
@@ -224,18 +224,11 @@ export function getNextStep(opts: { userCefr: string; poolWords?: Set<string> })
   // the "bounces around" the owner reported. It reads `nextCourseStep`, the same
   // sequencer Home's teaching slot and the course map read, so the three cannot
   // disagree. Below SRS and the lesson re-checks, which are time-sensitive decay.
-  // After today's core session, no NEW lesson (owner, 2026-09-29: "not try to teach
-  // new concepts but review those that the learner has not proven mastery") — the
-  // course still offers what PROVES a unit (its test, production, a check-up).
+  // 2026-11-19 (owner): the old "no NEW lesson after the core" rule is gone — a
+  // learner who keeps demonstrating mastery is sent forward, not re-served drills.
   try {
     const c = nextCourseStep();
-    const coreDone =
-      !!session &&
-      session.activities.some((a) => a.keep === undefined) &&
-      session.activities
-        .filter((a) => a.keep === undefined)
-        .every((a) => session.completedIds.includes(a.id));
-    if (c && !(coreDone && c.kind === 'lesson')) return courseNextStep(c);
+    if (c) return courseNextStep(c);
   } catch {
     /* course data unreadable — fall through */
   }

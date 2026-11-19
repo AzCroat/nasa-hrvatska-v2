@@ -58,13 +58,15 @@ describe('the plan line on each day shape', () => {
     if (drill) expect(drill.reason).toMatch(/^An easier drill on .+ first\.$/);
   });
 
-  it('a unit-test day keeps the ledger sentence (or none) — never a concept line', () => {
+  it('the day after a unit is read is a lesson day: the plan line names the next lesson', () => {
+    // Owner, 2026-11-19: reading a whole unit opens the next one, so the unit test is no
+    // longer the day's slot (it is recommended later, in Keep Learning).
     seedCourseAt(1);
     readWholeUnit(1);
     const acts = buildSessionActivities('A1');
-    expect(acts[0]!.screen).toBe('unittest');
+    expect(acts[0]!.screen).toBe('animlesson');
     const s = newSession('A1', acts, []);
-    expect(s.planReason ?? '').not.toMatch(/^Today: /);
+    expect(s.planReason ?? '').toMatch(/^Today’s lesson/);
   });
 
   it('the pure rule: only a leading day-lesson slot produces the line', () => {

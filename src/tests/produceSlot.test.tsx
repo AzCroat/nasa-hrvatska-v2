@@ -83,13 +83,15 @@ describe('the builder — which day shapes carry the produce step', () => {
     expect(acts.some((a) => a.screen === 'dialogue')).toBe(true);
   });
 
-  it('a unit-test day keeps the POOL pick — no second production task', () => {
+  it('the day after a unit is read is a lesson day: it carries the produce step, no pool pick', () => {
+    // Owner, 2026-11-19: reading a whole unit opens the next one; the unit test is no longer
+    // the day's slot, so the day is a lesson day with the lesson's own produce step.
     seedCourseAt(1);
     readWholeUnit(1);
     const acts = buildSessionActivities('A1');
-    expect(acts[0]?.screen).toBe('unittest');
-    expect(acts.some((a) => a.screen === 'lessonproduce')).toBe(false);
-    expect(acts.some((a) => PRODUCTION_SCREEN_IDS.has(a.screen))).toBe(true);
+    expect(acts[0]?.screen).toBe('animlesson');
+    expect(acts.some((a) => a.screen === 'lessonproduce')).toBe(true);
+    expect(acts.some((a) => PRODUCTION_SCREEN_IDS.has(a.screen))).toBe(false);
   });
 
   it('the length contract is untouched: the produce step takes the pool pick’s slot', () => {

@@ -17,7 +17,6 @@ const complexityNote = {
   B1: 'May include past tense (perfekt) or near-future. Sentence structure can be slightly more varied.',
   B2: 'Use richer sentence structure with connectives (jer, ali, iako, kad). All common tenses are appropriate.',
   C1: 'Use complex sentence structure, subordinate clauses, and sophisticated vocabulary. All tenses and aspects are appropriate.',
-  C2: 'Use highly natural, idiomatic Croatian. Complex grammar, all tenses and aspects, rich vocabulary.',
 };
 
 const FLASH_CONTEXT_PROMPT = definePrompt(
@@ -58,9 +57,10 @@ function err(status, msg, origin) {
 
 // ── Input validation ──────────────────────────────────────────────────────────
 
-const VALID_LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
+const VALID_LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1'];
 
 function sanitizeLevel(level) {
+  if (level === 'C2') level = 'C1'; // C2 retired 2026-11-18: an older app version may still send it
   return VALID_LEVELS.includes(level) ? level : 'B1';
 }
 

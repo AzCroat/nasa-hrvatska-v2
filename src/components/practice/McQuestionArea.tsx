@@ -276,7 +276,7 @@ export default function McQuestionArea({
                   {isCorrect ? '✓' : isWrong ? '✕' : isRevealedCorrect ? '✓' : LABELS[i]}
                 </span>
                 <span style={{ flex: 1, textAlign: 'left' }}>{o}</span>
-                {isRevealedCorrect && <span style={{ fontSize: 11, marginLeft: 4 }}>✓</span>}
+                {isRevealedCorrect && <span style={{ fontSize: 12, marginLeft: 4 }}>✓</span>}
                 {isCorrect && <span style={{ fontSize: 18 }}>🎯</span>}
               </motion.button>
               <ParticleBurst active={burst === i} />

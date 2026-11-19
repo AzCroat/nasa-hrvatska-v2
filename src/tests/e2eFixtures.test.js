@@ -9,7 +9,7 @@ import { CANNED } from '../../e2e/fixtures/mockAiPost.js';
 import { getUserCefr } from '../lib/cefr';
 
 describe('e2e fixture helpers — pure-input validation', () => {
-  it('CEFR_XP_TABLE maps every band A1-C2 to a working xp value', () => {
+  it('CEFR_XP_TABLE maps every band A1-C1 to a working xp value', () => {
     for (const [cefr, xp] of Object.entries(CEFR_XP_TABLE)) {
       expect(getUserCefr(xp, 0, 0), `xp ${xp} should produce ${cefr}`).toBe(cefr);
     }

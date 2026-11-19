@@ -775,7 +775,7 @@ export default function AspectDrillScreen({
             borderRadius: 8,
             border: '1.5px solid var(--card-b)',
             background: 'var(--card)',
-            fontSize: 11,
+            fontSize: 12,
             fontWeight: 700,
             cursor: 'pointer',
             color: 'var(--info,#0284c7)',
@@ -789,7 +789,7 @@ export default function AspectDrillScreen({
             flex: 1,
             padding: '7px 0',
             borderRadius: 8,
-            fontSize: 11,
+            fontSize: 12,
             fontWeight: 700,
             cursor: 'pointer',
             border: mistakesOnly ? '1.5px solid #dc2626' : '1.5px solid var(--card-b)',
@@ -805,7 +805,7 @@ export default function AspectDrillScreen({
       <Bar v={idx + 1} mx={totalItems} color="#d97706" h={5} />
       <div
         style={{
-          fontSize: 11,
+          fontSize: 12,
           color: 'var(--subtext)',
           fontWeight: 700,
           textAlign: 'right',

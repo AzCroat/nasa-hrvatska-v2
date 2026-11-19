@@ -234,9 +234,9 @@ describe('/api/news tags per level', () => {
     });
   }
 
-  it('replays a C2 entry with the C2 prompt tag', async () => {
+  it('replays a cached entry with the authentic-register prompt tag stored beside it (a C2 request now reads as C1)', async () => {
     const tag = getPrompt('news-simplify-c2').tag;
-    const kv = cachedNewsKv('C2', tag);
+    const kv = cachedNewsKv('C1', tag);
     globalThis.fetch = vi.fn();
 
     const res = await news({

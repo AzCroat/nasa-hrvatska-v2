@@ -54,7 +54,7 @@ function PracticalScreen({ goBack }: Props) {
               <div style={{ fontSize: 13, fontWeight: 700 }}>
                 {d[0]} <span aria-hidden="true">🔊</span>
               </div>
-              <div style={{ fontSize: 11, color: 'var(--ink-muted-warm)' }}>{d[1]}</div>
+              <div style={{ fontSize: 12, color: 'var(--ink-muted-warm)' }}>{d[1]}</div>
             </button>
           );
         })}

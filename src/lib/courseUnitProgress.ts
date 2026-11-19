@@ -333,8 +333,10 @@ export function clearUnitTestInsufficient(unitId: string): void {
 export function startUnitRetention(unitId: string, isoDate: string = localDateStr()): void {
   if (!unitId) return;
   const store = readRaw();
-  const prev = store.units[unitId];
-  if (!prev || prev.recheck) return;
+  // A unit may advance on its lessons alone (owner, 2026-11-19), with no test record at
+  // all — the ladder starts for it too, so the record may not exist yet.
+  const prev = store.units[unitId] ?? {};
+  if (prev.recheck) return;
   store.units[unitId] = { ...prev, recheck: startRecheckLadder(isoDate) };
   writeCourseUnits(store);
 }
@@ -629,7 +631,7 @@ export function clearUnitTestRequest(): void {
 // chosen by equality — never a string derived from the plan.
 
 export const LEVEL_REVIEW_REQUEST_KEY = 'nh_level_review';
-const REVIEW_LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'] as const;
+const REVIEW_LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1'] as const;
 
 export function requestLevelReview(level: string): void {
   const lv = REVIEW_LEVELS.find((l) => l === level);

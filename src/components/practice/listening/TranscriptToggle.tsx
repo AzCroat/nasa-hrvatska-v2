@@ -43,7 +43,7 @@ export default function TranscriptToggle({
         >
           <div
             style={{
-              fontSize: 11,
+              fontSize: 12,
               fontWeight: 800,
               color: accentInk(accentColor),
               textTransform: 'uppercase',

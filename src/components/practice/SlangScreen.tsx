@@ -192,7 +192,7 @@ export default function SlangScreen({
             <div style={{ fontSize: 18, fontWeight: 900, fontFamily: "'Playfair Display',serif" }}>
               Slang & Psovanje
             </div>
-            <div style={{ fontSize: 11, opacity: 0.65, marginTop: 2 }}>
+            <div style={{ fontSize: 12, opacity: 0.65, marginTop: 2 }}>
               12 sections · 150+ expressions · all with pronunciation
             </div>
           </div>
@@ -347,7 +347,7 @@ export default function SlangScreen({
                   cursor: 'pointer',
                   background: accentFill(section.color),
                   color: '#fff',
-                  fontSize: 11,
+                  fontSize: 12,
                   fontWeight: 800,
                   flexShrink: 0,
                   fontFamily: "'Outfit',sans-serif",
@@ -366,7 +366,7 @@ export default function SlangScreen({
                   cursor: 'pointer',
                   background: 'var(--card)',
                   color: accentInk(section.color),
-                  fontSize: 11,
+                  fontSize: 12,
                   fontWeight: 800,
                   flexShrink: 0,
                   fontFamily: "'Outfit',sans-serif",
@@ -434,7 +434,7 @@ export default function SlangScreen({
               <div style={{ fontSize: 12, fontWeight: 800, color: 'var(--heading)' }}>
                 📊 Your Progress
               </div>
-              <div style={{ fontSize: 11, color: 'var(--subtext)', marginTop: 2 }}>
+              <div style={{ fontSize: 12, color: 'var(--subtext)', marginTop: 2 }}>
                 {visitedSections.length} of {SECTIONS.length} sections explored · +5 XP each
               </div>
             </div>

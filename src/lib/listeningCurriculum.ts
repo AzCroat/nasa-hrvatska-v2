@@ -23,7 +23,7 @@ export type ListeningStyle = 'dialogue' | 'monologue';
 
 export interface ListeningUnit {
   id: string;
-  level: string; // CEFR: A1 | A2 | B1 | B2 | C1 | C2
+  level: string; // CEFR: A1 | A2 | B1 | B2 | C1
   topic: string; // must be a member of /api/listening VALID_TOPICS
   style: ListeningStyle;
   title: string; // English label shown in the path UI
@@ -191,27 +191,28 @@ export const LISTENING_CURRICULUM: ListeningUnit[] = [
     title: 'Professional Briefing',
     desc: 'A formal workplace briefing',
   },
-  // ── C2 — dense, idiomatic, literary ──
+  // ── The former C2 sets, C1 since 2026-11-18. They are DIALOGUES so that each
+  // (level, topic, style) still names one unit; the three C1 sets above are monologues.
   {
     id: 'c2_culture',
-    level: 'C2',
+    level: 'C1',
     topic: 'culture',
-    style: 'monologue',
-    title: 'Nuanced Discourse',
-    desc: 'Idiomatic, abstract spoken Croatian',
+    style: 'dialogue',
+    title: 'A Cultural Debate',
+    desc: 'Two speakers argue a point in idiomatic, abstract Croatian',
   },
   {
     id: 'c2_history',
-    level: 'C2',
+    level: 'C1',
     topic: 'history',
-    style: 'monologue',
-    title: 'Scholarly Narrative',
-    desc: 'Dense, literary historical prose',
+    style: 'dialogue',
+    title: 'Historians in Conversation',
+    desc: 'Two historians discuss a contested period',
   },
 ];
 
 const DONE_KEY = 'nh_listening_track_done';
-const VALID_LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
+const VALID_LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1'];
 
 /** The set of completed listening-unit ids (device-local). Never throws. */
 export function getListeningDone(): string[] {
@@ -237,7 +238,8 @@ export function markListeningUnitDone(unitId: string): void {
 }
 
 function normLevel(level: string | null | undefined): string {
-  return level && VALID_LEVELS.includes(level) ? level : 'B1';
+  const lv = level === 'C2' ? 'C1' : level; // a stored C2 (retired 2026-11-18) reads as C1
+  return lv && VALID_LEVELS.includes(lv) ? lv : 'B1';
 }
 
 /** All units at a given CEFR level, in curriculum order. */

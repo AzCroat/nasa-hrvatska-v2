@@ -182,7 +182,7 @@ export default function DeclensionScreen({ goBack, award }: Props) {
                   sDcNoun(i);
                 }}
               >
-                {noun.nom} <span style={{ fontSize: 11, opacity: 0.7 }}>({noun.en})</span>
+                {noun.nom} <span style={{ fontSize: 12, opacity: 0.7 }}>({noun.en})</span>
               </button>
             );
           })}
@@ -231,7 +231,7 @@ export default function DeclensionScreen({ goBack, award }: Props) {
                         width: '40%',
                       }}
                     >
-                      <span style={{ fontSize: 11, color: 'var(--ink-warn)', display: 'block' }}>
+                      <span style={{ fontSize: 12, color: 'var(--ink-warn)', display: 'block' }}>
                         {ci + 1}.
                       </span>
                       {cs}

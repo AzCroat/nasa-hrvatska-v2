@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import confetti from 'canvas-confetti';
 import { sh } from '../../data';
 import { useContent } from '../../hooks/useContent';
-import CharacterPortrait from '../family/CharacterPortrait';
 import { knightSpeak } from '../../lib/knightSpeak.js';
 
 interface McResultProps {
@@ -60,7 +59,7 @@ export default function McResult({
             ? 'encouraged'
             : 'thinking',
       ratio === 1
-        ? 'Savršeno! Perfect quiz — prof. Kovač is impressed. ⚔️'
+        ? 'Savršeno! Perfect quiz. ⭐'
         : ratio >= 0.8
           ? `${score}/${total} — that's strong work. Almost perfect. 💪`
           : ratio >= 0.5
@@ -141,9 +140,6 @@ export default function McResult({
     <div className="scr-wrap">
       {/* ── Knight + heading ── delay 0s */}
       <div style={{ animation: 'fade-up 0.5s ease both', animationDelay: '0s' }}>
-        <div style={{ textAlign: 'center', marginBottom: 8 }}>
-          <CharacterPortrait name="kovac" size={90} />
-        </div>
         <div style={{ fontSize: 64 }}>{score === total ? '🌟' : '🎉'}</div>
         <h2
           style={{ fontFamily: "'Playfair Display',serif", fontSize: 28, color: 'var(--heading)' }}
@@ -179,7 +175,7 @@ export default function McResult({
           📊 Session: {score || 0} correct ·{' '}
           <span style={{ fontVariantNumeric: 'tabular-nums' }}>{displayXP}</span> XP earned
         </div>
-        <div style={{ fontSize: 11, color: 'var(--subtext)', marginTop: 3, textAlign: 'center' }}>
+        <div style={{ fontSize: 12, color: 'var(--subtext)', marginTop: 3, textAlign: 'center' }}>
           {score} correct × 3 XP + 5 bonus = {targetXP} XP
         </div>
       </div>
@@ -310,7 +306,7 @@ export default function McResult({
               <div style={{ textAlign: 'center' }}>
                 <div
                   style={{
-                    fontSize: 11,
+                    fontSize: 12,
                     fontWeight: 700,
                     color: 'var(--subtext)',
                     letterSpacing: '0.08em',
@@ -354,7 +350,7 @@ export default function McResult({
               <div style={{ textAlign: 'center' }}>
                 <div
                   style={{
-                    fontSize: 11,
+                    fontSize: 12,
                     fontWeight: 700,
                     color: 'var(--subtext)',
                     letterSpacing: '0.08em',

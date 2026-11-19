@@ -215,7 +215,7 @@ const QUIZ_SECTION = ({ quiz, accent }: { quiz: PhonQuizItem[]; accent: string }
             <div
               style={{
                 marginTop: 8,
-                fontSize: 11,
+                fontSize: 12,
                 color: q.opts[answers[i]!] === q.a ? 'var(--ink-green)' : 'var(--ink-error)',
                 fontWeight: 700,
               }}
@@ -398,7 +398,7 @@ function PhonologyScreen({
                         <div style={{ fontSize: 14, fontWeight: 700, color: accentInk(l.color) }}>
                           {ex.hr}
                         </div>
-                        <div style={{ fontSize: 11, color: 'var(--ink-muted-warm)' }}>{ex.en}</div>
+                        <div style={{ fontSize: 12, color: 'var(--ink-muted-warm)' }}>{ex.en}</div>
                       </div>
                     ))}
                   </div>
@@ -462,7 +462,7 @@ function PhonologyScreen({
                   <div style={{ fontSize: 26, fontWeight: 900, color: 'var(--ink-warn)' }}>
                     {p.a}
                   </div>
-                  <div style={{ fontSize: 11, color: 'var(--ink-body)', marginTop: 4 }}>
+                  <div style={{ fontSize: 12, color: 'var(--ink-body)', marginTop: 4 }}>
                     {p.example_a}
                   </div>
                 </div>
@@ -493,7 +493,7 @@ function PhonologyScreen({
                   <div style={{ fontSize: 26, fontWeight: 900, color: 'var(--ink-warn)' }}>
                     {p.b}
                   </div>
-                  <div style={{ fontSize: 11, color: 'var(--ink-body)', marginTop: 4 }}>
+                  <div style={{ fontSize: 12, color: 'var(--ink-body)', marginTop: 4 }}>
                     {p.example_b}
                   </div>
                 </div>

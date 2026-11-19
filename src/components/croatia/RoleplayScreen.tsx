@@ -105,7 +105,7 @@ function RoleplayScreen({
           border: l.you ? 'none' : '1px solid #e7e5e4',
         }}
       >
-        <div style={{ fontSize: 11, fontWeight: 700, marginBottom: 4, opacity: 0.7 }}>
+        <div style={{ fontSize: 12, fontWeight: 700, marginBottom: 4, opacity: 0.7 }}>
           {l.speaker}
         </div>
         {body}
@@ -255,7 +255,7 @@ function RoleplayScreen({
             </button>
           </div>
           {micBlocked && (
-            <div style={{ fontSize: 11, color: 'var(--subtext)', marginTop: 8 }}>
+            <div style={{ fontSize: 12, color: 'var(--subtext)', marginTop: 8 }}>
               Mic unavailable — reveal the line and say it aloud, then continue.
             </div>
           )}

@@ -33,7 +33,8 @@ export function sanitizeParam(value, maxLen = 200) {
   );
 }
 
-export function sanitizeLevel(level, valid = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2']) {
+export function sanitizeLevel(level, valid = ['A1', 'A2', 'B1', 'B2', 'C1']) {
+  if (level === 'C2') level = 'C1'; // C2 retired 2026-11-18: an older app version may still send it
   return valid.includes(level) ? level : 'B1';
 }
 

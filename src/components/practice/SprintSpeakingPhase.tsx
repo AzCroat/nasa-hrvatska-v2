@@ -191,7 +191,7 @@ export default function SprintSpeakingPhase({
         >
           <span
             style={{
-              fontSize: 11,
+              fontSize: 12,
               fontWeight: 700,
               color: 'var(--ink-accent)',
               display: 'block',

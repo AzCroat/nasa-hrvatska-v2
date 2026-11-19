@@ -82,7 +82,7 @@ function StatTile({
     >
       <div style={{ fontSize: 28, marginBottom: 4 }}>{icon}</div>
       <div style={{ fontSize: 22, fontWeight: 800, color: accentInk(color) }}>{value}</div>
-      <div style={{ fontSize: 11, color: 'var(--ink-muted)', fontWeight: 600 }}>{label}</div>
+      <div style={{ fontSize: 12, color: 'var(--ink-muted)', fontWeight: 600 }}>{label}</div>
     </div>
   );
 }
@@ -120,12 +120,12 @@ function BadgeRow({
         >
           {badge.n}
         </div>
-        <div style={{ fontSize: 11, color: 'var(--ink-muted)' }}>{badge.d}</div>
+        <div style={{ fontSize: 12, color: 'var(--ink-muted)' }}>{badge.d}</div>
       </div>
       {earned && (
         <div
           style={{
-            fontSize: 11,
+            fontSize: 12,
             fontWeight: 700,
             color: '#92400e',
             background: '#fef3c7',
@@ -232,7 +232,7 @@ export default function AnalyticsScreen({
             <div style={{ fontSize: 22, fontWeight: 800, color: 'var(--ink-green)' }}>
               {s.srsTotal || 0}
             </div>
-            <div style={{ fontSize: 10, color: 'var(--ink-muted)', fontWeight: 600 }}>REVIEWED</div>
+            <div style={{ fontSize: 12, color: 'var(--ink-muted)', fontWeight: 600 }}>REVIEWED</div>
           </div>
           <div
             style={{
@@ -247,7 +247,7 @@ export default function AnalyticsScreen({
             <div style={{ fontSize: 22, fontWeight: 800, color: 'var(--ink-flag)' }}>
               {dueWords.length}
             </div>
-            <div style={{ fontSize: 10, color: 'var(--ink-muted)', fontWeight: 600 }}>
+            <div style={{ fontSize: 12, color: 'var(--ink-muted)', fontWeight: 600 }}>
               DUE TODAY
             </div>
           </div>
@@ -264,7 +264,7 @@ export default function AnalyticsScreen({
             <div style={{ fontSize: 22, fontWeight: 800, color: 'var(--ink-warn)' }}>
               {mistakes.length}
             </div>
-            <div style={{ fontSize: 10, color: 'var(--ink-muted)', fontWeight: 600 }}>MISTAKES</div>
+            <div style={{ fontSize: 12, color: 'var(--ink-muted)', fontWeight: 600 }}>MISTAKES</div>
           </div>
         </div>
         {dueWords.length > 0 && (
@@ -312,7 +312,7 @@ export default function AnalyticsScreen({
             <div style={{ fontSize: 26, fontWeight: 800, color: 'var(--ink-warn)' }}>
               {streak} 🔥
             </div>
-            <div style={{ fontSize: 11, color: 'var(--ink-muted-warm)', fontWeight: 600 }}>
+            <div style={{ fontSize: 12, color: 'var(--ink-muted-warm)', fontWeight: 600 }}>
               CURRENT STREAK
             </div>
           </div>
@@ -389,7 +389,7 @@ export default function AnalyticsScreen({
               </div>
               <div
                 style={{
-                  fontSize: 11,
+                  fontSize: 12,
                   fontWeight: 700,
                   color: '#dc2626',
                   background: '#fee2e2',
