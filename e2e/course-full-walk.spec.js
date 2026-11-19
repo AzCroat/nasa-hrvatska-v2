@@ -253,11 +253,19 @@ async function beginFromHome(page, label) {
 async function takeUnitTest(page, unit) {
   const n = UNITS.indexOf(unit) + 1;
   await openMap(page);
-  await expect(
-    page.getByTestId(`course-unit-test-${unit.id}`),
-    `${unit.id}: the map offers the unit test`,
-  ).toHaveAttribute('data-offer', 'primary');
-  await beginFromHome(page, `Unit ${n} test`);
+  // 2026-11-19: the unit test is RECOMMENDED after the lessons (the unit has advanced and its
+  // card is collapsed), and Home leads with the next lesson — so the card is expanded and the
+  // test is opened through its handoff, as the card's button does.
+  const testBtn = page.getByTestId(`course-unit-test-${unit.id}`);
+  if ((await testBtn.count()) === 0) {
+    await page.getByTestId(`course-unit-${unit.id}`).locator('button').first().click();
+  }
+  await expect(testBtn, `${unit.id}: the map offers the unit test`).toHaveAttribute(
+    'data-offer',
+    'primary',
+  );
+  void n;
+  await testBtn.click();
   await expect(page.getByTestId('unit-test')).toBeVisible({ timeout: 20_000 });
   const total = Number(
     ((await page.getByTestId('unit-test-progress').innerText()).match(/of (\d+)/) || [])[1],
@@ -283,11 +291,19 @@ async function takeUnitTest(page, unit) {
   );
 }
 
-/** Both production tasks, each taken from Home on the day the course owes it. */
+/**
+ * Both production tasks. 2026-11-19 (owner: production never gates): they are RECOMMENDED —
+ * Keep Learning and the Course tab offer them — and Home leads with the next lesson, so each
+ * opens through its one-shot handoff, as those buttons do.
+ */
 async function produce(page, unit) {
-  const n = UNITS.indexOf(unit) + 1;
   for (const kind of ['write', 'speak']) {
-    await beginFromHome(page, `Unit ${n}: ${kind}`);
+    await page.goto('/');
+    await page.evaluate(
+      ([id, k]) => sessionStorage.setItem('nh_unit_production', `${id}|${k}`),
+      [unit.id, kind],
+    );
+    await page.goto('/unitproduction', { waitUntil: 'domcontentloaded' });
     await expect(page.getByTestId('unit-production')).toBeVisible({ timeout: 20_000 });
     await page.getByTestId('unit-production-input').fill(WORDS);
     await page.getByTestId('unit-production-submit').click();
@@ -319,11 +335,15 @@ async function walkUnit(page, unit, nextId) {
   if (nextId) expect(await unitState(page, nextId), `${nextId} is locked`).toBe('locked');
   await firstLessonFromHome(page, unit);
   for (const id of unit.lessons.slice(1)) await readLesson(page, id);
-  await takeUnitTest(page, unit);
+  // 2026-11-19 (owner: "Unit 1 and 2 have 5/5. That is passing and should have unlocked
+  // three"): five passed lessons open the next unit — before the test and production.
   if (nextId) {
     await openMap(page);
-    expect(await unitState(page, nextId), `${nextId} stays locked until production`).toBe('locked');
+    expect(await unitState(page, nextId), `${nextId} opens on the five passed lessons`).toBe(
+      'current',
+    );
   }
+  await takeUnitTest(page, unit);
   await produce(page, unit);
   await openMap(page);
   expect(await unitState(page, unit.id), `${unit.id} is cleared after the bar`).toBe('cleared');

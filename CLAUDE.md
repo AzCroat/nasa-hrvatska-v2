@@ -4286,6 +4286,26 @@ together, and the old sequencer is deleted.
   test-out survives, every door asks) plus the Learning Center, course map and unit-test
   screen suites; mutation-verified, five. `learnPath` items never name a lesson id, so
   that launcher needed no guard.
+  **AMENDED 2026-11-19 — TEST-OUT OF ANY LESSON OR UNIT IS OPEN AT ANY TIME; READING IS NOT.**
+  Owner: _"You should be able to test out of any lesson at any time."_ The lock above stays
+  for READING (a lesson ahead of the learner never shows its teaching slides). It is
+  superseded for TESTING OUT: `launchAnimLesson` no longer refuses a locked lesson — it sets
+  the `nh_lesson_testout` handoff (`requestLessonTestOut`, `lessonLock.ts`) and
+  `AnimatedLesson` opens that lesson as its test-out ONLY (the check and the summary, no
+  intro or rule slides, through the same `testingOut` path an open lesson uses). A pass
+  completes the lesson exactly as in order (25 XP, `gc`, `al_` key, spine, retention
+  ladder) and touches no other lesson (today's lesson stays the first unread of the current
+  unit); a fail records nothing and the summary names the lesson that opens it with a button
+  (`lesson-ahead-open`, `readNextOpenLesson`). Every lesson row on the course map
+  (`course-lesson-testout-<id>`) and in the Learning Center (`lc-row-testout`) offers it;
+  every unit offers its test as a test-out even while locked (`unitTestOffer` → `testout`),
+  the paper builds from lesson BODIES, which is not reading them, and a pass is kept
+  (`testedOut`) without opening the unit by itself — a passed-ahead unit stays honestly
+  `locked`, its reason saying so, and advances at once when the chain reaches it. Every lock
+  names the exact owed step (`owedStep`, `currentOwedStep`) and the map renders a button to it.
+  The Course tab always carries `learn-testout-any` (opens the map) and, whenever the next
+  step is not a lesson, one sentence and a button (`learn-course-next`); pinned by
+  `courseTabNeverDeadEnds.test.tsx`, which walks eight learner states through the real tab.
 - **TWO ESCAPE HATCHES, because a lock must never strand anyone.** A unit whose
   test could not be assembled (`insufficient`, measured) opens the next one; and so
   does a unit whose five lessons are all READ, which is not the bar and does not
@@ -4349,16 +4369,38 @@ together, and the old sequencer is deleted.
   moved: content unlock, the verification gate and every CEFR badge still read what
   they read.
 - NEVER: read a CEFR or certified level to decide what the course serves next;
-  leave a second sequencer in the tree; open a lesson the learner has not reached
-  from ANY door (`lessonLock`, 2026-11-12 — this used to say never gate the library);
-  remove or gate the test-out because of the lock; ship a
+  leave a second sequencer in the tree; open an ahead lesson's TEACHING slides from ANY
+  door (`lessonLock`, 2026-11-12); block its TEST-OUT (2026-11-19: "You should be able to
+  test out of any lesson at any time" replaced "open a lesson the learner has not reached
+  from ANY door"); remove or gate the test-out because of the lock; ship a
   lock without an escape hatch for a test that cannot be assembled; offer a test the
   app knows it cannot serve; let an optional parameter's default contradict its
   docstring; import `src/data` from a module on the first-paint path (one small file
   re-couples the whole content chunk); read a surviving mutation without checking
   which files the runner ran.
 
-### Increment 4 — production in the bar (2026-09-26)
+### Increment 4 — production in the bar (2026-09-26) — REVERSED 2026-11-19: production never gates, and five passed lessons advance a unit
+
+**OWNER, 2026-11-19, verbatim: _"Unit 1 and 2 have 5/5. That is passing and should have
+unlocked three"_ — and production "stays available and recommended but never gates".**
+This reverses increments 2–4 on what advances a unit. `openUnits` (`courseUnits.ts`) now
+advances a unit when EITHER every lesson of it is completed (a lesson completes only when
+its own check was passed, test-outs included) OR its unit test is passed (a test-out
+included; `short` still stands in for an unassemblable test). Written and spoken production
+never gate. The unit test stays the cumulative, interleaved retention proof — still pays its
+first-pass XP, still feeds the retention ladder — but is a RECOMMENDED step after the next
+lesson, not a gate; the ladder (`startUnitRetention`, which now creates the record when the
+unit advanced on lessons alone) starts when the unit advances by either route. The course
+walk no longer stops on a unit's owed production or on its test (`pickCourseStep`); both
+are `recommendedSteps` (offered by Keep Learning after the next lesson, by the Course tab,
+and served by the course only when nothing is left to teach). The state ladder cannot
+contradict itself: an advanced unit is never `locked`, and a unit passed ahead of the
+course stays `locked` with a reason saying it is already passed. The card label is "N of M
+lessons passed", never "5/5". Everything below this heading describes the history; where it
+says the bar is test AND production, the read-through hatch is "removed", or a pass after
+reading "still owes both", this paragraph wins. **NEVER: gate a unit on production; hold a
+unit shut when all its lessons are passed; print a unit's lesson count as a bare fraction a
+learner can read as a score; stop the course walk on a recommended step.**
 
 The other half of the owner's advancement rule, verbatim: _"advance on accuracy
 (unit test at 85%) + production (one spoken, one written, rubric-graded)"_. The

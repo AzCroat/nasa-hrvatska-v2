@@ -34,7 +34,7 @@ import {
   CURRICULUM_SPINE_EVENT,
 } from '../../lib/curriculumProgress';
 import { getCurriculumSpine } from '../../lib/contentClient';
-import { readLockLookup } from '../../lib/lessonLock';
+import { readLockLookup, requestLessonTestOut } from '../../lib/lessonLock';
 import type { CurriculumEntry } from '../../lib/curriculum';
 import {
   courseMapBlock,
@@ -43,9 +43,10 @@ import {
   COURSE_MAP_COPY,
   type CourseMapBlock,
   type CourseUnit,
+  type OwedStep,
   type UnitProgress,
 } from '../../lib/courseUnits';
-import { readCourseState } from '../../lib/courseStep';
+import { readCourseState, currentOwedStep } from '../../lib/courseStep';
 import {
   requestUnitTest,
   requestLevelReview,
@@ -175,6 +176,31 @@ export default function CourseMapScreen({ goBack, onOpenLesson, setScr }: Course
     [onOpenLesson, lockOf],
   );
 
+  // TEST OUT OF ANY LESSON, AT ANY TIME (owner, 2026-11-19). Open or locked, the lesson's
+  // own check opens first; a lesson still ahead shows the check and nothing before it
+  // (the launcher and AnimatedLesson enforce that — reading stays in order).
+  const testOutOf = useCallback(
+    async (lessonId: string) => {
+      setLaunchFailed(null);
+      requestLessonTestOut(lessonId);
+      const ok = await onOpenLesson(lessonId);
+      if (!ok) setLaunchFailed(lessonId);
+    },
+    [onOpenLesson],
+  );
+  // What the unit the learner stands on still owes: every lock quotes it.
+  const blocking = useMemo(
+    () => {
+      try {
+        return currentOwedStep(state);
+      } catch {
+        return null;
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [state, completed],
+  );
+
   const owedFor = useCallback(
     (unitId: string) => {
       const rec = unitRecord(unitId, store);
@@ -280,9 +306,10 @@ export default function CourseMapScreen({ goBack, onOpenLesson, setScr }: Course
           />
         </div>
         <div style={{ fontSize: 11.5, color: 'var(--subtext)', marginTop: 8, lineHeight: 1.5 }}>
-          Every learner takes the same path, from Unit 1. Read a unit’s five lessons, then pass its
-          test — the test mixes questions from all five, which is harder than each check on its own
-          and a far better sign that it has stuck.
+          Every learner takes the same path, from Unit 1. Pass a unit’s five lessons and the next
+          unit opens. Its test mixes questions from all five — harder than each check on its own, a
+          far better sign that it has stuck, and passing it opens the next unit too. You can test
+          out of any lesson or unit at any time.
         </div>
       </div>
 
@@ -347,7 +374,9 @@ export default function CourseMapScreen({ goBack, onOpenLesson, setScr }: Course
                 onToggle={() => setOpenUnit(openUnit === row.unit.id ? null : row.unit.id)}
                 completed={completed}
                 lockOf={lockOf}
+                blocking={blocking}
                 onOpenLesson={open}
+                onTestOutLesson={testOutOf}
                 onTakeTest={() => {
                   requestUnitTest(row.unit.id);
                   setScr('unittest');
@@ -385,7 +414,9 @@ function UnitRow({
   onToggle,
   completed,
   lockOf,
+  blocking,
   onOpenLesson,
+  onTestOutLesson,
   onTakeTest,
   onRecheck,
   recheckDue,
@@ -399,7 +430,11 @@ function UnitRow({
   completed: ReadonlySet<string>;
   /** Why a lesson is not open yet, or null (lib/lessonLock). */
   lockOf: (lessonId: string) => string | null;
+  /** The blocking unit's owed step (lib/courseUnits `owedStep`), for the lock's button. */
+  blocking: OwedStep | null;
   onOpenLesson: (lessonId: string) => void;
+  /** Test out of one lesson, open or locked (owner, 2026-11-19). */
+  onTestOutLesson: (lessonId: string) => void;
   onTakeTest: () => void;
   onRecheck: () => void;
   recheckDue: boolean;
@@ -407,7 +442,7 @@ function UnitRow({
 }) {
   const { unit, done, total, state } = row;
   const offer = mapTestOffer(row);
-  const locked = lockReason(row, previous);
+  const locked = lockReason(row, previous, blocking);
   const owed = owedFor(unit.id);
   return (
     <div
@@ -491,7 +526,7 @@ function UnitRow({
             color: state === 'current' ? accentInk(color) : 'var(--subtext)',
           }}
         >
-          {done}/{total}
+          {done} of {total} lessons passed
         </span>
       </button>
 
@@ -530,6 +565,32 @@ function UnitRow({
               {locked}
             </div>
           )}
+          {/* THE BUTTON THAT GOES TO WHAT OPENS IT (owner, 2026-11-19: "nothing tells them
+              what opens it"). The blocking step is a real lesson of the unit the learner
+              stands on; this opens it (or, when that lesson is itself ahead, its check). */}
+          {locked && blocking?.lesson && (
+            <button
+              data-testid={`course-unit-locked-go-${unit.id}`}
+              onClick={() => onOpenLesson(blocking.lesson.id)}
+              style={{
+                width: '100%',
+                padding: '10px 12px',
+                marginTop: 2,
+                marginBottom: 4,
+                borderRadius: 10,
+                border: `1.5px solid ${color}`,
+                background: 'transparent',
+                color: accentInk(color),
+                fontSize: 13,
+                fontWeight: 800,
+                cursor: 'pointer',
+                textAlign: 'left',
+                fontFamily: "'Outfit',sans-serif",
+              }}
+            >
+              Go to “{blocking.lesson.title || blocking.lesson.id}” →
+            </button>
+          )}
 
           {/* THE UNIT'S TEST. `primary` once the reading is done; `testout`
               beforehand, which is the SAME test at the SAME bar — the owner's own
@@ -559,7 +620,9 @@ function UnitRow({
                 fontFamily: "'Outfit',sans-serif",
               }}
             >
-              {offer === 'primary' ? 'Take the unit test →' : 'Test out of this unit →'}
+              {offer === 'primary'
+                ? 'Take the unit test (recommended) →'
+                : 'Test out of this unit →'}
             </button>
           )}
           {/* THE OTHER HALF OF THE BAR. A unit whose test is passed but whose
@@ -647,60 +710,83 @@ function UnitRow({
             const isDone = completed.has(lesson.id);
             const closedWhy = lockOf(lesson.id);
             return (
-              <button
-                key={lesson.id}
-                data-testid={`course-lesson-${lesson.id}`}
-                data-lesson-done={isDone ? '1' : '0'}
-                data-lesson-locked={closedWhy ? '1' : undefined}
-                onClick={() => onOpenLesson(lesson.id)}
-                disabled={!!locked || !!closedWhy}
-                style={{
-                  width: '100%',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 10,
-                  padding: '9px 10px',
-                  marginTop: 4,
-                  borderRadius: 10,
-                  border: '1px solid var(--card-b)',
-                  background: isDone ? 'rgba(22,163,74,.06)' : 'var(--bar-bg)',
-                  cursor: locked || closedWhy ? 'default' : 'pointer',
-                  opacity: locked || closedWhy ? 0.55 : 1,
-                  textAlign: 'left',
-                  fontFamily: "'Outfit',sans-serif",
-                }}
-              >
-                <span aria-hidden="true" style={{ fontSize: 12, flexShrink: 0, width: 16 }}>
-                  {isDone ? '✓' : i + 1}
-                </span>
-                <span
+              <div key={lesson.id} style={{ display: 'flex', gap: 6, alignItems: 'stretch' }}>
+                <button
+                  data-testid={`course-lesson-${lesson.id}`}
+                  data-lesson-done={isDone ? '1' : '0'}
+                  data-lesson-locked={closedWhy ? '1' : undefined}
+                  onClick={() => onOpenLesson(lesson.id)}
+                  disabled={!!locked || !!closedWhy}
                   style={{
                     flex: 1,
                     minWidth: 0,
-                    fontSize: 12.5,
-                    fontWeight: 700,
-                    color: 'var(--heading)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 10,
+                    padding: '9px 10px',
+                    marginTop: 4,
+                    borderRadius: 10,
+                    border: '1px solid var(--card-b)',
+                    background: isDone ? 'rgba(22,163,74,.06)' : 'var(--bar-bg)',
+                    cursor: locked || closedWhy ? 'default' : 'pointer',
+                    opacity: locked || closedWhy ? 0.55 : 1,
+                    textAlign: 'left',
+                    fontFamily: "'Outfit',sans-serif",
                   }}
                 >
-                  {lesson.title || lesson.id}
-                  {closedWhy && !locked && (
-                    <span
-                      data-testid={`course-lesson-why-${lesson.id}`}
-                      style={{
-                        display: 'block',
-                        fontSize: 11,
-                        fontWeight: 600,
-                        color: 'var(--subtext)',
-                      }}
-                    >
-                      {closedWhy}
-                    </span>
-                  )}
-                </span>
-                <span style={{ fontSize: 12, color: 'var(--subtext)', flexShrink: 0 }}>
-                  {closedWhy ? '🔒' : '→'}
-                </span>
-              </button>
+                  <span aria-hidden="true" style={{ fontSize: 12, flexShrink: 0, width: 16 }}>
+                    {isDone ? '✓' : i + 1}
+                  </span>
+                  <span
+                    style={{
+                      flex: 1,
+                      minWidth: 0,
+                      fontSize: 12.5,
+                      fontWeight: 700,
+                      color: 'var(--heading)',
+                    }}
+                  >
+                    {lesson.title || lesson.id}
+                    {closedWhy && !locked && (
+                      <span
+                        data-testid={`course-lesson-why-${lesson.id}`}
+                        style={{
+                          display: 'block',
+                          fontSize: 11,
+                          fontWeight: 600,
+                          color: 'var(--subtext)',
+                        }}
+                      >
+                        {closedWhy}
+                      </span>
+                    )}
+                  </span>
+                  <span style={{ fontSize: 12, color: 'var(--subtext)', flexShrink: 0 }}>
+                    {closedWhy ? '🔒' : '→'}
+                  </span>
+                </button>
+                {!isDone && (
+                  <button
+                    data-testid={`course-lesson-testout-${lesson.id}`}
+                    onClick={() => onTestOutLesson(lesson.id)}
+                    style={{
+                      flexShrink: 0,
+                      marginTop: 4,
+                      padding: '0 10px',
+                      borderRadius: 10,
+                      border: `1px solid ${color}`,
+                      background: 'transparent',
+                      color: accentInk(color),
+                      fontSize: 11.5,
+                      fontWeight: 800,
+                      cursor: 'pointer',
+                      fontFamily: "'Outfit',sans-serif",
+                    }}
+                  >
+                    Test out
+                  </button>
+                )}
+              </div>
             );
           })}
         </div>

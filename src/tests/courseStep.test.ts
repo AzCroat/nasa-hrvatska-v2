@@ -28,6 +28,8 @@ import {
 import {
   nextCourseStep,
   pickCourseStep,
+  recommendedCourseSteps,
+  currentOwedStep,
   readCourseState,
   unitTestActivityId,
 } from '../lib/courseStep';
@@ -78,29 +80,36 @@ describe('what the course serves', () => {
     expect(step && step.kind === 'lesson' && step.lesson.id).toBe(UNITS[0]!.lessons[1]!.id);
   });
 
-  // THE TEST IS THE NEXT STEP once the reading is done. Serving the next unit's
-  // lesson would race past the gate; serving nothing would stall the course.
-  it('serves the unit test once the open unit is read through', () => {
+  // 2026-11-19 (owner: "Unit 1 and 2 have 5/5. That is passing and should have unlocked
+  // three"): a unit read through (every lesson PASSED) has ADVANCED, so the next step is
+  // the next unit's lesson. Its test is a RECOMMENDED step, offered after the lesson —
+  // this used to assert the test was the step (the 2026-09-26 gate).
+  it('moves on to the next unit once the open unit is passed, and recommends its test', () => {
     writeCurriculumSpine(SPINE);
     readUnit(0);
     const step = nextCourseStep();
-    expect(step?.kind).toBe('unit-test');
-    expect(step?.unit.id).toBe('A1-1');
-    expect(step?.reason).toMatch(/Unit 1 test/);
+    expect(step?.kind).toBe('lesson');
+    expect(step?.unit.id).toBe('A1-2');
+    const rec = recommendedCourseSteps();
+    expect(rec[0]?.kind).toBe('unit-test');
+    expect(rec[0]?.unit.id).toBe('A1-1');
+    expect(rec[0]?.reason).toMatch(/Unit 1 test/);
   });
 
   // THE BAR IS BOTH HALVES. With the test passed and production owed, the course
   // stays on this unit and asks for the production — serving the next unit's lesson
   // would advance the learner past a bar they have not met.
-  it('asks for production once the test is passed', () => {
+  // 2026-11-19: production never gates, so it is RECOMMENDED (after the next lesson), not
+  // the course's step; the course moves on to Unit 2.
+  it('recommends production once the test is passed, without holding the course', () => {
     writeCurriculumSpine(SPINE);
     readUnit(0);
     recordUnitTest('A1-1', 15, 15, true);
-    const step = nextCourseStep();
-    expect(step?.kind).toBe('production');
-    expect(step?.unit.id).toBe('A1-1');
-    expect(step && step.kind === 'production' && step.owed).toBe('write');
-    expect(step?.reason).toMatch(/write what you have learned/);
+    expect(nextCourseStep()?.kind).toBe('lesson');
+    const step = recommendedCourseSteps().find((s) => s.kind === 'production')!;
+    expect(step.unit.id).toBe('A1-1');
+    expect(step.kind === 'production' && step.owed).toBe('write');
+    expect(step.reason).toMatch(/write what you have learned/);
   });
 
   it('asks for the spoken half once the written one is graded', () => {
@@ -108,8 +117,8 @@ describe('what the course serves', () => {
     readUnit(0);
     recordUnitTest('A1-1', 15, 15, true);
     recordUnitProduction('A1-1', 'write', 74);
-    const step = nextCourseStep();
-    expect(step?.kind).toBe('production');
+    const step = recommendedCourseSteps().find((s) => s.kind === 'production')!;
+    expect(step.kind).toBe('production');
     expect(step && step.kind === 'production' && step.owed).toBe('speak');
   });
 
@@ -263,14 +272,16 @@ describe('the gate', () => {
     expect([...gate.advanced]).toEqual([]);
   });
 
-  // BOTH HALVES, OR NEITHER OPENS THE NEXT UNIT.
-  it('does not open the next unit on the test alone', () => {
+  // 2026-11-19 (owner): the unit test ALONE opens the next unit; production never gates.
+  // This used to assert that both halves were needed (the 2026-09-26 increment 4 rule).
+  it('opens the next unit on the test alone', () => {
     expect([...openUnits({ units: UNITS, completed: [], passedUnitIds: ['A1-1'] }).open]).toEqual([
       'A1-1',
+      'A1-2',
     ]);
   });
 
-  it('does not open the next unit on production alone', () => {
+  it('does not open the next unit on production alone (production is not evidence of the lessons)', () => {
     expect([
       ...openUnits({ units: UNITS, completed: [], passedUnitIds: [], producedUnitIds: ['A1-1'] })
         .open,
@@ -314,18 +325,20 @@ describe('the gate', () => {
     ]).toEqual(['A1-1', 'A1-2']);
   });
 
-  // THE READ-THROUGH HATCH IS GONE (increment 4), and this pins its absence. It let
-  // anyone skip both halves by paging through five lessons, which is the gate quietly
-  // not existing; the test is re-takeable and the library is open, so there was never
-  // a dead end for it to prevent.
-  it('does NOT open the next unit just because every lesson is read', () => {
+  // 2026-11-19 (owner: "Unit 1 and 2 have 5/5. That is passing and should have unlocked
+  // three"): five lessons PASSED opens the next unit. The earlier "no read-through hatch"
+  // rule (increment 4) is reversed — a lesson counts as completed only when its own
+  // check was passed, so this is evidence, not paging. One lesson short keeps it shut.
+  it('opens the next unit when every lesson is passed, and not one short', () => {
     const read = UNITS[0]!.lessons.map((l) => l.id);
-    expect([...openUnits({ units: UNITS, completed: read, passedUnitIds: [] }).open]).toEqual([
-      'A1-1',
-    ]);
+    const gate = openUnits({ units: UNITS, completed: read, passedUnitIds: [] });
+    expect([...gate.open]).toEqual(['A1-1', 'A1-2']);
+    expect([...gate.advanced]).toEqual(['A1-1']);
+    const short = openUnits({ units: UNITS, completed: read.slice(1), passedUnitIds: [] });
+    expect([...short.open]).toEqual(['A1-1']);
     writeCurriculumSpine(SPINE);
     readUnit(0);
-    expect(nextCourseStep()?.kind).toBe('unit-test');
+    expect(nextCourseStep()?.unit.id).toBe('A1-2');
   });
 
   it('never locks the first unit, whatever the store says', () => {
@@ -417,8 +430,13 @@ describe('the lock is never silent, and says what it does not cover', () => {
     const locked = state.rows.find((r) => r.state === 'locked')!;
     const previous = state.rows[locked.unit.index - 2]!.unit;
     const reason = lockReason(locked, previous)!;
+    // 2026-11-19: the reason names the exact owed step and says test-out is open.
+    const step = currentOwedStep(state);
+    expect(step?.lesson.id).toBe('alphabet');
+    const named = lockReason(locked, previous, step)!;
+    expect(named).toContain(`lesson 1 of Unit ${previous.index}`);
+    expect(named).toMatch(/test out/);
     expect(reason).toMatch(new RegExp(`after Unit ${previous.index}`));
-    expect(reason).toMatch(/Learning Center/);
   });
 
   it('says nothing for a unit that is open', () => {
@@ -427,11 +445,13 @@ describe('the lock is never silent, and says what it does not cover', () => {
     expect(lockReason(state.rows[0]!, null)).toBeNull();
   });
 
-  it('offers no test on a locked unit', () => {
+  // 2026-11-19 (owner: "You should be able to test out of any lesson at any time"): a
+  // locked unit offers its test as a test-out; this asserted 'none'.
+  it('offers the test as a test-out on a locked unit', () => {
     writeCurriculumSpine(SPINE);
     const state = readCourseState();
     const locked = state.rows.find((r) => r.state === 'locked')!;
-    expect(unitTestOffer(locked)).toBe('none');
+    expect(unitTestOffer(locked)).toBe('testout');
   });
 });
 
@@ -457,7 +477,8 @@ describe('the session handoff', () => {
   it('is not written by the resolver — the slot builder owns it', () => {
     writeCurriculumSpine(SPINE);
     readUnit(0);
-    expect(nextCourseStep()?.kind).toBe('unit-test');
+    expect(nextCourseStep()?.kind).toBe('lesson');
+    expect(recommendedCourseSteps()[0]?.kind).toBe('unit-test');
     expect(readUnitTestRequest()).toBeNull();
   });
 });

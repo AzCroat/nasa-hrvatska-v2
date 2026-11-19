@@ -64,6 +64,8 @@ import { readCurriculumSpine } from './curriculumProgress';
 import {
   readCourseState,
   nextCourseStep,
+  recommendedCourseSteps,
+  type CourseStep,
   unitTestActivityId,
   unitProductionActivityId,
   levelReviewActivityId,
@@ -317,13 +319,19 @@ export function gatherKeepCandidates(
   // re-drilling it. It never serves a locked step (`nextCourseStep` cannot), is
   // capped by passing alone, and a lesson is never listed twice in a day (its id is
   // in the plan once done). The launcher re-arms the handoff from the id.
+  // The next step first, then the RECOMMENDED ones (a unit test for a unit advanced by its
+  // lessons, owed production): they never gate, and are offered after the next lesson.
+  const courseSteps: CourseStep[] = [];
   guarded(() => {
-    const step = nextCourseStep({ skipRechecks: true });
-    if (!step) return;
+    const first = nextCourseStep({ skipRechecks: true });
+    if (first) courseSteps.push(first);
+    courseSteps.push(...recommendedCourseSteps());
+  });
+  for (const step of courseSteps) {
     let a: SessionActivity | null = null;
     // A lesson whose check failed today is closed until tomorrow (checkLock): the
     // corrective day serves it then, so it is not offered now.
-    if (step.kind === 'lesson' && checkLockedToday(step.lesson.id)) return;
+    if (step.kind === 'lesson' && checkLockedToday(step.lesson.id)) continue;
     if (step.kind === 'lesson') {
       a = {
         id: `curriculum_${step.lesson.id}`,
@@ -363,7 +371,7 @@ export function gatherKeepCandidates(
       blockScreens.add(a.screen);
       out.push({ activity: a, tier: 3.5, spoken: false });
     }
-  });
+  }
 
   // ── 4. Passed, not yet retained — lessons, then units ──────────────────────
   guarded(() => {

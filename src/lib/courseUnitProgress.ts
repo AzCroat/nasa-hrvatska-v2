@@ -333,8 +333,10 @@ export function clearUnitTestInsufficient(unitId: string): void {
 export function startUnitRetention(unitId: string, isoDate: string = localDateStr()): void {
   if (!unitId) return;
   const store = readRaw();
-  const prev = store.units[unitId];
-  if (!prev || prev.recheck) return;
+  // A unit may advance on its lessons alone (owner, 2026-11-19), with no test record at
+  // all — the ladder starts for it too, so the record may not exist yet.
+  const prev = store.units[unitId] ?? {};
+  if (prev.recheck) return;
   store.units[unitId] = { ...prev, recheck: startRecheckLadder(isoDate) };
   writeCourseUnits(store);
 }

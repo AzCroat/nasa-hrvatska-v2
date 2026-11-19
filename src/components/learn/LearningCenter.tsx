@@ -47,7 +47,7 @@ import {
   type VocabRow,
 } from '../../lib/practiceLaunch';
 import { consumeLessonLookup } from '../../lib/lessonLookup';
-import { readLockLookup } from '../../lib/lessonLock';
+import { readLockLookup, requestLessonTestOut } from '../../lib/lessonLock';
 import ReferenceDesk from './ReferenceDesk';
 
 const LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'] as const;
@@ -104,10 +104,52 @@ function Row({
   done,
   locked,
   onOpen,
+  onTestOut,
 }: {
   entry: LearningEntry;
   done: boolean;
   /** Why this lesson is not open yet, or null. A locked row does not launch. */
+  locked?: string | null;
+  onOpen: () => void;
+  /** Test out of this lesson — offered on every lesson not yet passed, locked or not. */
+  onTestOut?: () => void;
+}): React.ReactElement {
+  return (
+    <div>
+      <RowButton entry={entry} done={done} locked={locked} onOpen={onOpen} />
+      {onTestOut && (
+        <button
+          data-testid="lc-row-testout"
+          onClick={onTestOut}
+          style={{
+            display: 'block',
+            margin: '-4px 0 10px 14px',
+            padding: '4px 10px',
+            borderRadius: 8,
+            border: '1px solid var(--card-b)',
+            background: 'transparent',
+            color: 'var(--heading)',
+            fontSize: 11.5,
+            fontWeight: 800,
+            cursor: 'pointer',
+            fontFamily: "'Outfit',sans-serif",
+          }}
+        >
+          Test out of this lesson
+        </button>
+      )}
+    </div>
+  );
+}
+
+function RowButton({
+  entry,
+  done,
+  locked,
+  onOpen,
+}: {
+  entry: LearningEntry;
+  done: boolean;
   locked?: string | null;
   onOpen: () => void;
 }): React.ReactElement {
@@ -222,9 +264,9 @@ export default function LearningCenter({
     if (focus && focus.length === 1) {
       const only = focus[0]!;
       setFocus(null);
-      const why = lockOf(only);
-      if (why) setLaunchError(`That lesson isn't open yet. ${why}`);
-      else launchAnimLesson(only);
+      // A lesson still ahead of the learner opens as its TEST-OUT, not a refusal (owner,
+      // 2026-11-19: test out of any lesson at any time); the launcher routes it.
+      launchAnimLesson(only);
     }
   }, [focus, launchAnimLesson, lockOf]);
 
@@ -275,6 +317,14 @@ export default function LearningCenter({
     } catch {
       setLaunchError('That could not be opened just now. Please try again.');
     }
+  }
+
+  /** TEST OUT OF ANY LESSON, AT ANY TIME (owner, 2026-11-19): open or locked, the lesson's
+   *  own check opens first; a lesson still ahead shows the check and nothing before it. */
+  function testOut(entry: LearningEntry): void {
+    if (entry.target.kind !== 'lesson') return;
+    requestLessonTestOut(entry.target.lessonId);
+    launchAnimLesson(entry.target.lessonId);
   }
 
   function open(entry: LearningEntry): void {
@@ -374,6 +424,11 @@ export default function LearningCenter({
               done={e.target.kind === 'lesson' && completed.has(e.target.lessonId)}
               locked={lockedWhy(e)}
               onOpen={() => open(e)}
+              onTestOut={
+                e.target.kind === 'lesson' && !completed.has(e.target.lessonId)
+                  ? () => testOut(e)
+                  : undefined
+              }
             />
           ))}
           <button
@@ -418,6 +473,11 @@ export default function LearningCenter({
               done={e.target.kind === 'lesson' && completed.has(e.target.lessonId)}
               locked={lockedWhy(e)}
               onOpen={() => open(e)}
+              onTestOut={
+                e.target.kind === 'lesson' && !completed.has(e.target.lessonId)
+                  ? () => testOut(e)
+                  : undefined
+              }
             />
           ))}
         </div>
@@ -537,6 +597,11 @@ export default function LearningCenter({
                             done={e.target.kind === 'lesson' && completed.has(e.target.lessonId)}
                             locked={lockedWhy(e)}
                             onOpen={() => open(e)}
+                            onTestOut={
+                              e.target.kind === 'lesson' && !completed.has(e.target.lessonId)
+                                ? () => testOut(e)
+                                : undefined
+                            }
                           />
                         ))}
                       </div>

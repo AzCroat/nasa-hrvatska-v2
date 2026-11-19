@@ -62,6 +62,7 @@
 
 import type { CefrLevel } from './cefr';
 import type { CurriculumEntry } from './curriculum';
+import { UNIT_TEST_ITEMS, unitItemsNeeded } from './unitTest';
 
 /** Lessons per unit. A level whose count is not a multiple ends with a shorter unit. */
 export const UNIT_SIZE = 5;
@@ -283,19 +284,22 @@ export interface OpenUnitsResult {
 }
 
 export function openUnits(input: OpenUnitsInput): OpenUnitsResult {
+  const completed = asSet(input.completed);
   const passed = asSet(input.passedUnitIds);
-  const produced = asSet(input.producedUnitIds ?? []);
   const short = asSet(input.insufficientUnitIds ?? []);
-  const blocked = asSet(input.productionBlockedUnitIds ?? []);
   const open = new Set<string>();
   const advanced = new Set<string>();
   for (const unit of input.units) {
     open.add(unit.id);
-    // Either half may be satisfied by the app admitting it could not serve it, and
-    // by nothing else. `short` stands in for the test, `blocked` for production.
-    const accuracy = passed.has(unit.id) || short.has(unit.id);
-    const output = produced.has(unit.id) || blocked.has(unit.id);
-    if (!(accuracy && output)) break;
+    // A UNIT ADVANCES WHEN ALL ITS LESSONS ARE PASSED, OR ITS TEST IS (owner, 2026-11-19:
+    // "Unit 1 and 2 have 5/5. That is passing and should have unlocked three"). A lesson
+    // is complete only when its own check was passed, so five of five IS evidence. The
+    // unit test (a test-out included) is the other route and is still the cumulative,
+    // interleaved retention proof: recommended after the lessons, never a gate. Written
+    // and spoken production never gate either (item 4, same day). `short` stands in for
+    // a test the app could not assemble.
+    const lessonsPassed = unit.lessons.length > 0 && unit.lessons.every((l) => completed.has(l.id));
+    if (!(lessonsPassed || passed.has(unit.id) || short.has(unit.id))) break;
     advanced.add(unit.id);
   }
   return { open, advanced };
@@ -314,12 +318,58 @@ export function productionOwed(input: {
   return owed.write || owed.speak ? owed : null;
 }
 
-/** Why a unit will not open, in the learner's words. Null when it is open. */
-export function lockReason(row: UnitProgress, previous: CourseUnit | null): string | null {
+/**
+ * THE ONE STEP A UNIT OWES BEFORE THE COURSE MOVES PAST IT (owner, 2026-11-19: "Unit 3
+ * is locked … nothing tells them what opens it"). Derived from real state — lessons
+ * done, test passed, production done — never guessed, so a lock can name it.
+ */
+export interface OwedStep {
+  kind: 'lesson';
+  unit: CourseUnit;
+  /** The lesson to open: the first of the unit not yet passed. */
+  lesson: CurriculumEntry;
+  /** One sentence, in the learner's words. */
+  text: string;
+}
+
+/** The step blocking a unit: its first lesson not yet passed. Null once it has advanced. */
+export function owedStep(
+  row: UnitProgress,
+  completed: ReadonlySet<string> | readonly string[],
+): OwedStep | null {
+  const set = asSet(completed);
+  const unit = row.unit;
+  if (row.tested || row.short) return null;
+  const at = unit.lessons.findIndex((l) => !set.has(l.id));
+  if (at < 0) return null;
+  const lesson = unit.lessons[at]!;
+  const bar = `${unitItemsNeeded(UNIT_TEST_ITEMS)} of ${UNIT_TEST_ITEMS}`;
+  return {
+    kind: 'lesson',
+    unit,
+    lesson,
+    text: `Pass “${lesson.title || lesson.id}” (lesson ${at + 1} of Unit ${unit.index}) and the rest of its lessons, or pass the Unit ${unit.index} test (${bar})`,
+  };
+}
+
+/**
+ * Why a unit will not open, in the learner's words. Null when it is open. `step` is the
+ * blocking unit's owed step (`owedStep` of the unit the learner stands on): the sentence
+ * names it, so a lock always says what to do and never only that it exists.
+ */
+export function lockReason(
+  row: UnitProgress,
+  previous: CourseUnit | null,
+  step?: OwedStep | null,
+): string | null {
   if (row.state !== 'locked') return null;
-  return previous
-    ? `The course opens this after Unit ${previous.index}. You can still reach any lesson from the Learning Center.`
-    : 'The course has not opened this unit yet.';
+  if (!previous) return 'The course has not opened this unit yet.';
+  const passedAhead = row.tested
+    ? ' You already passed this unit’s test; it opens as soon as the course reaches it.'
+    : ' You can test out of this unit any time.';
+  return step
+    ? `${step.text} — that opens Unit ${row.unit.index}.${passedAhead}`
+    : `The course opens this after Unit ${previous.index}.${passedAhead}`;
 }
 
 /**
@@ -336,7 +386,7 @@ export function lockReason(row: UnitProgress, previous: CourseUnit | null): stri
  *   NOT TWO: a stricter threshold for the same questions would be arbitrary and
  *   unexplainable, and a failed test-out records nothing, so offering it costs the
  *   learner nothing.
- * `none` — already mastered, the course has not opened the unit, or the unit's
+ * `none` — already mastered, or the unit's
  *   test is known to be unassemblable (`short`). That last clause is what stops
  *   the teaching slot sending a learner to a dead end every day: the gate already
  *   lets the course past such a unit, so nothing must keep offering its test.
@@ -344,7 +394,11 @@ export function lockReason(row: UnitProgress, previous: CourseUnit | null): stri
 export type UnitTestOffer = 'primary' | 'testout' | 'none';
 
 export function unitTestOffer(row: UnitProgress): UnitTestOffer {
-  if (row.tested || row.short || row.state === 'locked') return 'none';
+  if (row.tested || row.short) return 'none';
+  // TEST-OUT IS OPEN FOR EVERY UNIT AT ANY TIME (owner, 2026-11-19: "You should be able
+  // to test out of any lesson at any time"). A locked unit offers the test as a test-out;
+  // a pass is kept but does not open the unit by itself (the chain advances in order).
+  if (row.state === 'locked') return 'testout';
   if (row.total > 0 && row.done >= row.total) return 'primary';
   return 'testout';
 }

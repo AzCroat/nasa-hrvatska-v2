@@ -28,6 +28,7 @@ export function SummarySlide({
   onRetake,
   onReview,
   locked = false,
+  aheadOpen = null,
   onDone,
 }: {
   slide: BaseSlide;
@@ -46,6 +47,9 @@ export function SummarySlide({
   /** The check is closed for today (lib/checkLock): a failed LESSON check is not
    *  retaken on the spot, so there is no retake to offer — only study. */
   locked?: boolean;
+  /** A test-out of a lesson still AHEAD of the learner (2026-11-19). A fail records
+   *  nothing, the lesson is read in order, and this names and opens the one that opens it. */
+  aheadOpen?: { title: string; onOpen: () => void } | null;
   onDone?: () => void;
 }) {
   if (!passed && locked && !testedOut) {
@@ -169,7 +173,7 @@ export function SummarySlide({
             fontFamily: "'Playfair Display', serif",
           }}
         >
-          {testedOut ? 'Worth a read' : 'Not yet'}
+          {aheadOpen ? 'Not passed' : testedOut ? 'Worth a read' : 'Not yet'}
         </h2>
         <p
           style={{
@@ -216,17 +220,24 @@ export function SummarySlide({
           }}
         >
           {`You needed ${itemsNeededToPass(quizTotal)} of ${quizTotal} to complete this lesson.`}{' '}
-          Nothing was recorded — review the lesson and take the check again.
+          {aheadOpen
+            ? `Nothing was recorded. This lesson is read in order — “${aheadOpen.title}” is the one that opens next.`
+            : 'Nothing was recorded — review the lesson and take the check again.'}
         </p>
         <button
           className="b bp"
-          data-testid="lesson-check-retake"
+          data-testid={aheadOpen ? 'lesson-ahead-open' : 'lesson-check-retake'}
           style={{ width: '100%', marginBottom: 10, background: lesson.color }}
-          onClick={onRetake}
+          onClick={aheadOpen ? aheadOpen.onOpen : onRetake}
         >
-          {testedOut ? '📚 Take the lesson' : '↻ Retake the check'}
+          {aheadOpen
+            ? `📚 Go to ${aheadOpen.title}`
+            : testedOut
+              ? '📚 Take the lesson'
+              : '↻ Retake the check'}
         </button>
         <button
+          hidden={!!aheadOpen}
           data-testid="lesson-check-review"
           onClick={onReview}
           style={{

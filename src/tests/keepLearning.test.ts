@@ -311,14 +311,17 @@ describe('the course moves a learner forward (owner, 2026-11-19, reverses 2026-0
     ).toBe(true);
   });
 
-  it('with the unit read it is served the unit test, never a locked step', () => {
+  it('with the unit passed it is served the next unit’s lesson, then the unit test as a recommendation', () => {
     seedCourseAt(1);
     const unit = readCourseState().units.find((u) => u.index === 1)!;
     unit.lessons.forEach((l) => readAndPass(l.id));
     const cands = gatherKeepCandidates('A1', { activities: [] }, 1, deps());
-    const course = cands.find((c) => c.tier === 3.5)!;
-    expect(course.activity.id).toBe(`course_unit_test_${unit.id}`);
-    expect(course.activity.screen).toBe('unittest');
+    const course = cands.filter((c) => c.tier === 3.5);
+    // 2026-11-19 (owner: five of five passed opens the next unit): the next lesson is the
+    // step, and the unit test follows as a recommendation — never a gate, never first.
+    expect(course[0]!.activity.screen).toBe('animlesson');
+    const test = course.find((c) => c.activity.id === `course_unit_test_${unit.id}`)!;
+    expect(test.activity.screen).toBe('unittest');
   });
 
   it('a lesson already in today’s plan is not listed twice', () => {

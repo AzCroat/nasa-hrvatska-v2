@@ -232,7 +232,9 @@ test.describe('Learn tab', () => {
       await page.getByTestId('lc-search').fill('genitive');
       const locked = page.locator('[data-testid="lc-row"][data-kind="lesson"][data-locked="1"]');
       await expect(locked.first()).toBeVisible({ timeout: 10_000 });
-      await expect(locked.first().getByTestId('lc-row-locked-reason')).toContainText('Opens after');
+      await expect(locked.first().getByTestId('lc-row-locked-reason')).toContainText(
+        'test out of it any time',
+      );
       // `aria-disabled` makes Playwright wait for the row to become enabled, which it
       // never will — so the tap is forced, which is exactly what a learner's tap does.
       await locked.first().click({ force: true });
