@@ -114,11 +114,11 @@ beforeEach(() => {
 });
 
 describe('the order (owner, 2026-09-29)', () => {
-  it('a failed check leads, then due review, then shaky, then passed-not-retained, then words, then measured skills', () => {
+  it('a failed check leads, then due review, then shaky, then words, then measured skills — and a passed lesson is NOT served early', () => {
     seedCourseAt(2);
     const unit = readCourseState().units.find((u) => u.index === 2)!;
     const [l0, l1, l2] = unit.lessons;
-    // Tier 4: passed, not re-checked (due in the future).
+    // Passed, not yet due for its check-up: must NOT come back today (owner, 2026-11-19).
     readAndPass(l0!.id, TODAY);
     // Tier 3: shaky.
     makeShaky(l1!.id);
@@ -138,12 +138,12 @@ describe('the order (owner, 2026-09-29)', () => {
     const passed = idx((a) => a.id === `keep_drill_${l0!.id}`);
     const words = idx((a) => a.screen === 'review');
     const speak = idx((a) => a.id === 'keep_weak_speak');
-    for (const [name, i] of Object.entries({ failed, shaky, passed, words, speak })) {
+    for (const [name, i] of Object.entries({ failed, shaky, words, speak })) {
       expect(i, `${name} is a candidate`).toBeGreaterThanOrEqual(0);
     }
+    expect(passed, 'a lesson passed today is not re-served before its check-up is due').toBe(-1);
     expect(failed).toBeLessThan(shaky);
-    expect(shaky).toBeLessThan(passed);
-    expect(passed).toBeLessThan(words);
+    expect(shaky).toBeLessThan(words);
     expect(words).toBeLessThan(speak);
     // Tier 7 appears only when nothing above remains.
     expect(cands.some((c) => c.tier === 7)).toBe(false);
@@ -334,8 +334,8 @@ describe('the course moves a learner forward (owner, 2026-11-19, reverses 2026-0
   });
 });
 
-describe('a passed drill counts (owner, 2026-11-19)', () => {
-  it('a passed concept whose drill was passed since is not served again before its check-up', () => {
+describe('a passed lesson does not come back early (owner, 2026-11-19)', () => {
+  it('a lesson passed today is not served as a drill, before or after practising it', () => {
     seedCourseAt(2);
     const lesson = readCourseState()
       .units.find((u) => u.index === 1)!
@@ -344,7 +344,7 @@ describe('a passed drill counts (owner, 2026-11-19)', () => {
     const id = `keep_drill_${lesson.id}`;
     const has = () =>
       gatherKeepCandidates('A1', { activities: [] }, 1, deps()).some((c) => c.activity.id === id);
-    expect(has()).toBe(true);
+    expect(has()).toBe(false);
     const cat = LESSON_TAUGHT_CATEGORY[lesson.id]!;
     const screen = CATEGORY_SCREEN_MAP[cat] || CATEGORY_EASIER_SCREEN[cat]!;
     recordScreenPractised(screen);
@@ -467,14 +467,15 @@ describe('the progress line counts what the flow draws from', () => {
     const unit = readCourseState().units[0]!;
     readAndPass(unit.lessons[0]!.id, TODAY);
     makeShaky(unit.lessons[1]!.id);
-    expect(keepProgress()).toEqual({ unitIndex: 1, line: '2 concepts still to prove in Unit 1' });
+    // The passed lesson waits for its check-up; only the shaky one is still to prove.
+    expect(keepProgress()).toEqual({ unitIndex: 1, line: '1 concept still to prove in Unit 1' });
   });
 
-  it('counts a passed unit whose check-ups have not held it', () => {
+  it('does not count a passed unit as still to prove — it waits for its check-up', () => {
     seedCourseAt(2);
     const p = keepProgress();
     expect(p.unitIndex).toBe(2);
-    expect(p.line).toMatch(/^5 concepts from earlier units still to prove$/);
+    expect(p.line).toBe('Everything taught so far is proven · Unit 2');
   });
 
   it('says everything is proven when nothing is taught and unproven', () => {

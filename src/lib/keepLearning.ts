@@ -24,8 +24,8 @@
 //   3. `shaky` and `due` concepts, as their coupled drill (the easier route when
 //      the primary is locked above the course level), then adaptive categories
 //      MEASURED below the pass mark among categories the course has taught;
-//   4. passed-but-not-retained lessons (`passed`) and units (advanced, not yet
-//      held by their check-ups), as their drill;
+//   4. (none — passed lessons and units come back only when their check-up is due,
+//      tier 2; owner 2026-11-19);
 //   5. SRS words due;
 //   6. the weakest MEASURED production or receptive skill, done at the course level;
 //   7. only when nothing above remains: the fluency round over mastered lessons,
@@ -74,8 +74,6 @@ import { getMasteryLedger, weakestProductionKind, weakestReceptiveKind } from '.
 import { getDueCategoryQueue, getCategoryStatus, type SkillCategory } from './adaptive';
 import { readCourseAhead } from './courseGate';
 import { checkLockedToday } from './checkLock';
-import { drilledSince } from './drillStamps';
-import { unitRecord } from './courseUnitProgress';
 import { CATEGORY_SCREEN_MAP, CATEGORY_EASIER_SCREEN, SCREEN_CEFR } from './categoryRoutes';
 import { CEFR_ORDER, isUnlocked, type CefrLevel } from './cefr';
 import { LESSON_PASS_THRESHOLD } from './lessonCheck';
@@ -373,47 +371,10 @@ export function gatherKeepCandidates(
     }
   }
 
-  // ── 4. Passed, not yet retained — lessons, then units ──────────────────────
-  guarded(() => {
-    // A passed drill counts (owner, 2026-11-19): a concept whose drill was passed
-    // since its last check is not re-served before its next check-up is due.
-    for (const e of entries.filter((x) => x.state === 'passed')) {
-      const cat = e.practiceCategory ?? LESSON_TAUGHT_CATEGORY[e.lessonId];
-      const since = readRetention().lessons[e.lessonId]?.last.at;
-      if (cat && since && drilledSince(cat, since)) continue;
-      drillFor(e, 4);
-    }
-  });
-  guarded(() => {
-    // A unit the course has moved the learner past whose check-ups have not yet
-    // held it. Its lessons that the concept map knows nothing about (a unit passed
-    // by test-out has no lesson record) are served as their drills.
-    const state = readCourseState();
-    const byId = new Map(entries.map((e) => [e.lessonId, e]));
-    const pending = state.units
-      .filter((u) => state.advanced.has(u.id) && !state.retained.has(u.id))
-      .sort((a, b) => b.index - a.index);
-    for (const u of pending) {
-      for (const lesson of u.lessons) {
-        const e = byId.get(lesson.id);
-        if (e && e.state !== 'untaught') continue; // tiers 1–4 already judged it
-        const cat = LESSON_TAUGHT_CATEGORY[lesson.id];
-        const since = unitRecord(u.id)?.passedAt;
-        if (cat && since && drilledSince(cat, since)) continue; // a passed drill counts
-        drillFor(
-          {
-            lessonId: lesson.id,
-            title: lesson.title || lesson.id,
-            level: u.level,
-            state: 'passed',
-            openMisses: 0,
-          },
-          4,
-          `Unit ${u.index} is passed; its check-up has not confirmed it stayed yet.`,
-        );
-      }
-    }
-  });
+  // ── 4. (removed, owner 2026-11-19) Passed material is NOT re-served early ───
+  // A lesson or unit the learner has passed returns only when its check-up is due
+  // (tier 2) — never as a drill the same day it was passed. Serving it early was the
+  // "same lessons over and over" the owner reported.
 
   // ── 5. SRS words due ───────────────────────────────────────────────────────
   guarded(() => {
@@ -602,21 +563,14 @@ export function keepProgress(): { unitIndex: number | null; line: string | null 
     const state = readCourseState();
     const unit = state.units.find((u) => u.index === state.currentIndex) ?? null;
     const map = readConceptMap();
-    // Exactly what tiers 1–4 treat as unproven: a lesson the concept map has
-    // judged and not called solid, plus the lessons of a passed unit whose
-    // check-ups have not held it and that the map knows nothing about.
+    // Exactly what tiers 1–3 treat as unproven: a lesson the concept map has judged
+    // failed, shaky or due. A lesson that is passed and waiting for its check-up is
+    // NOT to prove (owner, 2026-11-19): it returns when that check-up is due.
     const unproven = new Set(
       map.entries
-        .filter((e) => e.state !== 'solid' && e.state !== 'untaught')
+        .filter((e) => e.state !== 'solid' && e.state !== 'untaught' && e.state !== 'passed')
         .map((e) => e.lessonId),
     );
-    const judged = new Set(
-      map.entries.filter((e) => e.state !== 'untaught').map((e) => e.lessonId),
-    );
-    for (const u of state.units) {
-      if (!state.advanced.has(u.id) || state.retained.has(u.id)) continue;
-      for (const l of u.lessons) if (!judged.has(l.id)) unproven.add(l.id);
-    }
     const inUnit = unit ? unit.lessons.filter((l) => unproven.has(l.id)).length : 0;
     const earlier = unproven.size - inUnit;
     const n = (k: number) => `${k} concept${k === 1 ? '' : 's'}`;
