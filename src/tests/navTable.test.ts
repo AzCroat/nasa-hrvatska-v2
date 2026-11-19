@@ -26,7 +26,7 @@ import { dirname, join } from 'node:path';
 const __dir = dirname(fileURLToPath(import.meta.url));
 const root = join(__dir, '../..');
 // Test-only reads over repo-relative path literals — no user input reaches them.
-const DOC = readFileSync(join(root, 'CLAUDE.md'), 'utf8');
+const DOC = readFileSync(join(root, 'docs/history/CLAUDE-full-history.md'), 'utf8');
 const TABBAR = readFileSync(join(root, 'src/components/shared/TabBar.tsx'), 'utf8');
 const SIDEBAR = readFileSync(join(root, 'src/components/shared/Sidebar.tsx'), 'utf8');
 const ROUTER = readFileSync(join(root, 'src/components/AppRouter.tsx'), 'utf8');

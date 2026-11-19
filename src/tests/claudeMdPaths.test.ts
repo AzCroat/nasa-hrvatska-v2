@@ -39,7 +39,7 @@ import { dirname, join, basename, relative } from 'node:path';
 const __dir = dirname(fileURLToPath(import.meta.url));
 const root = join(__dir, '../..');
 // Test-only reads over repo-relative path literals — no user input reaches them.
-const DOC = readFileSync(join(root, 'CLAUDE.md'), 'utf8');
+const DOC = readFileSync(join(root, 'docs/history/CLAUDE-full-history.md'), 'utf8');
 
 const SKIP_DIRS = new Set([
   'node_modules',
@@ -415,9 +415,11 @@ describe('every file path CLAUDE.md names actually exists', () => {
 
   const named = [
     ...new Set(
-      [...readFileSync(join(root, 'CLAUDE.md'), 'utf8').matchAll(PATH_RE)].map((m) =>
-        m[1].replace(/[.,)]+$/, ''),
-      ),
+      [
+        ...readFileSync(join(root, 'docs/history/CLAUDE-full-history.md'), 'utf8').matchAll(
+          PATH_RE,
+        ),
+      ].map((m) => m[1].replace(/[.,)]+$/, '')),
     ),
   ];
 
@@ -533,7 +535,7 @@ describe('the slash-commands name files that exist', () => {
 describe('long-form docs are a prettier fixed point', () => {
   const MAX_INDENT = 10;
 
-  for (const f of ['CLAUDE.md', 'AUDIT-STATE.md']) {
+  for (const f of ['docs/history/CLAUDE-full-history.md', 'docs/history/AUDIT-STATE.md']) {
     it(`${f} has no runaway list indentation`, () => {
       const lines = readFileSync(join(root, f), 'utf8').split('\n');
       let inFence = false;
