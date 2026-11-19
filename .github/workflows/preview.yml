@@ -75,4 +75,5 @@ jobs:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
 
       - name: Say where the copy is
-        run: echo "Preview copy: https://${PREVIEW_BRANCH}.nasa-hrvatska-v2.pages.dev"
+        run: |
+          echo "Preview copy at https://${PREVIEW_BRANCH}.nasa-hrvatska-v2.pages.dev"
