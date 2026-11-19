@@ -27,8 +27,10 @@ test.describe('Learn tab', () => {
       await expect(page.getByText('Continue Learning')).toHaveCount(0);
     });
 
-    test('shows the Profesor Kovac tutor hero', async ({ page }) => {
-      await expect(page.getByTestId('portrait-kovac')).toBeVisible();
+    test('shows the course header with no teacher portrait (owner, 2026-11-19)', async ({ page }) => {
+      await expect(page.getByText('Tečaj', { exact: true }).first()).toBeVisible();
+      await expect(page.getByTestId('portrait-kovac')).toHaveCount(0);
+      await expect(page.getByText(/Profesor Kovač/)).toHaveCount(0);
     });
 
     test('shows Grammar Ref button in hero', async ({ page }) => {
