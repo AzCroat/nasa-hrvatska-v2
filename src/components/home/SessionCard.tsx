@@ -189,7 +189,7 @@ function StatPill({
       </div>
       <div
         style={{
-          fontSize: 11,
+          fontSize: 12,
           fontWeight: 600,
           color: 'var(--subtext)',
           lineHeight: 1,
@@ -348,7 +348,7 @@ export default function SessionCard({
               </button>
               <div
                 style={{
-                  fontSize: 11,
+                  fontSize: 12,
                   color: 'var(--subtext)',
                   fontWeight: 600,
                   marginBottom: bonusActivities.length > 0 ? 14 : 8,
@@ -386,7 +386,7 @@ export default function SessionCard({
             <div data-testid="bonus-activities" style={{ textAlign: 'left', marginBottom: 8 }}>
               <div
                 style={{
-                  fontSize: 11,
+                  fontSize: 12,
                   fontWeight: 800,
                   color: accentInk(CROATIAN_RED),
                   letterSpacing: '.18em',
@@ -446,7 +446,7 @@ export default function SessionCard({
               🔄 Start a fresh session →
             </button>
           )}
-          <div style={{ fontSize: 11, color: 'var(--subtext)', fontWeight: 500 }}>
+          <div style={{ fontSize: 12, color: 'var(--subtext)', fontWeight: 500 }}>
             {tomorrowLabel}
           </div>
         </div>
@@ -487,11 +487,11 @@ export default function SessionCard({
               <div style={{ flex: 1 }}>
                 <div
                   style={{
-                    fontSize: 11,
+                    fontSize: 12,
                     fontWeight: 900,
                     letterSpacing: '.12em',
                     textTransform: 'uppercase',
-                    color: 'rgba(255,255,255,.5)',
+                    color: 'rgba(255,255,255,.85)',
                     marginBottom: 4,
                   }}
                 >
@@ -511,9 +511,9 @@ export default function SessionCard({
                 </div>
                 <div
                   style={{
-                    fontSize: 10,
+                    fontSize: 13,
                     fontWeight: 500,
-                    color: 'rgba(255,255,255,.48)',
+                    color: 'rgba(255,255,255,.85)',
                   }}
                 >
                   {keepMode
@@ -525,9 +525,9 @@ export default function SessionCard({
                   <div
                     data-testid="keep-progress"
                     style={{
-                      fontSize: 10,
+                      fontSize: 13,
                       fontWeight: 600,
-                      color: 'rgba(255,255,255,.62)',
+                      color: 'rgba(255,255,255,.85)',
                       marginTop: 3,
                       lineHeight: 1.4,
                     }}
@@ -539,9 +539,9 @@ export default function SessionCard({
                   <div
                     data-testid="session-plan-reason"
                     style={{
-                      fontSize: 10,
+                      fontSize: 13,
                       fontWeight: 600,
-                      color: 'rgba(255,255,255,.62)',
+                      color: 'rgba(255,255,255,.85)',
                       marginTop: 3,
                       lineHeight: 1.4,
                     }}
@@ -560,10 +560,10 @@ export default function SessionCard({
                   style={{
                     padding: '5px 12px',
                     borderRadius: 100,
-                    fontSize: 10,
+                    fontSize: 13,
                     fontWeight: 700,
                     background: 'rgba(255,255,255,.14)',
-                    color: 'rgba(255,255,255,.65)',
+                    color: 'rgba(255,255,255,.85)',
                     border: '1px solid rgba(255,255,255,.1)',
                   }}
                 >
@@ -581,7 +581,7 @@ export default function SessionCard({
                   // State A: all future chips
                   chipStyle = {
                     background: 'transparent',
-                    color: 'rgba(255,255,255,.3)',
+                    color: 'rgba(255,255,255,.85)',
                     border: '1px solid rgba(255,255,255,.1)',
                   };
                   chipLabel = `○ ${act.label}`;
@@ -589,7 +589,7 @@ export default function SessionCard({
                   // Done chip
                   chipStyle = {
                     background: 'rgba(255,255,255,.14)',
-                    color: 'rgba(255,255,255,.65)',
+                    color: 'rgba(255,255,255,.85)',
                     border: '1px solid rgba(255,255,255,.1)',
                   };
                   chipLabel = `✓ ${act.label}`;
@@ -606,7 +606,7 @@ export default function SessionCard({
                   // Future chip
                   chipStyle = {
                     background: 'transparent',
-                    color: 'rgba(255,255,255,.3)',
+                    color: 'rgba(255,255,255,.85)',
                     border: '1px solid rgba(255,255,255,.1)',
                   };
                   chipLabel = `○ ${act.label}`;
@@ -618,7 +618,7 @@ export default function SessionCard({
                     style={{
                       padding: '5px 12px',
                       borderRadius: 100,
-                      fontSize: 10,
+                      fontSize: 13,
                       fontWeight: 700,
                       letterSpacing: '.01em',
                       ...chipStyle,
@@ -641,14 +641,14 @@ export default function SessionCard({
                   style={{
                     padding: '5px 12px',
                     borderRadius: 100,
-                    fontSize: 10,
+                    fontSize: 13,
                     fontWeight: 700,
                     letterSpacing: '.01em',
                     cursor: learnPathItemDone ? 'default' : 'pointer',
                     ...(learnPathItemDone
                       ? {
                           background: 'rgba(255,255,255,.10)',
-                          color: 'rgba(255,255,255,.45)',
+                          color: 'rgba(255,255,255,.85)',
                           border: `1px solid rgba(255,255,255,.12)`,
                         }
                       : {
@@ -699,9 +699,9 @@ export default function SessionCard({
               <div
                 data-testid="next-activity-reason"
                 style={{
-                  fontSize: 11,
+                  fontSize: 12,
                   fontWeight: 600,
-                  color: 'rgba(255,255,255,.62)',
+                  color: 'rgba(255,255,255,.85)',
                   lineHeight: 1.45,
                   marginBottom: 8,
                   textAlign: 'left',

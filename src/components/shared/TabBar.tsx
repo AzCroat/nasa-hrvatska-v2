@@ -414,10 +414,10 @@ export default function TabBar({
                   {t.cro}
                   <span
                     style={{
-                      fontSize: 9,
+                      fontSize: 11,
                       display: 'block',
                       color: 'inherit',
-                      opacity: 0.7,
+                      opacity: 1,
                       lineHeight: 1,
                       fontWeight: isActive ? 700 : 500,
                       letterSpacing: '.01em',
