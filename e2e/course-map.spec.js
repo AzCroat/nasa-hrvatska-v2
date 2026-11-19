@@ -2,6 +2,12 @@ import { test, expect } from '@playwright/test';
 import { seedAuth, blockFirebase, mockTTS, mockContent } from './fixtures/seed-auth.js';
 import { CURRICULUM } from '../functions/api/content/_data/curriculum.js';
 
+/** The real first five lessons of A1, from the spine (a hand-typed list went stale when the course was rebuilt). */
+const UNIT1_IDS = CURRICULUM.filter((l) => l.level === 'A1')
+  .sort((a, b) => a.order - b.order)
+  .slice(0, 5)
+  .map((l) => l.id);
+
 /** Items in the A1 review: 18, or one per unit when A1 has more than 18 units. */
 const A1_REVIEW_ITEMS = Math.max(
   18,
@@ -171,25 +177,16 @@ test.describe('Unit test', () => {
     await mockTTS(page);
     await mockContent(page);
     // Unit A1-1's five lessons, read. The ids come from the real spine.
-    await page.addInitScript(() => {
+    await page.addInitScript((ids) => {
       if (window.top !== window) return; // an init script runs in EVERY frame
       try {
-        localStorage.setItem(
-          'nh_curriculum_progress',
-          JSON.stringify({
-            done: {
-              alphabet: '2026-09-01',
-              'greetings-farewells': '2026-09-01',
-              'pronouns-biti': '2026-09-01',
-              gender: '2026-09-01',
-              'plural-nouns': '2026-09-01',
-            },
-          }),
-        );
+        const done = {};
+        for (const id of ids) done[id] = '2026-09-01';
+        localStorage.setItem('nh_curriculum_progress', JSON.stringify({ done }));
       } catch {
         /* storage blocked — the test will fail visibly rather than silently */
       }
-    });
+    }, UNIT1_IDS);
     await page.goto('/coursemap');
     await expect(page.getByTestId('course-map')).toBeVisible({ timeout: 20_000 });
   });
@@ -309,6 +306,8 @@ test.describe('Unit production', () => {
   test('is offered on a unit whose test is passed, and records a graded task', async ({ page }) => {
     // The unit is not mastered yet: production is owed, so no tick.
     await expect(page.getByTestId('course-unit-mastered-A1-1')).toHaveCount(0);
+    // Unit 2 is current, so Unit 1's card is collapsed: open it to read its note.
+    await page.getByTestId('course-unit-A1-1').locator('button').first().click();
     // The map does NOT offer a write-or-say choice (owner, 2026-11-14: the task belongs inside
     // the course, "not a selection"): a note says it is coming, and Home's session serves it.
     await expect(page.getByTestId('course-unit-produce-note-A1-1')).toBeVisible();
@@ -396,7 +395,7 @@ test.describe('Retention check-up', () => {
       'current',
     );
     await expect(page.getByTestId('course-units-mastered')).toHaveText(
-      `0 of ${TOTAL_UNITS} units mastered`,
+      `1 of ${TOTAL_UNITS} units passed`,
     );
     // The unit's own line says what it is waiting for, and — because this ladder is
     // seeded DUE — the promise comes with the button that keeps it. Asserting the

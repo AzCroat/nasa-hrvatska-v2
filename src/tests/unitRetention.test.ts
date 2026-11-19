@@ -132,9 +132,15 @@ describe('the store', () => {
     expect(unitRecord('A1-1')!.recheck!.dueAt).toBe('2026-09-08');
   });
 
-  it('does not start a ladder for a unit it has never heard of', () => {
+  it('starts a ladder for a unit that advanced on its lessons alone — with no test passed', () => {
+    // Owner, 2026-11-19: all five lessons passed opens the next unit, so a unit can reach
+    // retention without ever having a test record. The ladder starts for it too, and the
+    // record says nothing was passed on a test.
     startUnitRetention('A1-1', '2026-09-01');
-    expect(unitRecord('A1-1')).toBeNull();
+    const rec = unitRecord('A1-1')!;
+    expect(rec.recheck!.stage).toBe(0);
+    expect(rec.recheck!.dueAt).toBe('2026-09-08');
+    expect(rec.passedAt).toBeUndefined();
   });
 
   it('reports what is due, oldest first', () => {

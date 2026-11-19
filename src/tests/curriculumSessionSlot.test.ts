@@ -34,11 +34,7 @@ vi.mock('../lib/cefrCertification', () => ({
   getContentUnlockLevel: vi.fn((l: string) => l),
 }));
 
-import {
-  buildSessionActivities,
-  GRAMMAR_STRUCTURE_CATEGORIES,
-  PRODUCTION_SCREEN_IDS,
-} from '../hooks/useDailySession';
+import { buildSessionActivities, GRAMMAR_STRUCTURE_CATEGORIES } from '../hooks/useDailySession';
 import { writeCurriculumSpine, markLessonComplete } from '../lib/curriculumProgress';
 import { recordUnitTest, recordUnitProduction } from '../lib/courseUnitProgress';
 import { readCourseState } from '../lib/courseStep';
@@ -100,75 +96,53 @@ describe('the lesson comes first', () => {
     expect(first?.reason).toBe('Unit 1 of 1');
   });
 
-  // ONCE THE UNIT IS READ THROUGH, THE TEACHING SLOT IS ITS TEST. The alternative
-  // is serving the next unit's lesson (racing past the gate) or nothing at all (a
-  // silent stall, waiting on an action Home never asks for).
-  it('serves the unit test once every lesson of the open unit is read', () => {
+  // THE UNIT TEST NO LONGER GATES THE DAY (owner, 2026-11-19: "Unit 1 and 2 have 5/5. That is
+  // passing and should have unlocked three"). Once every lesson of the open unit is read, the
+  // course moves on; the unit test is recommended later (Keep Learning), never the teaching
+  // slot. This fixture is ONE unit, so the course is finished and the slot is the level review.
+  it('does not serve the unit test as the teaching slot once every lesson is read', () => {
     writeCurriculumSpine(SPINE);
     markLessonComplete('alphabet', '2026-08-28');
     markLessonComplete('present-tense-verbs', '2026-08-29');
     const first = buildSessionActivities('A1')[0];
-    expect(first?.screen).toBe('unittest');
-    expect(first?.id).toBe('course_unit_test_A1-1');
-    expect(first?.reason).toMatch(/Unit 1 test/);
-    // The handoff names the unit, so the screen knows what to assemble.
-    expect(sessionStorage.getItem('nh_unit_test')).toBe('A1-1');
+    expect(first?.screen).not.toBe('unittest');
+    expect(first?.screen).toBe('levelreview');
+    expect(first?.id).toBe('course_level_review_A1');
   });
 
-  // AND ONCE THE TEST IS PASSED, THE SLOT IS THE PRODUCTION TASK. Without this the
-  // course stalls in silence: Home would serve the next unit's lesson (advancing the
-  // learner past a bar they have not met) or nothing at all, waiting on an action
-  // nothing asks for. Mutation-verified — removing the slot's production branch
-  // passed every other suite.
-  it('serves the written production task once the unit test is passed', () => {
+  // PRODUCTION NEVER GATES EITHER: with the unit test passed and nothing written or said,
+  // the day is still not the unit's production task.
+  it('does not serve the unit production task as the teaching slot', () => {
     writeCurriculumSpine(SPINE);
     markLessonComplete('alphabet', '2026-08-28');
     markLessonComplete('present-tense-verbs', '2026-08-29');
     recordUnitTest('A1-1', 15, 15, true);
     const first = buildSessionActivities('A1')[0];
-    expect(first?.screen).toBe('unitproduction');
-    expect(first?.id).toBe('course_unit_write_A1-1');
-    expect(first?.reason).toMatch(/write what you have learned/);
-    // The handoff names the unit AND the half.
-    expect(sessionStorage.getItem('nh_unit_production')).toBe('A1-1|write');
+    expect(first?.screen).not.toBe('unitproduction');
+    expect(first?.screen).toBe('levelreview');
   });
 
-  // ONE OUTPUT TASK, NOT TWO (2026-09-27). Walked in a browser after a test-out:
-  // "Unit 1: write" and a separate "Guided Writing" in the same day. The course's
-  // own production task is the session's output, so the P2.5 production slot
-  // stands down and the fill keeps the length.
-  it('on a course production day the unit task is the only production activity', () => {
-    writeCurriculumSpine(SPINE);
-    markLessonComplete('alphabet', '2026-08-28');
-    markLessonComplete('present-tense-verbs', '2026-08-29');
-    const lessonDayLength = buildSessionActivities('A1').length;
-    localStorage.clear();
+  // ONE OUTPUT TASK, NOT TWO still holds: a unit production task is never added beside the
+  // pool's production pick (it is not in the core day at all now).
+  it('never adds the unit production task beside the pool production pick', () => {
     writeCurriculumSpine(SPINE);
     markLessonComplete('alphabet', '2026-08-28');
     markLessonComplete('present-tense-verbs', '2026-08-29');
     recordUnitTest('A1-1', 15, 15, true);
     for (let r = 0; r < 20; r++) {
       const acts = buildSessionActivities('A1');
-      expect(acts[0]?.screen).toBe('unitproduction');
-      const others = acts.slice(1).filter((a) => PRODUCTION_SCREEN_IDS.has(a.screen));
-      expect(
-        others.map((a) => a.screen),
-        'a second production task beside the unit one',
-      ).toEqual([]);
-      expect(acts.length).toBe(lessonDayLength);
+      expect(acts.some((a) => a.screen === 'unitproduction')).toBe(false);
     }
   });
 
-  it('serves the spoken half once the written one is graded', () => {
+  it('does not serve the spoken half as the teaching slot once the written one is graded', () => {
     writeCurriculumSpine(SPINE);
     markLessonComplete('alphabet', '2026-08-28');
     markLessonComplete('present-tense-verbs', '2026-08-29');
     recordUnitTest('A1-1', 15, 15, true);
     recordUnitProduction('A1-1', 'write', 72);
     const first = buildSessionActivities('A1')[0];
-    expect(first?.screen).toBe('unitproduction');
-    expect(first?.id).toBe('course_unit_speak_A1-1');
-    expect(sessionStorage.getItem('nh_unit_production')).toBe('A1-1|speak');
+    expect(first?.screen).not.toBe('unitproduction');
   });
 
   it('moves on to the next unit’s lesson once the whole bar is met', () => {
