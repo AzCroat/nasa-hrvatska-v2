@@ -1935,7 +1935,12 @@ export default function AppRouter(props: Record<string, any>) {
           // ═══ ANIMATED LESSON ═══
           currentScreen === 'animlesson' && animLesson && (
             <ScreenErrorBoundary key="animlesson" name="animlesson">
-              <AnimatedLesson lesson={animLesson} goBack={goBack} award={award} />
+              <AnimatedLesson
+                lesson={animLesson}
+                goBack={goBack}
+                award={award}
+                onOpenLesson={launchAnimLesson}
+              />
             </ScreenErrorBoundary>
           )
         }

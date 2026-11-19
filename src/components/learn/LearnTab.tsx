@@ -1,9 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { useApp } from '../../context/AppContext';
 import CharacterPortrait from '../family/CharacterPortrait';
-import { readCourseState, nextCourseStep } from '../../lib/courseStep';
+import {
+  readCourseState,
+  nextCourseStep,
+  recommendedCourseSteps,
+  type CourseStep,
+} from '../../lib/courseStep';
 import { mapTestOffer } from '../../lib/courseUnits';
-import { requestUnitTest } from '../../lib/courseUnitProgress';
+import { requestUnitTest, requestLevelReview } from '../../lib/courseUnitProgress';
+import { requestUnitProduction } from '../../lib/unitProductionRequest';
 import { CURRICULUM_SPINE_EVENT } from '../../lib/curriculumProgress';
 
 interface LearnTabProps {
@@ -27,6 +33,42 @@ interface LearnTabProps {
 }
 
 // Q-4: Removed dead state setters — target screens manage their own init state.
+/** One sentence and one button for a course step that is not a lesson. */
+function describeStep(
+  step: CourseStep,
+  recommended: boolean,
+): { step: CourseStep; text: string; button: string } {
+  const tag = recommended ? 'Recommended: ' : 'Next: ';
+  switch (step.kind) {
+    case 'unit-test':
+      return {
+        step,
+        text: `${tag}the Unit ${step.unit.index} test — a mixed check of all five lessons that makes them stick.`,
+        button: `Take the Unit ${step.unit.index} test →`,
+      };
+    case 'production':
+      return {
+        step,
+        text: `${tag}the Unit ${step.unit.index} ${step.owed === 'write' ? 'written' : 'spoken'} task — use what you learned. It never blocks the next unit.`,
+        button: `Do the ${step.owed === 'write' ? 'written' : 'spoken'} task →`,
+      };
+    case 'recheck':
+      return {
+        step,
+        text: `Next: the Unit ${step.unit.index} check-up — see whether it stayed.`,
+        button: `Take the Unit ${step.unit.index} check-up →`,
+      };
+    case 'level-review':
+      return {
+        step,
+        text: `Next: the ${step.level} review — all the level’s units mixed.`,
+        button: `Start the ${step.level} review →`,
+      };
+    default:
+      return { step, text: step.reason, button: 'Continue →' };
+  }
+}
+
 export default function LearnTab({
   icons,
   sCurEx,
@@ -90,6 +132,35 @@ export default function LearnTab({
       return null;
     }
   })();
+  // WHAT THE COURSE ASKS WHEN THE NEXT STEP IS NOT A LESSON (owner, 2026-11-19: "I see NO
+  // test-out anywhere"): a due check-up, a unit test, owed production, a level review. One
+  // sentence and a button — never a tab that has nothing to press. The first RECOMMENDED
+  // step (a unit test for a unit advanced by its lessons, owed production) is offered too
+  // when a lesson is next; recommended steps never gate.
+  const courseOther: { step: CourseStep; text: string; button: string } | null = (() => {
+    try {
+      const step = nextCourseStep({ skipRechecks: false });
+      const pick = step && step.kind !== 'lesson' ? step : (recommendedCourseSteps()[0] ?? null);
+      if (!pick) return null;
+      return describeStep(pick, step?.kind === 'lesson');
+    } catch {
+      return null;
+    }
+  })();
+  const launchStep = (step: CourseStep) => {
+    if (step.kind === 'unit-test') requestUnitTest(step.unit.id);
+    else if (step.kind === 'recheck') requestUnitTest(step.unit.id, 'recheck');
+    else if (step.kind === 'production') requestUnitProduction(step.unit.id, step.owed);
+    else if (step.kind === 'level-review') requestLevelReview(step.level);
+    else return;
+    setScr(
+      step.kind === 'unit-test' || step.kind === 'recheck'
+        ? 'unittest'
+        : step.kind === 'production'
+          ? 'unitproduction'
+          : 'levelreview',
+    );
+  };
   return (
     <React.Fragment>
       {/* ── TEČAJ HERO — hosted by Profesor Kovač ──────────────────────── */}
@@ -308,6 +379,74 @@ export default function LearnTab({
         </div>
       )}
 
+      {courseOther && (
+        <div
+          data-testid="learn-course-next"
+          data-kind={courseOther.step.kind}
+          style={{
+            padding: '12px 16px',
+            marginTop: -2,
+            marginBottom: 10,
+            borderRadius: 14,
+            border: '1.5px solid var(--card-b)',
+            background: 'var(--card)',
+            fontFamily: "'Outfit',sans-serif",
+          }}
+        >
+          <span
+            style={{ display: 'block', fontSize: 13, fontWeight: 700, color: 'var(--heading)' }}
+          >
+            {courseOther.text}
+          </span>
+          <button
+            data-testid="learn-course-next-go"
+            onClick={() => launchStep(courseOther.step)}
+            style={{
+              marginTop: 10,
+              padding: '9px 14px',
+              borderRadius: 10,
+              border: '1px solid var(--card-b)',
+              background: 'var(--bar-bg)',
+              color: 'var(--heading)',
+              fontSize: 13,
+              fontWeight: 700,
+              cursor: 'pointer',
+              fontFamily: 'inherit',
+            }}
+          >
+            {courseOther.button}
+          </button>
+        </div>
+      )}
+
+      {/* TEST OUT OF ANY LESSON OR UNIT, ALWAYS REACHABLE (owner, 2026-11-19: "You should be
+          able to test out of any lesson at any time"). Every state of the course carries this
+          entry; the map holds a test-out on every lesson and every unit. */}
+      <button
+        data-testid="learn-testout-any"
+        onClick={() => setScr('coursemap')}
+        style={{
+          width: '100%',
+          display: 'block',
+          textAlign: 'left',
+          padding: '12px 16px',
+          marginTop: -2,
+          marginBottom: 10,
+          borderRadius: 14,
+          border: '1.5px solid var(--card-b)',
+          background: 'var(--card)',
+          cursor: 'pointer',
+          fontFamily: "'Outfit',sans-serif",
+        }}
+      >
+        <span style={{ display: 'block', fontSize: 14, fontWeight: 800, color: 'var(--heading)' }}>
+          Test out of any lesson or unit →
+        </span>
+        <span style={{ display: 'block', fontSize: 11, color: 'var(--subtext)', marginTop: 1 }}>
+          Already know it? Pass its check and move on — open the course map
+        </span>
+      </button>
+
       {courseOffer && (
         <button
           onClick={() => {
@@ -334,12 +473,12 @@ export default function LearnTab({
             style={{ display: 'block', fontSize: 14, fontWeight: 800, color: 'var(--heading)' }}
           >
             {courseOffer.offer === 'primary'
-              ? `Take the Unit ${courseOffer.index} test →`
+              ? `Take the Unit ${courseOffer.index} test (recommended) →`
               : `Test out of Unit ${courseOffer.index} →`}
           </span>
           <span style={{ display: 'block', fontSize: 11, color: 'var(--subtext)', marginTop: 1 }}>
             {courseOffer.offer === 'primary'
-              ? 'You have read every lesson — pass the test to open the next unit'
+              ? 'A mixed test of all five lessons — the best proof it stuck'
               : 'Already know it? Pass the unit test and the next unit opens'}
           </span>
         </button>

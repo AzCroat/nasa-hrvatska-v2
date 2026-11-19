@@ -11,7 +11,7 @@ import { pickSessionLesson } from '../lib/sessionLessonPick';
 import { BLACK_HOLE_SCREENS } from '../lib/blackHoleScreens';
 import { armDwellCredit } from '../lib/dwellCredit';
 import { notifyLaunchFailure } from '../lib/launchFailure';
-import { lessonLockReason } from '../lib/lessonLock';
+import { lessonLockReason, requestLessonTestOut } from '../lib/lessonLock';
 import { isChunkLoadError, reloadWithCachePurge } from '../lib/chunkErrors';
 import { _getData, _getVocabSource, _buildAdaptivePool } from '../lib/exerciseData';
 import type { VocabWord } from '../lib/exerciseData';
@@ -255,11 +255,13 @@ export function useScreenLauncher({
 
   const launchAnimLesson = useCallback(
     async (lessonId: string): Promise<boolean> => {
-      // THE COURSE IS SEQUENTIAL (owner, 2026-11-12): a lesson the learner has not
-      // reached does not open, from ANY door. The screens that offer a lesson check
-      // `lessonLockReason` first and say why; this is the backstop, so a door nobody
-      // remembered cannot walk a learner past the order.
-      if (lessonLockReason(lessonId)) return false;
+      // READING IS SEQUENTIAL, TESTING OUT IS NOT (owner, 2026-11-12, amended 2026-11-19:
+      // "You should be able to test out of any lesson at any time"). A lesson the learner
+      // has not reached never opens its teaching slides, from ANY door: this backstop
+      // routes it to the lesson's own check instead (the existing test-out handoff, which
+      // AnimatedLesson reads — and which, for a lesson still ahead of the learner, shows
+      // the check and nothing before it).
+      if (lessonLockReason(lessonId)) requestLessonTestOut(lessonId);
       // A THROW IS ALSO A FAILED TAP. getLessons() rejects on offline, auth and
       // rate-limit, and an unhandled rejection here would leave the caller unable
       // to tell "not found" from "could not be fetched" — both are "it did not

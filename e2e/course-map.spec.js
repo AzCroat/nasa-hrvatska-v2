@@ -195,10 +195,13 @@ test.describe('Unit test', () => {
   });
 
   test('is offered on the finished unit and serves a fifteen-item paper', async ({ page }) => {
+    // 2026-11-19: five lessons passed advance the unit (cleared, not current); the test is a
+    // recommended step on its card, which is collapsed now that Unit 2 is current.
     await expect(page.getByTestId('course-unit-A1-1')).toHaveAttribute(
       'data-unit-state',
-      'current',
+      'cleared',
     );
+    await page.getByTestId('course-unit-A1-1').locator('button').first().click();
     await page.getByTestId('course-unit-test-A1-1').click();
     await expect(page.getByTestId('unit-test')).toBeVisible({ timeout: 20_000 });
     await expect(page.getByTestId('unit-test-progress')).toHaveText('Question 1 of 15');
@@ -207,6 +210,7 @@ test.describe('Unit test', () => {
   });
 
   test('an answer reveals the explanation and advances', async ({ page }) => {
+    await page.getByTestId('course-unit-A1-1').locator('button').first().click();
     await page.getByTestId('course-unit-test-A1-1').click();
     await expect(page.getByTestId('unit-test')).toBeVisible({ timeout: 20_000 });
     await expect(page.getByTestId('unit-test-next')).toHaveCount(0);
@@ -247,9 +251,10 @@ test.describe('The course gate', () => {
     await page.getByTestId('course-unit-A1-2').locator('button').first().click();
     const notice = page.getByTestId('course-unit-locked-A1-2');
     await expect(notice).toBeVisible();
-    await expect(notice).toContainText('opens this after Unit 1');
-    // THE LIBRARY IS NOT LOCKED, and the sentence says so.
-    await expect(notice).toContainText('Learning Center');
+    // 2026-11-19: the lock names the exact owed step and says test-out is open.
+    await expect(notice).toContainText('lesson 1 of Unit 1');
+    await expect(notice).toContainText('test out');
+    await expect(page.getByTestId('course-unit-locked-go-A1-2')).toBeVisible();
   });
 
   test('offers the test-out on the open unit before any reading', async ({ page }) => {
@@ -309,11 +314,11 @@ test.describe('Unit production', () => {
     await expect(page.getByTestId('course-unit-produce-note-A1-1')).toBeVisible();
     await expect(page.getByTestId('course-unit-write-A1-1')).toHaveCount(0);
     await expect(page.getByTestId('course-unit-speak-A1-1')).toHaveCount(0);
+    // 2026-11-19 (owner: production never gates): Home leads with the next unit's lesson and the
+    // task is RECOMMENDED (Keep Learning, the Course tab), so it opens through its handoff.
     await page.goto('/');
-    const card = page.getByTestId('session-card');
-    await expect(card).toBeVisible({ timeout: 30_000 });
-    await expect(card).toContainText('Unit 1: write', { timeout: 20_000 });
-    await page.getByTestId('session-begin-cta').click();
+    await page.evaluate(() => sessionStorage.setItem('nh_unit_production', 'A1-1|write'));
+    await page.goto('/unitproduction', { waitUntil: 'domcontentloaded' });
 
     await expect(page.getByTestId('unit-production')).toBeVisible({ timeout: 20_000 });
     // The brief comes from the unit's own lessons — nothing was authored for it.
@@ -331,8 +336,15 @@ test.describe('Unit production', () => {
     expect(stored).toContain('wroteAt');
   });
 
-  test('the next unit stays locked until BOTH halves are done', async ({ page }) => {
-    await expect(page.getByTestId('course-unit-A1-2')).toHaveAttribute('data-unit-state', 'locked');
+  // 2026-11-19 (owner): production never gates — a passed test opens the next unit even
+  // with the written and spoken tasks still owed (this asserted 'locked').
+  test('the next unit is open once the test is passed, with production still owed', async ({
+    page,
+  }) => {
+    await expect(page.getByTestId('course-unit-A1-2')).toHaveAttribute(
+      'data-unit-state',
+      'current',
+    );
   });
 });
 

@@ -50,12 +50,11 @@ import {
   buildCourseUnits,
   courseProgress,
   openUnits,
-  unitTestOffer,
   type CourseProgress,
   type CourseUnit,
   type UnitProgress,
 } from './courseUnits';
-import { productionOwed } from './courseUnits';
+import { productionOwed, owedStep, type OwedStep } from './courseUnits';
 import type { ProductionKind } from './unitProduction';
 import type { CurriculumEntry } from './curriculum';
 
@@ -199,23 +198,10 @@ export function pickCourseStep(input: {
   };
   const levels = [...new Set(input.rows.map((r) => r.unit.level))];
   for (const row of input.rows) {
-    if (row.tested) {
-      // ACCURACY IS DONE, OUTPUT MAY NOT BE. A unit whose test is passed but whose
-      // production is owed is where the course is, and the step is the task itself
-      // — otherwise the learner is advanced past a bar they have not met, or left
-      // on a unit with nothing asked of them.
-      const owed = input.owed?.(row.unit.id) ?? null;
-      if (owed) {
-        const kind: ProductionKind = owed.write ? 'write' : 'speak';
-        return {
-          kind: 'production',
-          unit: row.unit,
-          owed: kind,
-          reason: `Unit ${row.unit.index}: ${kind === 'write' ? 'write' : 'say'} what you have learned`,
-        };
-      }
-      continue;
-    }
+    // A UNIT PASSED BY ITS TEST IS BEHIND THE LEARNER. Its owed production is no longer
+    // a step the walk stops on (owner, 2026-11-19: production never gates) — it is a
+    // RECOMMENDED step, offered after the next lesson (`recommendedSteps`).
+    if (row.tested) continue;
     if (row.state === 'locked') break;
     const unit = row.unit;
     // AT THE CROSSING INTO A NEW LEVEL, the previous level's review comes first —
@@ -251,22 +237,77 @@ export function pickCourseStep(input: {
         reason: `Unit ${unit.index} of ${input.unitCount}`,
       };
     }
-    if (unitTestOffer(row) === 'primary') {
-      return {
-        kind: 'unit-test',
-        unit,
-        reason: `Unit ${unit.index} test — all ${unit.lessons.length} lessons read`,
-      };
-    }
-    // Neither unread lessons nor a servable test: nothing this unit can offer.
-    // `openUnits` has already let the course past it, so keep walking.
+    // Every lesson read: the unit has ADVANCED by its lessons (2026-11-19). Its test is a
+    // recommended step, not the step — the walk keeps going to the next unit's lessons.
   }
   // The LAST level has no crossing: its review follows its final unit.
   const lastLevel = levels[levels.length - 1];
   if (input.reviewed && lastLevel && levelAdvanced(lastLevel) && !input.reviewed.has(lastLevel)) {
     return reviewStep(lastLevel);
   }
-  return null;
+  // Nothing left to teach: the first recommended step (a unit test, owed production), so
+  // the course never ends in a dead end while something is still worth doing.
+  return recommendedSteps(input)[0] ?? null;
+}
+
+/**
+ * The RECOMMENDED steps — a unit test for a unit advanced by its lessons alone, owed
+ * production for a unit whose test is passed. They never gate (owner, 2026-11-19: "Unit 1
+ * and 2 have 5/5. That is passing and should have unlocked three"); Keep Learning offers
+ * them after the next lesson, and the course serves the first when nothing else is left.
+ */
+export function recommendedSteps(input: {
+  rows: readonly UnitProgress[];
+  owed?: (unitId: string) => { write: boolean; speak: boolean } | null;
+  advanced?: ReadonlySet<string>;
+}): CourseStep[] {
+  const out: CourseStep[] = [];
+  for (const row of input.rows) {
+    const advanced = input.advanced ? input.advanced.has(row.unit.id) : row.tested;
+    if (!advanced) continue;
+    const unit = row.unit;
+    if (!row.tested && !row.short && row.total > 0 && row.done >= row.total) {
+      out.push({
+        kind: 'unit-test',
+        unit,
+        reason: `Unit ${unit.index} test — mixes all ${unit.lessons.length} lessons, which makes it stick`,
+      });
+    }
+    const owed = row.tested ? (input.owed?.(unit.id) ?? null) : null;
+    if (owed) {
+      const kind: ProductionKind = owed.write ? 'write' : 'speak';
+      out.push({
+        kind: 'production',
+        unit,
+        owed: kind,
+        reason: `Unit ${unit.index}: ${kind === 'write' ? 'write' : 'say'} what you have learned`,
+      });
+    }
+  }
+  return out;
+}
+
+/** The recommended steps over the live course state; [] when there is no spine. */
+export function recommendedCourseSteps(): CourseStep[] {
+  try {
+    const state = readCourseState();
+    return recommendedSteps({
+      rows: state.rows,
+      advanced: state.advanced,
+      owed: (unitId) => {
+        const rec = unitRecord(unitId);
+        return productionOwed({
+          unitId,
+          producedUnitIds: state.produced,
+          wrote: !!rec?.production?.wroteAt,
+          spoke: !!rec?.production?.spokeAt,
+          blocked: state.blocked.has(unitId),
+        });
+      },
+    });
+  } catch {
+    return [];
+  }
 }
 
 /**
@@ -354,4 +395,17 @@ export function levelReviewActivityId(level: string): string {
 /** Stable activity id for a unit-production slot. */
 export function unitProductionActivityId(unitId: string, kind: ProductionKind): string {
   return `course_unit_${kind}_${unitId}`;
+}
+
+/**
+ * What the unit the learner stands on still owes, from real state — the sentence every
+ * lock quotes (owner, 2026-11-19: "nothing tells them what opens it"). Null when the
+ * course is finished or there is nothing owed.
+ */
+export function currentOwedStep(
+  state: ReturnType<typeof readCourseState> = readCourseState(),
+): OwedStep | null {
+  const row = state.rows.find((r) => r.unit.index === state.currentIndex);
+  if (!row) return null;
+  return owedStep(row, readCompletedLessons());
 }

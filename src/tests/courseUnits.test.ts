@@ -314,7 +314,8 @@ describe('courseProgress with a gate', () => {
     expect(p.units[2]!.done).toBe(5);
     expect(p.units[2]!.state).toBe('locked');
     expect(lockReason(p.units[2]!, units[1]!)).toMatch(/opens this after Unit 2/);
-    expect(unitTestOffer(p.units[2]!)).toBe('none');
+    // 2026-11-19: a locked unit offers its test as a TEST-OUT (this asserted 'none').
+    expect(unitTestOffer(p.units[2]!)).toBe('testout');
   });
 
   it('locks nothing when no gate is supplied', () => {

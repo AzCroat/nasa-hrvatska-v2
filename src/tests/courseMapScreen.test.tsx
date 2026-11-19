@@ -124,9 +124,10 @@ describe('the map a learner sees', () => {
     expect(screen.queryByText('A1 · Unit 4')).toBeNull();
   });
 
-  // READING IS NOT THE BAR. Five lessons read offers the unit test and leaves the
-  // unit current — the whole point of increment 2.
-  it('offers the unit test once every lesson in the unit is read', async () => {
+  // 2026-11-19 (owner: "Unit 1 and 2 have 5/5. That is passing and should have unlocked
+  // three"): five lessons PASSED advances the unit (it was `current`, with the test as the
+  // bar). The unit test is still offered on it — as a recommended step.
+  it('offers the unit test as a recommendation once every lesson in the unit is passed', async () => {
     seedSpine();
     seedDone(UNITS[0]!.lessons.map((l) => l.id));
     const setScr = vi.fn();
@@ -135,10 +136,14 @@ describe('the map a learner sees', () => {
     );
 
     expect(await screen.findByTestId('course-map')).toBeTruthy();
-    expect(screen.getByTestId('course-unit-A1-1').getAttribute('data-unit-state')).toBe('current');
-    expect(screen.getByText(`Unit 1 of ${UNITS.length}`)).toBeTruthy();
+    expect(screen.getByTestId('course-unit-A1-1').getAttribute('data-unit-state')).toBe('cleared');
+    expect(screen.getByTestId('course-unit-A1-2').getAttribute('data-unit-state')).toBe('current');
+    expect(screen.getByText(`Unit 2 of ${UNITS.length}`)).toBeTruthy();
     expect(screen.getByTestId('course-lessons-count').textContent).toBe(
       `5 / ${SPINE.length} lessons`,
+    );
+    fireEvent.click(
+      (await screen.findByText(COURSE_UNIT_TITLES['A1-1']!.title)).closest('button')!,
     );
 
     const take = await screen.findByTestId('course-unit-test-A1-1');
@@ -175,19 +180,26 @@ describe('the map a learner sees', () => {
     render(
       <CourseMapScreen goBack={vi.fn()} onOpenLesson={vi.fn(async () => true)} setScr={vi.fn()} />,
     );
+    // 2026-11-19: an unassemblable unit has advanced, so the current unit is A1-2; open A1-1.
+    fireEvent.click(
+      (await screen.findByText(COURSE_UNIT_TITLES['A1-1']!.title)).closest('button')!,
+    );
     const btn = await screen.findByTestId('course-unit-test-A1-1');
     expect(btn.getAttribute('data-offer')).toBe('testout');
   });
 
-  it('offers it as the unit’s PRIMARY action once every lesson is read', async () => {
+  it('offers it as the unit’s PRIMARY (recommended) action once every lesson is passed', async () => {
     seedSpine();
     seedDone(UNITS[0]!.lessons.map((l) => l.id));
     render(
       <CourseMapScreen goBack={vi.fn()} onOpenLesson={vi.fn(async () => true)} setScr={vi.fn()} />,
     );
+    fireEvent.click(
+      (await screen.findByText(COURSE_UNIT_TITLES['A1-1']!.title)).closest('button')!,
+    );
     const btn = await screen.findByTestId('course-unit-test-A1-1');
     expect(btn.getAttribute('data-offer')).toBe('primary');
-    expect(btn.textContent).toBe('Take the unit test →');
+    expect(btn.textContent).toBe('Take the unit test (recommended) →');
   });
 
   // A LOCK IS NEVER SILENT, and it says what it does NOT cover.
@@ -201,10 +213,15 @@ describe('the map a learner sees', () => {
       (await screen.findByText(COURSE_UNIT_TITLES['A1-2']!.title)).closest('button')!,
     );
     const notice = await screen.findByTestId('course-unit-locked-A1-2');
-    expect(notice.textContent).toMatch(/opens this after Unit 1/);
-    expect(notice.textContent).toMatch(/Learning Center/);
-    // No test offer on a locked unit, and its lessons are not tappable from here.
-    expect(screen.queryByTestId('course-unit-test-A1-2')).toBeNull();
+    // 2026-11-19: the lock names the exact owed step and carries a button to it; the
+    // Learning Center sentence is gone (every lesson is now test-out-able from the map).
+    expect(notice.textContent).toMatch(/lesson 1 of Unit 1/);
+    expect(notice.textContent).toMatch(/test out/);
+    expect(screen.getByTestId('course-unit-locked-go-A1-2')).toBeTruthy();
+    // A locked unit offers its test as a TEST-OUT (this asserted no offer at all), and its
+    // lessons are not tappable to READ from here — each has a test-out beside it.
+    expect(screen.getByTestId('course-unit-test-A1-2').getAttribute('data-offer')).toBe('testout');
+    expect(screen.getByTestId('course-lesson-testout-basic-questions')).toBeTruthy();
     expect(
       (screen.getByTestId('course-lesson-basic-questions') as HTMLButtonElement).disabled,
     ).toBe(true);
@@ -257,8 +274,9 @@ describe('the map a learner sees', () => {
     );
   });
 
-  // AN UNASSEMBLABLE TEST ALONE IS NOT THE WHOLE BAR.
-  it('keeps the next unit locked when only the accuracy half was excused', async () => {
+  // 2026-11-19: production no longer gates, so an unassemblable test (the app admitting it
+  // could not serve the accuracy half) opens the next unit by itself. This asserted 'locked'.
+  it('opens the next unit when the test could not be assembled', async () => {
     seedSpine();
     localStorage.setItem(
       'nh_course_units',
@@ -268,13 +286,15 @@ describe('the map a learner sees', () => {
       <CourseMapScreen goBack={vi.fn()} onOpenLesson={vi.fn(async () => true)} setScr={vi.fn()} />,
     );
     expect(await screen.findByTestId('course-map')).toBeTruthy();
-    expect(screen.getByTestId('course-unit-A1-2').getAttribute('data-unit-state')).toBe('locked');
+    expect(screen.getByTestId('course-unit-A1-2').getAttribute('data-unit-state')).not.toBe(
+      'locked',
+    );
   });
 
-  // MASTERED MEANS THE WHOLE BAR (increment 4): the test AND both production halves.
-  // A passed test with an owed written task leaves the unit CURRENT, because that is
-  // where the learner is and what the map has to ask them for.
-  it('keeps a unit current when its test is passed but production is owed', async () => {
+  // 2026-11-19 (owner): a passed test advances the unit even with production owed; the
+  // unit shows `cleared` (retention pending), the next unit is current, and the owed
+  // production is a RECOMMENDED note. This asserted `current` / `locked` (increment 4).
+  it('advances a unit whose test is passed with production owed, and recommends the task', async () => {
     seedSpine();
     seedDone(UNITS[0]!.lessons.map((l) => l.id));
     localStorage.setItem(
@@ -285,9 +305,12 @@ describe('the map a learner sees', () => {
       <CourseMapScreen goBack={vi.fn()} onOpenLesson={vi.fn(async () => true)} setScr={vi.fn()} />,
     );
     expect(await screen.findByTestId('course-map')).toBeTruthy();
-    expect(screen.getByTestId('course-unit-A1-1').getAttribute('data-unit-state')).toBe('current');
-    expect(screen.getByTestId('course-unit-A1-2').getAttribute('data-unit-state')).toBe('locked');
+    expect(screen.getByTestId('course-unit-A1-1').getAttribute('data-unit-state')).toBe('cleared');
+    expect(screen.getByTestId('course-unit-A1-2').getAttribute('data-unit-state')).toBe('current');
     expect(screen.getByText(new RegExp(`0 of ${UNITS.length} units mastered`))).toBeTruthy();
+    fireEvent.click(
+      (await screen.findByText(COURSE_UNIT_TITLES['A1-1']!.title)).closest('button')!,
+    );
     // And the map says the owed half is coming rather than showing a tick that is not true —
     // as a NOTE, not a button: the written and spoken tasks are part of the course, not a
     // selection (owner, 2026-11-14).
@@ -461,10 +484,15 @@ describe('the map a learner sees', () => {
     expect(second.disabled).toBe(true);
     expect(second.getAttribute('data-lesson-locked')).toBe('1');
     expect(screen.getByTestId(`course-lesson-why-${ids[1]}`).textContent).toBe(
-      'Opens after lesson 1 of this unit.',
+      'Finish lesson 1 of this unit to open lesson 2. You can test out of it any time.',
     );
+    // Reading it is closed (2026-11-12)...
     fireEvent.click(second);
     expect(onOpenLesson).not.toHaveBeenCalled();
+    // ...testing out is not (owner, 2026-11-19): the launcher is asked, with the handoff set.
+    fireEvent.click(screen.getByTestId(`course-lesson-testout-${ids[1]}`));
+    expect(onOpenLesson).toHaveBeenCalledWith(ids[1]);
+    expect(sessionStorage.getItem('nh_lesson_testout')).toBe(ids[1]);
   });
 
   it('finishing the first lesson opens the second, and only the second', async () => {

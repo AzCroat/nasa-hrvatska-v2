@@ -18,6 +18,7 @@
  * render tests below drive the REAL screen against the REAL index and the REAL
  * spine store, and separate source pins hold the router and the Learn tab.
  */
+import { readCourseState } from '../lib/courseStep';
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { readFileSync, readdirSync } from 'node:fs';
 import { SCREEN_TAB, RESTORE_SAFE_SCREENS } from '../lib/screenTabs';
@@ -373,7 +374,10 @@ describe('the Center, rendered against the real catalogues', () => {
     for (const r of rows) {
       expect(r.getAttribute('data-locked'), 'every C1 lesson is ahead of a new learner').toBe('1');
     }
-    expect(screen.getAllByTestId('lc-row-locked-reason')[0]!.textContent).toMatch(/^Opens after/);
+    // 2026-11-19: the reason names the exact owed step and says test-out is open.
+    expect(screen.getAllByTestId('lc-row-locked-reason')[0]!.textContent).toMatch(
+      /lesson 1 of Unit 1.*test out of it any time/,
+    );
     fireEvent.click(rows[0]!);
     expect(launchAnimLesson).not.toHaveBeenCalled();
   });
@@ -384,11 +388,18 @@ describe('the Center, rendered against the real catalogues', () => {
     const rows = screen.getAllByTestId('lc-row');
     expect(rows[0]!.getAttribute('data-locked')).toBeNull();
     expect(rows[1]!.getAttribute('data-locked')).toBe('1');
-    expect(rows[1]!.textContent).toContain('Opens after lesson 1 of this unit.');
+    expect(rows[1]!.textContent).toContain(
+      'Finish lesson 1 of this unit to open lesson 2. You can test out of it any time.',
+    );
+    // Reading a locked row is closed...
     fireEvent.click(rows[1]!);
     expect(launchAnimLesson).not.toHaveBeenCalled();
     fireEvent.click(rows[0]!);
     expect(launchAnimLesson).toHaveBeenCalledTimes(1);
+    // ...testing out of it is not (owner, 2026-11-19): the launcher is asked, handoff set.
+    fireEvent.click(screen.getAllByTestId('lc-row-testout')[1]!);
+    expect(launchAnimLesson).toHaveBeenCalledTimes(2);
+    expect(sessionStorage.getItem('nh_lesson_testout')).toBeTruthy();
   });
 
   it('finishing (or testing out of) a lesson opens the next one, and only the next', () => {
@@ -421,6 +432,10 @@ describe('looking something up costs nothing', () => {
 
   it('writes NOTHING to storage across a full browse-and-open', () => {
     reachEverything();
+    // Reading the course starts each advanced unit's retention ladder once (idempotent,
+    // 2026-11-19: a unit may advance on its lessons alone) — settle that before measuring,
+    // so what is asserted is that the CENTER itself writes nothing.
+    readCourseState();
     const before = JSON.stringify(localStorage);
     const { launchAnimLesson } = renderCenter();
     search('genitive');
@@ -496,13 +511,14 @@ describe('a lesson handed over from elsewhere', () => {
     expect(consumeLessonLookup()).toBeNull();
   });
 
-  it('a handed-over lesson the learner has NOT reached opens nothing and says so', () => {
+  // 2026-11-19 (owner: test out of any lesson at any time): a handed-over lesson still
+  // ahead of the learner is no longer refused — the launcher is asked, and it routes the
+  // lesson to its test-out (reading stays closed). This asserted "opens nothing and says so".
+  it('a handed-over lesson the learner has NOT reached is handed to the launcher (test-out)', () => {
     requestLessonLookup(['genitive-intro']);
     const { launchAnimLesson } = renderCenter();
-    expect(launchAnimLesson).not.toHaveBeenCalled();
-    expect(screen.getByTestId('lc-launch-error').textContent).toMatch(
-      /isn't open yet\. Opens after/,
-    );
+    expect(launchAnimLesson).toHaveBeenCalledWith('genitive-intro');
+    expect(screen.queryByTestId('lc-launch-error')).toBeNull();
   });
 
   it('lists them and opens nothing when the maps name several', () => {
