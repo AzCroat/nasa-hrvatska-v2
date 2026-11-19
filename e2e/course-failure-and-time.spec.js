@@ -558,7 +558,7 @@ test.describe('When a learner fails, and when time passes', () => {
     expect(await unitState(page, 'A1-1'), 'one check-up held is not mastery').toBe('cleared');
     await expect(page.getByTestId('course-unit-recheck-A1-1')).toHaveCount(0);
     await expect(page.getByTestId('course-units-mastered')).toHaveText(
-      `0 of ${TOTAL_UNITS} units mastered`,
+      `1 of ${TOTAL_UNITS} units passed`,
     );
 
     // Thirty days after that: the second check-up.
@@ -579,7 +579,7 @@ test.describe('When a learner fails, and when time passes', () => {
     await openMap(page);
     expect(await unitState(page, 'A1-1')).toBe('mastered');
     await expect(page.getByTestId('course-units-mastered')).toHaveText(
-      `1 of ${TOTAL_UNITS} units mastered`,
+      `1 of ${TOTAL_UNITS} units passed`,
     );
     // A check-up pays no XP; it confirms.
     expect(await xpNow(page)).toBe(xpBefore);
@@ -604,7 +604,7 @@ test.describe('When a learner fails, and when time passes', () => {
     expect(await unitState(page, 'A1-1')).toBe('cleared');
     expect(await unitState(page, 'A1-2')).toBe('current');
     await expect(page.getByTestId('course-units-mastered')).toHaveText(
-      `0 of ${TOTAL_UNITS} units mastered`,
+      `1 of ${TOTAL_UNITS} units passed`,
     );
 
     // The same day it is not served again; the next day it is.

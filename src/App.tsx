@@ -75,7 +75,6 @@ import { AppToasts } from './components/shared/AppToasts';
 import { AppModals } from './components/shared/AppModals';
 import NextStepPrompt from './components/shared/NextStepPrompt';
 import DebugOverlay from './components/shared/DebugOverlay';
-import KnightCompanion from './components/shared/KnightCompanion';
 import AppHeader from './components/shared/AppHeader';
 import AppRouter from './components/AppRouter';
 import { lsGet, lsSet, lsRemove, ssGet, ssSet } from './lib/safeStorage';
@@ -1896,7 +1895,6 @@ function App() {
                 />
               )}
 
-              <KnightCompanion />
               <OfflineBanner />
               <CookieConsent />
             </Suspense>

@@ -307,7 +307,7 @@ describe('the map a learner sees', () => {
     expect(await screen.findByTestId('course-map')).toBeTruthy();
     expect(screen.getByTestId('course-unit-A1-1').getAttribute('data-unit-state')).toBe('cleared');
     expect(screen.getByTestId('course-unit-A1-2').getAttribute('data-unit-state')).toBe('current');
-    expect(screen.getByText(new RegExp(`0 of ${UNITS.length} units mastered`))).toBeTruthy();
+    expect(screen.getByText(new RegExp(`1 of ${UNITS.length} units passed`))).toBeTruthy();
     fireEvent.click(
       (await screen.findByText(COURSE_UNIT_TITLES['A1-1']!.title)).closest('button')!,
     );
@@ -351,10 +351,10 @@ describe('the map a learner sees', () => {
     expect(await screen.findByTestId('course-unit-holding-A1-1')).toBeTruthy();
     expect(screen.queryByTestId('course-unit-mastered-A1-1')).toBeNull();
     // The summary counts RETAINED units, so nothing is mastered yet. Matched on the
-    // span's own text content, because JSX splits `{a} of {b} units mastered` across
+    // span's own text content, because JSX splits `{a} of {b} units passed` across
     // text nodes and a regex over the document cannot span them.
     expect(screen.getByTestId('course-units-mastered').textContent).toBe(
-      `0 of ${UNITS.length} units mastered`,
+      `1 of ${UNITS.length} units passed`,
     );
   });
 
@@ -441,7 +441,7 @@ describe('the map a learner sees', () => {
     expect(screen.getByTestId('course-unit-A1-2').getAttribute('data-unit-state')).toBe('current');
     expect(screen.getByText(`Unit 2 of ${UNITS.length}`)).toBeTruthy();
     expect(screen.getByTestId('course-units-mastered').textContent).toBe(
-      `1 of ${UNITS.length} units mastered`,
+      `1 of ${UNITS.length} units passed`,
     );
     // The row's own line, which needs the row expanded — the CURRENT unit is A1-2 now.
     fireEvent.click(screen.getByTestId('course-unit-A1-1').querySelector('button')!);

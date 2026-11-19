@@ -276,7 +276,7 @@ export default function CourseMapScreen({ goBack, onOpenLesson, setScr }: Course
             data-testid="course-units-mastered"
             style={{ fontSize: 13, fontWeight: 800, color: 'var(--heading)' }}
           >
-            {progress.unitsMastered} of {progress.unitsTotal} units mastered
+            {progress.unitsPassed} of {progress.unitsTotal} units passed
           </span>
           <span
             data-testid="course-lessons-count"

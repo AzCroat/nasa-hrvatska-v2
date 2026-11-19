@@ -426,6 +426,8 @@ export interface CourseProgress {
   currentIndex: number | null;
   /** Units whose test is passed. */
   unitsMastered: number;
+  /** Units the learner has got past: all five lessons passed, or the unit test passed (what the course map shows). */
+  unitsPassed: number;
   /** Units whose five lessons are all read — a weaker fact, counted separately. */
   unitsCleared: number;
   unitsTotal: number;
@@ -536,6 +538,12 @@ export function courseProgress(
       retained ? retained.has(r.unit.id) : advanced ? advanced.has(r.unit.id) : r.tested,
     ).length,
     unitsCleared: rows.filter((r) => r.total > 0 && r.done >= r.total).length,
+    unitsPassed: rows.filter(
+      (r) =>
+        r.tested ||
+        (r.total > 0 && r.done >= r.total) ||
+        (advanced ? advanced.has(r.unit.id) : false),
+    ).length,
     unitsTotal: rows.length,
     lessonsDone: rows.reduce((n, r) => n + r.done, 0),
     lessonsTotal: rows.reduce((n, r) => n + r.total, 0),
