@@ -72,6 +72,8 @@ import { getMasteryLedger, weakestProductionKind, weakestReceptiveKind } from '.
 import { getDueCategoryQueue, getCategoryStatus, type SkillCategory } from './adaptive';
 import { readCourseAhead } from './courseGate';
 import { checkLockedToday } from './checkLock';
+import { drilledSince } from './drillStamps';
+import { unitRecord } from './courseUnitProgress';
 import { CATEGORY_SCREEN_MAP, CATEGORY_EASIER_SCREEN, SCREEN_CEFR } from './categoryRoutes';
 import { CEFR_ORDER, isUnlocked, type CefrLevel } from './cefr';
 import { LESSON_PASS_THRESHOLD } from './lessonCheck';
@@ -365,7 +367,14 @@ export function gatherKeepCandidates(
 
   // ── 4. Passed, not yet retained — lessons, then units ──────────────────────
   guarded(() => {
-    for (const e of entries.filter((x) => x.state === 'passed')) drillFor(e, 4);
+    // A passed drill counts (owner, 2026-11-19): a concept whose drill was passed
+    // since its last check is not re-served before its next check-up is due.
+    for (const e of entries.filter((x) => x.state === 'passed')) {
+      const cat = e.practiceCategory ?? LESSON_TAUGHT_CATEGORY[e.lessonId];
+      const since = readRetention().lessons[e.lessonId]?.last.at;
+      if (cat && since && drilledSince(cat, since)) continue;
+      drillFor(e, 4);
+    }
   });
   guarded(() => {
     // A unit the course has moved the learner past whose check-ups have not yet
@@ -380,6 +389,9 @@ export function gatherKeepCandidates(
       for (const lesson of u.lessons) {
         const e = byId.get(lesson.id);
         if (e && e.state !== 'untaught') continue; // tiers 1–4 already judged it
+        const cat = LESSON_TAUGHT_CATEGORY[lesson.id];
+        const since = unitRecord(u.id)?.passedAt;
+        if (cat && since && drilledSince(cat, since)) continue; // a passed drill counts
         drillFor(
           {
             lessonId: lesson.id,

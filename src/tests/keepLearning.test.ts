@@ -37,7 +37,7 @@ import { recordMasteryEvent, MIN_SAMPLES } from '../lib/masteryLedger';
 import { markLessonComplete, readCompletedLessons } from '../lib/curriculumProgress';
 import { readCourseState } from '../lib/courseStep';
 import { readCourseAhead } from '../lib/courseGate';
-import { LESSON_TAUGHT_CATEGORY } from '../lib/teachPractice';
+import { LESSON_TAUGHT_CATEGORY, recordScreenPractised } from '../lib/teachPractice';
 import { CATEGORY_SCREEN_MAP, CATEGORY_EASIER_SCREEN, SCREEN_CEFR } from '../lib/categoryRoutes';
 import { isUnlocked } from '../lib/cefr';
 import { localDateStr } from '../lib/dateUtils';
@@ -328,6 +328,24 @@ describe('the course moves a learner forward (owner, 2026-11-19, reverses 2026-0
     const id = `curriculum_${unit.lessons[1]!.id}`;
     const cands = gatherKeepCandidates('A1', { activities: [act_(id, 'animlesson')] }, 1, deps());
     expect(cands.some((c) => c.activity.id === id)).toBe(false);
+  });
+});
+
+describe('a passed drill counts (owner, 2026-11-19)', () => {
+  it('a passed concept whose drill was passed since is not served again before its check-up', () => {
+    seedCourseAt(2);
+    const lesson = readCourseState()
+      .units.find((u) => u.index === 1)!
+      .lessons.find((l) => LESSON_TAUGHT_CATEGORY[l.id])!;
+    readAndPass(lesson.id, TODAY);
+    const id = `keep_drill_${lesson.id}`;
+    const has = () =>
+      gatherKeepCandidates('A1', { activities: [] }, 1, deps()).some((c) => c.activity.id === id);
+    expect(has()).toBe(true);
+    const cat = LESSON_TAUGHT_CATEGORY[lesson.id]!;
+    const screen = CATEGORY_SCREEN_MAP[cat] || CATEGORY_EASIER_SCREEN[cat]!;
+    recordScreenPractised(screen);
+    expect(has()).toBe(false);
   });
 });
 
