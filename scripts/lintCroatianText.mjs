@@ -39,6 +39,7 @@ const TARGETS = [
   'functions/api/content/_data/lessonsB2.js',
   'functions/api/content/_data/lessonsC1.js',
   'functions/api/content/_data/lessonsC2.js',
+  'functions/api/content/_data/lessonGrammarBook.js',
   'functions/api/content/_data/lessonPracticeA1.js',
   'functions/api/content/_data/lessonClassA1.js',
   'functions/api/content/_data/a1class/units02-05.js',
@@ -220,7 +221,6 @@ const TARGETS = [
   'src/components/profile/CroatianErrorInsights.tsx', // 32 Croatian strings, 56% seen
   'src/components/razgovor/partners.ts', // 22 Croatian strings, 100% seen
   'src/components/shared/GrammarReference.tsx', // 21 Croatian strings, 76% seen
-  'src/components/shared/KnightCompanion.tsx', // 6 Croatian strings, 83% seen
   'src/components/shared/OnboardingTour.tsx', // 4 Croatian strings, 50% seen
   'src/data/bakaPhrases.ts', // 9 Croatian strings, 100% seen
   'src/hooks/useNotifications.ts', // 8 Croatian strings, 63% seen

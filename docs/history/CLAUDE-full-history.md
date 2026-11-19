@@ -77,7 +77,7 @@ src/
 │   ├── practice/              # Flashcards, McGame, DialogueSim, SpeakingScreen, GuidedWritingScreen, ModeDrill, etc.
 │   ├── profile/               # StatsTab, ProfileTab, InsightsTab, CertificateScreen, etc. (the `Me` surfaces)
 │   ├── croatia/               # CityOfDayScreen, CultureDeepDiveScreen, EasterScreen, FriendsScreen, etc.
-│   └── shared/                # KnightCompanion (renders prof. Kovač coach), AppToasts, AppModals, NextStepPrompt, etc.
+│   └── shared/                # AppToasts, AppModals, NextStepPrompt, etc.
 ├── data/                      # Lesson content, word lists, grammar data (split from data.tsx)
 └── types/
     └── index.ts               # Shared TypeScript types (Stats, etc.)
