@@ -69,7 +69,7 @@ describe('SessionCard — complete-state constant prompt (owner directive 2026-0
     const onNextStart = vi.fn();
     renderCard({
       ...completeProps,
-      nextStep: { label: 'Review 12 phrases with prof. Kovač', reason: 'Reviews are due now.' },
+      nextStep: { label: 'Review 12 phrases', reason: 'Reviews are due now.' },
       onNextStart,
       // Even when the parallel options exist, the guided path shows NONE of
       // them (owner directive 2026-08-17: hero only — guided learning path).

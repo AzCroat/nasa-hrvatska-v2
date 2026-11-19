@@ -305,7 +305,7 @@ export default function SessionCard({
                   fontWeight: 700,
                 }}
               >
-                prof. Kovač: {wordsdue} phrase{wordsdue !== 1 ? 's' : ''} to review
+                {wordsdue} phrase{wordsdue !== 1 ? 's' : ''} to review
               </span>
             )}
           </div>
@@ -376,7 +376,7 @@ export default function SessionCard({
                 marginBottom: bonusActivities.length > 0 ? 16 : 8,
               }}
             >
-              {wordsdue > 0 ? `📚 Review ${wordsdue} with prof. Kovač →` : 'Practice more →'}
+              {wordsdue > 0 ? `📚 Review ${wordsdue} →` : 'Practice more →'}
             </button>
           )}
           {/* HERO ONLY (owner directive, 2026-08-17): when the engine

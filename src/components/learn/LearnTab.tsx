@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useApp } from '../../context/AppContext';
-import CharacterPortrait from '../family/CharacterPortrait';
 import {
   readCourseState,
   nextCourseStep,
@@ -163,7 +162,7 @@ export default function LearnTab({
   };
   return (
     <React.Fragment>
-      {/* ── TEČAJ HERO — hosted by Profesor Kovač ──────────────────────── */}
+      {/* ── TEČAJ HERO ──────────────────────────────────────────────────── */}
       <div
         style={{
           background: 'linear-gradient(150deg,#0e7490 0%,#155e75 55%,#164e63 100%)',
@@ -182,31 +181,7 @@ export default function LearnTab({
         />
         <div className="tab-hero-body">
           <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 12 }}>
-            <div
-              style={{
-                flexShrink: 0,
-                borderRadius: '50%',
-                padding: 3,
-                background: 'linear-gradient(135deg,#C8980A,#e0b84a)',
-                boxShadow: '0 2px 10px rgba(0,0,0,.25)',
-                display: 'flex',
-              }}
-            >
-              <CharacterPortrait name="kovac" size={56} title="Profesor Kovač" />
-            </div>
             <div style={{ flex: 1, minWidth: 0 }}>
-              <div
-                style={{
-                  fontSize: 12,
-                  fontWeight: 900,
-                  color: 'rgba(255,255,255,.7)',
-                  letterSpacing: '.15em',
-                  textTransform: 'uppercase',
-                  marginBottom: 3,
-                }}
-              >
-                Profesor Kovač · tvoj učitelj
-              </div>
               <div
                 style={{
                   fontSize: 20,

@@ -185,7 +185,7 @@ export function getNextStep(opts: { userCefr: string; poolWords?: Set<string> })
         return {
           kind: 'srs',
           screen: 'review',
-          label: `Review ${due} phrase${due === 1 ? '' : 's'} with prof. Kovač`,
+          label: `Review ${due} phrase${due === 1 ? '' : 's'}`,
           reason: 'Reviews are due now — spaced repetition works when it is on time.',
         };
       }

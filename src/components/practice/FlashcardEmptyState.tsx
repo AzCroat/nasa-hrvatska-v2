@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import CharacterPortrait from '../family/CharacterPortrait';
 import { signalSessionCompleteIfActive } from '../../lib/sessionSignal';
 
 interface Props {
@@ -15,9 +14,6 @@ export default function FlashcardEmptyState({ onGoBack }: Props) {
   return (
     <div className="scr-wrap">
       <div style={{ textAlign: 'center', padding: '40px 20px' }}>
-        <div style={{ textAlign: 'center', marginBottom: 16 }}>
-          <CharacterPortrait name="kovac" size={90} />
-        </div>
         <div style={{ fontSize: 52 }}>🎉</div>
         <h3
           style={{

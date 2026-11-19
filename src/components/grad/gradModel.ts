@@ -157,7 +157,7 @@ export function recommendedVisit(ctx: ModelCtx): Recommendation {
       exerciseId: 'adaptive_review',
       placeId: 'soba',
       host: HOST_OF('soba'),
-      hr: `Kovač je označio ${ctx.recs.weakCount} slabih točaka`,
+      hr: `${ctx.recs.weakCount} slabih točaka za ponavljanje`,
       en: `${ctx.recs.weakCount} weak spots to review`,
       count: ctx.recs.weakCount,
       durationMin: 7,

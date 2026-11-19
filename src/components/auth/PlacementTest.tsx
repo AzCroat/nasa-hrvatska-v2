@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Bar } from '../../data';
-import CharacterPortrait from '../family/CharacterPortrait';
 import { lsSet } from '../../lib/safeStorage';
 import { grantProvisionalPlacement } from '../../lib/cefrCertification';
 import type { CefrLevel } from '../../lib/cefr';
@@ -320,9 +319,6 @@ export default function PlacementTest({ onComplete, onCancel }: PlacementTestPro
     return (
       <div className="scr-wrap">
         <div style={{ textAlign: 'center', padding: '28px 20px 16px' }}>
-          <span style={{ display: 'block', textAlign: 'center', margin: '0 auto 12px' }}>
-            <CharacterPortrait name="kovac" size={100} />
-          </span>
           <h2
             style={{
               fontFamily: "'Playfair Display',serif",
@@ -392,9 +388,6 @@ export default function PlacementTest({ onComplete, onCancel }: PlacementTestPro
   if (done) {
     return (
       <div className="scr-wrap" style={{ paddingBottom: 80, textAlign: 'center' }}>
-        <span style={{ display: 'block', textAlign: 'center', margin: '0 auto 12px' }}>
-          <CharacterPortrait name="kovac" size={90} />
-        </span>
         <h2
           style={{
             fontFamily: "'Playfair Display',serif",
@@ -588,7 +581,6 @@ export default function PlacementTest({ onComplete, onCancel }: PlacementTestPro
         {answered && (
           <>
             <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 10 }}>
-              <CharacterPortrait name="kovac" size={50} />
               <div
                 style={{
                   fontSize: 14,

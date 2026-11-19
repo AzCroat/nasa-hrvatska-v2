@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import CharacterPortrait from '../family/CharacterPortrait';
 import { markPracticed } from '../../hooks/useNotifications';
 import { useApp } from '../../context/AppContext';
 
@@ -45,9 +44,6 @@ export default function FlashcardResultScreen({
   return (
     <div className="scr-wrap">
       <div style={{ textAlign: 'center', padding: '40px 20px 20px' }}>
-        <div style={{ textAlign: 'center', marginBottom: 12 }}>
-          <CharacterPortrait name="kovac" size={80} />
-        </div>
         <div style={{ fontSize: 64 }}>{missedCount === 0 ? '🌟' : '🎉'}</div>
         <h3
           style={{

@@ -14,7 +14,6 @@ function LoadingState() {
 function ErrorState({ message }: { message: string }) {
   return <div style={{ padding: 24, textAlign: 'center', color: 'var(--info)' }}>{message}</div>;
 }
-import CharacterPortrait from '../family/CharacterPortrait';
 import { knightSpeak } from '../../lib/knightSpeak.js';
 import { CelebrationScene } from '../illustrations';
 import Flashcards from '../practice/Flashcards';
@@ -966,10 +965,6 @@ export default function LessonScreen({
             alignItems: 'center',
           }}
         >
-          <div style={{ textAlign: 'center', marginBottom: 16, animation: 'bounce-in .5s ease' }}>
-            <CharacterPortrait name="kovac" size={90} />
-          </div>
-
           {/* Trophy / emoji */}
           <div
             style={{
