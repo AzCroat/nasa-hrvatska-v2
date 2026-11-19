@@ -84,10 +84,11 @@ export function vocabLevel(stats?: { xp?: number; lc?: number; gc?: number }): C
   return getGenerationCefr(stats);
 }
 
-const TIER_KEY: Partial<Record<CefrLevel, keyof VocabSource>> = {
-  B2: 'V_B2',
-  C1: 'V_C1',
-  C2: 'V_C2',
+// The course ends at C1 (2026-11-18: C2 was folded into it), so the former C2 tier is
+// served to a C1 learner after the C1 tier. The payload key keeps its name.
+const TIER_KEYS: Partial<Record<CefrLevel, (keyof VocabSource)[]>> = {
+  B2: ['V_B2'],
+  C1: ['V_C1', 'V_C2'],
 };
 
 function isRow(w: unknown): w is VocabRow {
@@ -112,8 +113,7 @@ function catsInBand(src: VocabSource, band: CefrLevel): string[] {
 /** Every word in one band: its V categories plus its advanced tier, if any. */
 function bandRows(src: VocabSource, band: CefrLevel): VocabRow[] {
   const out = catsInBand(src, band).flatMap((c) => rows(src.V as Record<string, unknown>, c));
-  const tier = TIER_KEY[band];
-  if (tier) {
+  for (const tier of TIER_KEYS[band] ?? []) {
     const t = src[tier] as Record<string, unknown> | null | undefined;
     for (const k of Object.keys(t ?? {})) out.push(...rows(t, k));
   }

@@ -64,8 +64,10 @@ describe('graded stories — structural integrity', () => {
     expect(byLevel['B1'] ?? 0).toBeGreaterThanOrEqual(31);
     // Raised 2026-09-05 (reading depth, item 3): +12 B2, +12 C1, +11 C2 long reads.
     expect(byLevel['B2'] ?? 0).toBeGreaterThanOrEqual(39);
-    expect(byLevel['C1'] ?? 0).toBeGreaterThanOrEqual(38);
-    expect(byLevel['C2'] ?? 0).toBeGreaterThanOrEqual(33);
+    // 2026-11-18: the course ends at C1 and the old C2 stories are tagged C1 (ids keep gs_c2_),
+    // so C1's floor is the old C1 floor plus the old C2 floor (38 + 33) and nothing is C2.
+    expect(byLevel['C1'] ?? 0).toBeGreaterThanOrEqual(71);
+    expect(byLevel['C2'] ?? 0).toBe(0);
     expect(stories.length).toBeGreaterThanOrEqual(212);
   });
 
@@ -85,8 +87,9 @@ describe('graded stories — structural integrity', () => {
     expect(words['B1'] ?? 0).toBeGreaterThanOrEqual(10000);
     // Doubled 2026-09-05 (reading depth, item 3): measured 20,331 / 20,823 / 20,489.
     expect(words['B2'] ?? 0).toBeGreaterThanOrEqual(20000);
-    expect(words['C1'] ?? 0).toBeGreaterThanOrEqual(20000);
-    expect(words['C2'] ?? 0).toBeGreaterThanOrEqual(20000);
+    // C1 now carries the old C2 volume as well (2 x 20,000); no story is tagged C2.
+    expect(words['C1'] ?? 0).toBeGreaterThanOrEqual(40000);
+    expect(words['C2'] ?? 0).toBe(0);
   });
 
   // ── Reading depth at B2–C2 (content expansion item 3, 2026-09-05) ─────────
@@ -106,19 +109,33 @@ describe('graded stories — structural integrity', () => {
     const hrWords = (s: Story) =>
       s.paragraphs.reduce((n, p) => n + p.hr.trim().split(/\s+/).length, 0);
 
-    it('exist at B2, C1 and C2 only, in the four genres, ≥ 11 per level', () => {
+    it('exist at B2 and C1 only (C2 folded into C1), in the four genres, ≥ 11 per original level', () => {
       expect(longReads.length).toBeGreaterThanOrEqual(35);
       const byLevel: Record<string, number> = {};
       for (const s of longReads) {
-        expect(['B2', 'C1', 'C2'], `${s.id} level`).toContain(s.level);
+        expect(['B2', 'C1'], `${s.id} level`).toContain(s.level);
         expect(['serial', 'feature', 'opinion', 'literary'], `${s.id} kind`).toContain(s.kind);
-        expect(s.id, `${s.id} id shape`).toMatch(new RegExp(`^gs_${s.level.toLowerCase()}_long_`));
+        // Ids keep their original level prefix on purpose (saved progress is keyed by id), so a
+        // C1 long read is gs_c1_long_ or the former-C2 gs_c2_long_.
+        const prefixes =
+          s.level === 'C1' ? ['gs_c1_long_', 'gs_c2_long_'] : [`gs_${s.level.toLowerCase()}_long_`];
+        expect(
+          prefixes.some((pre) => s.id.startsWith(pre)),
+          `${s.id} id shape`,
+        ).toBe(true);
         byLevel[s.level] = (byLevel[s.level] ?? 0) + 1;
       }
-      for (const l of ['B2', 'C1', 'C2']) expect(byLevel[l] ?? 0, l).toBeGreaterThanOrEqual(11);
+      expect(byLevel['B2'] ?? 0, 'B2').toBeGreaterThanOrEqual(11);
+      // C1 holds the old C1 (11) and old C2 (11) long reads.
+      expect(byLevel['C1'] ?? 0, 'C1').toBeGreaterThanOrEqual(22);
+      expect(byLevel['C2'] ?? 0, 'C2').toBe(0);
       // the genres the item asked for, at the levels it asked for them
       expect(longReads.some((s) => s.level === 'C1' && s.kind === 'opinion')).toBe(true);
-      expect(longReads.some((s) => s.level === 'C2' && s.kind === 'literary')).toBe(true);
+      expect(
+        longReads.some(
+          (s) => s.level === 'C1' && s.id.startsWith('gs_c2_') && s.kind === 'literary',
+        ),
+      ).toBe(true);
       expect(longReads.some((s) => s.level === 'B2' && s.kind === 'serial')).toBe(true);
     });
 

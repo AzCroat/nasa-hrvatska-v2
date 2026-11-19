@@ -4859,7 +4859,7 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
   // ── C2 ──────────────────────────────────────────────────────────────────────
   {
     id: 'c2-diaspora',
-    level: 'C2',
+    level: 'C1',
     title: 'An essay on identity',
     prompt:
       'Napišite esej o dvojnom identitetu iseljeništva: može li se istinski pripadati dvjema kulturama? Razvijte tezu, antitezu i sintezu.',
@@ -4947,7 +4947,7 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
   },
   {
     id: 'c2-column',
-    level: 'C2',
+    level: 'C1',
     title: 'A newspaper column',
     prompt:
       'Napišite novinsku kolumnu o svakodnevnoj pojavi koja vas istodobno zabavlja i ljuti (npr. redovi, mobiteli za stolom, "samo pet minuta"). Dopuštena je ironija.',
@@ -5034,8 +5034,8 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
   },
   {
     id: 'c2-abstract',
-    level: 'C2',
-    title: 'An academic abstract',
+    level: 'C1',
+    title: 'An abstract on language in the diaspora',
     prompt:
       'Napišite sažetak (apstrakt) zamišljenog istraživanja o očuvanju hrvatskoga jezika u iseljeništvu: cilj, metodu, rezultate i zaključak — u akademskom registru.',
     promptEn:
@@ -5114,7 +5114,7 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
   },
   {
     id: 'c2-portrait',
-    level: 'C2',
+    level: 'C1',
     title: 'A portrait',
     prompt:
       'Napišite portret ili nekrolog osobe iz vaše zajednice koja je ostavila trag (učiteljica, svećenik, susjed, trener): ne životopis, nego sliku čovjeka kroz nekoliko točno odabranih detalja.',
@@ -5204,7 +5204,7 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
   },
   {
     id: 'c2-norm-usage',
-    level: 'C2',
+    level: 'C1',
     title: 'Norm and usage',
     prompt:
       'Napišite esej o odnosu jezične norme i uzusa: tko odlučuje što je "pravilno" kad govornici govore drukčije? Uzmite konkretan primjer iz hrvatskoga i izbjegnite i purizam i relativizam.',
@@ -5297,7 +5297,7 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
   },
   {
     id: 'c2-headline',
-    level: 'C2',
+    level: 'C1',
     title: 'Analyze a headline',
     prompt:
       'Analizirajte naslov i uvod jednog novinskog članka po izboru: što se tvrdi izravno, što se sugerira, koje su riječi vrijednosno obojene i komu se tekst obraća. Pišite kao analitičar, ne kao komentator.',
@@ -5387,7 +5387,7 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
   },
   {
     id: 'c2-expert-opinion',
-    level: 'C2',
+    level: 'C1',
     title: 'An expert opinion',
     prompt:
       'Kao stručnjak za nastavu jezika dobili ste na ocjenu prijedlog programa hrvatskoga za iseljeničke škole. Napišite stručno mišljenje: ocijenite prijedlog po kriterijima, navedite prednosti i nedostatke i dajte obrazloženu preporuku.',
@@ -5477,7 +5477,7 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
   },
   {
     id: 'c2-miniature',
-    level: 'C2',
+    level: 'C1',
     title: 'A prose miniature',
     prompt:
       'Napišite književnu crticu od jednog prizora: mjesto, doba dana, jedan čovjek, jedan pokret. Bez radnje i bez pouke — samo precizno gledanje.',
@@ -5562,7 +5562,7 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
 
   {
     id: 'c2-open-letter',
-    level: 'C2',
+    level: 'C1',
     title: 'An open letter',
     prompt:
       'Napišite otvoreno pismo gradskoj vlasti o odluci koja pogađa vaš kvart. Recite zašto pišete javno, iznesite činjenice i brojke, priznajte što protivnoj strani stoji, pa zatražite konkretnu odgodu ili izmjenu — službeno, bez povišenog tona.',
@@ -5652,7 +5652,7 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
   },
   {
     id: 'c2-review',
-    level: 'C2',
+    level: 'C1',
     title: 'A theater review',
     prompt:
       'Napišite kazališnu kritiku predstave koju ste (stvarno ili izmišljeno) gledali. Opišite redateljski postupak, recite što je najbolje, a što slabije, i završite ocjenom koja obvezuje — bez prepričavanja radnje.',
@@ -5736,7 +5736,7 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
   },
   {
     id: 'c2-three-styles',
-    level: 'C2',
+    level: 'C1',
     title: 'One event, three styles',
     prompt:
       'Isti događaj — pucanje vodovodne cijevi, kvar, nesreća bez žrtava — opišite tri puta: administrativnim, novinarskim i književnim stilom. Svaki dio označite i neka se razlikuju rječnikom, rečenicom i onim što smiju reći.',
@@ -5830,7 +5830,7 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
   },
   {
     id: 'c2-counterfactual',
-    level: 'C2',
+    level: 'C1',
     title: 'A counterfactual essay',
     prompt:
       'Napišite esej koji polazi od pitanja „Što bi bilo da …?” o jednoj povijesnoj ili jezičnoj odluci. Ne nabrajajte posljedice — argumentirajte ih, dopustite protuargument i završite zaključkom koji nešto tvrdi.',

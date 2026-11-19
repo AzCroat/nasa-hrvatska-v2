@@ -25,7 +25,9 @@ import {
 import { checklistSatisfied, countSpokenWords } from '../components/practice/GuidedSpeakingScreen';
 import { COACH_MIN_WORDS } from '../lib/speakingCoach';
 
-const LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'] as const;
+// 2026-11-18: the course ends at C1; the former C2 units are tagged C1 (ids keep their c2- prefix,
+// because saved progress is keyed by id), so there are five levels and nothing is tagged C2.
+const LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1'] as const;
 
 /** Verbatim, or an ellipsis pattern whose segments appear in order. */
 function modelShows(model: string, hr: string): boolean {
@@ -47,15 +49,22 @@ describe('speaking curriculum — coverage', () => {
   it('has at least 12 units at every CEFR level (8 → 12 on 2026-09-28, owner content-expansion item 4)', () => {
     for (const level of LEVELS) {
       const units = speakingUnitsForLevel(level);
-      expect(units.length, `${level} has ${units.length} units`).toBeGreaterThanOrEqual(12);
+      // C1 holds its own 12 plus the 12 former C2 units.
+      const floor = level === 'C1' ? 24 : 12;
+      expect(units.length, `${level} has ${units.length} units`).toBeGreaterThanOrEqual(floor);
     }
+    expect(speakingUnitsForLevel('C2' as never).length, 'no unit is tagged C2').toBe(0);
   });
 
   it('every unit id is unique and names its level', () => {
     const ids = SPEAKING_CURRICULUM.map((u) => u.id);
     expect(new Set(ids).size).toBe(ids.length);
     for (const u of SPEAKING_CURRICULUM) {
-      expect(u.id.startsWith(u.level.toLowerCase() + '-'), `${u.id} vs ${u.level}`).toBe(true);
+      const prefixes = u.level === 'C1' ? ['c1-', 'c2-'] : [u.level.toLowerCase() + '-'];
+      expect(
+        prefixes.some((p) => u.id.startsWith(p)),
+        `${u.id} vs ${u.level}`,
+      ).toBe(true);
     }
   });
 
@@ -160,6 +169,24 @@ describe('speaking curriculum — the word floors', () => {
     // nothing — the screen's null branch would fire on a perfectly good answer.
     for (const u of SPEAKING_CURRICULUM) {
       expect(u.minWords, u.id).toBeGreaterThanOrEqual(COACH_MIN_WORDS);
+    }
+  });
+
+  it('within each original block of C1 (first 12, last 12) the floor never falls', () => {
+    // The 12 former C2 units sit after the C1 units, so across the merged level the ladder
+    // restarts (22 after 30). Each block was authored as its own ladder; check each.
+    const c1 = speakingUnitsForLevel('C1');
+    const blocks = [
+      c1.filter((u) => u.id.startsWith('c1-')),
+      c1.filter((u) => u.id.startsWith('c2-')),
+    ];
+    expect(blocks.map((b) => b.length)).toEqual([12, 12]);
+    for (const block of blocks) {
+      for (let i = 1; i < block.length; i++) {
+        expect(block[i]!.minWords, `${block[i]!.id} vs ${block[i - 1]!.id}`).toBeGreaterThanOrEqual(
+          block[i - 1]!.minWords,
+        );
+      }
     }
   });
 

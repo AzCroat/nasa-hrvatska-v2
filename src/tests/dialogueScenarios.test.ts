@@ -95,14 +95,16 @@ describe('dialogueScenarios — structural integrity', () => {
     expect(byLevel['B1'] ?? 0).toBeGreaterThanOrEqual(12);
     expect(byLevel['B2'] ?? 0).toBeGreaterThanOrEqual(12);
     expect(byLevel['C1'] ?? 0).toBeGreaterThanOrEqual(12);
-    expect(byLevel['C2'] ?? 0).toBeGreaterThanOrEqual(12);
+    // 2026-11-18: the course ends at C1; the former C2 scenarios are tagged C1 (C1 has 48).
+    expect(byLevel['C1'] ?? 0).toBeGreaterThanOrEqual(24);
+    expect(byLevel['C2'] ?? 0).toBe(0);
     // Raised to 24 at EVERY level on 2026-09-28. From B1 up a conversation is in
     // every session (the P2.4 anchor), so 12 scenarios came round about every
     // two weeks and a learner began remembering answers instead of producing
     // them. The 72 new ones keep the pattern each level already had: A1/A2
     // register follows the person, B1+ come as formal/informal pairs.
-    for (const lv of ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'])
-      expect(byLevel[lv] ?? 0, `${lv} scenarios`).toBeGreaterThanOrEqual(24);
+    for (const lv of ['A1', 'A2', 'B1', 'B2', 'C1'])
+      expect(byLevel[lv] ?? 0, `${lv} scenarios`).toBeGreaterThanOrEqual(lv === 'C1' ? 48 : 24);
     expect(scenarios.length).toBeGreaterThanOrEqual(144);
   });
 
@@ -138,7 +140,7 @@ describe('dialogueScenarios — structural integrity', () => {
       'vam|vas|vaš\\p{L}*|možete|dođite|izvolite|molim vas|hvala vam|poštovan\\p{L}*|gospođ\\p{L}*|gospodin\\p{L}*|profesor\\p{L}*',
     );
     const lines = (s: Scenario, re: RegExp) => s.turns.filter((t) => re.test(t.opts[0]!)).length;
-    for (const level of ['A1', 'A2', 'B1', 'B2', 'C1', 'C2']) {
+    for (const level of ['A1', 'A2', 'B1', 'B2', 'C1']) {
       const atLevel = scenarios.filter((s) => s.difficulty === level);
       const informal = atLevel
         .filter((s) => lines(s, TI) > 0 && lines(s, TI) > lines(s, VI))

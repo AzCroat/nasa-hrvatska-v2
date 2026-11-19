@@ -3368,7 +3368,7 @@ export const GRADED_STORIES_LONG = [
   // ═══════════════════════════════════════════════════════════════════════
   {
     id: 'gs_c2_long_zimska_kuca_1',
-    level: 'C2',
+    level: 'C1',
     kind: 'serial',
     series: { id: 'zimska_kuca', part: 1, of: 2 },
     levelColor: '#831843',
@@ -3498,7 +3498,7 @@ export const GRADED_STORIES_LONG = [
   },
   {
     id: 'gs_c2_long_zimska_kuca_2',
-    level: 'C2',
+    level: 'C1',
     kind: 'serial',
     series: { id: 'zimska_kuca', part: 2, of: 2 },
     levelColor: '#831843',
@@ -3628,7 +3628,7 @@ export const GRADED_STORIES_LONG = [
   },
   {
     id: 'gs_c2_long_fotograf',
-    level: 'C2',
+    level: 'C1',
     kind: 'literary',
     levelColor: '#831843',
     levelBg: '#fce7f3',
@@ -3754,7 +3754,7 @@ export const GRADED_STORIES_LONG = [
   },
   {
     id: 'gs_c2_long_posljednji_ribar',
-    level: 'C2',
+    level: 'C1',
     kind: 'literary',
     levelColor: '#831843',
     levelBg: '#fce7f3',
@@ -3887,7 +3887,7 @@ export const GRADED_STORIES_LONG = [
   },
   {
     id: 'gs_c2_long_sat_na_kolodvoru',
-    level: 'C2',
+    level: 'C1',
     kind: 'literary',
     levelColor: '#831843',
     levelBg: '#fce7f3',
@@ -4004,7 +4004,7 @@ export const GRADED_STORIES_LONG = [
   },
   {
     id: 'gs_c2_long_tetkina_biljeznica',
-    level: 'C2',
+    level: 'C1',
     kind: 'literary',
     levelColor: '#831843',
     levelBg: '#fce7f3',
@@ -4129,7 +4129,7 @@ export const GRADED_STORIES_LONG = [
   },
   {
     id: 'gs_c2_long_nokturno',
-    level: 'C2',
+    level: 'C1',
     kind: 'literary',
     levelColor: '#831843',
     levelBg: '#fce7f3',
@@ -4240,7 +4240,7 @@ export const GRADED_STORIES_LONG = [
   },
   {
     id: 'gs_c2_long_kamen_koji_pamti',
-    level: 'C2',
+    level: 'C1',
     kind: 'literary',
     levelColor: '#831843',
     levelBg: '#fce7f3',
@@ -4357,7 +4357,7 @@ export const GRADED_STORIES_LONG = [
   },
   {
     id: 'gs_c2_long_gospodja_vera',
-    level: 'C2',
+    level: 'C1',
     kind: 'literary',
     levelColor: '#831843',
     levelBg: '#fce7f3',
@@ -4479,7 +4479,7 @@ export const GRADED_STORIES_LONG = [
   },
   {
     id: 'gs_c2_long_karta',
-    level: 'C2',
+    level: 'C1',
     kind: 'literary',
     levelColor: '#831843',
     levelBg: '#fce7f3',
@@ -4604,7 +4604,7 @@ export const GRADED_STORIES_LONG = [
   },
   {
     id: 'gs_c2_long_ulica',
-    level: 'C2',
+    level: 'C1',
     kind: 'literary',
     levelColor: '#831843',
     levelBg: '#fce7f3',

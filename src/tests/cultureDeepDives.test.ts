@@ -75,7 +75,9 @@ describe('culture deep-dive wiring', () => {
       expect(actual.sort(), tier).toEqual([...expected].sort());
       for (const id of expected) {
         const entry = CROATIA_POOL.find((e) => e.id === id)!;
-        expect(entry.cefr, id).toBe(tier);
+        // 2026-11-18: the course ends at C1, so the C2 essays keep their ids but are
+        // gated at C1.
+        expect(entry.cefr, id).toBe(tier === 'C2' ? 'C1' : tier);
         expect(entry.category, id).toBe('culture');
         expect(entry.screen, id).toBe(id);
       }
@@ -92,7 +94,11 @@ describe('culture deep-dive wiring', () => {
     const gates = new Set(CROATIA_POOL.map((e) => e.cefr ?? 'A1'));
     expect(gates.has('B2')).toBe(true);
     expect(gates.has('C1')).toBe(true);
-    expect(gates.has('C2')).toBe(true);
+    // The course ends at C1: the former C2 essays are gated at C1, nothing at C2.
+    expect(gates.has('C2')).toBe(false);
+    expect(
+      CROATIA_POOL.filter((e) => e.id.startsWith('kultura_c2_')).every((e) => e.cefr === 'C1'),
+    ).toBe(true);
   });
 
   it('every essay screen auto-completes on return (Croatia slot contract)', () => {

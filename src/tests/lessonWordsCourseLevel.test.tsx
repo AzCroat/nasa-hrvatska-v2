@@ -121,10 +121,10 @@ describe('2. the Practice tab and the deck follow the course level', () => {
     expect(getGenerationCefr({ xp: 0, lc: 0, gc: 0 })).toBe('B1');
   });
 
-  it('a learner who has finished the whole course is served C2', () => {
+  it('a learner who has finished the whole course is served C1 (the course ends at C1)', () => {
     seedCourse([]);
     const units: Record<string, unknown> = {};
-    for (const lv of ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'])
+    for (const lv of ['A1', 'A2', 'B1', 'B2', 'C1'])
       for (
         let i = 1;
         i <= Math.ceil(CURRICULUM.filter((e: { level: string }) => e.level === lv).length / 5);
@@ -141,7 +141,7 @@ describe('2. the Practice tab and the deck follow the course level', () => {
           recheck: { stage: 2, dueAt: '2026-12-30', heldAt: '2026-09-01' },
         };
     localStorage.setItem('nh_course_units', JSON.stringify({ structure: 2, units }));
-    expect(courseContentLevel()).toBe('C2');
+    expect(courseContentLevel()).toBe('C1');
   });
 
   it('a Unit-1 learner with a B1 placement and C1 XP is served A1', () => {

@@ -176,9 +176,13 @@ describe('ordering IS the acquisition path', () => {
 });
 
 describe('acquisitionPool — own band plus what is already being tracked', () => {
-  it('a C1 learner with empty SRS meets C1 words only', () => {
+  it('a C1 learner with empty SRS meets C1 words only (V_C1 plus the former V_C2 tier)', () => {
     const own = lemmas(acquisitionPool(SRC, 'C1', { tracked: NONE }));
-    const C1 = tierLemmas(CORE.V_C1 as Record<string, unknown>);
+    // 2026-11-18: the course ends at C1, so V_C2 is served in the C1 band.
+    const C1 = new Set([
+      ...tierLemmas(CORE.V_C1 as Record<string, unknown>),
+      ...tierLemmas(CORE.V_C2 as Record<string, unknown>),
+    ]);
     expect(own.size).toBe(C1.size);
     for (const w of C1) expect(own.has(w)).toBe(true);
     expect(own.has('hvala')).toBe(false); // A1

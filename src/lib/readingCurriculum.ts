@@ -57,8 +57,8 @@ const LEVEL_BUCKETS: Record<string, string[]> = {
   A2: ['beginner', 'a2'], // dedicated A2 texts follow the shared beginner base
   B1: ['intermediate', 'advanced'],
   B2: ['advanced', 'b2'],
-  C1: ['c1'],
-  C2: ['c1', 'c2'], // mastery texts follow the C1 base
+  C1: ['c1', 'c2'], // the former C2 texts follow the C1 base (the course ends at C1 since 2026-11-18)
+  C2: ['c1', 'c2'],
 };
 
 const VALID_LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];

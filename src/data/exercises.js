@@ -3730,7 +3730,7 @@ export const LISTEN = [
       'He left the house to save his soul.',
       'The house was soulless before he left.',
     ],
-    level: 'C2',
+    level: 'C1',
   },
   {
     hr: 'Šutnja katkad kaže više od riječi.',
@@ -3741,7 +3741,7 @@ export const LISTEN = [
       'Silence never says anything at all.',
       'Sometimes words fall silent.',
     ],
-    level: 'C2',
+    level: 'C1',
   },
   {
     hr: 'Bijaše jednom jedan kralj.',
@@ -3752,7 +3752,7 @@ export const LISTEN = [
       'The king was once alone.',
       'Once a king, always a king.',
     ],
-    level: 'C2',
+    level: 'C1',
   },
   {
     hr: 'Sve što rekoše, vjetar odnese.',
@@ -3763,7 +3763,7 @@ export const LISTEN = [
       'The wind brought them new words.',
       'They said nothing, and the wind was still.',
     ],
-    level: 'C2',
+    level: 'C1',
   },
   // 2026-09-28: every level to 20 own-level sentences (was A1 7 · A2 8 · B1 11 ·
   // B2 10 · C1 5 · C2 4). A round is 8, so an A1 round was nearly the whole A1
@@ -4426,7 +4426,7 @@ export const LISTEN = [
       'Gold does not shine as it once did.',
       'All gold shines brightly in the sun.',
     ],
-    level: 'C2',
+    level: 'C1',
   },
   {
     hr: 'Tko rano rani, dvije sreće grabi.',
@@ -4437,7 +4437,7 @@ export const LISTEN = [
       'Whoever rises late still has luck.',
       'He who hurries will regret it twice.',
     ],
-    level: 'C2',
+    level: 'C1',
   },
   {
     hr: 'Bez muke nema nauke.',
@@ -4448,7 +4448,7 @@ export const LISTEN = [
       'Learning should be free of hardship.',
       'Where there is effort, there is no science.',
     ],
-    level: 'C2',
+    level: 'C1',
   },
   {
     hr: 'Starac ustade, izađe pred kuću i dugo gledaše more.',
@@ -4459,7 +4459,7 @@ export const LISTEN = [
       'The old man will rise and go out to look at the sea.',
       'The old man rose and walked down into the sea.',
     ],
-    level: 'C2',
+    level: 'C1',
   },
   {
     hr: 'Dođoše gosti, a kuća prazna.',
@@ -4470,7 +4470,7 @@ export const LISTEN = [
       'The guests left, and the house was full.',
       'No guests came, so the house stayed empty.',
     ],
-    level: 'C2',
+    level: 'C1',
   },
   {
     hr: 'Kiša padaše cijelu noć, a mi ne spavasmo.',
@@ -4481,7 +4481,7 @@ export const LISTEN = [
       'It will rain all night, so we will not sleep.',
       'The rain stopped at night, and we slept.',
     ],
-    level: 'C2',
+    level: 'C1',
   },
   {
     hr: 'Tiha voda brijeg dere.',
@@ -4492,7 +4492,7 @@ export const LISTEN = [
       'Calm water never harms anyone.',
       'Loud water tears down the hills.',
     ],
-    level: 'C2',
+    level: 'C1',
   },
   {
     hr: 'Baš divno, opet smo zapeli u gužvi.',
@@ -4503,7 +4503,7 @@ export const LISTEN = [
       "It's lovely that there's no traffic again.",
       "Wonderful, we've never been stuck in traffic.",
     ],
-    level: 'C2',
+    level: 'C1',
   },
   {
     hr: 'Ma naravno, kao da ja imam vremena za to.',
@@ -4514,7 +4514,7 @@ export const LISTEN = [
       'Naturally, I made time for that.',
       'Sure, it seems you have time for that.',
     ],
-    level: 'C2',
+    level: 'C1',
   },
   {
     hr: 'Vrana vrani oči ne vadi.',
@@ -4525,7 +4525,7 @@ export const LISTEN = [
       'Crows are always fighting among themselves.',
       'A crow cannot see in the dark.',
     ],
-    level: 'C2',
+    level: 'C1',
   },
   {
     hr: 'Mnogo bješe rečeno, a malo učinjeno.',
@@ -4536,7 +4536,7 @@ export const LISTEN = [
       'Much will be said, and little done.',
       'Many said that little could be done.',
     ],
-    level: 'C2',
+    level: 'C1',
   },
   {
     hr: 'Otac ga pogleda i ne reče ni riječi.',
@@ -4547,7 +4547,7 @@ export const LISTEN = [
       'His father looked at him and said a few words.',
       'His father will look at him and say nothing.',
     ],
-    level: 'C2',
+    level: 'C1',
   },
   {
     hr: 'Gdje se dvoje svađaju, treći se koristi.',
@@ -4558,7 +4558,7 @@ export const LISTEN = [
       'Where two agree, the third is left out.',
       'When two people argue, a third must step in.',
     ],
-    level: 'C2',
+    level: 'C1',
   },
   {
     hr: 'Bijaše hladno jutro kad otac pođe na put.',
@@ -4569,7 +4569,7 @@ export const LISTEN = [
       'It will be a cold morning when Father sets off.',
       'It was a warm evening when Father set off.',
     ],
-    level: 'C2',
+    level: 'C1',
   },
   {
     hr: 'Lijepo od tebe što si se napokon sjetio javiti.',
@@ -4580,7 +4580,7 @@ export const LISTEN = [
       'How nice of you to remind me to call.',
       'It was kind of you to forget to call.',
     ],
-    level: 'C2',
+    level: 'C1',
   },
   {
     hr: 'Tko drugome jamu kopa, sam u nju pada.',
@@ -4591,7 +4591,7 @@ export const LISTEN = [
       'He who digs a well will never go thirsty.',
       'Whoever falls into a pit must dig himself out.',
     ],
-    level: 'C2',
+    level: 'C1',
   },
 ];
 export const NUMTIME = {

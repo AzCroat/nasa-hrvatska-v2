@@ -9,7 +9,9 @@
 import { describe, it, expect } from 'vitest';
 import { WRITING_CURRICULUM, unitsForLevel } from '../data/writingCurriculum';
 
-const LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'] as const;
+// The course ends at C1 (owner decision, 2026-11-18): the former C2 units are
+// tagged C1 (ids keep their c2- prefix because progress is keyed by id).
+const LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1'] as const;
 const CYRILLIC_RE = /[Ѐ-ӿԀ-ԯ]/;
 
 describe('writingCurriculum — CEFR completeness', () => {
@@ -19,8 +21,15 @@ describe('writingCurriculum — CEFR completeness', () => {
     // the "8–10 per level" target from the 2026-09-04 content census; twelve is
     // the owner's 2026-09-28 content-expansion choice (item 4 of sweep 177).
     for (const level of LEVELS) {
-      expect(unitsForLevel(level).length, `${level} units`).toBeGreaterThanOrEqual(12);
+      // C1 holds the old C1 block plus the former C2 block: 12 + 12.
+      expect(unitsForLevel(level).length, `${level} units`).toBeGreaterThanOrEqual(
+        level === 'C1' ? 24 : 12,
+      );
     }
+    expect(
+      WRITING_CURRICULUM.filter((u) => (u.level as string) === 'C2').length,
+      'no unit is tagged C2 any more',
+    ).toBe(0);
   });
 
   it('unit ids are unique', () => {
@@ -30,9 +39,12 @@ describe('writingCurriculum — CEFR completeness', () => {
 
   it('every unit id is prefixed with its own level (a unit filed at the wrong level is invisible to pickUnit)', () => {
     for (const u of WRITING_CURRICULUM) {
-      expect(u.id.startsWith(`${u.level.toLowerCase()}-`), `${u.id} is level ${u.level}`).toBe(
-        true,
-      );
+      // The former C2 block keeps its c2- id prefix on purpose (saved progress
+      // is keyed by id) while being tagged C1.
+      const ok =
+        u.id.startsWith(`${u.level.toLowerCase()}-`) ||
+        (u.level === 'C1' && u.id.startsWith('c2-'));
+      expect(ok, `${u.id} is level ${u.level}`).toBe(true);
     }
   });
 
@@ -43,24 +55,20 @@ describe('writingCurriculum — CEFR completeness', () => {
     }
   });
 
-  it('a level is not eight variations on one register: formal AND personal address at B1–C1, formal at C2', () => {
-    // Formal register shows in the model's frame; personal in the address. C2
-    // is exempt from the personal half on purpose: its spread is essay,
-    // analysis, portrait, expert opinion and literary miniature — the level's
-    // descriptor is register and nuance, not letters to friends.
+  it('a level is not eight variations on one register: formal AND personal address at B1–C1', () => {
+    // Formal register shows in the model's frame; personal in the address.
     const FORMAL = /Poštovani|S poštovanjem|Predmet ocjene/;
     const PERSONAL = /\b(Draga|Dragi|Bog)\b/;
-    for (const level of ['B1', 'B2', 'C1', 'C2'] as const) {
+    for (const level of ['B1', 'B2', 'C1'] as const) {
       const models = unitsForLevel(level).map((u) => u.model);
       expect(
         models.some((m) => FORMAL.test(m)),
         `${level} has a formal unit`,
       ).toBe(true);
-      if (level !== 'C2')
-        expect(
-          models.some((m) => PERSONAL.test(m)),
-          `${level} has a personal unit`,
-        ).toBe(true);
+      expect(
+        models.some((m) => PERSONAL.test(m)),
+        `${level} has a personal unit`,
+      ).toBe(true);
     }
   });
 });

@@ -54,10 +54,12 @@ describe('listeningCurriculum data integrity', () => {
     expect(new Set(keys).size).toBe(keys.length);
   });
 
-  it('every CEFR level has at least one unit', () => {
-    for (const lv of VALID_LEVELS) {
+  it('every CEFR level has at least one unit (the course ends at C1; none is tagged C2)', () => {
+    // 2026-11-18: the former C2 sets are tagged C1. The server allowlist above still lists C2.
+    for (const lv of VALID_LEVELS.filter((l) => l !== 'C2')) {
       expect(getUnitsForLevel(lv).length, lv).toBeGreaterThan(0);
     }
+    expect(getUnitsForLevel('C2').length, 'no unit is tagged C2').toBe(0);
   });
 });
 
