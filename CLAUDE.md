@@ -29,7 +29,10 @@ Cloudflare Pages Functions, Capacitor. A push to master deploys.
    failing or due.
 9. **One level across the app:** the course level. Never show content above the learner's
    unit. Levels are A1–C1; there is no C2.
-10. **The course never over-claims.** Never display a level, badge, or "confirmed" claim the
+10. **Words are the core of fluency.** Every learner meets 10 new words a day (the review
+    queue always serves them, whatever is due), and a lesson's own words join spaced review
+    when the lesson is passed. Add words with `scripts/addVocab.mjs`: it dedupes against the deck.
+11. **The course never over-claims.** Never display a level, badge, or "confirmed" claim the
     learner has not earned with real passes.
 
 ## 3. Done means used

@@ -99,7 +99,7 @@ export default function ReviewScreen({ goBack, award, allCats }: ReviewScreenPro
 
   const questions = useMemo(() => {
     if (dueWords.length === 0) return [];
-    return (dueWords as string[][]).slice(0, 20).map((w: string[]) => {
+    return (dueWords as string[][]).map((w: string[]) => {
       // Filter to words with a different English meaning, then deduplicate
       // meanings — prevents synonyms from making the correct answer appear twice.
       const seen = new Set([w[1]]);
