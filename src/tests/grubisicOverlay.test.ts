@@ -93,6 +93,10 @@ describe('Grubišić additions', () => {
     expect(text('prepositions-action')).toContain('ka gradu');
     expect(text('prepositions-action')).toContain('k selu');
     expect(text('noun-peculiarities-e')).toContain('bitki or bici');
+    expect(text('verbs-with-dative-a2')).toContain('Kupila sam si novu torbu');
+    expect(text('instrumental')).toContain('Ponedjeljkom imamo hrvatski');
+    expect(text('tvorba-rijeci')).toContain('žutjeti = become yellow');
+    expect(text('instrumental')).toContain('Morem plovi mali brod');
     const wf = text('word-formation-agents');
     for (const fact of [
       'rob → ropstvo',

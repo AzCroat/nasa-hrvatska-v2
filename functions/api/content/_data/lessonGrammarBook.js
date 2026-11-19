@@ -78,6 +78,143 @@ export const LESSON_GRAMMAR_BOOK = {
     ],
   },
 
+  'verbs-with-dative-a2': {
+    source: 'Grubišić §273 — the dative of the reflexive pronoun, si',
+    slides: [
+      {
+        type: 'rule',
+        title: 'Doing Something for Yourself: si',
+        body:
+          'The reflexive pronoun has a short dative form, si, for the person you do something FOR when that person is the subject of the sentence: ' +
+          'Kupila sam si novu torbu (I bought myself a new bag). Uzmi si kavu (Help yourself to a coffee). Priušti si odmor (Treat yourself to a vacation). ' +
+          'Grubišić notes that this si is used far less than the accusative se, and gives the example ' +
+          'On si je umislio da je dobar nogometaš (He imagined himself to be a good soccer player). ' +
+          'Like every short pronoun, si stands in second position, and it never takes the stress.',
+        highlight: 'Kupila sam si torbu. · Uzmi si kavu.',
+      },
+    ],
+    practice: [
+      {
+        q: 'You bought a bag for yourself: "Kupila sam ___ novu torbu."',
+        options: ['se', 'si', 'sebe', 'sam'],
+        correct: 1,
+        hint: 'You are the one who benefits, so the reflexive pronoun is in the dative.',
+        explanation: 'Kupila sam si novu torbu — si is the dative of the reflexive pronoun.',
+      },
+      {
+        q: 'Offering someone a coffee: "Uzmi ___ kavu."',
+        options: ['te', 'si', 'se', 'tebe'],
+        correct: 1,
+        hint: 'It means: take a coffee for yourself.',
+        explanation: 'Uzmi si kavu — si shows who the coffee is for.',
+      },
+    ],
+  },
+
+  // ── B1 ─────────────────────────────────────────────────────────────────────
+  instrumental: {
+    source: 'Grubišić §338 — the instrumental without a preposition: time, route and manner',
+    slides: [
+      {
+        type: 'rule',
+        title: 'More Jobs for the Instrumental: Time, Route, Manner',
+        body:
+          'Besides means and accompaniment, the instrumental alone (with no preposition) answers three more questions. ' +
+          'WHEN, how often: Ponedjeljkom imamo hrvatski (On Mondays we have Croatian class). Noću neki ljudi ne vide dobro (At night some people do not see well). Godinama se nismo vidjeli (We did not see each other for years). ' +
+          'WHICH WAY, along what: Morem plovi mali brod (A small ship sails along the sea). Njegov je glas odjekivao brdom (His voice echoed across the hill). Ovim putom ne možete stići do nas (You cannot reach us by this road). ' +
+          'IN WHAT WAY: Trkom su došli do nas (They came to us running). Masama su sudjelovali u štrajku (They took part in the strike in great numbers).',
+        highlight: 'Ponedjeljkom · noću · morem · trkom',
+      },
+      {
+        type: 'table',
+        title: 'The Instrumental Without a Preposition',
+        headers: ['It answers', 'Example', 'Meaning'],
+        rows: [
+          ['when, how often', 'Ponedjeljkom imamo hrvatski.', 'On Mondays we have Croatian class.'],
+          ['when, how long', 'Godinama se nismo vidjeli.', 'We did not see each other for years.'],
+          ['which way', 'Morem plovi mali brod.', 'A small ship sails along the sea.'],
+          ['which way', 'Ovim putom ne možete stići do nas.', 'You cannot reach us by this road.'],
+          ['in what way', 'Trkom su došli do nas.', 'They came to us running.'],
+        ],
+      },
+    ],
+    practice: [
+      {
+        q: '____ imamo hrvatski jezik. (on Mondays, every week)',
+        options: ['Ponedjeljkom', 'Ponedjeljku', 'Ponedjeljkov', 'Ponedjeljke'],
+        correct: 0,
+        hint: 'A habit on a day of the week is the instrumental, with no preposition.',
+        explanation:
+          'Ponedjeljkom imamo hrvatski jezik — the instrumental says on Mondays, every week.',
+      },
+      {
+        q: '____ plovi mali brod. (along the sea)',
+        options: ['Morem', 'More', 'Moru', 'Mora'],
+        correct: 0,
+        hint: 'The route is the instrumental, and it needs no preposition.',
+        explanation: 'Morem plovi mali brod — the instrumental names the way the ship travels.',
+      },
+      {
+        type: 'type',
+        q: 'Došli su ____. (running)',
+        answer: 'trkom',
+        hint: 'The manner is the instrumental of the noun for a run.',
+        explanation: 'Došli su trkom — the instrumental says in what way they came.',
+      },
+      {
+        type: 'type',
+        q: '____ neki ljudi ne vide dobro. (at night)',
+        answer: 'noću',
+        accept: ['Noću'],
+        hint: 'The word for night has a special instrumental ending, -u, that works as an adverb.',
+        explanation: 'Noću — the instrumental of noć, used for when.',
+      },
+    ],
+  },
+
+  // ── C1 ─────────────────────────────────────────────────────────────────────
+  'tvorba-rijeci': {
+    source: 'Grubišić §328 — verbs formed from adjectives: becoming and making',
+    slides: [
+      {
+        type: 'rule',
+        title: 'Colors That Become Verbs: -jeti and -iti',
+        body:
+          'Many color adjectives give two verbs. The one in -jeti means to BECOME that color (nothing acts on it): ' +
+          'crn → crnjeti, plav → plavjeti, žut → žutjeti, siv → sivjeti, bijel → bijeljeti. ' +
+          'The one in -iti means to MAKE something that color (it needs an object): ' +
+          'crniti, plaviti, žutiti, siviti, bijeliti. ' +
+          'Lišće počinje žutjeti u listopadu (the leaves begin to turn yellow). ' +
+          'Dim crni zidove (the smoke blackens the walls). ' +
+          'The same pair of endings is used with other adjectives: oživjeti (to come alive).',
+        highlight: 'žutjeti = become yellow · žutiti = make yellow',
+      },
+    ],
+    practice: [
+      {
+        q: 'Which verb means "to turn black" (nothing acts on it)?',
+        options: ['crnjeti', 'crniti', 'crnati', 'crnovati'],
+        correct: 0,
+        hint: 'The verb in -jeti is the one with no object.',
+        explanation: 'crnjeti — to become black. crniti means to make something black.',
+      },
+      {
+        q: 'Which verb means "to make something yellow"?',
+        options: ['žutjeti', 'žutiti', 'žutati', 'žutovati'],
+        correct: 1,
+        hint: 'The verb in -iti needs an object.',
+        explanation: 'žutiti — to make something yellow. žutjeti means to become yellow.',
+      },
+      {
+        type: 'type',
+        q: 'Lišće počinje ____ u listopadu. (to turn yellow)',
+        answer: 'žutjeti',
+        hint: 'The leaves are not being acted on, so use the verb that means to become.',
+        explanation: 'žutjeti — to turn yellow, with no object.',
+      },
+    ],
+  },
+
   // ── B2 ─────────────────────────────────────────────────────────────────────
   'noun-peculiarities-e': {
     source: 'Grubišić §41 — double dative/locative forms of feminine nouns in -tka',

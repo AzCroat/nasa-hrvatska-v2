@@ -2898,6 +2898,22 @@ export const V = {
     ['svjež', 'fresh', 'Kruh je svjež.'],
     ['gust', 'dense, thick', 'Magla je gusta.'],
   ],
+  glagoli_iz_gramatike_a2: [
+    ['šivati', 'to sew', 'Baka šije haljinu za unuku.'],
+    ['kositi', 'to mow', 'Djed kosi travu u vrtu.'],
+  ],
+  glagoli_iz_gramatike_b1: [
+    ['zijevati', 'to yawn', 'Dijete zijeva jer je umorno.'],
+    ['goniti', 'to chase', 'Pas goni mačku po dvorištu.'],
+    ['mrviti', 'to crumble', 'Mrvim kruh pticama.'],
+    ['noćevati', 'to spend the night', 'Noćevat ćemo u planinarskom domu.'],
+    ['garantirati', 'to guarantee', 'Tvrtka garantira kvalitetu.'],
+    ['nadodati', 'to add (on top)', 'Nadodaj još malo soli.'],
+    ['ulijevati', 'to pour in', 'Ulijevam mlijeko u šalicu.'],
+    ['istrgati', 'to tear out', 'Istrgnula je stranicu iz bilježnice.'],
+    ['namigivati', 'to wink', 'Namigivao mi je preko stola.'],
+    ['krasiti', 'to adorn', 'Cvijeće krasi svaki prozor.'],
+  ],
 };
 export const TOP100 = {
   'At the Airport': [
@@ -10683,6 +10699,26 @@ export const V_C1 = {
     ['neprikladan', 'inappropriate', 'Šala je neprikladna.'],
     ['usporediv', 'comparable', 'Rezultati su usporedivi.'],
   ],
+  glagoli_iz_gramatike_c1: [
+    ['crnjeti', 'to turn black', 'Nebo počinje crnjeti prije oluje.'],
+    ['crniti', 'to blacken', 'Dim crni zidove.'],
+    ['plavjeti', 'to turn blue', 'More počinje plavjeti u daljini.'],
+    ['žutjeti', 'to turn yellow', 'Lišće počinje žutjeti u listopadu.'],
+    ['žutiti', 'to make yellow', 'Sunce žuti stare papire.'],
+    ['sivjeti', 'to turn gray', 'Nebo će sivjeti prije kiše.'],
+    ['siviti', 'to make gray', 'Magla može siviti cijeli krajolik.'],
+    ['oživjeti', 'to come alive', 'Grad oživi svakog ljeta.'],
+    ['izmamiti', 'to lure out', 'Izmamio je tajnu iz prijatelja.'],
+    ['kazivati', 'to narrate, tell', 'Djed kazuje stare priče.'],
+    ['poreći', 'to deny', 'Ne može se poreći da je kasnio.'],
+    ['zareći se', 'to swear off', 'Zarekao se da više neće pušiti.'],
+    ['jaukati', 'to wail', 'Pas jauče pred vratima.'],
+    ['uzmicati', 'to retreat', 'Vojska je uzmicala prema sjeveru.'],
+    ['mimoilaziti se', 'to pass each other', 'Mimoilazimo se svaki dan.'],
+    ['krišom', 'secretly', 'Krišom je pogledao na sat.'],
+    ['krijomice', 'stealthily', 'Krijomice je ušao u sobu.'],
+    ['snebiti se', 'to be taken aback', 'Snebio se kad je čuo vijest.'],
+  ],
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -14590,4 +14626,6 @@ export const V_LEVELS = {
   prilozi_veznici_b1: 'B1',
   glagoli_kretanje_a2: 'A2',
   pridjevi_svakodnevni_a2: 'A2',
+  glagoli_iz_gramatike_a2: 'A2',
+  glagoli_iz_gramatike_b1: 'B1',
 };
