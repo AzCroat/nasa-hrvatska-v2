@@ -31,8 +31,9 @@
 //   7. only when nothing above remains: the fluency round over mastered lessons,
 //      then guided speaking and writing at the course level. These repeat, which is
 //      what makes the flow endless without ever inventing a weakness.
-// Never a lesson (no `curriculum_<lesson>` or `animlesson` activity is built
-// here), never a unit test, never a check.
+// 3.5 (owner, 2026-11-19, reversing 2026-09-29): between 3 and 4, the course's own
+// next step — lesson, unit test, owed production, level review — so a learner who
+// knows the material moves forward. Never a check (checkLock closes it).
 //
 // ONLY MEASURED EVIDENCE IS CALLED EVIDENCE (NEVER-DO 13). Every item carries the
 // reason its store supports; tier 7 says what it is ("everything taught so far is
@@ -60,10 +61,17 @@ import { selectRetentionSlot } from './retentionSlot';
 import { buildConceptMap, type ConceptEntry, type ConceptMap } from './conceptMap';
 import { readRetention } from './lessonRetention';
 import { readCurriculumSpine } from './curriculumProgress';
-import { readCourseState } from './courseStep';
+import {
+  readCourseState,
+  nextCourseStep,
+  unitTestActivityId,
+  unitProductionActivityId,
+  levelReviewActivityId,
+} from './courseStep';
 import { getMasteryLedger, weakestProductionKind, weakestReceptiveKind } from './masteryLedger';
 import { getDueCategoryQueue, getCategoryStatus, type SkillCategory } from './adaptive';
 import { readCourseAhead } from './courseGate';
+import { checkLockedToday } from './checkLock';
 import { CATEGORY_SCREEN_MAP, CATEGORY_EASIER_SCREEN, SCREEN_CEFR } from './categoryRoutes';
 import { CEFR_ORDER, isUnlocked, type CefrLevel } from './cefr';
 import { LESSON_PASS_THRESHOLD } from './lessonCheck';
@@ -93,7 +101,8 @@ export interface KeepDeps {
   }) => SessionActivity | null;
 }
 
-export type KeepTier = 1 | 2 | 3 | 4 | 5 | 6 | 7;
+/** 3.5 is the course's own next step (owner, 2026-11-19), between tiers 3 and 4. */
+export type KeepTier = 1 | 2 | 3 | 3.5 | 4 | 5 | 6 | 7;
 
 export interface KeepCandidate {
   activity: SessionActivity;
@@ -298,6 +307,62 @@ export function gatherKeepCandidates(
     }
   });
 
+  // ── 3.5. THE COURSE'S NEXT STEP (owner, 2026-11-19) ────────────────────────
+  // "If a user is demonstrating over and over they know the material, why are we
+  // giving them the same material?" Once what is genuinely owed (tiers 1-3) is
+  // served, the next item is the course's own next step — the same sequencer Home
+  // and the map read — so a learner who knows the material moves forward instead of
+  // re-drilling it. It never serves a locked step (`nextCourseStep` cannot), is
+  // capped by passing alone, and a lesson is never listed twice in a day (its id is
+  // in the plan once done). The launcher re-arms the handoff from the id.
+  guarded(() => {
+    const step = nextCourseStep({ skipRechecks: true });
+    if (!step) return;
+    let a: SessionActivity | null = null;
+    // A lesson whose check failed today is closed until tomorrow (checkLock): the
+    // corrective day serves it then, so it is not offered now.
+    if (step.kind === 'lesson' && checkLockedToday(step.lesson.id)) return;
+    if (step.kind === 'lesson') {
+      a = {
+        id: `curriculum_${step.lesson.id}`,
+        label: step.lesson.title || 'Next lesson',
+        screen: 'animlesson',
+        category: 'general',
+        ...withReason(`Next in your course: ${step.reason}.`),
+      };
+    } else if (step.kind === 'unit-test') {
+      a = {
+        id: unitTestActivityId(step.unit.id),
+        label: `Unit ${step.unit.index} test`,
+        screen: 'unittest',
+        category: 'general',
+        ...withReason(step.reason),
+      };
+    } else if (step.kind === 'production') {
+      a = {
+        id: unitProductionActivityId(step.unit.id, step.owed),
+        label: `Unit ${step.unit.index}: ${step.owed === 'write' ? 'write' : 'speak'}`,
+        screen: 'unitproduction',
+        category: 'general',
+        ...withReason(step.reason),
+      };
+    } else if (step.kind === 'level-review') {
+      a = {
+        id: levelReviewActivityId(step.level),
+        label: `${step.level} review`,
+        screen: 'levelreview',
+        category: 'general',
+        ...withReason(step.reason),
+      };
+    }
+    // Pushed directly: `add` refuses lesson ids by design for every other tier.
+    if (a && !planIds.has(a.id) && !blockScreens.has(a.screen)) {
+      planIds.add(a.id);
+      blockScreens.add(a.screen);
+      out.push({ activity: a, tier: 3.5, spoken: false });
+    }
+  });
+
   // ── 4. Passed, not yet retained — lessons, then units ──────────────────────
   guarded(() => {
     for (const e of entries.filter((x) => x.state === 'passed')) drillFor(e, 4);
@@ -387,7 +452,8 @@ export function gatherKeepCandidates(
   });
 
   // ── 7. Only when nothing above remains: keep what is proven in use ─────────
-  if (out.length === 0) {
+  // The course's own next step (3.5) is not review, so it does not suppress the floor.
+  if (out.every((c) => c.tier === 3.5)) {
     guarded(() => {
       const store = readRetention();
       if (!fluencyAvailable(store)) return;

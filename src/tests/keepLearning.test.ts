@@ -204,7 +204,9 @@ describe('nothing before the cases (owner, 2026-11-13)', () => {
   it('a learner whose open lessons teach no case gets word practice, not sentence building', () => {
     seedCourseAt(1);
     const cands = gatherKeepCandidates('A1', { activities: [] }, 3, deps());
-    const screens = cands.map((c) => c.activity.screen);
+    // 2026-11-19: the course's next lesson (tier 3.5) now precedes the word practice;
+    // what this test pins is the tier-7 floor, so it reads that tier.
+    const screens = cands.filter((c) => c.tier === 7).map((c) => c.activity.screen);
     expect(screens).toEqual(['flashcards', 'mcgame']);
     expect(screens).not.toContain('speaking_guided');
     expect(screens).not.toContain('writing_guided');
@@ -231,7 +233,9 @@ describe('never an untaught lesson, never a new lesson, never a closed check', (
       1,
       gatherKeepCandidates('A1', { activities: [] }, 1, deps({ dueReviews: 5 })),
     );
-    expect(block.some(isLesson)).toBe(false);
+    // (2026-11-19: the lesson step is withheld while its check is closed — the
+    // corrective day serves it tomorrow — though other lessons may now be offered.)
+    expect(block.some((a) => a.id === `curriculum_${lesson.id}`)).toBe(false);
     // Its missed items are not due until tomorrow, which is what the lock promises.
     expect(block.some((a) => a.screen === 'lessonreview')).toBe(false);
   });
@@ -286,6 +290,45 @@ describe('never an untaught lesson, never a new lesson, never a closed check', (
       });
     }
   }
+});
+
+describe('the course moves a learner forward (owner, 2026-11-19, reverses 2026-09-29)', () => {
+  const REVIEW_TIERS_BELOW = [1, 2, 3];
+  it('a learner with nothing failed is served the next lesson ahead of old passed-concept drills', () => {
+    seedCourseAt(1);
+    const unit = readCourseState().units.find((u) => u.index === 1)!;
+    readAndPass(unit.lessons[0]!.id);
+    const cands = gatherKeepCandidates('A1', { activities: [] }, 1, deps());
+    const course = cands.find((c) => c.tier === 3.5)!;
+    expect(course.activity.id).toBe(`curriculum_${unit.lessons[1]!.id}`);
+    expect(course.activity.screen).toBe('animlesson');
+    const firstPassed = cands.findIndex((c) => c.tier === 4);
+    if (firstPassed >= 0) expect(cands.indexOf(course)).toBeLessThan(firstPassed);
+    expect(
+      REVIEW_TIERS_BELOW.every(
+        (t) => cands.findIndex((c) => c.tier === t) <= cands.indexOf(course),
+      ),
+    ).toBe(true);
+  });
+
+  it('with the unit read it is served the unit test, never a locked step', () => {
+    seedCourseAt(1);
+    const unit = readCourseState().units.find((u) => u.index === 1)!;
+    unit.lessons.forEach((l) => readAndPass(l.id));
+    const cands = gatherKeepCandidates('A1', { activities: [] }, 1, deps());
+    const course = cands.find((c) => c.tier === 3.5)!;
+    expect(course.activity.id).toBe(`course_unit_test_${unit.id}`);
+    expect(course.activity.screen).toBe('unittest');
+  });
+
+  it('a lesson already in today’s plan is not listed twice', () => {
+    seedCourseAt(1);
+    const unit = readCourseState().units.find((u) => u.index === 1)!;
+    readAndPass(unit.lessons[0]!.id);
+    const id = `curriculum_${unit.lessons[1]!.id}`;
+    const cands = gatherKeepCandidates('A1', { activities: [act_(id, 'animlesson')] }, 1, deps());
+    expect(cands.some((c) => c.activity.id === id)).toBe(false);
+  });
 });
 
 describe('a repeated screen is credited to the activity that was launched', () => {

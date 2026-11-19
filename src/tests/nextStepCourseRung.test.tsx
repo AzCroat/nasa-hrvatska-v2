@@ -54,13 +54,13 @@ describe('the next-step engine offers the course once the session is done', () =
     expect(step.label).toContain(UNITS[0]!.lessons[1]!.title);
   });
 
-  it('once today’s session is done it offers NO new lesson (owner, 2026-09-29: review, not new concepts)', () => {
+  it('once today’s session is done it offers the NEXT lesson (owner, 2026-11-19, reverses the 2026-09-29 rule)', () => {
     writeCurriculumSpine(SPINE);
     markLessonComplete(UNITS[0]!.lessons[0]!.id, '2026-09-27');
     finishTodaysSession();
     const step = getNextStep({ userCefr: 'A2', poolWords: new Set() });
-    expect(step.screen).not.toBe('animlesson');
-    expect(step.kind).not.toBe('course');
+    expect(step.screen).toBe('animlesson');
+    expect(step.kind).toBe('course');
   });
 
   it('with the unit read, it offers the unit test — and the handoff waits for the tap', () => {

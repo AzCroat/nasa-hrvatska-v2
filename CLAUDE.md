@@ -4874,7 +4874,20 @@ is for: _"I think we need to not try to teach new concepts but review those that
 learner has not proven mastery."_ **Keep Learning replaced the Stretch** (`src/lib/keepLearning.ts`,
 AUDIT-STATE sweep 216).
 
-- **ONE NEW LESSON A DAY, STILL.** P0 in the core session is unchanged, and so is the core's
+- **THE COURSE MOVES A LEARNER FORWARD (owner, 2026-11-19 — REVERSES THE 2026-09-29 RULE BELOW).**
+  Owner: _"If a user is demonstrating over and over they know the material, why are we giving them
+  the same material?"_ A learner at 100% scores was served the same present-tense drill for the
+  twentieth time, with Unit 3 locked and nothing naming what opens it. After the core session,
+  once what is genuinely owed (tiers 1–3) is served, tier 3.5 is **the course's own next step** —
+  `nextCourseStep` (the sequencer Home and the map read): the next lesson, the unit test, owed
+  production, a level review — ranked above the old tier 4 (passed-not-retained drills and
+  unit check-ups). There is no per-day cap: passing is the only limit. A lesson whose check is
+  closed today (`checkLock`) is not offered, a lesson already in the plan is not listed twice, a
+  locked step is never offered, and tier 7 still runs (the course step does not suppress it).
+  `getNextStep`'s course rung matches: no "no new lesson after the core" rule. The daily core
+  session itself is unchanged: still exactly one new lesson (P0). A drill passed since its last
+  serve is not re-served before its next check-up (2026-11-19, below).
+- **ONE NEW LESSON A DAY IN THE CORE, STILL.** P0 in the core session is unchanged, and so is the core's
   composition and `nh_session_history` (it records the CORE). After the core, Home's hero is
   KEEP LEARNING · Unit N (`keep-learning-hero`, `keep-core-chip` "✓ Today's session done",
   one Continue button, `keep-progress` "N concepts still to prove in Unit N"). A block holds
@@ -4889,7 +4902,7 @@ AUDIT-STATE sweep 216).
   (`passed`) and units (advanced, check-ups not yet held) as their drills; (5) SRS words due;
   (6) the weakest MEASURED production or receptive skill, done at the course level; (7) only
   when nothing above remains — the fluency round, then guided speaking and writing, which
-  always serve and repeat. Never a lesson, a unit test or a check: a closed check
+  always serve and repeat. Never a check: a closed check
   (`checkLock`) is served as its drill only, and its missed items are not due until tomorrow,
   which is what the lock promises.
 - **A LEDGER VERDICT AT ANOTHER LEVEL IS STILL A VERDICT** (`ledgerEvidenceLevels`). One path
@@ -4936,8 +4949,8 @@ AUDIT-STATE sweep 216).
   front of a learner before the first lesson; NEVER re-add a timer that routes a new learner
   anywhere but the course.
 - NEVER: let a learner choose the bar; render a "Day Complete" or any terminal state after the
-  core session; serve a lesson, a unit test or a check in Keep Learning (one new lesson a day,
-  in the core); serve untaught material; re-open a check `checkLock` has closed; call an item
+  core session; serve a check in Keep Learning; hold the course's next step back behind
+  review drills a learner has already passed (2026-11-19); serve a locked step; re-open a check `checkLock` has closed; call an item
   "measured" the stores do not measure; read the ledger at the course level only; credit a
   repeated screen to the first activity that has it rather than the first UNFINISHED one;
   re-serve a concept's drill the same day; raise the 800-line cap to keep a block in the hook.
