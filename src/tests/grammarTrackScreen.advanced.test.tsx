@@ -55,16 +55,16 @@ describe('GrammarTrackScreen — SP9 advanced units', () => {
     expect(screen.getByText(/Glagoli kretanja/i)).toBeInTheDocument();
   });
 
-  it('C2 level shows the verbal-adverbs mastery unit', () => {
+  it('C1 level also shows the verbal-adverbs mastery unit (the former C2 unit)', () => {
     render(<GrammarTrackScreen goBack={() => {}} launchGrammarUnit={() => {}} />);
-    clickLevelTab(/^C2/);
+    clickLevelTab(/^C1/);
     expect(screen.getByText(/Glagolski prilozi/i)).toBeInTheDocument();
   });
 
-  it('tapping the C2 verbal-adverbs unit routes via launchGrammarUnit', () => {
+  it('tapping the C1 verbal-adverbs unit routes via launchGrammarUnit', () => {
     const launch = vi.fn();
     render(<GrammarTrackScreen goBack={() => {}} launchGrammarUnit={launch} />);
-    clickLevelTab(/^C2/);
+    clickLevelTab(/^C1/);
     const card = screen.getByText(/Glagolski prilozi/i).closest('button');
     expect(card).toBeTruthy();
     fireEvent.click(card!);

@@ -247,6 +247,6 @@ export const OLD_TEXTS_DRILL_DATA: ModeDrillItem[] = [
       'jezik se nije mijenjao',
     ],
     answer: 'standard je izbor, ne nužnost',
-    tip: 'The C2 point the whole level keeps returning to.',
+    tip: 'The point the whole level keeps returning to.',
   },
 ];

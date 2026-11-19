@@ -351,7 +351,7 @@ export function buildLearningIndex(sources: LearningIndexSources): LearningEntry
   return entries;
 }
 
-const LEVEL_ORDER: Record<string, number> = { A1: 0, A2: 1, B1: 2, B2: 3, C1: 4, C2: 5 };
+const LEVEL_ORDER: Record<string, number> = { A1: 0, A2: 1, B1: 2, B2: 3, C1: 4, C2: 4 };
 
 /**
  * Tie-break by what a row IS, before anything else.

@@ -21,7 +21,7 @@ export default function ModalityDrill({ goBack, award }: Props) {
       modeLabels={MODALITY_MODE_LABELS}
       data={MODALITY_DRILL_DATA}
       praise={{
-        perfect: 'Savršeno — to je razina C2! 🏆',
+        perfect: 'Savršeno — to je razina C1! 🏆',
         good: 'Vrlo dobro! 💪',
         more: 'Još malo vježbe.',
       }}

@@ -24,7 +24,7 @@ export default function SpontaneousDrill({ goBack, award }: Props) {
       modeLabels={SPONTANEOUS_MODE_LABELS}
       data={SPONTANEOUS_DRILL_DATA}
       praise={{
-        perfect: 'Savršeno — to je razina C2! 🏆',
+        perfect: 'Savršeno — to je razina C1! 🏆',
         good: 'Vrlo dobro! 💪',
         more: 'Još malo vježbe.',
       }}

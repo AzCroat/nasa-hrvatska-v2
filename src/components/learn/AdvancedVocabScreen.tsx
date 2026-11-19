@@ -3,7 +3,7 @@ import { speak } from '../../data';
 import { useContent } from '../../hooks/useContent';
 import { poolLaunchBlock } from '../../lib/practiceLaunch';
 
-type LevelKey = 'B2' | 'C1' | 'C2';
+type LevelKey = 'B2' | 'C1';
 const LS_KEY = 'nh_adv_vocab_learned';
 
 function loadLearned() {
@@ -25,6 +25,14 @@ interface Props {
   award?: (xp: number, celebrate?: boolean, activityType?: string) => void;
 }
 
+function mergeTiers(a: unknown, b: unknown): Record<string, unknown> {
+  const out: Record<string, unknown> = { ...((a ?? {}) as Record<string, unknown>) };
+  for (const [k, v] of Object.entries((b ?? {}) as Record<string, unknown>)) {
+    out[k] = Array.isArray(out[k]) && Array.isArray(v) ? [...(out[k] as unknown[]), ...v] : v;
+  }
+  return out;
+}
+
 export default function AdvancedVocabScreen({ goBack, award }: Props) {
   const { content, loading: contentLoading } = useContent();
   // SP11f: V_B2 / V_C1 / V_C2 ship from /api/content/core. While content hydrates,
@@ -33,8 +41,9 @@ export default function AdvancedVocabScreen({ goBack, award }: Props) {
   const LEVEL_DATA = useMemo(
     () => ({
       B2: (content?.V_B2 ?? {}) as Record<string, unknown>,
-      C1: (content?.V_C1 ?? {}) as Record<string, unknown>,
-      C2: (content?.V_C2 ?? {}) as Record<string, unknown>,
+      // The former C2 tier is part of C1 since 2026-11-18 (the course ends at C1). A
+      // category both tiers have keeps the C1 words first.
+      C1: mergeTiers(content?.V_C1, content?.V_C2),
     }),
     [content?.V_B2, content?.V_C1, content?.V_C2],
   );
@@ -127,7 +136,7 @@ export default function AdvancedVocabScreen({ goBack, award }: Props) {
 
         {/* ── LEVEL TOGGLE ── */}
         <div style={{ display: 'flex', gap: 8, marginBottom: 16, marginTop: 12 }}>
-          {(['B2', 'C1', 'C2'] as LevelKey[]).map((l) => (
+          {(['B2', 'C1'] as LevelKey[]).map((l) => (
             <button
               key={l}
               onClick={() => toggleLevel(l)}

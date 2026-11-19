@@ -8,7 +8,6 @@ const TABS = [
   { id: 'home', label: 'Today', cro: 'Dom', sub: 'Home' },
   { id: 'learn', label: 'Course', cro: 'Tečaj', sub: 'Course' },
   { id: 'more', label: 'More', cro: 'Više', sub: 'More' },
-  { id: 'profile', label: 'Me', cro: 'Ja', sub: 'Me' },
 ];
 
 // Tabs that stay valid (routes, URLs) but live behind the More door.

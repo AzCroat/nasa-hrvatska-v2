@@ -299,7 +299,7 @@ export default function C2StructureDrill({ goBack, award }: Props) {
   return (
     <ModeDrill
       id="c2drill"
-      title={'🎓 C2 Structure Drill'}
+      title={'🎓 Advanced Structure Drill'}
       subtitle={'Literary tenses · nominal style · the comma'}
       modeLabels={MODE_LABEL}
       data={DATA}

@@ -200,7 +200,7 @@ export default function QuestionView({ quiz }: { quiz: ListeningQuiz }) {
           voiceA={narrator}
           voiceB={narrator === 'srecko' ? undefined : 'srecko'}
           accentColor={ld.color}
-          allowNativePace={['B2', 'C1', 'C2'].includes(selectedLevel!)}
+          allowNativePace={['B2', 'C1'].includes(selectedLevel!)}
         />
       )}
 

@@ -38,7 +38,6 @@ const LEVEL_STYLE = {
   B1: { levelColor: '#92400e', levelBg: '#fef3c7' },
   B2: { levelColor: '#6b21a8', levelBg: '#f3e8ff' },
   C1: { levelColor: '#b91c1c', levelBg: '#fee2e2' },
-  C2: { levelColor: '#0f172a', levelBg: '#f1f5f9' },
 };
 
 // ─── Map READ library to GrammarReader format ─────────────────────────────────

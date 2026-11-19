@@ -63,7 +63,6 @@ const LEVEL_COLOR: Record<string, string> = {
   B1: '#4338ca',
   B2: '#7c3aed',
   C1: '#b45309',
-  C2: '#be123c',
 };
 
 interface CourseMapScreenProps {
@@ -306,7 +305,7 @@ export default function CourseMapScreen({ goBack, onOpenLesson, setScr }: Course
       )}
 
       {/* ── THE UNITS ──────────────────────────────────────────────────── */}
-      {(['A1', 'A2', 'B1', 'B2', 'C1', 'C2'] as const).map((level) => {
+      {(['A1', 'A2', 'B1', 'B2', 'C1'] as const).map((level) => {
         const rows = progress.units.filter((r) => r.unit.level === level);
         if (rows.length === 0) return null;
         return (

@@ -163,7 +163,6 @@ const TARGETS = [
   'src/data/cultural/cityHr/B1.js',
   'src/data/cultural/cityHr/B2.js',
   'src/data/cultural/cityHr/C1.js',
-  'src/data/cultural/cityHr/C2.js',
   'functions/api/content/_data/cultural/geography.js',
   'src/data/exercises.js',
   'functions/api/content/_data/cultural/regions.js',
@@ -1098,7 +1097,7 @@ const BAD_CHARS_RE = /[Ѐ-ӿԀ-ԯŢ-ţŞ-şĞ-ğİ-ı­]/g;
 // happened to appear. Found by mutation while grading the history timeline:
 // `hleb` in a `textHr` passed clean; the same word in a drill's `q` was caught.
 // `[a-zA-Z]*Hr[ABC]?[12]?` covers the whole suffix family INCLUDING the graded
-// siblings the history screen now reads (textHrA1 … textHrC2), and the array
+// siblings the history screen now reads (textHrA1 … textHrC1), and the array
 // pass gains `[a-zA-Z]*Hr`. Measured first, as the rule requires: 95,315 →
 // 96,799 strings scanned, zero new findings; mutation-verified in seven
 // positions (textHr, titleHr with a Cyrillic homoglyph, descHr, tHr, eventHr,

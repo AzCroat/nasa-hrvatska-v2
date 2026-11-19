@@ -16,6 +16,13 @@
  *   - Confirmed is at C1 (top of our check bank):
  *     Show celebratory state, no further check.
  *
+ * HONESTY (2026-11-19): every "confirmed" / "passed" claim here comes from REAL
+ * passes only (`getVerifiedLevel`). `getCertifiedLevel` also counts provisional
+ * (grandfathered) passes, which exist for every level a learner's old XP reached,
+ * so it said "CONFIRMED C2" to someone who had not passed a single check. The
+ * check named on the button is read from `getLevelCheckOffer`, the same function
+ * the screen it launches uses.
+ *
  * Self-contained: reads confirmed-level state from the source-of-truth
  * module, doesn't subscribe to changes (Profile tab re-mounts on tab
  * change, so state is refreshed naturally on each visit).
@@ -24,8 +31,9 @@
 import React from 'react';
 import type { CefrLevel } from '../../lib/cefr';
 import { cefrRank } from '../../lib/cefr';
-import { getCertifiedLevel } from '../../lib/cefrCertification';
-import { getNextTestFor } from '../../data/cefrEquivalencyItems';
+import { CEFR_ORDER } from '../../lib/cefr';
+import { getCertificationState, isProvisionalPass } from '../../lib/cefrCertification';
+import { getLevelCheckOffer } from '../../lib/levelCheckOffer';
 
 interface EquivalencyTestCardProps {
   userEligible: CefrLevel;
@@ -36,15 +44,23 @@ export default function EquivalencyTestCard({
   userEligible,
   onTakeTest,
 }: EquivalencyTestCardProps) {
-  const certified = getCertifiedLevel();
-  const nextTest = getNextTestFor(certified);
-  const eligibleAhead = cefrRank(userEligible) > cefrRank(certified);
+  const offer = getLevelCheckOffer();
+  const nextTest = offer.set;
+  const hasRealPass = Object.values(getCertificationState().passes).some(
+    (p) => !!p && !isProvisionalPass(p),
+  );
+  // What is CONFIRMED is what was passed for real — never the provisional stack.
+  const confirmed = hasRealPass ? offer.verified : null;
+  const topLevel = CEFR_ORDER[CEFR_ORDER.length - 1]!;
+  const confirmedLabel = confirmed ? `CONFIRMED ${confirmed}` : 'NO LEVEL CONFIRMED YET';
+  const eligibleAhead = offer.gate.required || cefrRank(userEligible) > cefrRank(confirmed ?? 'A1');
   // The B1+ Level Check now includes a speaking section — nudge so it's not
   // a surprise. (Existing confirmed levels are never revoked; speaking is only
   // required when attempting the next level.)
   const speakingInNext = !!nextTest && cefrRank(nextTest.levelFrom) >= cefrRank('B1');
 
-  // No further check (user has passed C1 → confirmed C1, no C1→C2 check exists).
+  // No further check — only reachable with a REAL pass at the top level.
+  if (!nextTest && confirmed !== topLevel) return null;
   if (!nextTest) {
     return (
       <div
@@ -67,18 +83,20 @@ export default function EquivalencyTestCard({
               letterSpacing: '.2em',
             }}
           >
-            CONFIRMED {certified}
+            CONFIRMED {confirmed}
           </span>
         </div>
         <p style={{ fontSize: 13, color: 'var(--subtext)', margin: 0, lineHeight: 1.5 }}>
-          You've passed every Level Check in this app. {certified} is the highest in-app level; C2
-          native-equivalent fluency is measured by formal external providers.
+          You've passed every Level Check in this app. {confirmed} is the highest level in this
+          course; certification beyond it is offered by formal external providers.
         </p>
       </div>
     );
   }
 
-  // Eligible has overtaken certified — push the test prominently.
+  // Eligible has overtaken what is confirmed (or provisional levels await a real
+  // check) — push the test prominently. `nextTest` is non-null from here on.
+  if (!nextTest) return null;
   if (eligibleAhead) {
     return (
       <button
@@ -112,11 +130,12 @@ export default function EquivalencyTestCard({
             lineHeight: 1.25,
           }}
         >
-          You're {userEligible} by activity. {certified} is confirmed.
+          {confirmed
+            ? `You're ${userEligible} by activity. ${confirmed} is confirmed.`
+            : `You're ${userEligible} by activity. No level is confirmed yet.`}
         </div>
         <div style={{ fontSize: 13, opacity: 0.95, lineHeight: 1.5, marginBottom: 10 }}>
-          Take the {nextTest.levelFrom} Level Check to confirm and unlock {nextTest.levelTo}{' '}
-          content.
+          Take the {nextTest.levelFrom} Level Check to confirm {nextTest.levelTo}.
           {speakingInNext && ' 🎙️ Now includes a short speaking task.'}
         </div>
         <div
@@ -169,7 +188,7 @@ export default function EquivalencyTestCard({
             letterSpacing: '.2em',
           }}
         >
-          CONFIRMED {certified}
+          {confirmedLabel}
         </span>
       </div>
       <p style={{ fontSize: 13, color: 'var(--heading)', margin: '0 0 10px', lineHeight: 1.5 }}>

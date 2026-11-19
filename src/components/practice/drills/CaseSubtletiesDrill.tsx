@@ -24,7 +24,7 @@ export default function CaseSubtletiesDrill({ goBack, award }: Props) {
       modeLabels={CASE_SUBTLETIES_MODE_LABELS}
       data={CASE_SUBTLETIES_DRILL_DATA}
       praise={{
-        perfect: 'Savršeno — to je razina C2! 🏆',
+        perfect: 'Savršeno — to je razina C1! 🏆',
         good: 'Vrlo dobro! 💪',
         more: 'Još malo vježbe.',
       }}

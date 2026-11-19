@@ -1512,7 +1512,7 @@ export const SCENARIOS = [
           'Pa, to je komplicirano pitanje i ima puno strana, teško je reći.',
         ],
         answer: 0,
-        tip: "Concede-then-counter: 'Ne umanjujem…, ali…'. Reframing the question is a C2 rhetorical move.",
+        tip: "Concede-then-counter: 'Ne umanjujem…, ali…'. Reframing the question is an advanced rhetorical move.",
       },
       {
         speaker: 'Sugovornik',
@@ -1538,7 +1538,7 @@ export const SCENARIOS = [
           'To nije moje pitanje, ja nisam ekonomist.',
         ],
         answer: 0,
-        tip: "Chiasmus-like closing ('možemo li si priuštiti da ne…') — rhetorical inversion at C2.",
+        tip: "Chiasmus-like closing ('možemo li si priuštiti da ne…') — rhetorical inversion at the advanced level.",
       },
       {
         speaker: 'Sugovornik',
@@ -1551,7 +1551,7 @@ export const SCENARIOS = [
           'To je teško pitanje za neku drugu emisiju.',
         ],
         answer: 0,
-        tip: "'Nikamo nisu mrdnuli' — colloquial punch inside formal argument; controlled register mixing is C2.",
+        tip: "'Nikamo nisu mrdnuli' — colloquial punch inside formal argument; controlled register mixing is an advanced skill.",
       },
       {
         speaker: 'Moderatorica',
@@ -1637,7 +1637,7 @@ export const SCENARIOS = [
           'Kraj bih promijenio, kraj je najslabiji.',
         ],
         answer: 0,
-        tip: 'Aphoristic close with parallel structure — the C2 signature.',
+        tip: 'Aphoristic close with parallel structure — the advanced signature.',
       },
     ],
   },

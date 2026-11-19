@@ -50,8 +50,8 @@ function ternaryChain(src: string, variable: string) {
 
 describe('the E2E fixtures agree with CEFR_BANDS', () => {
   it('the production side is real', () => {
-    expect(CEFR_BANDS.length).toBe(6);
-    expect(CEILINGS.length).toBe(5);
+    expect(CEFR_BANDS.length).toBe(5);
+    expect(CEILINGS.length).toBe(4);
   });
 
   it('seed-auth spells the production thresholds and levels', () => {

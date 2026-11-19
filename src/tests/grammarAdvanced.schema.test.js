@@ -118,13 +118,13 @@ describe('grammar-advanced.js schema', () => {
     expect(ADVANCED_UNITS).toHaveLength(13);
   });
 
-  it('exactly 6 B2 + 5 C1 + 2 C2', () => {
+  it('exactly 6 B2 + 7 C1 (5 C1 + the 2 former C2) + 0 C2', () => {
     const b2 = ADVANCED_UNITS.filter((u) => u.cefr === 'B2');
     const c1 = ADVANCED_UNITS.filter((u) => u.cefr === 'C1');
     const c2 = ADVANCED_UNITS.filter((u) => u.cefr === 'C2');
     expect(b2).toHaveLength(6);
-    expect(c1).toHaveLength(5);
-    expect(c2).toHaveLength(2);
+    expect(c1).toHaveLength(7);
+    expect(c2).toHaveLength(0);
   });
 
   it('no drill option string is empty', () => {

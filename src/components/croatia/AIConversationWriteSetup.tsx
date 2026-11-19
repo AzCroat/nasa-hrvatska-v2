@@ -3,7 +3,7 @@ import { LEVEL_COLORS } from './MediaPlayerUtils';
 import type { WritePrompt } from '../../hooks/useWriteMode';
 import { clickable } from '../../lib/clickable';
 
-const LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
+const LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1'];
 
 interface AIConversationWriteSetupProps {
   Header: ReactNode;

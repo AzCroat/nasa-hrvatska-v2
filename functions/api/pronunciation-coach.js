@@ -37,7 +37,7 @@ function err(status, msg, origin) {
   });
 }
 
-const VALID_LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
+const VALID_LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1'];
 
 // ---------------------------------------------------------------------------
 // Croatian phoneme rule engine
@@ -176,7 +176,7 @@ export async function onRequestPost(context) {
   const safeWord = sanitizeParam(word, 100);
   const safeSpoken = sanitizeParam(spoken || '', 150);
   const safeScore = Math.min(Math.max(parseInt(score) || 0, 0), 100);
-  const safeLevel = VALID_LEVELS.includes(level) ? level : 'B1';
+  const safeLevel = ((l) => (VALID_LEVELS.includes(l) ? l : 'B1'))(level === 'C2' ? 'C1' : level); // C2 retired 2026-11-18
 
   // MEASURED PHONEME SCORES BEAT THE LOCAL STRING HEURISTIC (2026-09-25).
   // `analyzeCroatianPhonemes` infers likely issues by comparing the target with

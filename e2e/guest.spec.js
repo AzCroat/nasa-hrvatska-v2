@@ -126,7 +126,7 @@ test.describe('Guest mode', () => {
 
     // Leave guest mode without reloading.
     const nav = page.getByRole('navigation', { name: 'Main navigation' });
-    await nav.getByRole('button', { name: 'Me', exact: true }).click();
+    await page.getByTestId('header-profile').click();
     await page.locator('.profile-tab-pill').filter({ hasText: 'Settings' }).click();
     await page
       .getByRole('button', { name: /Sign Out/i })

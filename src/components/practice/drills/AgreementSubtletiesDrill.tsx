@@ -24,7 +24,7 @@ export default function AgreementSubtletiesDrill({ goBack, award }: Props) {
       modeLabels={AGREEMENT_SUBTLETIES_MODE_LABELS}
       data={AGREEMENT_SUBTLETIES_DRILL_DATA}
       praise={{
-        perfect: 'Savršeno — to je razina C2! 🏆',
+        perfect: 'Savršeno — to je razina C1! 🏆',
         good: 'Vrlo dobro! 💪',
         more: 'Još malo vježbe.',
       }}

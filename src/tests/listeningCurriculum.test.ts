@@ -31,7 +31,7 @@ const VALID_TOPICS = [
   'history',
 ];
 const VALID_STYLES = ['dialogue', 'monologue'];
-const VALID_LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
+const VALID_LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1'];
 
 describe('listeningCurriculum data integrity', () => {
   it('every unit points at a valid topic / style / level the API accepts', () => {
@@ -55,11 +55,12 @@ describe('listeningCurriculum data integrity', () => {
   });
 
   it('every CEFR level has at least one unit (the course ends at C1; none is tagged C2)', () => {
-    // 2026-11-18: the former C2 sets are tagged C1. The server allowlist above still lists C2.
-    for (const lv of VALID_LEVELS.filter((l) => l !== 'C2')) {
+    // 2026-11-18: the former C2 sets are tagged C1.
+    for (const lv of VALID_LEVELS) {
       expect(getUnitsForLevel(lv).length, lv).toBeGreaterThan(0);
     }
-    expect(getUnitsForLevel('C2').length, 'no unit is tagged C2').toBe(0);
+    // a stored C2 (retired) reads as C1, so it is served the C1 units, never a C2 set
+    expect(getUnitsForLevel('C2').length, 'C2 reads as C1').toBe(getUnitsForLevel('C1').length);
   });
 });
 

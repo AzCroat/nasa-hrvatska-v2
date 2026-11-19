@@ -44,7 +44,14 @@
  */
 
 import type { CefrLevel } from './cefr.js';
-import { CEFR_ORDER, cefrRank, getEffectiveLevel, getUserCefr, levelBelow } from './cefr.js';
+import {
+  CEFR_ORDER,
+  cefrRank,
+  getEffectiveLevel,
+  getUserCefr,
+  levelBelow,
+  normalizeCefr,
+} from './cefr.js';
 import { courseContentLevel } from './sessionLevel';
 
 // ── Feature flag ──────────────────────────────────────────────────────────────
@@ -972,8 +979,8 @@ export function getGenerationCefr(stats?: { xp?: number; lc?: number; gc?: numbe
   let placement: CefrLevel | '' = '';
   try {
     const raw = typeof localStorage !== 'undefined' ? localStorage.getItem('nh_level') : '';
-    const up = (raw || '').toUpperCase();
-    if ((CEFR_ORDER as readonly string[]).includes(up)) placement = up as CefrLevel;
+    // normalizeCefr reads a stored 'C2' (retired 2026-11-18) as C1, never as unknown.
+    placement = normalizeCefr((raw || '').toUpperCase()) ?? '';
   } catch {
     /* localStorage unavailable — fall back to the earned level */
   }

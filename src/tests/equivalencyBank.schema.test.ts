@@ -15,7 +15,7 @@
 
 import { describe, it, expect } from 'vitest';
 import {
-  getNextTestFor,
+  getCheckpointSetFor,
   type EquivalencyItem,
   type EquivalencySkill,
 } from '../data/cefrEquivalencyItems.js';
@@ -30,7 +30,8 @@ const VALID_SKILLS: EquivalencySkill[] = ['vocab', 'grammar', 'reading', 'listen
 describe('Equivalency item bank — schema + invariants', () => {
   for (const level of LEVELS) {
     describe(`Level ${level}`, () => {
-      const set = getNextTestFor(level);
+      // C1 is the top level: its bank is the mastery checkpoint set (no advancement test above it).
+      const set = getCheckpointSetFor(level);
 
       it('returns a non-null set with items', () => {
         expect(set).not.toBeNull();

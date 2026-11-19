@@ -34,7 +34,7 @@ function err(status, msg, origin) {
   });
 }
 
-const VALID_LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
+const VALID_LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1'];
 const VALID_GOALS = ['heritage', 'family', 'travel', 'culture', 'partner', 'fluent'];
 
 const GOAL_CONTEXT = {
@@ -96,7 +96,7 @@ export async function onRequestPost(context) {
   if (!Array.isArray(weakWords) || weakWords.length === 0)
     return err(400, 'Missing weakWords array', origin);
 
-  const safeLevel = VALID_LEVELS.includes(level) ? level : 'A2';
+  const safeLevel = ((l) => (VALID_LEVELS.includes(l) ? l : 'A2'))(level === 'C2' ? 'C1' : level); // C2 retired 2026-11-18
   const safeGoal = VALID_GOALS.includes(goal) ? goal : 'fluent';
 
   // Take top 5 weak words

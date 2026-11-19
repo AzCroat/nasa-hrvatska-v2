@@ -1,6 +1,6 @@
 /**
  * listening-banks.test.ts — Structural guards for the Batch 3a listening depth
- * expansion: comprehension EXERCISES (now A1–C2), DICTATION_DATA (A1–C2
+ * expansion: comprehension EXERCISES (now A1–C1), DICTATION_DATA (A1–C2
  * ladder), and the level-tagged LISTEN pool.
  */
 import { describe, it, expect } from 'vitest';
@@ -8,10 +8,10 @@ import { EXERCISES } from '../components/practice/listening/exercises';
 import { DICTATION_DATA } from '../components/practice/DictationScreen';
 import { LISTEN } from '../data/exercises.js';
 
-const CEFR = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
+const CEFR = ['A1', 'A2', 'B1', 'B2', 'C1'];
 
 describe('comprehension EXERCISES', () => {
-  it('covers all six CEFR levels', () => {
+  it('covers all five CEFR levels (the course ends at C1)', () => {
     expect(Object.keys(EXERCISES)).toEqual(CEFR);
   });
 
@@ -125,7 +125,7 @@ import { SHADOWING } from '../data/cultural/language.js';
 import { readFileSync } from 'node:fs';
 
 describe('3b — connected-speech passage sets', () => {
-  const CEFR = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
+  const CEFR = ['A1', 'A2', 'B1', 'B2', 'C1'];
 
   it('every level has at least four passage sets with valid structure', () => {
     // Floor raised from 1 by the 2026-07 connected-speech expansion.
@@ -154,7 +154,7 @@ describe('3b — connected-speech passage sets', () => {
 });
 
 describe('3b — shadowing level tags', () => {
-  const CEFR = new Set(['A1', 'A2', 'B1', 'B2', 'C1', 'C2']);
+  const CEFR = new Set(['A1', 'A2', 'B1', 'B2', 'C1']);
 
   it('every shadowing item carries hr/en/tip and a valid CEFR level', () => {
     expect(SHADOWING.length).toBeGreaterThanOrEqual(36);

@@ -27,14 +27,13 @@ interface MediaItem {
   scr?: string;
 }
 
-const LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
+const LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1'];
 const LEVEL_LABELS: Record<string, string> = {
   A1: 'Beginner',
   A2: 'Elementary',
   B1: 'Intermediate',
   B2: 'Upper-Int.',
   C1: 'Advanced',
-  C2: 'Mastery',
 };
 const LC = LEVEL_COLORS as Record<string, string>;
 
@@ -106,22 +105,13 @@ const JOURNEY = [
       'Watch Croatian political debates on HRT',
       'Write a diary entry in Croatian each week',
       'Find a Croatian language exchange partner',
-    ],
-    habit: 'One opinion article + one diary entry per week.',
-  },
-  {
-    level: 'C2',
-    icon: '🦅',
-    title: 'Native Fluency',
-    weeks: 'Ongoing',
-    desc: 'Croatian is part of who you are. Maintain and deepen through ongoing immersion.',
-    goals: [
-      'Follow Croatian Twitter/Instagram accounts in Croatian',
       'Read Croatian novels or short stories',
       'Watch Croatian standup comedy (Škibby, Relja, Bare)',
       'Listen to Croatian talk radio without notes',
+      'Follow Croatian Twitter/Instagram accounts in Croatian',
     ],
-    habit: 'Croatian media replaces English media for your favorite topics.',
+    habit:
+      'One opinion article + one diary entry per week — and let Croatian media replace English media for your favorite topics.',
   },
 ];
 

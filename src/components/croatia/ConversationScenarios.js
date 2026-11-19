@@ -817,8 +817,6 @@ export const STARTERS = {
     'S obzirom na to...',
     'Bez obzira na...',
     'U tom kontekstu...',
-  ],
-  C2: [
     'Paradoksalno je...',
     'Ono što me fascinira...',
     'U biti se radi o...',

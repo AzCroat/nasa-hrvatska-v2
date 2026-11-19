@@ -35,11 +35,10 @@ export const BAND_FIELD = {
   B1: 'introHr',
   B2: 'introHrB2',
   C1: 'introHrC1',
-  C2: 'introHrC2',
 };
 
 /** Ascending. A band's text must be longer than every band below it. */
-export const BAND_ORDER = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
+export const BAND_ORDER = ['A1', 'A2', 'B1', 'B2', 'C1'];
 
 export const BAND_RULES = {
   A1: {
@@ -66,11 +65,6 @@ export const BAND_RULES = {
     words: [116, 175],
     brief:
       'An argued paragraph about what the place MEANS — not a gloss of the English facts. A claim, evidence for it, and a qualification. Analytical register.',
-  },
-  C2: {
-    words: [180, 245],
-    brief:
-      'Essayistic. The place as an instance of something larger — a pattern in Croatian settlement, memory, economy or landscape — with the counter-reading acknowledged. Nominalisation, embedded clauses, precise lexis; never ornament for its own sake.',
   },
 };
 

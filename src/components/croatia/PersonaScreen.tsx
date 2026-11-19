@@ -28,7 +28,7 @@ const PERSONAS = [
     specialty: '⛵ Dalmatinski ribar',
     desc: 'Grub ali srdačan. Pravi dalmatinski. Bez udžbenika.',
     color: '#0284c7',
-    level: 'B1–C2',
+    level: 'B1–C1',
   },
   {
     key: 'secretary',
@@ -40,7 +40,7 @@ const PERSONAS = [
     specialty: '🏛️ Tajnica',
     desc: 'Formalni govor, birokratski Hrvatski, uljudna ustrajnost.',
     color: '#7c3aed',
-    level: 'B1–C2',
+    level: 'B1–C1',
   },
   {
     key: 'baka',

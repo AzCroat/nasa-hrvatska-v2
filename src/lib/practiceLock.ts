@@ -47,7 +47,7 @@ export function lessonsByScreen(): Map<string, string[]> {
   return out;
 }
 
-const LEVEL_RANK: Record<string, number> = { A1: 1, A2: 2, B1: 3, B2: 4, C1: 5, C2: 6 };
+const LEVEL_RANK: Record<string, number> = { A1: 1, A2: 2, B1: 3, B2: 4, C1: 5, C2: 5 };
 
 /**
  * Why a drill is not open yet, or null. Pure: the open-lesson set and the spine positions are

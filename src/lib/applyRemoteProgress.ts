@@ -283,7 +283,7 @@ export function applyRemoteProgress(fp: any, setters: RemoteProgressSetters): vo
   if (fp.nh_level) {
     // MAX comparison: never let a stale lower level from one device overwrite a
     // higher level earned on another device (e.g. Android A1 must not clobber Chrome B2).
-    const CEFR_NUM: Record<string, number> = { A1: 1, A2: 2, B1: 3, B2: 4, C1: 5, C2: 6 };
+    const CEFR_NUM: Record<string, number> = { A1: 1, A2: 2, B1: 3, B2: 4, C1: 5, C2: 5 }; // a stored C2 (retired 2026-11-18) is C1
     const localLevel = lsGet('nh_level') || '';
     // Normalize to uppercase so 'a2' from a manually-edited Firestore doc still resolves.
     const normalizedRemote = String(fp.nh_level).toUpperCase();
@@ -291,7 +291,8 @@ export function applyRemoteProgress(fp: any, setters: RemoteProgressSetters): vo
     const localOrd = CEFR_NUM[localLevel] || 0;
     // remoteOrd === 0 means fp.nh_level is not a recognised CEFR level — skip to avoid
     // writing corrupted data (e.g. a manually edited Firestore doc with an invalid value).
-    if (remoteOrd > 0 && remoteOrd >= localOrd) _safeSet('nh_level', normalizedRemote);
+    if (remoteOrd > 0 && remoteOrd >= localOrd)
+      _safeSet('nh_level', normalizedRemote === 'C2' ? 'C1' : normalizedRemote);
   }
   if (fp.nh_goal) {
     _safeSet('nh_goal', fp.nh_goal);

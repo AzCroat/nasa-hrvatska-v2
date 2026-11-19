@@ -319,7 +319,7 @@ export async function fbSaveProgress(
     data.nh_level ||
     data.level ||
     (typeof localStorage !== 'undefined' ? localStorage.getItem('nh_level') || 'A1' : 'A1');
-  const _CEFR_NUM: Record<string, number> = { A1: 1, A2: 2, B1: 3, B2: 4, C1: 5, C2: 6 };
+  const _CEFR_NUM: Record<string, number> = { A1: 1, A2: 2, B1: 3, B2: 4, C1: 5, C2: 5 }; // a stored C2 (retired 2026-11-18) is C1
   const _lvl =
     typeof _lvlRaw === 'number' && _lvlRaw >= 1 ? _lvlRaw : _CEFR_NUM[_lvlRaw as string] || 1;
   // useSyncManager and doSyncNow write with the raw uid key ('uP_' + uid).

@@ -20,7 +20,7 @@ interface HistoryTimelineEntry {
   titleHr?: string;
   text: string;
   textHr?: string;
-  // Graded siblings (textHrA1 … textHrC2) — read through pickGradedHr, never by name.
+  // Graded siblings (textHrA1 … textHrC1) — read through pickGradedHr, never by name.
   [graded: string]: unknown;
 }
 interface HistoryShape {

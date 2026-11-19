@@ -253,6 +253,8 @@ Progression is gated on DEMONSTRATED competency, not activity. Source of truth: 
   fails 4; `getDisplayLevel` returning certified fails 4; and the DANGEROUS
   direction — `getContentUnlockLevel` switched to verified, which would lock
   grandfathered learners out of content they have — fails 2.
+- **THE LEVEL CHECK CARD WAS A SIXTH DISPLAY SURFACE THE 2026-09-08 SPLIT MISSED (owner report, 2026-11-19): "CONFIRMED C2" shown to a learner who had not finished A1 lesson 3.**
+  `EquivalencyTestCard` (Me tab) read `getCertifiedLevel()`, which counts PROVISIONAL passes, and printed "CONFIRMED {certified}" and "You've passed every Level Check in this app" — the same defect as the three-badge finding, on a card nobody had listed. Every "confirmed"/"passed" claim there now comes from REAL passes (`getVerifiedLevel`; "No level is confirmed yet" when none exists), the topped-out state requires a real pass at the top level (C1), and the check named on the button comes from `getLevelCheckOffer` (`src/lib/levelCheckOffer.ts`) — the SAME function `EquivalencyTestScreen` uses to pick the check it opens, so the card cannot name a level the button does not start. A learner holding only provisional passes is offered the first unverified check (A1), never "topped out". Content unlock is untouched. Pinned by `equivalencyTestCardHonesty.test.tsx`; mutation-verified (the card reverted to the certified level fails 2). The census of the rest of `src/components` found no other learner-visible claim read from `getCertifiedLevel` / `getEffectiveLevelForUnlock`: the checkpoint modal's level (`App.tsx` → `AppModals`) is the sanctioned "which exam do I offer" input.
 - NEVER: reintroduce a snooze/skip on the verification gate; record a check at levelFrom; add a SkillScores field without extending the merge block AND `computePassed`; write grandfather passes without `provisional: true`; remove the tombstone sweep or record a demotion without pushing to `checkpoints.demotions`; display a CEFR level to the learner from the raw XP formula (`getUserCefr` alone) anywhere — every badge goes through `getDisplayLevel`; point a badge at `getEffectiveLevelForUnlock` or `getCertifiedLevel` (they count provisional passes); point content unlock at `getDisplayLevel` (that takes away access the learner already has).
 
 ## Critical Architecture: Audio Is Load-Bearing (owner directive, 2026-09-06)
@@ -3149,7 +3151,7 @@ meeting a Serbian form as a clickable answer with nothing marking it foreign;
 a labelled comparison column is the opposite case. If the owner decides the
 contrast table should go, delete the entry — nothing else depends on it.
 
-Coverage is **927 files**, 3 of them walked structurally — the figure the lint
+Coverage is **926 files**, 3 of them walked structurally — the figure the lint
 itself prints, and pinned to it by `claudeMdPaths.test.ts`. Up from 157 on
 2026-08-31 in four waves, then DOWN by ten when #682 deleted the unreachable
 modules five of those targets pointed at, and down again by four when sweep 136
@@ -7401,9 +7403,9 @@ reader looking for a file that was never there, which is worse than no table.
 
 `Today` | `Course` | `More`
 
-**Desktop rail (`Sidebar.tsx`) — the same three plus one:**
+**Desktop rail (`Sidebar.tsx`) — the same three (2026-11-19: it had a fourth, `Me`):**
 
-`Today` | `Course` | `More` | `Me`
+`Today` | `Course` | `More`
 
 `Practice`, `AI Tutor` (Talk) and `Croatia` are NOT in either bar any more
 (Phase 1 declutter, 2026-11-15). They remain valid tabs with their own URLs
@@ -7412,9 +7414,10 @@ reader looking for a file that was never there, which is worse than no table.
 (or `more`) is the active tab, the `More` entry is the highlighted one. The tab id
 for `Course` is still `learn`.
 
-`Me` IS NOT IN THE BOTTOM BAR. On a phone it is reached from the app header
-(`AppHeader`'s `onProfile`), not from a tab. A spec that clicks a `Me` tab
-passes on desktop and fails on a phone.
+`Me` IS IN NEITHER BAR, ON ANY DEVICE. It is reached from the header avatar
+(`AppHeader`, `data-testid="header-profile"`, `aria-label="Me"`), which is shown at
+every width (on desktop it is the avatar alone, brand being in the rail). A spec
+that clicks a `Me` tab will not find one anywhere; click the header avatar.
 
 THIS LINE WAS WRONG FOR FIVE MONTHS AND IS WHY THE TEST EXISTS. It used to
 read `Today | Learn | Practice | Culture | Me`, under a heading that said

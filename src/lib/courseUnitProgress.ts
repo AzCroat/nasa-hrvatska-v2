@@ -629,7 +629,7 @@ export function clearUnitTestRequest(): void {
 // chosen by equality — never a string derived from the plan.
 
 export const LEVEL_REVIEW_REQUEST_KEY = 'nh_level_review';
-const REVIEW_LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'] as const;
+const REVIEW_LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1'] as const;
 
 export function requestLevelReview(level: string): void {
   const lv = REVIEW_LEVELS.find((l) => l === level);

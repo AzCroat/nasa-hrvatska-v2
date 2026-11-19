@@ -230,9 +230,10 @@ const LEVEL_NAMES = [
   'B1 Communicator',
   'B2 Explorer',
   'C1 Hrvat',
-  'C2 Majstor',
+  'C1 Majstor',
 ];
-const LEVEL_TO_CEFR = ['', 'A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
+// The top two bands of the test both place at C1: the course ends there (2026-11-18).
+const LEVEL_TO_CEFR = ['', 'A1', 'A2', 'B1', 'B2', 'C1', 'C1'];
 const LEVEL_DESC = [
   '',
   "You're just starting out — let's build your foundations with greetings, numbers, and everyday words.",

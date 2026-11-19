@@ -50,7 +50,7 @@ import { consumeLessonLookup } from '../../lib/lessonLookup';
 import { readLockLookup } from '../../lib/lessonLock';
 import ReferenceDesk from './ReferenceDesk';
 
-const LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'] as const;
+const LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1'] as const;
 
 const KIND_LABEL: Record<LearningEntry['kind'], string> = {
   lesson: 'Lesson',

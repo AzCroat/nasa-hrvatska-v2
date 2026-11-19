@@ -24,7 +24,7 @@ export default function SpecialistTranslationDrill({ goBack, award }: Props) {
       modeLabels={SPECIALIST_TRANSLATION_MODE_LABELS}
       data={SPECIALIST_TRANSLATION_DRILL_DATA}
       praise={{
-        perfect: 'Savršeno — to je razina C2! 🏆',
+        perfect: 'Savršeno — to je razina C1! 🏆',
         good: 'Vrlo dobro! 💪',
         more: 'Još malo vježbe.',
       }}

@@ -144,7 +144,7 @@ export default function CultureDeepDiveScreen({ tier, essayKey, goBack }: Props)
           style={{ marginTop: 14, width: '100%' }}
           onClick={() => setScr(`kultura_${tier.toLowerCase()}`)}
         >
-          📚 Svi eseji · All {tier} essays ({allEssays.length})
+          📚 Svi eseji · All {tier === 'C2' ? 'C1' : tier} essays ({allEssays.length})
         </button>
       )}
     </div>

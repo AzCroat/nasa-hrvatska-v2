@@ -365,8 +365,10 @@ export async function onRequestGet(context) {
   if (!ANTHROPIC_KEY) return err(500, 'AI_KEY_MISSING', origin);
 
   const url = new URL(request.url);
-  const rawLevel = url.searchParams.get('level') || 'B1';
-  const VALID_LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
+  const rawLevelParam = url.searchParams.get('level') || 'B1';
+  // C2 retired 2026-11-18: an older app version may still ask for it; it reads as C1.
+  const rawLevel = rawLevelParam === 'C2' ? 'C1' : rawLevelParam;
+  const VALID_LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1'];
   const level = VALID_LEVELS.includes(rawLevel) ? rawLevel : 'B1';
 
   // ── Shared generation: one simplification run per (level, 6h window) ──────

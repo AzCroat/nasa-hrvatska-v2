@@ -6493,7 +6493,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       {
         hr: 'odnosno neulaganja',
         en: 'or rather the lack of it',
-        why: '"odnosno" corrects your own word mid-sentence — precision performed out loud, which is exactly the C2 register.',
+        why: '"odnosno" corrects your own word mid-sentence — precision performed out loud, which is exactly the advanced register.',
       },
       {
         hr: 'skromniji je nego što bi svi željeli',

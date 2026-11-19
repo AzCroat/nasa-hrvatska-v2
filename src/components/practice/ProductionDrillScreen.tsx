@@ -297,28 +297,28 @@ const TRANSFORMS = [
     instruction: 'Aorist (ja)',
     target: 'Rekoh.',
     type: 'transform',
-    level: 'C2',
+    level: 'C1',
   },
   {
     src: 'Došao je i vidio je.',
     instruction: 'Aorist: Dođe i…',
     target: 'Dođe i vidje.',
     type: 'transform',
-    level: 'C2',
+    level: 'C1',
   },
   {
     src: 'Vlak je otišao prije našeg dolaska.',
     instruction: 'Pluskvamperfekt: Vlak je već…',
     target: 'Vlak je već bio otišao.',
     type: 'transform',
-    level: 'C2',
+    level: 'C1',
   },
   {
     src: 'Bilo je jednom jedno kraljevstvo.',
     instruction: 'Imperfekt od biti: …',
     target: 'Bijaše jednom jedno kraljevstvo.',
     type: 'transform',
-    level: 'C2',
+    level: 'C1',
   },
 ];
 

@@ -23,7 +23,7 @@ test.describe('Home screen — authenticated', () => {
     await expect(nav.getByRole('button', { name: 'Today', exact: true })).toBeVisible();
     await expect(nav.getByRole('button', { name: 'Course', exact: true })).toBeVisible();
     await expect(nav.getByRole('button', { name: 'More', exact: true })).toBeVisible();
-    // Me is in the Sidebar on desktop and the AppHeader avatar on mobile.
+    // Me is the AppHeader avatar on every device.
     await expect(await meButton(page)).toBeVisible();
   });
 

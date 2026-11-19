@@ -80,10 +80,10 @@ test.describe('VideoLessonScreen', () => {
     await expect(page.getByText('Choose a Topic')).toBeVisible({ timeout: 5_000 });
   });
 
-  test('setup screen shows "Difficulty Level" selector with A1–C2 buttons', async ({ page }) => {
+  test('setup screen shows "Difficulty Level" selector with A1–C1 buttons', async ({ page }) => {
     await openAIVideoLesson(page);
     await expect(page.getByText('Difficulty Level')).toBeVisible({ timeout: 5_000 });
-    for (const lvl of ['A1', 'A2', 'B1', 'B2', 'C1', 'C2']) {
+    for (const lvl of ['A1', 'A2', 'B1', 'B2', 'C1']) {
       await expect(page.locator('button').filter({ hasText: lvl }).last()).toBeVisible({
         timeout: 3_000,
       });

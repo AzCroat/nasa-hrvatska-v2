@@ -48,11 +48,11 @@ import { cefrRank, levelBelow, type CefrLevel } from '../../lib/cefr.js';
 import {
   canTakeEquivalencyTest,
   recordEquivalencyAttempt,
-  getCertifiedLevel,
   getVerificationGate,
   isSpeakingGateEnforced,
   type SkillScores,
 } from '../../lib/cefrCertification.js';
+import { defaultCheckTarget } from '../../lib/levelCheckOffer.js';
 import { getNextTestFor, type EquivalencyTestSet } from '../../data/cefrEquivalencyItems.js';
 import { getSpeakingTasks } from '../../data/speakingTasks.js';
 import { pickWritingTask, type WritingTask } from '../../data/writingTasks.js';
@@ -219,10 +219,8 @@ export default function EquivalencyTestScreen({
     // The rung to climb, not the top of the grandfathered stack — see
     // `nextCheck` on VerificationGate.
     if (verificationMode && gate.nextCheck) return gate.nextCheck;
-    const certified = getCertifiedLevel();
-    const next = getNextTestFor(certified);
-    return next ? next.levelTo : null;
-  }, [overrideLevel, verificationMode, gate.nextCheck]);
+    return defaultCheckTarget(gate);
+  }, [overrideLevel, verificationMode, gate]);
 
   // Step-down: a learner verifying B1 may honestly verify A2 instead.
   const [chosenTarget, setChosenTarget] = useState<CefrLevel | null>(null);

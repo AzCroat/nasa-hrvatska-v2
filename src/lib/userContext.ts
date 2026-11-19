@@ -7,7 +7,7 @@ import { getGenerationCefr } from './cefrCertification';
 import { getSR } from './srs';
 import { getActiveVocabulary } from './activeVocabulary';
 
-export type CefrLevel = 'A1' | 'A2' | 'B1' | 'B2' | 'C1' | 'C2';
+export type CefrLevel = 'A1' | 'A2' | 'B1' | 'B2' | 'C1';
 
 export interface UserContext {
   version: 1;

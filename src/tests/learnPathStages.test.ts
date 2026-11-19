@@ -47,16 +47,17 @@ describe('profile Learn Path widget vs the real path', () => {
     expect(extractArray(statsTab, 'STAGE_CEFR')).toHaveLength(realTitles.length);
   });
 
-  it('CEFR_TO_STAGE_IDX reaches the top of the path (C2 → last stage, distinct from C1)', () => {
+  it('CEFR_TO_STAGE_IDX reaches the top level (C1, the end of the course) and names no C2', () => {
     const m = statsTab.match(/CEFR_TO_STAGE_IDX[^{]*\{([^}]+)\}/);
     expect(m, 'CEFR_TO_STAGE_IDX must exist in StatsTab').toBeTruthy();
     const entries = Object.fromEntries(
       [...m![1].matchAll(/(\w+): (\d+)/g)].map((x) => [x[1], parseInt(x[2], 10)]),
     );
-    expect(entries.C2, 'C2 must map to the LAST stage').toBe(realTitles.length - 1);
-    expect(entries.C1, 'C1 and C2 must not collapse onto one stage').toBeLessThan(entries.C2);
+    expect(entries.C2, 'C2 is retired and has no stage').toBeUndefined();
+    expect(entries.C1, 'C1 must map to a real stage').toBeLessThan(realTitles.length);
+    expect(entries.C1, 'C1 must sit above B2').toBeGreaterThan(entries.B2);
     // Monotone: a higher level is never shown at an earlier stage.
-    const order = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
+    const order = ['A1', 'A2', 'B1', 'B2', 'C1'];
     for (let i = 1; i < order.length; i++) {
       expect(entries[order[i]]).toBeGreaterThanOrEqual(entries[order[i - 1]]);
     }

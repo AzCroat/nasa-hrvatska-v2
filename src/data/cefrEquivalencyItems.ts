@@ -1282,7 +1282,6 @@ const _maybeSets: Array<[CefrLevel, CefrLevel, unknown]> = [
   ['A2', 'B1', a2ToB1Raw],
   ['B1', 'B2', b1ToB2Raw],
   ['B2', 'C1', b2ToC1Raw],
-  ['C1', 'C2', c1ToC2Raw],
 ];
 for (const [from, to, raw] of _maybeSets) {
   const set = loadFromJson(raw, from, to);
@@ -1297,7 +1296,24 @@ for (const [from, to, raw] of _maybeSets) {
 // periodic comprehension checkpoints (checkpointExam.ts) have current-level
 // questions and speaking material for C2-certified learners — before this bank,
 // a C2 checkpoint built with zero core questions.
-export const C2_MASTERY_SET: EquivalencyTestSet | null = loadFromJson(c2MasteryRaw, 'C2', 'C2');
+//
+// 2026-11-18: THE COURSE ENDS AT C1. The C1-competency bank (the file is still named
+// c1_to_c2.json) no longer advances anyone — there is nothing above C1 — and it is joined
+// by the former C2 mastery items. Together they are the C1 checkpoint bank.
+function mergeRawItems(...raws: unknown[]): unknown {
+  const items = raws.flatMap((r) =>
+    r && typeof r === 'object' && Array.isArray((r as { items?: unknown[] }).items)
+      ? (r as { items: unknown[] }).items
+      : [],
+  );
+  const first = (raws[0] ?? {}) as Record<string, unknown>;
+  return { ...first, items };
+}
+export const C1_MASTERY_SET: EquivalencyTestSet | null = loadFromJson(
+  mergeRawItems(c1ToC2Raw, c2MasteryRaw),
+  'C1',
+  'C1',
+);
 
 /**
  * The item bank that tests competency AT `level` — for checkpoints and other
@@ -1305,7 +1321,7 @@ export const C2_MASTERY_SET: EquivalencyTestSet | null = loadFromJson(c2MasteryR
  * returns the mastery bank instead of null.
  */
 export function getCheckpointSetFor(level: CefrLevel): EquivalencyTestSet | null {
-  return EQUIVALENCY_TESTS[level] ?? (level === 'C2' ? C2_MASTERY_SET : null);
+  return EQUIVALENCY_TESTS[level] ?? (level === 'C1' ? C1_MASTERY_SET : null);
 }
 
 /**

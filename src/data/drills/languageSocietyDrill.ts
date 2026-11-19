@@ -105,8 +105,8 @@ export const LANGUAGE_SOCIETY_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'signali',
-    q: 'Što je krajnji cilj na razini C2?',
-    en: 'What is the C2 endpoint?',
+    q: 'Što je krajnji cilj na najvišoj razini?',
+    en: 'What is the final endpoint?',
     opts: [
       'imati nekoliko hrvatskih i birati među njima',
       'govoriti jedan savršen hrvatski',

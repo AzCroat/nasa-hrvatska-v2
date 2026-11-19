@@ -37,7 +37,7 @@ vi.mock('../lib/apiFetch.js', () => ({ apiFetch: vi.fn() }));
 vi.mock('../lib/adaptive.js', () => ({ recordTopicResult: vi.fn() }));
 vi.mock('../lib/quests.js', () => ({ markQuest: vi.fn() }));
 
-const ORDER = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'] as const;
+const ORDER = ['A1', 'A2', 'B1', 'B2', 'C1'] as const;
 const rank = (l: string) => ORDER.indexOf(l as (typeof ORDER)[number]);
 
 function makeCtx(xp = 0) {
@@ -191,7 +191,7 @@ describe('the screen applies it (wiring, not just the helper)', () => {
 });
 
 describe('the badge can name every level the bank holds', () => {
-  it('C1 and C2 have a color, not an undefined one', async () => {
+  it('every level has a color, not an undefined one (C1 is the top)', async () => {
     const src = await import('node:fs').then((fs) =>
       fs.readFileSync('src/components/practice/DictationScreen.tsx', 'utf8'),
     );

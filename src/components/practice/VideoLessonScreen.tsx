@@ -66,7 +66,7 @@ const TOPICS = [
   { key: 'city', emoji: '🏙️', hr: 'Grad', en: 'City', scene: '/images/scenes/zagreb.webp' },
 ];
 
-const LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
+const LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1'];
 
 interface Topic {
   key: string;

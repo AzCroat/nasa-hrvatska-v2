@@ -10,7 +10,7 @@
  * `introHrC2` — each in its OWN module under `src/data/cultural/cityHr/`,
  * dynamically imported by the screen so a learner downloads the band they read
  * and no other. `resolveCityHrBand` walks DOWN to the nearest SHIPPED band;
- * with all six shipped that walk is the identity, and the chip can honestly say
+ * with all five shipped that walk is the identity, and the chip can honestly say
  * "at your level" everywhere. Drop a band module and the walk returns (A2 would
  * read A1 again) and the chip stops claiming it — which is what these pin.
  *
@@ -25,7 +25,7 @@
  *    its own `chunk-geo-hr-*` chunk, whose prefix is what the service worker's
  *    `chunk-geo*` precache exclusion matches; and NOTHING statically imports a
  *    band, which would put the whole corpus back in the screen's chunk graph.
- *  - the DATA: every city has all six bands, genuinely different, lengths that
+ *  - the DATA: every city has all five bands, genuinely different, lengths that
  *    rise with the band, no band reusing a PASSAGE of another (the whole-text
  *    duplicate check was satisfied by a band that copied 90 words and padded),
  *    real Croatian, no stray band names.
@@ -139,7 +139,7 @@ describe('City of the Day — graded Croatian coverage (derived)', () => {
         : `levels ${CEFR_ORDER.filter((l) => !bandLevels.includes(l)).join('/')} lack their own band — cityofday must not be adaptive`,
     ).toBe(everyLevel);
     // the premise stated, so a silent band change cannot pass unnoticed
-    expect(bandLevels).toEqual(['A1', 'A2', 'B1', 'B2', 'C1', 'C2']);
+    expect(bandLevels).toEqual(['A1', 'A2', 'B1', 'B2', 'C1']);
     // and the first-claim ritual is unchanged by the rotation decision
     expect(CITY_OF_DAY_SLOT_MAX_CEFR).toBe('A2');
   });
@@ -260,9 +260,11 @@ describe('City of the Day — graded data', () => {
     // The whole-corpus floor. Six bands × 364 cities measured at 270,796 words
     // (363 since the duplicate `Dakovo` record was removed, 2026-10-01)
     // (A1 14,594 · A2 30,860 · B1 35,586 · B2 52,018 · C1 57,494 · C2 80,244);
-    // the floor sits below that so ordinary edits do not trip it, and far above
-    // the three-band corpus so deleting a band cannot pass unnoticed.
-    expect(words(joined)).toBeGreaterThanOrEqual(240000);
+    // The C2 band (80,244) was retired with the level on 2026-11-18, leaving five
+    // bands at ~190,500 words. The floor keeps the same ~11% head-room under the
+    // corpus (was 240,000 of 270,796), and sits far above the three-band corpus
+    // so deleting a band cannot pass unnoticed.
+    expect(words(joined)).toBeGreaterThanOrEqual(170000);
   });
 
   it('the band resolver walks down to the nearest SHIPPED band, never above', () => {
@@ -329,7 +331,6 @@ describe('CityOfDayScreen', () => {
     ['B1', 'B1', true],
     ['B2', 'B2', true],
     ['C1', 'C1', true],
-    ['C2', 'C2', true],
   ] as const)(
     'at %s renders the %s band and the chip is honest about it',
     async (l, band, atLevel) => {

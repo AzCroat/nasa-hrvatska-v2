@@ -29,8 +29,7 @@ const CEFR_LABELS: Record<string, { label: string; color: string; next: string |
   A2: { label: 'Elementary', color: 'var(--success)', next: 'B1' },
   B1: { label: 'Intermediate', color: 'var(--warning)', next: 'B2' },
   B2: { label: 'Upper-Int.', color: 'var(--warning)', next: 'C1' },
-  C1: { label: 'Advanced', color: 'var(--info)', next: 'C2' },
-  C2: { label: 'Mastery', color: 'var(--lavender)', next: null },
+  C1: { label: 'Advanced', color: 'var(--info)', next: null },
 };
 
 const CEFR_META: Record<
@@ -80,7 +79,7 @@ function getWordsLearned() {
 // pins the pairing. (Until 2026-08 this widget still showed the old 5-stage
 // path plus a locked "Stage 6" teaser, so C1/C2 users were displayed as
 // mid-path forever and the top two stages never appeared at all.)
-const STAGE_CEFR = ['A1', 'A2', 'B1', 'B2', 'B2+', 'C1', 'C2'];
+const STAGE_CEFR = ['A1', 'A2', 'B1', 'B2', 'B2+', 'C1', 'C1'];
 const STAGE_NAMES_PROFILE = [
   'Survivor',
   'Settler',
@@ -458,7 +457,6 @@ export default function StatsTab({ onSyncNow }: { onSyncNow?: () => void }) {
           B1: 2,
           B2: 3,
           C1: 5,
-          C2: 6,
         };
         const cefrStageIdx = CEFR_TO_STAGE_IDX[cefr.level] ?? 0;
         return (

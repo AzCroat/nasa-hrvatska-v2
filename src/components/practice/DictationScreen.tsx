@@ -382,7 +382,6 @@ const levelColor: Record<string, string> = {
   B1: '#fef3c7',
   B2: '#f3e8ff',
   C1: '#ffe4e6',
-  C2: '#e2e8f0',
 };
 const levelText: Record<string, string> = {
   A1: '#166534',
@@ -390,7 +389,6 @@ const levelText: Record<string, string> = {
   B1: '#92400e',
   B2: '#6b21a8',
   C1: '#9f1239',
-  C2: '#334155',
 };
 
 function normalise(s: string) {

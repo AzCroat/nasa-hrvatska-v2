@@ -2522,7 +2522,7 @@ export const GRADED_STORIES = [
     duration: 8,
     focus: 'Abstract/literary register • Identity & belonging • Verbal nouns & nuance',
     intro:
-      'A reflective essay on language, memory, and diaspora identity. Practice abstract literary register, figurative usage, and the kind of nuanced phrasing that separates C1 from C2.',
+      'A reflective essay on language, memory, and diaspora identity. Practice abstract literary register, figurative usage, and the kind of nuanced phrasing that marks a fully fluent reader.',
     paragraphs: [
       {
         hr: 'Postoji osjećaj, blizak svakome tko je odrastao daleko od domovine, da jezik nije tek sredstvo sporazumijevanja, nego svojevrstan zavičaj koji nosimo u sebi. Riječi koje smo čuli u djetinjstvu — uspavanke, imena jela, prve psovke — urezane su dublje od bilo koje naučene gramatike. One ne prenose samo značenje, nego i miris kuhinje, ton bakina glasa i težinu nedjeljnih popodneva.',

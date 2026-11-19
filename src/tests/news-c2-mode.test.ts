@@ -45,14 +45,17 @@ describe('C2 news mode', () => {
     expect(b1.text).toContain('"key_vocabulary"');
   });
 
-  it('news screen offers the C2 level chip', () => {
+  it('news screen offers no C2 chip any more (the course ends at C1, 2026-11-18)', () => {
     const m = screenSrc.match(/const LEVELS = \[([^\]]+)\]/);
     expect(m, 'LEVELS array not found').toBeTruthy();
-    expect(m![1]).toContain("'C2'");
+    expect(m![1]).toContain("'C1'");
+    expect(m![1]).not.toContain("'C2'");
   });
 
-  it('endpoint still validates the full CEFR range', () => {
-    expect(serverSrc.includes("['A1', 'A2', 'B1', 'B2', 'C1', 'C2']")).toBe(true);
+  it("endpoint validates A1–C1 and reads an older client's C2 request as C1", () => {
+    expect(serverSrc.includes("['A1', 'A2', 'B1', 'B2', 'C1']")).toBe(true);
+    expect(serverSrc.includes("['A1', 'A2', 'B1', 'B2', 'C1', 'C2']")).toBe(false);
+    expect(serverSrc.includes("rawLevelParam === 'C2' ? 'C1'")).toBe(true);
   });
 
   it('recovers the model payload through the SHARED parser (no silent article drop)', () => {

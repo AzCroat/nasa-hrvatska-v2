@@ -4904,7 +4904,7 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
       {
         hr: 'nije posuda koja se dijeljenjem prazni, nego plamen koji se dijeljenjem širi',
         en: 'not a vessel emptied by sharing, but a flame that spreads by sharing',
-        why: 'Balanced metaphor with instrumental gerunds — C2 rhetorical craft.',
+        why: 'Balanced metaphor with instrumental gerunds — advanced rhetorical craft.',
       },
     ],
     frames: [

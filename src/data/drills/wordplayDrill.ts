@@ -213,8 +213,8 @@ export const WORDPLAY_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'registar',
-    q: 'Je li propuštanje šale na C2 razini neuobičajeno?',
-    en: 'Is missing a joke unusual at C2?',
+    q: 'Je li propuštanje šale na najvišoj razini neuobičajeno?',
+    en: 'Is missing a joke unusual at the top level?',
     opts: ['ne, posve je normalno', 'da', 'samo za odrasle učenike', 'samo u govoru'],
     answer: 'ne, posve je normalno',
     tip: 'The lesson says so, and the achievable goal is recognizing the device.',

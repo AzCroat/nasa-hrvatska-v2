@@ -229,7 +229,7 @@ export default function LearnTab({
             Your course
           </span>
           <span style={{ display: 'block', fontSize: 11, color: 'var(--subtext)', marginTop: 1 }}>
-            Every unit from A1 to C2 — see exactly where you are
+            Every unit from A1 to C1 — see exactly where you are
           </span>
         </span>
         <span style={{ fontSize: 15, color: 'var(--subtext)', flexShrink: 0 }}>→</span>

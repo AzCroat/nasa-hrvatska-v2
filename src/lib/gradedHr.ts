@@ -4,9 +4,9 @@
  *
  * The culture data carries a Croatian layer in `*Hr` fields (`introHr`,
  * `textHr`, …) written at ONE register — roughly B1 — and served identically to
- * an A1 beginner and a C2 reader. Records that have been graded carry the same
+ * an A1 beginner and a C1 reader. Records that have been graded carry the same
  * text at every other level in sibling fields named `<base><Level>`:
- * `textHrA1`, `textHrA2`, `textHrB2`, `textHrC1`, `textHrC2`. The bare field
+ * `textHrA1`, `textHrA2`, `textHrB2`, `textHrC1`. The bare field
  * stays the B1 baseline, so every consumer that never heard of grading — and
  * every payload cached before it — reads exactly what it read before.
  *

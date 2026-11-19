@@ -76,7 +76,7 @@ function err(status, msg, origin) {
 // says to keep this list in step with every caller and nothing enforced it;
 // `explainErrorTypes.test.ts` now derives the caller set from source.
 const VALID_TYPES = ['cloze', 'dictation', 'flashcard', 'multiple_choice', 'case_drill', 'drill'];
-const VALID_LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
+const VALID_LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1'];
 
 export async function onRequestOptions({ request }) {
   return new Response(null, {
@@ -126,7 +126,7 @@ export async function onRequestPost(context) {
   const safeWrong = sanitizeParam(wrong || '', 200);
   const safeCorrect = sanitizeParam(correct, 200);
   const safeCtx = sanitizeParam(ctx || '', 300);
-  const safeLevel = VALID_LEVELS.includes(level) ? level : 'B1';
+  const safeLevel = ((l) => (VALID_LEVELS.includes(l) ? l : 'B1'))(level === 'C2' ? 'C1' : level); // C2 retired 2026-11-18
 
   const userCtx = parseUserContext(reqBody);
   const contextProse = renderContextPrompt(userCtx, 'explain-error');

@@ -217,11 +217,11 @@ export const NORM_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'dosljedno',
-    q: 'Koliko hrvatskih jezika C2 govornik ima?',
-    en: 'How many Croatians does a C2 speaker have?',
+    q: 'Koliko hrvatskih jezika napredni govornik ima?',
+    en: 'How many Croatians does an advanced speaker have?',
     opts: ['više, i bira među njima', 'jedan ispravan', 'dva', 'ovisi o kraju'],
     answer: 'više, i bira među njima',
-    tip: 'Having several and choosing deliberately is the C2 endpoint.',
+    tip: 'Having several and choosing deliberately is the endpoint.',
   },
   {
     mode: 'dosljedno',
@@ -237,6 +237,6 @@ export const NORM_DRILL_DATA: ModeDrillItem[] = [
     en: 'Where is the boundary most interesting?',
     opts: ['ondje gdje se razilaze', 'ondje gdje se slažu', 'u pravopisu', 'u rječniku'],
     answer: 'ondje gdje se razilaze',
-    tip: 'They agree almost everywhere; the C2 judgment lives in the gap.',
+    tip: 'They agree almost everywhere; the advanced judgment lives in the gap.',
   },
 ];

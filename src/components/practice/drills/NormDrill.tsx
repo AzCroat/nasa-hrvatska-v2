@@ -21,7 +21,7 @@ export default function NormDrill({ goBack, award }: Props) {
       modeLabels={NORM_MODE_LABELS}
       data={NORM_DRILL_DATA}
       praise={{
-        perfect: 'Savršeno — to je razina C2! 🏆',
+        perfect: 'Savršeno — to je razina C1! 🏆',
         good: 'Vrlo dobro! 💪',
         more: 'Još malo vježbe.',
       }}

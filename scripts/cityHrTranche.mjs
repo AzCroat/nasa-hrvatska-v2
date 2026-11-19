@@ -37,7 +37,6 @@ const tranche = {
   wanted: {
     A2: BAND_RULES.A2,
     B2: BAND_RULES.B2,
-    C2: BAND_RULES.C2,
   },
   cities: slice.map((c) => ({
     name: c.name,
@@ -62,7 +61,7 @@ const tranche = {
         C1: CITY_INTRO_HR_C1[c.name]?.introHrC1,
       };
       const w = {};
-      for (const b of ['A2', 'B2', 'C2']) w[b] = windowFor(b, ladder);
+      for (const b of ['A2', 'B2']) w[b] = windowFor(b, ladder);
       w.existingWords = {
         A1: wordsIn(ladder.A1),
         B1: wordsIn(ladder.B1),

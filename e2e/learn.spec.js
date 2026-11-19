@@ -52,7 +52,7 @@ test.describe('Learn tab', () => {
 
     test('the grammar tracks are reachable', async ({ page }) => {
       await find(page, 'grammar track');
-      await expect(page.getByText('Grammar Track A1→C2')).toBeVisible({ timeout: 8_000 });
+      await expect(page.getByText('Grammar Track A1→C1')).toBeVisible({ timeout: 8_000 });
     });
 
     test('the pronunciation tools are reachable', async ({ page }) => {
@@ -68,7 +68,7 @@ test.describe('Learn tab', () => {
       const errors = [];
       page.on('pageerror', (e) => errors.push(e.message));
       await find(page, 'grammar track');
-      await page.getByText('Grammar Track A1→C2').click();
+      await page.getByText('Grammar Track A1→C1').click();
       await page.waitForTimeout(500);
       const unexpected = errors.filter(
         (e) => !e.includes('firebase') && !e.includes('firestore') && !e.includes('fetch'),

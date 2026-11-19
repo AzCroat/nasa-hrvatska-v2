@@ -1,5 +1,7 @@
 /**
- * c2FinishLine.test.ts — the C2 finish line (fluency initiative).
+ * c2FinishLine.test.ts — the finish line (fluency initiative). The course ends
+ * at C1 since 2026-11-18: the former C2 content now serves C1, so each block
+ * below asserts the same closure at C1.
  *
  * Before this work, C2 was a dead end in four independent places:
  *   1. SPEAKING_TASKS had no C2 key → C2 checkpoints had no speaking section.
@@ -16,28 +18,30 @@ import { readFileSync } from 'node:fs';
 import { SPEAKING_TASKS, getSpeakingTasks } from '../data/speakingTasks';
 import { READ } from '../data/exercises.js';
 import { getReadingUnitsForLevel } from '../lib/readingCurriculum';
-import { getNextTestFor, getCheckpointSetFor, C2_MASTERY_SET } from '../data/cefrEquivalencyItems';
+import { getNextTestFor, getCheckpointSetFor, C1_MASTERY_SET } from '../data/cefrEquivalencyItems';
 
-describe('C2 speaking tasks', () => {
+describe('top-level speaking tasks (C1, with the former C2 tasks)', () => {
   it('exist, with the level-appropriate task shape', () => {
-    const tasks = getSpeakingTasks('C2');
-    expect(tasks.length).toBeGreaterThanOrEqual(4);
+    const tasks = getSpeakingTasks('C1');
+    expect(tasks.length).toBeGreaterThanOrEqual(8);
+    expect(tasks.some((t) => t.id.startsWith('c2-'))).toBe(true);
     for (const t of tasks) {
-      expect(t.id.startsWith('c2-')).toBe(true);
+      expect(/^c[12]-/.test(t.id)).toBe(true);
       expect(t.prompt.length).toBeGreaterThan(20);
       expect(t.promptEn.length).toBeGreaterThan(20);
       expect(t.seconds).toBeGreaterThanOrEqual(60);
     }
   });
 
-  it('every level A1–C2 now has tasks (no silent gaps)', () => {
-    for (const lv of ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'] as const) {
+  it('every level A1–C1 has tasks (no silent gaps) and nothing is keyed C2', () => {
+    for (const lv of ['A1', 'A2', 'B1', 'B2', 'C1'] as const) {
       expect(SPEAKING_TASKS[lv]?.length ?? 0, lv).toBeGreaterThanOrEqual(4);
     }
+    expect(Object.keys(SPEAKING_TASKS)).not.toContain('C2');
   });
 });
 
-describe('C2 reader bucket', () => {
+describe('former-C2 reader bucket', () => {
   it('has at least 5 passages with the reader contract (text, 5 vocab, 3 quiz questions)', () => {
     const c2 = (READ as Record<string, unknown[]>).c2 as Array<{
       title: string;
@@ -58,13 +62,13 @@ describe('C2 reader bucket', () => {
     }
   });
 
-  it('the C2 reading path includes the c2 bucket after the c1 base', () => {
-    const units = getReadingUnitsForLevel('C2');
+  it('the C1 reading path includes the c2 bucket after the c1 base, badged C1', () => {
+    const units = getReadingUnitsForLevel('C1');
     const buckets = [...new Set(units.map((u) => u.bucket))];
     expect(buckets).toEqual(['c1', 'c2']);
     const c2Units = units.filter((u) => u.bucket === 'c2');
     expect(c2Units.length).toBeGreaterThanOrEqual(5);
-    expect(c2Units.every((u) => u.badge === 'C2')).toBe(true);
+    expect(c2Units.every((u) => u.badge === 'C1')).toBe(true);
   });
 
   it('both data copies (client + serverless) carry the c2 bucket identically', () => {
@@ -79,10 +83,10 @@ describe('C2 reader bucket', () => {
   });
 });
 
-describe('C2 mastery bank (checkpoints)', () => {
+describe('C1 mastery bank (checkpoints)', () => {
   it('loads with all three skills at healthy counts', () => {
-    expect(C2_MASTERY_SET).not.toBeNull();
-    const items = C2_MASTERY_SET!.items;
+    expect(C1_MASTERY_SET).not.toBeNull();
+    const items = C1_MASTERY_SET!.items;
     expect(items.length).toBeGreaterThanOrEqual(40);
     const by = (s: string) => items.filter((i) => i.skill === s).length;
     expect(by('vocab')).toBeGreaterThanOrEqual(15);
@@ -94,25 +98,26 @@ describe('C2 mastery bank (checkpoints)', () => {
     }
   });
 
-  it('getCheckpointSetFor serves it at C2 and matches getNextTestFor below C2', () => {
-    expect(getCheckpointSetFor('C2')).toBe(C2_MASTERY_SET);
-    for (const lv of ['A1', 'A2', 'B1', 'B2', 'C1'] as const) {
+  it('getCheckpointSetFor serves it at C1 and matches getNextTestFor below C1', () => {
+    expect(getCheckpointSetFor('C1')).toBe(C1_MASTERY_SET);
+    for (const lv of ['A1', 'A2', 'B1', 'B2'] as const) {
       expect(getCheckpointSetFor(lv)).toBe(getNextTestFor(lv));
     }
   });
 
-  it('getNextTestFor(C2) STAYS null — the Profile topped-out card must not regress', () => {
-    expect(getNextTestFor('C2')).toBeNull();
+  it('getNextTestFor(C1) is null — the Profile topped-out card must not regress', () => {
+    expect(getNextTestFor('C1')).toBeNull();
   });
 });
 
-describe('placement can reach C2', () => {
+describe('placement can reach the top level (C1)', () => {
   const src = readFileSync('src/components/auth/PlacementTest.tsx', 'utf8');
 
-  it('has a level-6 question block and C2 in the level maps', () => {
+  it('has a level-6 question block that maps to C1 and no C2 label', () => {
     expect((src.match(/level: 6,/g) || []).length).toBeGreaterThanOrEqual(4);
-    expect(src).toContain("'C2 Majstor'");
-    expect(src).toMatch(/LEVEL_TO_CEFR = \['', 'A1', 'A2', 'B1', 'B2', 'C1', 'C2'\]/);
+    expect(src).toContain("'C1 Majstor'");
+    expect(src).not.toContain("'C2 Majstor'");
+    expect(src).toMatch(/LEVEL_TO_CEFR = \['', 'A1', 'A2', 'B1', 'B2', 'C1', 'C1'\]/);
     expect(src).toContain('lv <= 6');
   });
 

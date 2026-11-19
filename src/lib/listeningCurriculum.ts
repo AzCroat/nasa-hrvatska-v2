@@ -23,7 +23,7 @@ export type ListeningStyle = 'dialogue' | 'monologue';
 
 export interface ListeningUnit {
   id: string;
-  level: string; // CEFR: A1 | A2 | B1 | B2 | C1 | C2
+  level: string; // CEFR: A1 | A2 | B1 | B2 | C1
   topic: string; // must be a member of /api/listening VALID_TOPICS
   style: ListeningStyle;
   title: string; // English label shown in the path UI
@@ -212,7 +212,7 @@ export const LISTENING_CURRICULUM: ListeningUnit[] = [
 ];
 
 const DONE_KEY = 'nh_listening_track_done';
-const VALID_LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
+const VALID_LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1'];
 
 /** The set of completed listening-unit ids (device-local). Never throws. */
 export function getListeningDone(): string[] {
@@ -238,7 +238,8 @@ export function markListeningUnitDone(unitId: string): void {
 }
 
 function normLevel(level: string | null | undefined): string {
-  return level && VALID_LEVELS.includes(level) ? level : 'B1';
+  const lv = level === 'C2' ? 'C1' : level; // a stored C2 (retired 2026-11-18) reads as C1
+  return lv && VALID_LEVELS.includes(lv) ? lv : 'B1';
 }
 
 /** All units at a given CEFR level, in curriculum order. */

@@ -143,8 +143,9 @@ describe('CefrTest — level select', () => {
 
   it('shows question count for A1 level', () => {
     renderCefrTest();
-    // All 6 CEFR levels each have 15 questions — verify the count label renders for each
-    expect(screen.getAllByText('15 questions').length).toBe(6);
+    // A1–B2 have 15 questions each; C1 carries its own 15 plus the former C2 set (30)
+    expect(screen.getAllByText('15 questions').length).toBe(4);
+    expect(screen.getAllByText('30 questions').length).toBe(1);
   });
 });
 

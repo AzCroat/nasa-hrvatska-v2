@@ -42,7 +42,7 @@ interface AIConversationConvoSetupProps {
   onStart: () => void;
 }
 
-const LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
+const LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1'];
 const CATS = ['All', 'Errands', 'Out & About', 'Social', 'Practical', 'Culture', 'Professional'];
 const CAT_ICONS = {
   All: '🌐',
@@ -61,7 +61,7 @@ const FREE_TALK_SCENARIO = {
   title: 'Free Conversation',
   hr: 'Slobodan razgovor',
   desc: 'Open-ended — any topic, any direction',
-  levels: ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'],
+  levels: ['A1', 'A2', 'B1', 'B2', 'C1'],
   color: '#7c3aed',
   bg: '#faf5ff',
   aiName: 'Mate',
@@ -597,7 +597,7 @@ export default function AIConversationConvoSetup({
                     title: customText.slice(0, 40),
                     hr: customText.slice(0, 40),
                     desc: customText,
-                    levels: ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'],
+                    levels: ['A1', 'A2', 'B1', 'B2', 'C1'],
                     color: '#7c3aed',
                     bg: '#faf5ff',
                     aiName: 'Lokalni stanovnik',

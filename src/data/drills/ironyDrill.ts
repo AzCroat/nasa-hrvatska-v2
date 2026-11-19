@@ -225,7 +225,7 @@ export const IRONY_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'pisano',
-    q: 'Je li propuštanje ironije na C2 razini neuspjeh?',
+    q: 'Je li propuštanje ironije na najvišoj razini neuspjeh?',
     en: 'Is missing it a failure?',
     opts: [
       'ne, cilj je prepoznati sredstvo',

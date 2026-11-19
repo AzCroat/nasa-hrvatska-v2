@@ -2812,8 +2812,9 @@ img, video, canvas, .skeleton, [class*="anim-"], [style*="animation"] {
   margin:0 -16px 16px;
 }
 
-/* ── App-wide top header (brand + Me avatar) — Phase 4. Mobile only; desktop
-   uses the Sidebar (which keeps profile access). Full-width sticky bar pulled
+/* ── App-wide top header (brand + Me avatar) — Phase 4. On desktop the Sidebar
+   carries the brand and exactly three tabs, so the header shrinks to the Me
+   avatar alone (2026-11-19: Profile lives in the header on every device). Full-width sticky bar pulled
    out of the .app-content padding; re-adds safe-area as its own top padding. */
 .app-header{
   display:flex; align-items:center; justify-content:space-between; gap:10px;
@@ -2828,7 +2829,6 @@ img, video, canvas, .skeleton, [class*="anim-"], [style*="animation"] {
   -webkit-backdrop-filter:saturate(180%) blur(20px);
   border-bottom:1px solid var(--card-b, rgba(0,0,0,.07));
 }
-@media (min-width:768px){ .app-header{ display:none; } }
 .app-header-brand{ display:flex; align-items:center; gap:8px; min-width:0; }
 .app-header-title{
   font-family:'Playfair Display',serif; font-weight:800; font-size:15px;
@@ -2840,6 +2840,14 @@ img, video, canvas, .skeleton, [class*="anim-"], [style*="animation"] {
   font-weight:800; font-size:14px; font-family:'Outfit',sans-serif;
   display:flex; align-items:center; justify-content:center;
   box-shadow:0 2px 8px rgba(14,116,144,.3);
+}
+@media (min-width:768px){
+  .app-header{
+    justify-content:flex-end; position:static; margin:0 0 8px; padding:12px 20px 0;
+    background:transparent; border-bottom:none;
+    backdrop-filter:none; -webkit-backdrop-filter:none;
+  }
+  .app-header-brand{ display:none; }
 }
 .screen-header__back{
   width:36px;height:36px;
