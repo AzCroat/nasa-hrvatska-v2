@@ -170,7 +170,7 @@ function PossessivesScreen({ goBack, award }: Props) {
                               ? 'var(--success-bg-strong)'
                               : 'var(--error-bg-strong)'
                             : 'var(--card)',
-                      fontSize: 11,
+                      fontSize: 12,
                       cursor: choices[qi] !== undefined ? 'default' : 'pointer',
                       pointerEvents: choices[qi] !== undefined ? 'none' : 'auto',
                     }}

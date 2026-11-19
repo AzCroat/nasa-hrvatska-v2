@@ -162,7 +162,7 @@ export default function LiveTutorDebrief({
               }}
             >
               <div style={{ fontSize: 20, fontWeight: 800, color: 'var(--heading)' }}>{value}</div>
-              <div style={{ fontSize: 11, color: 'var(--subtext)', marginTop: 2 }}>{label}</div>
+              <div style={{ fontSize: 12, color: 'var(--subtext)', marginTop: 2 }}>{label}</div>
             </div>
           ))}
         </div>

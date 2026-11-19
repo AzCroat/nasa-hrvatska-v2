@@ -105,7 +105,7 @@ export default function DialogueScenarioMenu({
               >
                 {s.title.split(' ').slice(1).join(' ')}
               </div>
-              <div style={{ fontSize: 11, color: 'var(--subtext)', marginTop: 4 }}>
+              <div style={{ fontSize: 12, color: 'var(--subtext)', marginTop: 4 }}>
                 {s.subtitle}
               </div>
               {s.difficulty && (
@@ -113,7 +113,7 @@ export default function DialogueScenarioMenu({
                   <span
                     style={{
                       display: 'inline-block',
-                      fontSize: 10,
+                      fontSize: 12,
                       fontWeight: 800,
                       background:
                         (DIFF_COLORS as Record<string, string>)[s.difficulty] || '#f3f4f6',
@@ -126,7 +126,7 @@ export default function DialogueScenarioMenu({
                     {s.difficulty}
                   </span>
                   {stretch && (
-                    <span style={{ fontSize: 9, fontWeight: 800, color: 'var(--subtext)' }}>
+                    <span style={{ fontSize: 12, fontWeight: 800, color: 'var(--subtext)' }}>
                       ↑ stretch
                     </span>
                   )}

@@ -225,7 +225,7 @@ export default function VocabJournal({ goBack }: { goBack: () => void }) {
                     background: expandedWord === w.id ? 'rgba(212,0,45,.1)' : 'rgba(0,0,0,.05)',
                     border: 'none',
                     borderRadius: 20,
-                    fontSize: 11,
+                    fontSize: 12,
                     fontWeight: 700,
                     color: expandedWord === w.id ? 'var(--ink-red)' : 'var(--subtext)',
                     padding: '4px 10px',
@@ -237,14 +237,14 @@ export default function VocabJournal({ goBack }: { goBack: () => void }) {
                 </button>
               )}
               {w.id != null && fetchingExamples[w.id] && (
-                <span style={{ fontSize: 11, color: 'var(--subtext)', padding: '4px 8px' }}>
+                <span style={{ fontSize: 12, color: 'var(--subtext)', padding: '4px 8px' }}>
                   ✨ Loading…
                 </span>
               )}
               {inSRS[w.hr] ? (
                 <span
                   style={{
-                    fontSize: 11,
+                    fontSize: 12,
                     color: 'var(--ink-green)',
                     fontWeight: 700,
                     padding: '4px 8px',
@@ -260,7 +260,7 @@ export default function VocabJournal({ goBack }: { goBack: () => void }) {
                     background: 'rgba(14,116,144,0.1)',
                     border: 'none',
                     borderRadius: 20,
-                    fontSize: 11,
+                    fontSize: 12,
                     fontWeight: 700,
                     color: 'var(--ink-accent)',
                     padding: '4px 10px',
@@ -301,7 +301,7 @@ export default function VocabJournal({ goBack }: { goBack: () => void }) {
             >
               <div
                 style={{
-                  fontSize: 11,
+                  fontSize: 12,
                   fontWeight: 800,
                   color: 'var(--subtext)',
                   textTransform: 'uppercase',
@@ -327,7 +327,7 @@ export default function VocabJournal({ goBack }: { goBack: () => void }) {
                     {ex.en}
                   </div>
                   {ex.note && (
-                    <div style={{ fontSize: 11, color: 'var(--ink-muted-warm)', marginTop: 2 }}>
+                    <div style={{ fontSize: 12, color: 'var(--ink-muted-warm)', marginTop: 2 }}>
                       📝 {ex.note}
                     </div>
                   )}

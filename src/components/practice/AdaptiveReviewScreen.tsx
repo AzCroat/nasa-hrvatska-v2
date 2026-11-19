@@ -114,7 +114,7 @@ function SRSCardReview({ item, onResult }: { item: any; onResult: (correct: bool
       >
         <div
           style={{
-            fontSize: 11,
+            fontSize: 12,
             fontWeight: 800,
             color: 'var(--subtext)',
             textTransform: 'uppercase',
@@ -211,7 +211,7 @@ function MistakeCardReview({
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
           <span
             style={{
-              fontSize: 10,
+              fontSize: 12,
               fontWeight: 800,
               color: 'var(--ink-error)',
               background: 'rgba(220,38,38,.12)',
@@ -224,7 +224,7 @@ function MistakeCardReview({
           {m.category && (
             <span
               style={{
-                fontSize: 10,
+                fontSize: 12,
                 fontWeight: 700,
                 color: 'var(--subtext)',
                 background: 'rgba(0,0,0,.06)',
@@ -469,7 +469,7 @@ export default function AdaptiveReviewScreen({ goBack, award }: Props) {
               <div style={{ marginBottom: 12 }}>
                 <div
                   style={{
-                    fontSize: 11,
+                    fontSize: 12,
                     fontWeight: 700,
                     color: 'var(--subtext)',
                     textTransform: 'uppercase',
@@ -519,7 +519,7 @@ export default function AdaptiveReviewScreen({ goBack, award }: Props) {
               >
                 <span style={{ fontSize: 20 }}>🔬</span>
                 <div>
-                  <div style={{ fontSize: 11, fontWeight: 700, color: 'var(--subtext)' }}>
+                  <div style={{ fontSize: 12, fontWeight: 700, color: 'var(--subtext)' }}>
                     Najslabije područje
                   </div>
                   <div
@@ -650,7 +650,7 @@ export default function AdaptiveReviewScreen({ goBack, award }: Props) {
             <div style={{ fontSize: 15, fontWeight: 900, color: 'var(--heading)' }}>
               Smart Review
             </div>
-            <div style={{ fontSize: 11, color: 'var(--subtext)' }}>
+            <div style={{ fontSize: 12, color: 'var(--subtext)' }}>
               {sessionIdx + 1} / {session.length}
             </div>
           </div>
@@ -755,7 +755,7 @@ export default function AdaptiveReviewScreen({ goBack, award }: Props) {
                 </div>
                 <div
                   style={{
-                    fontSize: 10,
+                    fontSize: 12,
                     fontWeight: 700,
                     color: 'var(--subtext)',
                     textTransform: 'uppercase',

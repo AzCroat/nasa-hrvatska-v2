@@ -232,7 +232,7 @@ export default function SkillRadar() {
             <div
               style={{
                 width: 58,
-                fontSize: 11,
+                fontSize: 12,
                 fontWeight: 700,
                 color: 'var(--subtext)',
                 textAlign: 'right',
@@ -264,7 +264,7 @@ export default function SkillRadar() {
               data-testid={`radar-score-${s.key}`}
               style={{
                 width: s.score === null ? 68 : 30,
-                fontSize: 10,
+                fontSize: 12,
                 fontWeight: 700,
                 color: 'var(--subtext)',
                 whiteSpace: 'nowrap',
@@ -276,7 +276,7 @@ export default function SkillRadar() {
               <div
                 data-testid="radar-focus"
                 style={{
-                  fontSize: 9,
+                  fontSize: 12,
                   fontWeight: 800,
                   color: 'var(--ink-error)',
                   whiteSpace: 'nowrap',

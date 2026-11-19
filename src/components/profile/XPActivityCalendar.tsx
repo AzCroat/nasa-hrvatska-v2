@@ -193,7 +193,7 @@ export default function XPActivityCalendar({ st }: { st?: Partial<Stats> }) {
         >
           📅 12-Week Activity
         </div>
-        <div style={{ fontSize: 11, fontWeight: 700, color: 'var(--info)' }}>
+        <div style={{ fontSize: 12, fontWeight: 700, color: 'var(--info)' }}>
           {activeDayCount} day{activeDayCount !== 1 ? 's' : ''} active
         </div>
       </div>
@@ -215,7 +215,7 @@ export default function XPActivityCalendar({ st }: { st?: Partial<Stats> }) {
               key={i}
               style={{
                 height: 11,
-                fontSize: 8,
+                fontSize: 12,
                 fontWeight: 700,
                 color: 'var(--subtext)',
                 lineHeight: '11px',
@@ -237,7 +237,7 @@ export default function XPActivityCalendar({ st }: { st?: Partial<Stats> }) {
                   key={wi}
                   style={{
                     width: 11,
-                    fontSize: 8,
+                    fontSize: 12,
                     fontWeight: 700,
                     color: 'var(--subtext)',
                     whiteSpace: 'nowrap',
@@ -302,23 +302,25 @@ export default function XPActivityCalendar({ st }: { st?: Partial<Stats> }) {
               border: '1px solid var(--card-b)',
             }}
           />
-          <span style={{ fontSize: 9, color: 'var(--subtext)', fontWeight: 600 }}>No activity</span>
+          <span style={{ fontSize: 12, color: 'var(--subtext)', fontWeight: 600 }}>
+            No activity
+          </span>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 3 }}>
           <div
             style={{ width: 10, height: 10, borderRadius: 2, background: 'rgba(14,116,144,0.35)' }}
           />
-          <span style={{ fontSize: 9, color: 'var(--subtext)', fontWeight: 600 }}>Light</span>
+          <span style={{ fontSize: 12, color: 'var(--subtext)', fontWeight: 600 }}>Light</span>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 3 }}>
           <div
             style={{ width: 10, height: 10, borderRadius: 2, background: 'rgba(14,116,144,0.6)' }}
           />
-          <span style={{ fontSize: 9, color: 'var(--subtext)', fontWeight: 600 }}>Good</span>
+          <span style={{ fontSize: 12, color: 'var(--subtext)', fontWeight: 600 }}>Good</span>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 3 }}>
           <div style={{ width: 10, height: 10, borderRadius: 2, background: '#0e7490' }} />
-          <span style={{ fontSize: 9, color: 'var(--subtext)', fontWeight: 600 }}>Strong</span>
+          <span style={{ fontSize: 12, color: 'var(--subtext)', fontWeight: 600 }}>Strong</span>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 3 }}>
           <div
@@ -330,7 +332,7 @@ export default function XPActivityCalendar({ st }: { st?: Partial<Stats> }) {
               background: 'var(--bar-bg)',
             }}
           />
-          <span style={{ fontSize: 9, color: 'var(--subtext)', fontWeight: 600 }}>Today</span>
+          <span style={{ fontSize: 12, color: 'var(--subtext)', fontWeight: 600 }}>Today</span>
         </div>
       </div>
 
@@ -343,7 +345,7 @@ export default function XPActivityCalendar({ st }: { st?: Partial<Stats> }) {
             left: Math.max(8, tooltip.x - 70),
             background: 'var(--heading)',
             color: 'var(--card)',
-            fontSize: 11,
+            fontSize: 12,
             fontWeight: 700,
             borderRadius: 8,
             padding: '4px 10px',

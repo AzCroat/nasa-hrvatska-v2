@@ -430,7 +430,7 @@ export default function PostcardScreen({
               </div>
               <div
                 style={{
-                  fontSize: 10,
+                  fontSize: 12,
                   fontWeight: 700,
                   marginTop: 4,
                   color: active
@@ -536,11 +536,13 @@ export default function PostcardScreen({
                       }}
                     >
                       <div
-                        style={{ fontSize: 11, fontWeight: 800, color: 'white', lineHeight: 1.2 }}
+                        style={{ fontSize: 12, fontWeight: 800, color: 'white', lineHeight: 1.2 }}
                       >
                         {city.name}
                       </div>
-                      <div style={{ fontSize: 9, color: 'rgba(255,255,255,.75)', fontWeight: 500 }}>
+                      <div
+                        style={{ fontSize: 12, color: 'rgba(255,255,255,.75)', fontWeight: 500 }}
+                      >
                         {city.region}
                       </div>
                     </div>
@@ -558,7 +560,7 @@ export default function PostcardScreen({
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'center',
-                          fontSize: 11,
+                          fontSize: 12,
                           color: 'white',
                           fontWeight: 900,
                           boxShadow: '0 1px 4px rgba(0,0,0,.3)',
@@ -682,7 +684,7 @@ export default function PostcardScreen({
                   borderTop: '1px solid var(--card-b)',
                 }}
               >
-                <span style={{ fontSize: 11, color: 'var(--subtext)' }}>
+                <span style={{ fontSize: 12, color: 'var(--subtext)' }}>
                   {userText.length} characters
                 </span>
               </div>
@@ -817,7 +819,7 @@ export default function PostcardScreen({
                 <div style={{ flex: 1, minWidth: 0 }}>
                   <div
                     style={{
-                      fontSize: 11,
+                      fontSize: 12,
                       fontWeight: 700,
                       color: 'var(--ink-error)',
                       marginBottom: 5,
@@ -846,7 +848,7 @@ export default function PostcardScreen({
                 <div style={{ flex: 1, minWidth: 0 }}>
                   <div
                     style={{
-                      fontSize: 11,
+                      fontSize: 12,
                       fontWeight: 700,
                       color: 'var(--ink-green)',
                       marginBottom: 5,
@@ -924,7 +926,7 @@ export default function PostcardScreen({
                       {ch.corrected}
                     </span>
                     {ch.note && (
-                      <span style={{ fontSize: 11, color: 'var(--subtext)', fontStyle: 'italic' }}>
+                      <span style={{ fontSize: 12, color: 'var(--subtext)', fontStyle: 'italic' }}>
                         · {ch.note}
                       </span>
                     )}
@@ -1126,7 +1128,7 @@ export default function PostcardScreen({
             >
               <div
                 style={{
-                  fontSize: 11,
+                  fontSize: 12,
                   fontWeight: 700,
                   color: 'var(--ink-accent)',
                   textTransform: 'uppercase',

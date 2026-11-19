@@ -452,7 +452,7 @@ function Tag({ label, sub, color }: { label: string; sub: string; color: string 
       }}
     >
       <span style={{ fontSize: 'var(--text-xs)', fontWeight: 900, color }}>{label}</span>
-      <span style={{ fontSize: 10, color: 'var(--subtext)', marginTop: 1 }}>{sub}</span>
+      <span style={{ fontSize: 12, color: 'var(--subtext)', marginTop: 1 }}>{sub}</span>
     </div>
   );
 }
@@ -677,7 +677,7 @@ function TextPicker({ onSelect, goBack }: { onSelect: (t: TextItem) => void; goB
                 </span>
                 <span
                   style={{
-                    fontSize: 10,
+                    fontSize: 12,
                     fontWeight: 800,
                     color: t.levelColor,
                     background: t.levelBg,

@@ -1024,7 +1024,7 @@ export default function LiveTutorScreen({ goBack, award }: Props) {
           </div>
           <div
             style={{
-              fontSize: 10,
+              fontSize: 12,
               color: 'var(--subtext)',
               overflow: 'hidden',
               textOverflow: 'ellipsis',
@@ -1060,7 +1060,7 @@ export default function LiveTutorScreen({ goBack, award }: Props) {
           }}
         >
           <span style={{ fontSize: 12 }}>{phaseInfo.icon}</span>
-          <span style={{ fontSize: 10, fontWeight: 700, color: 'var(--subtext)' }}>
+          <span style={{ fontSize: 12, fontWeight: 700, color: 'var(--subtext)' }}>
             {phaseInfo.label}
           </span>
         </div>

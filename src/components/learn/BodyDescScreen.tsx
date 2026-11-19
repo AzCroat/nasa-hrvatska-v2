@@ -177,7 +177,7 @@ const QUIZ_SECTION = ({ quiz, accent }: QuizSectionProps) => {
             <div
               style={{
                 marginTop: 8,
-                fontSize: 11,
+                fontSize: 12,
                 color:
                   q.opts[answers[i] as number] === q.a ? 'var(--ink-green)' : 'var(--ink-error)',
                 fontWeight: 700,
@@ -246,7 +246,7 @@ function BodyDescScreen({ goBack }: BodyDescScreenProps) {
                   borderRadius: 20,
                   border: 'none',
                   cursor: 'pointer',
-                  fontSize: 11,
+                  fontSize: 12,
                   fontWeight: 700,
                   background: secIdx === i ? '#0f766e' : '#f5f5f4',
                   color: secIdx === i ? 'white' : '#44403c',
@@ -293,7 +293,7 @@ function BodyDescScreen({ goBack }: BodyDescScreenProps) {
                   {item.note && (
                     <div
                       style={{
-                        fontSize: 11,
+                        fontSize: 12,
                         color: 'var(--ink-info)',
                         fontStyle: 'italic',
                         marginTop: 2,

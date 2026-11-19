@@ -33,7 +33,7 @@ const STYLES = {
     lineHeight: 1.1,
   },
   scoreText: {
-    fontSize: 10,
+    fontSize: 12,
     fontWeight: 600 as const,
     opacity: 0.85,
     marginTop: 2,

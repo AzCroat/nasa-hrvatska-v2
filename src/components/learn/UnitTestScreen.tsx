@@ -549,7 +549,7 @@ export default function UnitTestScreen({
         >
           Question {at + 1} of {total}
         </span>
-        <span style={{ fontSize: 11.5, color: 'var(--subtext)' }}>
+        <span style={{ fontSize: 12, color: 'var(--subtext)' }}>
           {needed} of {total} to pass
         </span>
       </div>

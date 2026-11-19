@@ -27,7 +27,7 @@ function PronunciationChips({ ph }: { ph: string }) {
     >
       {groups.map((syls, gi) => (
         <React.Fragment key={gi}>
-          {gi > 0 && <span style={{ color: '#cbd5e1', fontSize: 8, userSelect: 'none' }}>·</span>}
+          {gi > 0 && <span style={{ color: '#cbd5e1', fontSize: 12, userSelect: 'none' }}>·</span>}
           <div style={{ display: 'flex', alignItems: 'center', gap: 2 }}>
             {syls.map((syl, si) => {
               const stressed = isStressed(syl);
@@ -36,7 +36,7 @@ function PronunciationChips({ ph }: { ph: string }) {
                   key={si}
                   style={{
                     fontFamily: "'Outfit', sans-serif",
-                    fontSize: 9,
+                    fontSize: 12,
                     fontWeight: stressed ? 800 : 600,
                     padding: '2px 5px',
                     borderRadius: 5,
@@ -95,7 +95,7 @@ export default function PhraseOfDayCard({ phrase }: PhraseOfDayCardProps) {
           <div style={{ marginBottom: 6 }}>
             <span
               style={{
-                fontSize: 8,
+                fontSize: 12,
                 fontWeight: 900,
                 color: accentInk(CROATIAN_BLUE),
                 letterSpacing: '.22em',
@@ -144,7 +144,7 @@ export default function PhraseOfDayCard({ phrase }: PhraseOfDayCardProps) {
           {phrase.note && (
             <div
               style={{
-                fontSize: 10,
+                fontSize: 12,
                 fontWeight: 500,
                 color: 'var(--ink-muted)',
                 fontStyle: 'italic',
@@ -170,7 +170,7 @@ export default function PhraseOfDayCard({ phrase }: PhraseOfDayCardProps) {
               border: `1px solid ${playing ? 'transparent' : 'rgba(0,40,104,.2)'}`,
               borderRadius: 8,
               padding: '5px 10px',
-              fontSize: 9,
+              fontSize: 12,
               fontWeight: 900,
               color: playing ? '#fff' : accentInk(CROATIAN_BLUE),
               cursor: 'pointer',
@@ -181,7 +181,7 @@ export default function PhraseOfDayCard({ phrase }: PhraseOfDayCardProps) {
               boxShadow: playing ? '0 2px 10px rgba(0,40,104,.25)' : 'none',
             }}
           >
-            <span style={{ fontSize: 11 }}>{playing ? '▶' : '🔊'}</span>
+            <span style={{ fontSize: 12 }}>{playing ? '▶' : '🔊'}</span>
             {playing ? 'Playing…' : 'Slušaj'}
           </button>
         </div>

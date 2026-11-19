@@ -40,7 +40,7 @@ export default function ListeningPathBanner({
       >
         <span
           style={{
-            fontSize: 10,
+            fontSize: 12,
             fontWeight: 900,
             color: 'rgba(255,255,255,.65)',
             textTransform: 'uppercase',
@@ -49,7 +49,7 @@ export default function ListeningPathBanner({
         >
           Your Listening Path
         </span>
-        <span style={{ fontSize: 11, fontWeight: 800, color: 'rgba(255,255,255,.8)' }}>
+        <span style={{ fontSize: 12, fontWeight: 800, color: 'rgba(255,255,255,.8)' }}>
           {progress.done}/{progress.total} at {level}
         </span>
       </div>

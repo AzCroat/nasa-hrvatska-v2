@@ -51,7 +51,7 @@ function WaveformSVG({ bars, color, label, width = 260, height = 70 }: WaveformS
   const visible = bars.slice(0, maxBars);
   return (
     <div style={{ textAlign: 'center' }}>
-      <div style={{ fontSize: 11, fontWeight: 700, color: 'var(--ink-muted)', marginBottom: 4 }}>
+      <div style={{ fontSize: 12, fontWeight: 700, color: 'var(--ink-muted)', marginBottom: 4 }}>
         {label}
       </div>
       <svg width={width} height={height} style={{ display: 'block', margin: '0 auto' }}>
@@ -139,7 +139,7 @@ function WaveformPanel({
         ) : (
           <div style={{ textAlign: 'center' }}>
             <div
-              style={{ fontSize: 11, fontWeight: 700, color: 'var(--ink-muted)', marginBottom: 4 }}
+              style={{ fontSize: 12, fontWeight: 700, color: 'var(--ink-muted)', marginBottom: 4 }}
             >
               Your attempt
             </div>

@@ -197,7 +197,7 @@ export default function LearnTab({
             <div style={{ flex: 1, minWidth: 0 }}>
               <div
                 style={{
-                  fontSize: 9,
+                  fontSize: 12,
                   fontWeight: 900,
                   color: 'rgba(255,255,255,.7)',
                   letterSpacing: '.15em',
@@ -221,7 +221,7 @@ export default function LearnTab({
               {coursePos && (
                 <div
                   data-testid="learn-course-position"
-                  style={{ fontSize: 11, color: 'rgba(255,255,255,.7)', marginTop: 3 }}
+                  style={{ fontSize: 12, color: 'rgba(255,255,255,.7)', marginTop: 3 }}
                 >
                   Unit {coursePos.n} of {coursePos.of}
                 </div>
@@ -235,7 +235,7 @@ export default function LearnTab({
                 border: '1px solid rgba(255,255,255,.25)',
                 borderRadius: 10,
                 padding: '6px 10px',
-                fontSize: 11,
+                fontSize: 12,
                 fontWeight: 700,
                 color: '#fff',
                 cursor: 'pointer',
@@ -299,7 +299,7 @@ export default function LearnTab({
           >
             Your course
           </span>
-          <span style={{ display: 'block', fontSize: 11, color: 'var(--subtext)', marginTop: 1 }}>
+          <span style={{ display: 'block', fontSize: 12, color: 'var(--subtext)', marginTop: 1 }}>
             Every unit from A1 to C1 — see exactly where you are
           </span>
         </span>
@@ -328,7 +328,7 @@ export default function LearnTab({
           >
             Next lesson: {courseLesson.title}
           </span>
-          <span style={{ display: 'block', fontSize: 11, color: 'var(--subtext)', marginTop: 1 }}>
+          <span style={{ display: 'block', fontSize: 12, color: 'var(--subtext)', marginTop: 1 }}>
             Unit {courseLesson.unit} — pass the lesson check to move to the next lesson
           </span>
           <div style={{ display: 'flex', gap: 8, marginTop: 10, flexWrap: 'wrap' }}>
@@ -442,7 +442,7 @@ export default function LearnTab({
         <span style={{ display: 'block', fontSize: 14, fontWeight: 800, color: 'var(--heading)' }}>
           Test out of any lesson or unit →
         </span>
-        <span style={{ display: 'block', fontSize: 11, color: 'var(--subtext)', marginTop: 1 }}>
+        <span style={{ display: 'block', fontSize: 12, color: 'var(--subtext)', marginTop: 1 }}>
           Already know it? Pass its check and move on — open the course map
         </span>
       </button>
@@ -476,7 +476,7 @@ export default function LearnTab({
               ? `Take the Unit ${courseOffer.index} test (recommended) →`
               : `Test out of Unit ${courseOffer.index} →`}
           </span>
-          <span style={{ display: 'block', fontSize: 11, color: 'var(--subtext)', marginTop: 1 }}>
+          <span style={{ display: 'block', fontSize: 12, color: 'var(--subtext)', marginTop: 1 }}>
             {courseOffer.offer === 'primary'
               ? 'A mixed test of all five lessons — the best proof it stuck'
               : 'Already know it? Pass the unit test and the next unit opens'}
@@ -515,7 +515,7 @@ export default function LearnTab({
           >
             Look something up
           </span>
-          <span style={{ display: 'block', fontSize: 11, color: 'var(--subtext)', marginTop: 1 }}>
+          <span style={{ display: 'block', fontSize: 12, color: 'var(--subtext)', marginTop: 1 }}>
             Padeži, verbs, any lesson — the whole syllabus, any time
           </span>
         </span>

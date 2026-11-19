@@ -59,7 +59,7 @@ export default function DialogueGuidedMode({
           }}
         >
           <div
-            style={{ fontSize: 11, fontWeight: 800, color: 'var(--ink-accent)', marginBottom: 4 }}
+            style={{ fontSize: 12, fontWeight: 800, color: 'var(--ink-accent)', marginBottom: 4 }}
           >
             {turn.speaker}
           </div>
@@ -91,7 +91,7 @@ export default function DialogueGuidedMode({
             border: 'none',
             borderRadius: 20,
             padding: '4px 10px',
-            fontSize: 11,
+            fontSize: 12,
             fontWeight: 700,
             color: freeMode ? '#fff' : 'var(--subtext)',
             cursor: answered ? 'default' : 'pointer',
@@ -260,7 +260,7 @@ export default function DialogueGuidedMode({
                       (i === shuffled.correctIdx || (i === selected && i !== shuffled.correctIdx))
                         ? '#fff'
                         : 'var(--subtext)',
-                    fontSize: 11,
+                    fontSize: 12,
                     fontWeight: 800,
                     textAlign: 'center',
                     lineHeight: '22px',

@@ -269,7 +269,7 @@ export default function BakaSummer({ goBack, award, book }: BakaSummerProps) {
                   background: done ? '#b61800' : active ? '#fca5a5' : '#e5e7eb',
                   cursor: accessible ? 'pointer' : 'default',
                   padding: 0,
-                  fontSize: 9,
+                  fontSize: 12,
                   color: done ? '#fff' : active ? '#7f1d1d' : '#44403c',
                   fontWeight: 700,
                   display: 'flex',
@@ -344,7 +344,7 @@ export default function BakaSummer({ goBack, award, book }: BakaSummerProps) {
           <div>
             <div
               style={{
-                fontSize: 11,
+                fontSize: 12,
                 color: '#fee2e2',
                 fontWeight: 600,
                 letterSpacing: 1,

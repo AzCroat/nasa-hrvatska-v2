@@ -140,7 +140,7 @@ function QuizBlock({ questions, award }: QuizBlockProps) {
             {ans && (
               <div
                 style={{
-                  fontSize: 11,
+                  fontSize: 12,
                   lineHeight: 1.5,
                   marginTop: 4,
                   padding: '6px 10px',
@@ -245,7 +245,7 @@ function ConditionalScreen({ goBack, award }: ScreenProps) {
           >
             <div
               style={{
-                fontSize: 11,
+                fontSize: 12,
                 fontWeight: 800,
                 opacity: 0.8,
                 marginBottom: 6,

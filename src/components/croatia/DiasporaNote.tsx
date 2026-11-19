@@ -209,7 +209,7 @@ export default function DiasporaNote({ goBack }: DiasporaProps) {
                 <div style={{ marginBottom: 8 }}>
                   <div
                     style={{
-                      fontSize: 10,
+                      fontSize: 12,
                       color: 'var(--ink-accent)',
                       fontWeight: 800,
                       textTransform: 'uppercase',
@@ -242,7 +242,7 @@ export default function DiasporaNote({ goBack }: DiasporaProps) {
                 </div>
                 <div
                   style={{
-                    fontSize: 11,
+                    fontSize: 12,
                     color: 'var(--subtext)',
                     lineHeight: 1.6,
                     fontStyle: 'italic',

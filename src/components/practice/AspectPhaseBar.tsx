@@ -17,7 +17,7 @@ export default function AspectPhaseBar({ phase, total }: Props) {
             padding: '5px 0',
             borderRadius: 6,
             textAlign: 'center',
-            fontSize: 10,
+            fontSize: 12,
             fontWeight: 700,
             letterSpacing: '.04em',
             background:

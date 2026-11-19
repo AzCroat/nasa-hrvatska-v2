@@ -51,7 +51,7 @@ export default function NextUpCard() {
         <div style={{ minWidth: 0, flex: 1 }}>
           <div
             style={{
-              fontSize: 10,
+              fontSize: 12,
               fontWeight: 900,
               letterSpacing: '.16em',
               textTransform: 'uppercase',
@@ -64,21 +64,17 @@ export default function NextUpCard() {
             style={{
               fontSize: 14,
               fontWeight: 800,
-              whiteSpace: 'nowrap',
-              overflow: 'hidden',
-              textOverflow: 'ellipsis',
+              overflowWrap: 'anywhere',
             }}
           >
             {step.label}
           </div>
           <div
             style={{
-              fontSize: 11,
+              fontSize: 12,
               fontWeight: 500,
               opacity: 0.85,
-              whiteSpace: 'nowrap',
-              overflow: 'hidden',
-              textOverflow: 'ellipsis',
+              overflowWrap: 'anywhere',
             }}
           >
             {step.reason}

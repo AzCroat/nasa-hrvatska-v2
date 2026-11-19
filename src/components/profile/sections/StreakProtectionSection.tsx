@@ -90,7 +90,7 @@ export default function StreakProtectionSection({
             <div style={{ fontSize: 14, fontWeight: 800, color: 'var(--heading)' }}>
               {freezesStored}/2 stored
             </div>
-            <div style={{ fontSize: 11, color: 'var(--subtext)', marginTop: 2 }}>
+            <div style={{ fontSize: 12, color: 'var(--subtext)', marginTop: 2 }}>
               {freezesStored === 2
                 ? "Fully stocked — you're protected!"
                 : `${2 - freezesStored} slot${2 - freezesStored > 1 ? 's' : ''} available`}

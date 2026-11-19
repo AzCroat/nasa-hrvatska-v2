@@ -84,7 +84,7 @@ export default function AlkaScreen({
         <div
           style={{
             textAlign: 'center',
-            fontSize: 10,
+            fontSize: 12,
             letterSpacing: '.18em',
             textTransform: 'uppercase',
             color: 'rgba(200,152,10,.9)',

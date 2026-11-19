@@ -101,14 +101,14 @@ export default function DailyInputCard({
             color: 'var(--info,#0284c7)',
             borderRadius: 20,
             padding: '2px 10px',
-            fontSize: 11,
+            fontSize: 12,
             fontWeight: 800,
           }}
         >
           {input.level}
         </span>
       </div>
-      <div style={{ fontSize: 11, color: 'var(--subtext)', marginBottom: 12, lineHeight: 1.4 }}>
+      <div style={{ fontSize: 12, color: 'var(--subtext)', marginBottom: 12, lineHeight: 1.4 }}>
         A daily dose of Croatian you can mostly understand — the fastest path to fluency.
       </div>
 
@@ -138,7 +138,7 @@ export default function DailyInputCard({
             <div style={{ flex: 1, minWidth: 0 }}>
               <div
                 style={{
-                  fontSize: 10,
+                  fontSize: 12,
                   fontWeight: 800,
                   color: 'var(--info,#0284c7)',
                   textTransform: 'uppercase',
@@ -162,7 +162,7 @@ export default function DailyInputCard({
               </div>
               <div
                 style={{
-                  fontSize: 11,
+                  fontSize: 12,
                   color: 'var(--subtext)',
                   whiteSpace: 'nowrap',
                   overflow: 'hidden',

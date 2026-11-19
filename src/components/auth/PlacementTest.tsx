@@ -511,7 +511,7 @@ export default function PlacementTest({ onComplete, onCancel }: PlacementTestPro
             color: '#fff',
             borderRadius: 10,
             padding: '4px 10px',
-            fontSize: 11,
+            fontSize: 12,
             fontWeight: 800,
           }}
         >
@@ -539,7 +539,7 @@ export default function PlacementTest({ onComplete, onCancel }: PlacementTestPro
       </div>
       <div
         style={{
-          fontSize: 10,
+          fontSize: 12,
           color: 'rgba(255,255,255,0.5)',
           textAlign: 'center',
           marginBottom: 8,

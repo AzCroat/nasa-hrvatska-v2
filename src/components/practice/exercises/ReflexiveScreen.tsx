@@ -177,7 +177,7 @@ function ReflexiveScreen({ goBack, award }: Props) {
                     >
                       <div
                         style={{
-                          fontSize: 10,
+                          fontSize: 12,
                           fontWeight: 700,
                           color: 'var(--ink-error)',
                           marginBottom: 3,
@@ -207,7 +207,7 @@ function ReflexiveScreen({ goBack, award }: Props) {
                     >
                       <div
                         style={{
-                          fontSize: 10,
+                          fontSize: 12,
                           fontWeight: 700,
                           color: 'var(--ink-green)',
                           marginBottom: 3,
@@ -218,7 +218,7 @@ function ReflexiveScreen({ goBack, award }: Props) {
                       <div style={{ fontWeight: 700, color: 'var(--ink-green)' }}>{r.good}</div>
                     </button>
                   </div>
-                  <div style={{ fontSize: 11, color: 'var(--ink-muted-warm)', lineHeight: 1.5 }}>
+                  <div style={{ fontSize: 12, color: 'var(--ink-muted-warm)', lineHeight: 1.5 }}>
                     {r.note}
                   </div>
                 </div>
@@ -300,7 +300,7 @@ function ReflexiveScreen({ goBack, award }: Props) {
                           style={{
                             background: c + '20',
                             color: accentInk(c),
-                            fontSize: 9,
+                            fontSize: 12,
                             fontWeight: 800,
                             padding: '3px 6px',
                             borderRadius: 6,
@@ -317,7 +317,7 @@ function ReflexiveScreen({ goBack, award }: Props) {
                               🔊
                             </span>
                           </div>
-                          <div style={{ fontSize: 11, color: 'var(--ink-muted-warm)' }}>
+                          <div style={{ fontSize: 12, color: 'var(--ink-muted-warm)' }}>
                             {row.data.en}
                           </div>
                         </div>
@@ -507,7 +507,7 @@ function ReflexiveScreen({ goBack, award }: Props) {
                 {answers[qi] !== undefined && (
                   <div
                     style={{
-                      fontSize: 11,
+                      fontSize: 12,
                       color: 'var(--ink-green)',
                       marginTop: 4,
                       fontWeight: 700,

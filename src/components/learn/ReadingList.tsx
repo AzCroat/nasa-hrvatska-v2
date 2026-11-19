@@ -159,7 +159,7 @@ export default function ReadingList({
                   background: accentFill(meta.color),
                   color: '#fff',
                   borderRadius: 4,
-                  fontSize: 11,
+                  fontSize: 12,
                   fontWeight: 700,
                   padding: '2px 7px',
                   letterSpacing: '0.04em',
@@ -224,7 +224,7 @@ export default function ReadingList({
                   </div>
                   <div
                     style={{
-                      fontSize: 11,
+                      fontSize: 12,
                       marginTop: 4,
                       color: accentInk(meta.color),
                       fontWeight: 700,

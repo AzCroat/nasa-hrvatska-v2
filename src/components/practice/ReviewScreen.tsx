@@ -487,7 +487,7 @@ export default function ReviewScreen({ goBack, award, allCats }: ReviewScreenPro
                 setStats((prev) => ({ ...prev, srsTotal: (prev.srsTotal || 0) + 1 }));
               }}
             >
-              <span style={{ opacity: 0.4, fontSize: 11, marginRight: 6 }}>{i + 1}</span>
+              <span style={{ opacity: 0.4, fontSize: 12, marginRight: 6 }}>{i + 1}</span>
               {opt}
             </button>
           );
@@ -507,7 +507,7 @@ export default function ReviewScreen({ goBack, award, allCats }: ReviewScreenPro
             >
               <div
                 style={{
-                  fontSize: 11,
+                  fontSize: 12,
                   fontWeight: 800,
                   color: 'var(--info)',
                   textTransform: 'uppercase',
@@ -581,7 +581,7 @@ export default function ReviewScreen({ goBack, award, allCats }: ReviewScreenPro
                     alignItems: 'center',
                     gap: 6,
                     marginBottom: 8,
-                    fontSize: 11,
+                    fontSize: 12,
                     fontWeight: 800,
                     color: 'var(--ink-mode)',
                     textTransform: 'uppercase',

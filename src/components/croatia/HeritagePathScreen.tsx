@@ -424,7 +424,7 @@ export default function HeritagePathScreen({
         >
           <div
             style={{
-              fontSize: 11,
+              fontSize: 12,
               fontWeight: 900,
               letterSpacing: '.12em',
               textTransform: 'uppercase',
@@ -468,7 +468,7 @@ export default function HeritagePathScreen({
           <div style={{ flex: 1 }}>
             <div
               style={{
-                fontSize: 11,
+                fontSize: 12,
                 fontWeight: 800,
                 color: 'var(--ink-mode)',
                 textTransform: 'uppercase',
@@ -490,7 +490,7 @@ export default function HeritagePathScreen({
         <div
           style={{
             marginBottom: 12,
-            fontSize: 11,
+            fontSize: 12,
             fontWeight: 900,
             color: 'var(--ink-muted-warm)',
             textTransform: 'uppercase',
@@ -613,7 +613,7 @@ export default function HeritagePathScreen({
         </button>
         <div
           style={{
-            fontSize: 11,
+            fontSize: 12,
             fontWeight: 900,
             color: 'var(--ink-muted-warm)',
             textTransform: 'uppercase',
@@ -686,7 +686,7 @@ export default function HeritagePathScreen({
         >
           <div
             style={{
-              fontSize: 11,
+              fontSize: 12,
               fontWeight: 800,
               color: accentInk(dialect.color),
               textTransform: 'uppercase',
@@ -788,7 +788,7 @@ export default function HeritagePathScreen({
         </button>
         <div
           style={{
-            fontSize: 11,
+            fontSize: 12,
             fontWeight: 900,
             color: 'var(--ink-muted-warm)',
             textTransform: 'uppercase',
@@ -842,7 +842,7 @@ export default function HeritagePathScreen({
         >
           <div
             style={{
-              fontSize: 11,
+              fontSize: 12,
               fontWeight: 800,
               color: accentInk(mod.color),
               textTransform: 'uppercase',
@@ -888,7 +888,7 @@ export default function HeritagePathScreen({
             >
               <div
                 style={{
-                  fontSize: 11,
+                  fontSize: 12,
                   fontWeight: 800,
                   color: 'var(--ink-green)',
                   textTransform: 'uppercase',
@@ -988,7 +988,7 @@ export default function HeritagePathScreen({
         </button>
         <div
           style={{
-            fontSize: 11,
+            fontSize: 12,
             fontWeight: 900,
             color: 'var(--ink-muted-warm)',
             textTransform: 'uppercase',
@@ -1056,7 +1056,7 @@ export default function HeritagePathScreen({
         >
           <div
             style={{
-              fontSize: 11,
+              fontSize: 12,
               fontWeight: 800,
               color: accentInk(mod.color),
               textTransform: 'uppercase',
@@ -1102,7 +1102,7 @@ export default function HeritagePathScreen({
             >
               <div
                 style={{
-                  fontSize: 11,
+                  fontSize: 12,
                   fontWeight: 800,
                   color: 'var(--ink-green)',
                   textTransform: 'uppercase',
@@ -1217,7 +1217,7 @@ export default function HeritagePathScreen({
               >
                 <div
                   style={{
-                    fontSize: 10,
+                    fontSize: 12,
                     fontWeight: 800,
                     color: 'var(--ink-warn)',
                     textTransform: 'uppercase',
@@ -1263,7 +1263,7 @@ export default function HeritagePathScreen({
               >
                 <div
                   style={{
-                    fontSize: 10,
+                    fontSize: 12,
                     fontWeight: 800,
                     color: 'var(--ink-accent)',
                     textTransform: 'uppercase',
@@ -1290,7 +1290,7 @@ export default function HeritagePathScreen({
             </div>
             <div
               style={{
-                fontSize: 11,
+                fontSize: 12,
                 color: 'var(--subtext)',
                 fontStyle: 'italic',
                 lineHeight: 1.5,

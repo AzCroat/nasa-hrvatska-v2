@@ -44,7 +44,7 @@ function PopCultureScreen({ goBack }: Props) {
                 <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--heading)' }}>
                   {p.name}
                 </div>
-                <div style={{ fontSize: 11, color: 'var(--subtext)' }}>{p.desc}</div>
+                <div style={{ fontSize: 12, color: 'var(--subtext)' }}>{p.desc}</div>
               </div>
             </div>
           );

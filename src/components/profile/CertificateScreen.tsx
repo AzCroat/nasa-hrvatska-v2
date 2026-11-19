@@ -296,7 +296,7 @@ export default function CertificateScreen({
                 <div style={{ fontSize: 15, fontWeight: 900, color: 'var(--text)' }}>{s.val}</div>
                 <div
                   style={{
-                    fontSize: 10,
+                    fontSize: 12,
                     color: 'var(--ink-muted)',
                     fontWeight: 600,
                     textTransform: 'uppercase',

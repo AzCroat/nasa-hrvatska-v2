@@ -779,7 +779,7 @@ export default function PhraseOfDayScreen({
               {/* Category label */}
               <div
                 style={{
-                  fontSize: 11,
+                  fontSize: 12,
                   fontWeight: 800,
                   letterSpacing: '.08em',
                   textTransform: 'uppercase',
@@ -1083,7 +1083,7 @@ export default function PhraseOfDayScreen({
                             textAlign: 'left',
                             fontWeight: 800,
                             color: 'var(--subtext)',
-                            fontSize: 11,
+                            fontSize: 12,
                             letterSpacing: '.04em',
                             textTransform: 'uppercase',
                           }}
@@ -1336,7 +1336,7 @@ export default function PhraseOfDayScreen({
             <div
               style={{
                 textAlign: 'center',
-                fontSize: 11,
+                fontSize: 12,
                 color: 'var(--subtext)',
                 marginBottom: 10,
                 fontStyle: 'italic',

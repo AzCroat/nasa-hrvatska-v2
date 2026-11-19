@@ -265,7 +265,7 @@ export default function CivicScreen({ goBack }: CivicScreenProps) {
                   </div>
                   <div
                     style={{
-                      fontSize: 10,
+                      fontSize: 12,
                       color: 'var(--subtext)',
                       fontStyle: 'italic',
                       marginTop: 1,
@@ -279,7 +279,7 @@ export default function CivicScreen({ goBack }: CivicScreenProps) {
                 <div
                   style={{
                     padding: '6px 14px 10px',
-                    fontSize: 11,
+                    fontSize: 12,
                     color: 'var(--subtext)',
                     lineHeight: 1.5,
                     fontStyle: 'italic',
@@ -340,7 +340,7 @@ export default function CivicScreen({ goBack }: CivicScreenProps) {
               >
                 {s.title}
               </div>
-              <div style={{ fontSize: 11, color: 'var(--subtext)', fontWeight: 600 }}>
+              <div style={{ fontSize: 12, color: 'var(--subtext)', fontWeight: 600 }}>
                 {s.vocab.length} words
               </div>
             </div>
@@ -371,7 +371,7 @@ export default function CivicScreen({ goBack }: CivicScreenProps) {
           <div style={{ fontSize: 14, fontWeight: 800, color: '#fff' }}>
             Practice: Read a Headline
           </div>
-          <div style={{ fontSize: 11, color: 'rgba(255,255,255,.75)', marginTop: 1 }}>
+          <div style={{ fontSize: 12, color: 'rgba(255,255,255,.75)', marginTop: 1 }}>
             5 real-style Croatian news headlines
           </div>
         </div>
@@ -417,7 +417,7 @@ export default function CivicScreen({ goBack }: CivicScreenProps) {
                 </div>
                 <div
                   style={{
-                    fontSize: 11,
+                    fontSize: 12,
                     color: 'var(--ink-accent)',
                     fontWeight: 600,
                     fontStyle: 'italic',

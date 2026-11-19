@@ -272,7 +272,7 @@ export default function PhonemePracticeScreen({
                 <div style={{ fontSize: 13, fontWeight: 800, color: 'var(--heading)' }}>
                   {p.letter}
                 </div>
-                <div style={{ fontSize: 10, color: 'var(--subtext)', fontFamily: 'monospace' }}>
+                <div style={{ fontSize: 12, color: 'var(--subtext)', fontFamily: 'monospace' }}>
                   {p.ipa}
                 </div>
               </div>
@@ -385,9 +385,9 @@ export default function PhonemePracticeScreen({
                 >
                   {w.hr}
                 </div>
-                <div style={{ fontSize: 11, color: 'var(--subtext)', marginTop: 2 }}>{w.en}</div>
+                <div style={{ fontSize: 12, color: 'var(--subtext)', marginTop: 2 }}>{w.en}</div>
                 <div
-                  style={{ fontSize: 10, color: accentInk(p.color), marginTop: 4, fontWeight: 700 }}
+                  style={{ fontSize: 12, color: accentInk(p.color), marginTop: 4, fontWeight: 700 }}
                 >
                   ▶ tap to hear
                 </div>
@@ -414,7 +414,7 @@ export default function PhonemePracticeScreen({
             </div>
             <div
               style={{
-                fontSize: 11,
+                fontSize: 12,
                 color: 'var(--subtext)',
                 marginBottom: 12,
                 lineHeight: 1.5,
@@ -448,11 +448,11 @@ export default function PhonemePracticeScreen({
                 >
                   {p.minimalPair.a}
                 </div>
-                <div style={{ fontSize: 11, color: 'var(--subtext)', marginTop: 4 }}>
+                <div style={{ fontSize: 12, color: 'var(--subtext)', marginTop: 4 }}>
                   {p.minimalPair.aEn}
                 </div>
                 <div
-                  style={{ fontSize: 10, color: accentInk(p.color), marginTop: 4, fontWeight: 700 }}
+                  style={{ fontSize: 12, color: accentInk(p.color), marginTop: 4, fontWeight: 700 }}
                 >
                   ▶ play
                 </div>
@@ -490,11 +490,11 @@ export default function PhonemePracticeScreen({
                 >
                   {p.minimalPair.b}
                 </div>
-                <div style={{ fontSize: 11, color: 'var(--subtext)', marginTop: 4 }}>
+                <div style={{ fontSize: 12, color: 'var(--subtext)', marginTop: 4 }}>
                   {p.minimalPair.bEn}
                 </div>
                 <div
-                  style={{ fontSize: 10, color: 'var(--subtext)', marginTop: 4, fontWeight: 700 }}
+                  style={{ fontSize: 12, color: 'var(--subtext)', marginTop: 4, fontWeight: 700 }}
                 >
                   ▶ play
                 </div>
@@ -544,7 +544,7 @@ export default function PhonemePracticeScreen({
             >
               {p.sentence.en}
             </div>
-            <div style={{ fontSize: 11, color: accentInk(p.color), marginTop: 6, fontWeight: 700 }}>
+            <div style={{ fontSize: 12, color: accentInk(p.color), marginTop: 6, fontWeight: 700 }}>
               ▶ tap to hear full sentence
             </div>
           </button>
@@ -717,7 +717,7 @@ export default function PhonemePracticeScreen({
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    fontSize: 11,
+                    fontSize: 12,
                     fontWeight: 900,
                   }}
                 >
@@ -738,7 +738,7 @@ export default function PhonemePracticeScreen({
               </div>
               <div
                 style={{
-                  fontSize: 11,
+                  fontSize: 12,
                   color: 'var(--subtext)',
                   fontFamily: 'monospace',
                   marginBottom: 4,
@@ -746,10 +746,10 @@ export default function PhonemePracticeScreen({
               >
                 {p.ipa}
               </div>
-              <div style={{ fontSize: 11, fontWeight: 700, color: 'var(--subtext)' }}>{p.name}</div>
+              <div style={{ fontSize: 12, fontWeight: 700, color: 'var(--subtext)' }}>{p.name}</div>
               <div
                 style={{
-                  fontSize: 10,
+                  fontSize: 12,
                   marginTop: 6,
                   color: isMastered ? 'var(--ink-green)' : 'var(--info)',
                   fontWeight: 700,

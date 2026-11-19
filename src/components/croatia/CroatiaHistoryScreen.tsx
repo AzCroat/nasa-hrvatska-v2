@@ -136,7 +136,7 @@ function HimnaPlayer() {
       />
       <div
         style={{
-          fontSize: 11,
+          fontSize: 12,
           fontWeight: 900,
           color: 'var(--ink-error)',
           letterSpacing: '0.07em',
@@ -260,7 +260,7 @@ function HimnaPlayer() {
               style={{
                 display: 'flex',
                 justifyContent: 'space-between',
-                fontSize: 11,
+                fontSize: 12,
                 color: 'var(--ink-error)',
                 fontWeight: 700,
               }}

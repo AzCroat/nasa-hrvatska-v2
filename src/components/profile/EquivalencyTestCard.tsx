@@ -77,7 +77,7 @@ export default function EquivalencyTestCard({
           <span style={{ fontSize: 22 }}>🎓</span>
           <span
             style={{
-              fontSize: 11,
+              fontSize: 12,
               fontWeight: 900,
               color: 'var(--ink-green)',
               letterSpacing: '.2em',
@@ -118,7 +118,7 @@ export default function EquivalencyTestCard({
           boxShadow: '0 4px 14px rgba(204,0,0,0.25)',
         }}
       >
-        <div style={{ fontSize: 11, fontWeight: 900, letterSpacing: '.22em', marginBottom: 6 }}>
+        <div style={{ fontSize: 12, fontWeight: 900, letterSpacing: '.22em', marginBottom: 6 }}>
           UNCONFIRMED LEVEL
         </div>
         <div
@@ -182,7 +182,7 @@ export default function EquivalencyTestCard({
         <span style={{ fontSize: 20 }}>🏅</span>
         <span
           style={{
-            fontSize: 11,
+            fontSize: 12,
             fontWeight: 900,
             color: 'var(--ink-green)',
             letterSpacing: '.2em',

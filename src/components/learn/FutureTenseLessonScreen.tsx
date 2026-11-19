@@ -366,7 +366,7 @@ export default function FutureTenseLessonScreen({
                     style={{
                       padding: '8px 14px',
                       textAlign: 'left',
-                      fontSize: 11,
+                      fontSize: 12,
                       fontWeight: 800,
                       color: 'var(--subtext)',
                       textTransform: 'uppercase',
@@ -378,7 +378,7 @@ export default function FutureTenseLessonScreen({
                     style={{
                       padding: '8px 14px',
                       textAlign: 'left',
-                      fontSize: 11,
+                      fontSize: 12,
                       fontWeight: 800,
                       color: 'var(--subtext)',
                       textTransform: 'uppercase',
@@ -390,7 +390,7 @@ export default function FutureTenseLessonScreen({
                     style={{
                       padding: '8px 14px',
                       textAlign: 'left',
-                      fontSize: 11,
+                      fontSize: 12,
                       fontWeight: 800,
                       color: 'var(--subtext)',
                       textTransform: 'uppercase',
@@ -629,7 +629,7 @@ export default function FutureTenseLessonScreen({
                     >
                       {row.form} <span aria-hidden="true">🔊</span>
                     </td>
-                    <td style={{ padding: '10px 14px', fontSize: 11, color: 'var(--subtext)' }}>
+                    <td style={{ padding: '10px 14px', fontSize: 12, color: 'var(--subtext)' }}>
                       {row.en}
                     </td>
                   </tr>
@@ -675,7 +675,7 @@ export default function FutureTenseLessonScreen({
                   ✓ {c.right} 🔊
                 </div>
               </div>
-              <div style={{ fontSize: 11, color: 'var(--subtext)', marginTop: 4 }}>💡 {c.note}</div>
+              <div style={{ fontSize: 12, color: 'var(--subtext)', marginTop: 4 }}>💡 {c.note}</div>
             </div>
           ))}
         </div>
@@ -765,7 +765,7 @@ export default function FutureTenseLessonScreen({
                     >
                       {row.example} <span aria-hidden="true">🔊</span>
                     </td>
-                    <td style={{ padding: '10px 14px', fontSize: 11, color: 'var(--subtext)' }}>
+                    <td style={{ padding: '10px 14px', fontSize: 12, color: 'var(--subtext)' }}>
                       {row.en}
                     </td>
                   </tr>
@@ -917,7 +917,7 @@ export default function FutureTenseLessonScreen({
                     style={{
                       padding: '3px 10px',
                       borderRadius: 10,
-                      fontSize: 11,
+                      fontSize: 12,
                       fontWeight: 800,
                       background: tc.bg,
                       color: tc.color,

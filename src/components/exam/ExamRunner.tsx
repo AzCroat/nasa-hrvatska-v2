@@ -264,7 +264,7 @@ export default function ExamRunner({
                       ? 'Try again'
                       : 'Play the recording'}
                 {audioStatus === 'played' && (
-                  <span style={{ fontSize: 11, fontWeight: 600, color: 'var(--subtext)' }}>
+                  <span style={{ fontSize: 12, fontWeight: 600, color: 'var(--subtext)' }}>
                     (replays are unlimited)
                   </span>
                 )}

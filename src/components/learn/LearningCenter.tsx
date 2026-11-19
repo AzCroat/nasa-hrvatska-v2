@@ -129,7 +129,7 @@ function Row({
             border: '1px solid var(--card-b)',
             background: 'transparent',
             color: 'var(--heading)',
-            fontSize: 11.5,
+            fontSize: 12,
             fontWeight: 800,
             cursor: 'pointer',
             fontFamily: "'Outfit',sans-serif",
@@ -198,7 +198,7 @@ function RowButton({
         <span
           style={{
             display: 'block',
-            fontSize: 11,
+            fontSize: 12,
             color: 'var(--subtext)',
             marginTop: 2,
             overflow: 'hidden',
@@ -410,7 +410,7 @@ export default function LearningCenter({
 
       {focus && focus.length > 1 ? (
         <div data-testid="lc-focus">
-          <div style={{ fontSize: 11, color: 'var(--subtext)', marginBottom: 8, fontWeight: 700 }}>
+          <div style={{ fontSize: 12, color: 'var(--subtext)', marginBottom: 8, fontWeight: 700 }}>
             {focusRows.length > 0
               ? 'Lessons that teach this'
               : spineReady
@@ -452,7 +452,7 @@ export default function LearningCenter({
         </div>
       ) : searching ? (
         <div data-testid="lc-results">
-          <div style={{ fontSize: 11, color: 'var(--subtext)', marginBottom: 8, fontWeight: 700 }}>
+          <div style={{ fontSize: 12, color: 'var(--subtext)', marginBottom: 8, fontWeight: 700 }}>
             {results.length === 0
               ? `No results for "${query.trim()}"`
               : `${results.length} result${results.length === 1 ? '' : 's'}`}
@@ -574,7 +574,7 @@ export default function LearningCenter({
                       >
                         {rows.length} lessons
                       </span>
-                      <span style={{ fontSize: 11, color: 'var(--subtext)' }}>
+                      <span style={{ fontSize: 12, color: 'var(--subtext)' }}>
                         {doneCount}/{rows.length} done
                       </span>
                       <span

@@ -78,7 +78,7 @@ export default function DebugOverlay() {
         data-testid="debug-overlay-toggle"
         onClick={() => setOpen((v) => !v)}
         style={{
-          fontSize: 11,
+          fontSize: 12,
           fontWeight: 700,
           padding: '6px 10px',
           borderRadius: 8,
@@ -105,7 +105,7 @@ export default function DebugOverlay() {
             borderRadius: 10,
             padding: 10,
             fontFamily: 'ui-monospace, SFMono-Regular, Menlo, monospace',
-            fontSize: 10,
+            fontSize: 12,
             lineHeight: 1.45,
             whiteSpace: 'pre-wrap',
             wordBreak: 'break-word',
@@ -124,7 +124,7 @@ export default function DebugOverlay() {
                 }
               }}
               style={{
-                fontSize: 10,
+                fontSize: 12,
                 padding: '4px 8px',
                 borderRadius: 6,
                 border: '1px solid rgba(255,255,255,.25)',
@@ -141,7 +141,7 @@ export default function DebugOverlay() {
                 setEntries([]);
               }}
               style={{
-                fontSize: 10,
+                fontSize: 12,
                 padding: '4px 8px',
                 borderRadius: 6,
                 border: '1px solid rgba(255,255,255,.25)',

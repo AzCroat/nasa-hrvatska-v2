@@ -75,7 +75,7 @@ function ColorAgreementScreen({ goBack, award }: Props) {
         goBack,
       )}
       <div style={{ overflowX: 'auto', marginBottom: 20 }}>
-        <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 11 }}>
+        <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 12 }}>
           <thead>
             <tr>
               {['Color', 'M', 'F', 'N', 'M pl', 'F pl', 'N pl'].map(function (h, i) {
@@ -154,7 +154,7 @@ function ColorAgreementScreen({ goBack, award }: Props) {
                               ? 'var(--success-bg-strong)'
                               : 'var(--error-bg-strong)'
                             : 'var(--card)',
-                      fontSize: 11,
+                      fontSize: 12,
                       cursor: singChoices[qi] !== undefined ? 'default' : 'pointer',
                       pointerEvents: singChoices[qi] !== undefined ? 'none' : 'auto',
                     }}
@@ -208,7 +208,7 @@ function ColorAgreementScreen({ goBack, award }: Props) {
                               ? 'var(--success-bg-strong)'
                               : 'var(--error-bg-strong)'
                             : 'var(--card)',
-                      fontSize: 11,
+                      fontSize: 12,
                       cursor: plurChoices[qi] !== undefined ? 'default' : 'pointer',
                       pointerEvents: plurChoices[qi] !== undefined ? 'none' : 'auto',
                     }}

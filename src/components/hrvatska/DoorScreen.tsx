@@ -158,7 +158,7 @@ export default function DoorScreen({
           >
             {door.voiceLine.hr}
           </span>
-          <span style={{ display: 'block', fontSize: 11.5, color: 'var(--subtext)', marginTop: 3 }}>
+          <span style={{ display: 'block', fontSize: 12, color: 'var(--subtext)', marginTop: 3 }}>
             {door.voiceLine.en}
           </span>
         </span>
@@ -169,7 +169,7 @@ export default function DoorScreen({
         <>
           <div
             style={{
-              fontSize: 10,
+              fontSize: 12,
               fontWeight: 900,
               letterSpacing: '.14em',
               textTransform: 'uppercase',

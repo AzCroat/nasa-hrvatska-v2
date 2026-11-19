@@ -177,7 +177,7 @@ const QUIZ_SECTION = ({ quiz, accent: _accent }: QuizSectionProps2) => {
             <div
               style={{
                 marginTop: 8,
-                fontSize: 11,
+                fontSize: 12,
                 color:
                   q.opts[answers[i] as number] === q.a ? 'var(--ink-green)' : 'var(--ink-error)',
                 fontWeight: 700,
@@ -246,7 +246,7 @@ function ClothesScreen({ goBack }: ClothesScreenProps) {
                   borderRadius: 20,
                   border: 'none',
                   cursor: 'pointer',
-                  fontSize: 11,
+                  fontSize: 12,
                   fontWeight: 700,
                   background: catIdx === i ? '#7c3aed' : '#f5f5f4',
                   color: catIdx === i ? 'white' : '#44403c',
@@ -284,11 +284,11 @@ function ClothesScreen({ goBack }: ClothesScreenProps) {
                 >
                   {item.hr}
                 </div>
-                <div style={{ fontSize: 11, color: 'var(--ink-muted-warm)' }}>{item.en}</div>
+                <div style={{ fontSize: 12, color: 'var(--ink-muted-warm)' }}>{item.en}</div>
                 {item.gen && (
                   <div
                     style={{
-                      fontSize: 10,
+                      fontSize: 12,
                       background: '#f3f4f6',
                       color: '#6b7280',
                       padding: '1px 6px',
@@ -303,7 +303,7 @@ function ClothesScreen({ goBack }: ClothesScreenProps) {
                 {item.note && (
                   <div
                     style={{
-                      fontSize: 10,
+                      fontSize: 12,
                       color: 'var(--ink-info)',
                       fontStyle: 'italic',
                       marginTop: 2,

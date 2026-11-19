@@ -28,7 +28,7 @@ function RestaurantScreen({ goBack }: Props) {
             <div style={{ display: 'flex', gap: 8, marginBottom: 4 }}>
               <div
                 style={{
-                  fontSize: 11,
+                  fontSize: 12,
                   fontWeight: 800,
                   color: 'white',
                   background: '#0e7490',
@@ -80,7 +80,7 @@ function RestaurantScreen({ goBack }: Props) {
               </button>
               <div
                 style={{
-                  fontSize: 11,
+                  fontSize: 12,
                   fontWeight: 800,
                   color: 'white',
                   background: '#1e40af',

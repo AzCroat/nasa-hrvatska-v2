@@ -77,7 +77,7 @@ function SvojMojScreen({
       >
         <div
           style={{
-            fontSize: 11,
+            fontSize: 12,
             fontWeight: 800,
             opacity: 0.8,
             marginBottom: 6,
@@ -116,7 +116,7 @@ function SvojMojScreen({
               >
                 <div
                   style={{
-                    fontSize: 10,
+                    fontSize: 12,
                     fontWeight: 700,
                     color: 'var(--ink-error)',
                     marginBottom: 4,
@@ -144,7 +144,7 @@ function SvojMojScreen({
               >
                 <div
                   style={{
-                    fontSize: 10,
+                    fontSize: 12,
                     fontWeight: 700,
                     color: 'var(--ink-green)',
                     marginBottom: 4,
@@ -158,7 +158,7 @@ function SvojMojScreen({
             <div
               style={{
                 padding: '0 14px 12px',
-                fontSize: 11,
+                fontSize: 12,
                 color: 'var(--ink-muted-warm)',
                 lineHeight: 1.5,
               }}
@@ -186,7 +186,7 @@ function SvojMojScreen({
                       textAlign: 'left',
                       fontWeight: 700,
                       color: 'var(--ink-body)',
-                      fontSize: 11,
+                      fontSize: 12,
                     }}
                   >
                     {h}
@@ -210,7 +210,7 @@ function SvojMojScreen({
                       padding: '6px 8px',
                       fontWeight: 700,
                       color: 'var(--ink-mode)',
-                      fontSize: 11,
+                      fontSize: 12,
                     }}
                   >
                     {row.case}
@@ -321,7 +321,7 @@ function SvojMojScreen({
             {quizAnswers[qi] && (
               <div
                 style={{
-                  fontSize: 11,
+                  fontSize: 12,
                   lineHeight: 1.5,
                   marginTop: 4,
                   padding: '6px 10px',

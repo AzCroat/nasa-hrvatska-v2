@@ -227,7 +227,7 @@ function CityOfDayScreen({ goBack }: CityOfDayScreenProps) {
         <div style={{ color: '#fff' }}>
           <div
             style={{
-              fontSize: 11,
+              fontSize: 12,
               fontWeight: 700,
               opacity: 0.85,
               textTransform: 'uppercase',
@@ -389,7 +389,7 @@ function CityOfDayScreen({ goBack }: CityOfDayScreenProps) {
           >
             <div
               style={{
-                fontSize: 11,
+                fontSize: 12,
                 fontWeight: 800,
                 color: 'var(--subtext)',
                 marginBottom: 8,
@@ -452,7 +452,7 @@ function CityOfDayScreen({ goBack }: CityOfDayScreenProps) {
           >
             <div
               style={{
-                fontSize: 11,
+                fontSize: 12,
                 fontWeight: 800,
                 color: accentInk(city.color),
                 marginBottom: 6,
@@ -531,7 +531,7 @@ function CityOfDayScreen({ goBack }: CityOfDayScreenProps) {
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        fontSize: 11,
+                        fontSize: 12,
                         fontWeight: 800,
                         flexShrink: 0,
                       }}

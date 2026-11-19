@@ -142,7 +142,7 @@ function FillStoryScreen({ goBack, award }: Props) {
                       );
                     })}
                   </div>
-                  <div style={{ fontSize: 11, color: 'var(--ink-muted-warm)', marginTop: 2 }}>
+                  <div style={{ fontSize: 12, color: 'var(--ink-muted-warm)', marginTop: 2 }}>
                     {s.en}
                   </div>
                 </div>

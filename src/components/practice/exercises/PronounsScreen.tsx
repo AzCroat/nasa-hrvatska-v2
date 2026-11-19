@@ -89,7 +89,7 @@ function PronounsScreen({ goBack, award }: Props) {
         {PRONOUNCASE.intro}
       </div>
       <div style={{ overflowX: 'auto', marginBottom: 20 }}>
-        <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 11 }}>
+        <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 12 }}>
           <thead>
             <tr>
               {['NOM', 'GEN', 'DAT', 'AKU', 'INST', 'LOK'].map(function (h, i) {

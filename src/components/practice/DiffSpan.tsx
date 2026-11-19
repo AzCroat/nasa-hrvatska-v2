@@ -169,7 +169,7 @@ export function DiffSpan({
               data-testid={`diff-tag-${index}`}
               style={{
                 display: 'inline-block',
-                fontSize: 11,
+                fontSize: 12,
                 fontWeight: 700,
                 textTransform: 'uppercase',
                 letterSpacing: '0.04em',

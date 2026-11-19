@@ -154,7 +154,7 @@ export default function DebriefScreen({
             }}
           >
             <div style={{ fontSize: 20, fontWeight: 700, color: 'var(--heading)' }}>{value}</div>
-            <div style={{ fontSize: 11, color: 'var(--subtext)', marginTop: 2 }}>{label}</div>
+            <div style={{ fontSize: 12, color: 'var(--subtext)', marginTop: 2 }}>{label}</div>
           </div>
         ))}
       </div>

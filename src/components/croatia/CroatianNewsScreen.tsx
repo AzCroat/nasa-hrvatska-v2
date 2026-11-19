@@ -224,7 +224,7 @@ function TappableText({
                   border: '1px solid var(--info-b)',
                   borderRadius: 8,
                   padding: '4px 8px',
-                  fontSize: 11,
+                  fontSize: 12,
                   color: 'var(--info)',
                   whiteSpace: 'nowrap',
                   zIndex: 10,
@@ -245,7 +245,7 @@ function TappableText({
                   border: '1px solid var(--success-b)',
                   borderRadius: 8,
                   padding: '5px 9px',
-                  fontSize: 11,
+                  fontSize: 12,
                   color: 'var(--heading)',
                   whiteSpace: 'nowrap',
                   zIndex: 10,
@@ -258,7 +258,7 @@ function TappableText({
                 {' = '}
                 {tooltip.translation}
                 {tooltip.note && (
-                  <div style={{ fontSize: 10, color: 'var(--subtext)', marginTop: 2 }}>
+                  <div style={{ fontSize: 12, color: 'var(--subtext)', marginTop: 2 }}>
                     {tooltip.note}
                   </div>
                 )}
@@ -350,7 +350,7 @@ function ArticleCard({
       >
         <span
           style={{
-            fontSize: 11,
+            fontSize: 12,
             fontWeight: 800,
             letterSpacing: '.04em',
             textTransform: 'uppercase',
@@ -363,7 +363,7 @@ function ArticleCard({
           {article.source || 'Hrvatska vijesti'}
         </span>
         {article.date && (
-          <span style={{ fontSize: 11, color: 'var(--subtext)' }}>{article.date}</span>
+          <span style={{ fontSize: 12, color: 'var(--subtext)' }}>{article.date}</span>
         )}
       </div>
 
@@ -416,7 +416,7 @@ function ArticleCard({
 
         {/* Tap-hint */}
         <div
-          style={{ fontSize: 11, color: 'var(--subtext)', marginBottom: 14, fontStyle: 'italic' }}
+          style={{ fontSize: 12, color: 'var(--subtext)', marginBottom: 14, fontStyle: 'italic' }}
         >
           Tap any word for an instant translation
         </div>

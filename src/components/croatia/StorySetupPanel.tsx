@@ -160,7 +160,7 @@ export default function StorySetupPanel({
               <span style={{ fontSize: 22 }}>{city.icon}</span>
               <span
                 style={{
-                  fontSize: 11,
+                  fontSize: 12,
                   fontWeight: 700,
                   color: selectedCity.name === city.name ? accentInk(city.color) : 'var(--heading)',
                 }}

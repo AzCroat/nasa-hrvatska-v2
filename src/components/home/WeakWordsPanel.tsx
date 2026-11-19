@@ -115,7 +115,7 @@ export default function WeakWordsPanel({ setScr }: { setScr?: (screen: string) =
         <div style={{ flex: 1, minWidth: 0 }}>
           <div
             style={{
-              fontSize: 11,
+              fontSize: 12,
               fontWeight: 800,
               color: 'rgba(255,255,255,.7)',
               textTransform: 'uppercase',
@@ -219,7 +219,7 @@ export default function WeakWordsPanel({ setScr }: { setScr?: (screen: string) =
                     </div>
                     <span
                       style={{
-                        fontSize: 10,
+                        fontSize: 12,
                         fontWeight: 700,
                         color: accentInk(barColor),
                         flexShrink: 0,
@@ -231,11 +231,11 @@ export default function WeakWordsPanel({ setScr }: { setScr?: (screen: string) =
                   </div>
                 </div>
                 <div style={{ flexShrink: 0, textAlign: 'right' }}>
-                  <div style={{ fontSize: 10, color: 'var(--subtext)', fontWeight: 600 }}>
+                  <div style={{ fontSize: 12, color: 'var(--subtext)', fontWeight: 600 }}>
                     {total} reviews
                   </div>
                   {lapses > 0 && (
-                    <div style={{ fontSize: 10, color: 'var(--ink-error)', fontWeight: 700 }}>
+                    <div style={{ fontSize: 12, color: 'var(--ink-error)', fontWeight: 700 }}>
                       {lapses} lapse{lapses !== 1 ? 's' : ''}
                     </div>
                   )}

@@ -70,7 +70,7 @@ function SibilarizationScreen({ goBack, award }: Props) {
                 {' → '}
                 {ex.lok}
               </div>
-              <div style={{ fontSize: 11, color: 'var(--ink-warn)' }}>{ex.rule}</div>
+              <div style={{ fontSize: 12, color: 'var(--ink-warn)' }}>{ex.rule}</div>
             </button>
           );
         })}

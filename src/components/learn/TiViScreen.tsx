@@ -133,7 +133,7 @@ export default function TiViScreen({ goBack }: { goBack: () => void }) {
             <div style={{ fontSize: 14, fontWeight: 900, color: 'var(--ink-info)' }}>
               Ti (informal)
             </div>
-            <div style={{ fontSize: 11, color: 'var(--ink-muted)', marginTop: 4, lineHeight: 1.4 }}>
+            <div style={{ fontSize: 12, color: 'var(--ink-muted)', marginTop: 4, lineHeight: 1.4 }}>
               Friends, family, peers, children, younger people
             </div>
           </div>
@@ -149,7 +149,7 @@ export default function TiViScreen({ goBack }: { goBack: () => void }) {
             <div style={{ fontSize: 14, fontWeight: 900, color: 'var(--ink-mode)' }}>
               Vi (formal)
             </div>
-            <div style={{ fontSize: 11, color: 'var(--ink-muted)', marginTop: 4, lineHeight: 1.4 }}>
+            <div style={{ fontSize: 12, color: 'var(--ink-muted)', marginTop: 4, lineHeight: 1.4 }}>
               Strangers, elders, officials, doctors, teachers
             </div>
           </div>
@@ -207,7 +207,7 @@ export default function TiViScreen({ goBack }: { goBack: () => void }) {
                 >
                   {s.situation}
                 </div>
-                <div style={{ fontSize: 11, color: 'var(--subtext)', fontStyle: 'italic' }}>
+                <div style={{ fontSize: 12, color: 'var(--subtext)', fontStyle: 'italic' }}>
                   {s.context}
                 </div>
               </div>
@@ -235,7 +235,7 @@ export default function TiViScreen({ goBack }: { goBack: () => void }) {
                 >
                   <div
                     style={{
-                      fontSize: 10,
+                      fontSize: 12,
                       fontWeight: 800,
                       color: 'var(--ink-info)',
                       textTransform: 'uppercase',
@@ -290,7 +290,7 @@ export default function TiViScreen({ goBack }: { goBack: () => void }) {
                 >
                   <div
                     style={{
-                      fontSize: 10,
+                      fontSize: 12,
                       fontWeight: 800,
                       color: 'var(--ink-mode)',
                       textTransform: 'uppercase',
@@ -339,7 +339,7 @@ export default function TiViScreen({ goBack }: { goBack: () => void }) {
                 <div
                   style={{
                     padding: '10px 16px',
-                    fontSize: 11,
+                    fontSize: 12,
                     color: 'var(--subtext)',
                     lineHeight: 1.6,
                     fontStyle: 'italic',

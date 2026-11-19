@@ -93,7 +93,7 @@ export default function ProfileHeader({ syncTime = 0 }: { syncTime?: number }) {
                   border: '1px solid rgba(5,150,105,.5)',
                   borderRadius: 6,
                   padding: '2px 7px',
-                  fontSize: 10,
+                  fontSize: 12,
                   fontWeight: 800,
                   color: 'rgba(255,255,255,.9)',
                 }}
@@ -110,7 +110,7 @@ export default function ProfileHeader({ syncTime = 0 }: { syncTime?: number }) {
                 border: '1px solid rgba(16,185,129,.3)',
                 borderRadius: 7,
                 padding: '4px 8px',
-                fontSize: 9,
+                fontSize: 12,
                 fontWeight: 800,
                 color: '#6ee7b7',
                 flexShrink: 0,
@@ -137,7 +137,7 @@ export default function ProfileHeader({ syncTime = 0 }: { syncTime?: number }) {
                 style={{
                   display: 'flex',
                   justifyContent: 'space-between',
-                  fontSize: 10,
+                  fontSize: 12,
                   fontWeight: 700,
                   color: 'rgba(255,255,255,.65)',
                   marginBottom: 5,
@@ -200,7 +200,7 @@ export default function ProfileHeader({ syncTime = 0 }: { syncTime?: number }) {
               </div>
               <div
                 style={{
-                  fontSize: 8,
+                  fontSize: 12,
                   fontWeight: 700,
                   color: 'rgba(255,255,255,.5)',
                   textTransform: 'uppercase',

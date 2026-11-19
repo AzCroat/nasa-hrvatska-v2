@@ -336,7 +336,7 @@ export default function PitchAccentScreen({
                   {a.symbol}
                 </div>
                 <div style={{ fontSize: 13, fontWeight: 700, color }}>{a.label}</div>
-                <div style={{ fontSize: 11, color: 'var(--ink-muted)', marginTop: 2 }}>
+                <div style={{ fontSize: 12, color: 'var(--ink-muted)', marginTop: 2 }}>
                   {a.desc}
                 </div>
               </button>

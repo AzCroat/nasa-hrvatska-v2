@@ -644,7 +644,7 @@ export default function Flashcards({
       {showStillLearning && (
         <div
           style={{
-            fontSize: 11,
+            fontSize: 12,
             color: 'var(--ink-error)',
             fontWeight: 600,
             textAlign: 'center',
@@ -658,7 +658,7 @@ export default function Flashcards({
       {flipped && (
         <div
           style={{
-            fontSize: 11,
+            fontSize: 12,
             color: 'var(--subtext)',
             textAlign: 'center',
             marginTop: 2,
@@ -678,7 +678,7 @@ export default function Flashcards({
           aria-label="How well did you know it?"
         >
           <span
-            style={{ fontSize: 11, fontWeight: 700, color: 'var(--subtext)', textAlign: 'center' }}
+            style={{ fontSize: 12, fontWeight: 700, color: 'var(--subtext)', textAlign: 'center' }}
           >
             How well did you know it?
           </span>

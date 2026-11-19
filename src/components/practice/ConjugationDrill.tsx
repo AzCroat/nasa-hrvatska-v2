@@ -161,7 +161,7 @@ export default function ConjugationDrill({ goBack, award }: Props) {
                     <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--ink-strong)' }}>
                       {v.inf}
                     </div>
-                    <div style={{ fontSize: 11, color: 'var(--ink-muted-warm)' }}>{v.en}</div>
+                    <div style={{ fontSize: 12, color: 'var(--ink-muted-warm)' }}>{v.en}</div>
                   </div>
                 ))}
             </div>
@@ -215,7 +215,7 @@ export default function ConjugationDrill({ goBack, award }: Props) {
                     display: 'inline-block',
                     padding: '3px 12px',
                     borderRadius: 14,
-                    fontSize: 11,
+                    fontSize: 12,
                     fontWeight: 800,
                     color: '#fff',
                     background: accentFill(tC),

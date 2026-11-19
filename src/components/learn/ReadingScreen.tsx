@@ -147,7 +147,7 @@ export default function ReadingScreen({
             >
               <span style={{ fontSize: 16 }}>📄</span>
               <span>{passageOpen ? 'Hide' : 'Show'} passage</span>
-              <span style={{ marginLeft: 'auto', fontSize: 11 }}>{passageOpen ? '▲' : '▼'}</span>
+              <span style={{ marginLeft: 'auto', fontSize: 12 }}>{passageOpen ? '▲' : '▼'}</span>
             </button>
             {passageOpen && (
               <div

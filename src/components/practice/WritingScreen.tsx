@@ -392,7 +392,7 @@ export default function WritingScreen({ goBack, award }: WritingScreenProps) {
                 {prompt.level && (
                   <span
                     style={{
-                      fontSize: 11,
+                      fontSize: 12,
                       fontWeight: 700,
                       padding: '2px 8px',
                       borderRadius: 20,
@@ -430,7 +430,7 @@ export default function WritingScreen({ goBack, award }: WritingScreenProps) {
                 {prompt.focus && (
                   <span
                     style={{
-                      fontSize: 11,
+                      fontSize: 12,
                       color: 'var(--subtext)',
                       fontStyle: 'italic',
                       padding: '2px 0',
@@ -555,7 +555,7 @@ export default function WritingScreen({ goBack, award }: WritingScreenProps) {
           </button>
         </div>
         {error && <p style={{ color: 'var(--ink-error)', fontSize: 13, marginTop: 8 }}>{error}</p>}
-        <div style={{ fontSize: 11, color: 'var(--subtext)', marginTop: 10, lineHeight: 1.5 }}>
+        <div style={{ fontSize: 12, color: 'var(--subtext)', marginTop: 10, lineHeight: 1.5 }}>
           🔒 Your text is sent to an AI for grammar feedback. It is not stored or used for training.
         </div>
         <button

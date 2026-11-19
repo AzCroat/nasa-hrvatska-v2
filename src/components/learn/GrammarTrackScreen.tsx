@@ -574,7 +574,7 @@ export default function GrammarTrackScreen({
         </button>
         <div
           style={{
-            fontSize: 10,
+            fontSize: 12,
             fontWeight: 900,
             color: 'rgba(255,255,255,.5)',
             textTransform: 'uppercase',
@@ -663,14 +663,14 @@ export default function GrammarTrackScreen({
               <span
                 style={{
                   marginLeft: 6,
-                  fontSize: 10,
+                  fontSize: 12,
                   fontWeight: 700,
                   color: isActive ? 'rgba(255,255,255,.75)' : 'var(--subtext)',
                 }}
               >
                 {lvlDone}/{l.units.length}
               </span>
-              {lvlPct === 100 && <span style={{ marginLeft: 4, fontSize: 10 }}>✓</span>}
+              {lvlPct === 100 && <span style={{ marginLeft: 4, fontSize: 12 }}>✓</span>}
             </button>
           );
         })}
@@ -687,7 +687,7 @@ export default function GrammarTrackScreen({
       >
         <div
           style={{
-            fontSize: 10,
+            fontSize: 12,
             fontWeight: 900,
             color: 'rgba(255,255,255,.55)',
             textTransform: 'uppercase',
@@ -713,7 +713,7 @@ export default function GrammarTrackScreen({
               }}
             />
           </div>
-          <span style={{ fontSize: 11, color: 'rgba(255,255,255,.7)', fontWeight: 700 }}>
+          <span style={{ fontSize: 12, color: 'rgba(255,255,255,.7)', fontWeight: 700 }}>
             {level.units.filter((u) => done.includes(u.id)).length}/{level.units.length} complete
           </span>
         </div>
@@ -785,7 +785,7 @@ export default function GrammarTrackScreen({
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      fontSize: 9,
+                      fontSize: 12,
                       color: 'white',
                       fontWeight: 900,
                     }}
@@ -807,7 +807,7 @@ export default function GrammarTrackScreen({
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      fontSize: 9,
+                      fontSize: 12,
                       color: 'white',
                       fontWeight: 900,
                     }}
@@ -832,7 +832,7 @@ export default function GrammarTrackScreen({
                     <span
                       style={{
                         marginLeft: 6,
-                        fontSize: 9,
+                        fontSize: 12,
                         fontWeight: 900,
                         color: accentInk(level.color),
                         background: level.color + '18',
@@ -853,7 +853,7 @@ export default function GrammarTrackScreen({
                 </div>
                 {unit.qs && (
                   <div
-                    style={{ fontSize: 10, color: 'var(--subtext)', marginTop: 4, fontWeight: 600 }}
+                    style={{ fontSize: 12, color: 'var(--subtext)', marginTop: 4, fontWeight: 600 }}
                   >
                     {unit.qs} exercises
                   </div>
@@ -863,7 +863,7 @@ export default function GrammarTrackScreen({
               {/* Status badge */}
               <div
                 style={{
-                  fontSize: 10,
+                  fontSize: 12,
                   fontWeight: 800,
                   padding: '4px 8px',
                   borderRadius: 8,

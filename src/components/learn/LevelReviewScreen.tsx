@@ -389,7 +389,7 @@ export default function LevelReviewScreen({
         >
           {isRepeat ? 'Another try' : `Question ${Math.min(pos + 1, total)} of ${total}`}
         </span>
-        <span style={{ fontSize: 11.5, color: 'var(--subtext)' }}>
+        <span style={{ fontSize: 12, color: 'var(--subtext)' }}>
           {unitName(levelUnits, item.unitId)} · practice, not scored
         </span>
       </div>

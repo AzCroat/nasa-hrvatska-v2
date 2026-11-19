@@ -647,7 +647,7 @@ export default function DictationScreen({ goBack, award }: Props) {
               color: levelText[q.level],
               borderRadius: 6,
               padding: '2px 8px',
-              fontSize: 11,
+              fontSize: 12,
               fontWeight: 800,
             }}
           >
@@ -830,7 +830,7 @@ export default function DictationScreen({ goBack, award }: Props) {
               {aiExplain.rule && (
                 <div
                   style={{
-                    fontSize: 11,
+                    fontSize: 12,
                     fontWeight: 800,
                     color: 'var(--ink-info)',
                     marginBottom: 3,

@@ -52,7 +52,7 @@ export default function RazgovorTab({ setScr, sCurEx }: RazgovorTabProps) {
         <div style={{ display: 'flex', alignItems: 'baseline', gap: 8 }}>
           <span
             style={{
-              fontSize: 10,
+              fontSize: 12,
               fontWeight: 900,
               letterSpacing: '.16em',
               textTransform: 'uppercase',
@@ -85,7 +85,7 @@ export default function RazgovorTab({ setScr, sCurEx }: RazgovorTabProps) {
       {/* DANAS */}
       <div
         style={{
-          fontSize: 10,
+          fontSize: 12,
           fontWeight: 900,
           letterSpacing: '.15em',
           textTransform: 'uppercase',
@@ -128,7 +128,7 @@ export default function RazgovorTab({ setScr, sCurEx }: RazgovorTabProps) {
           <span
             style={{
               display: 'block',
-              fontSize: 9,
+              fontSize: 12,
               fontWeight: 900,
               letterSpacing: '.14em',
               textTransform: 'uppercase',
@@ -149,7 +149,7 @@ export default function RazgovorTab({ setScr, sCurEx }: RazgovorTabProps) {
             {rec.partner.greeting.hr}
           </span>
           <span
-            style={{ display: 'block', fontSize: 11, color: 'rgba(255,255,255,.72)', marginTop: 3 }}
+            style={{ display: 'block', fontSize: 12, color: 'rgba(255,255,255,.72)', marginTop: 3 }}
           >
             {rec.partner.greeting.en}
           </span>
@@ -172,7 +172,7 @@ export default function RazgovorTab({ setScr, sCurEx }: RazgovorTabProps) {
       {/* PARTNERS */}
       <div
         style={{
-          fontSize: 10,
+          fontSize: 12,
           fontWeight: 900,
           letterSpacing: '.15em',
           textTransform: 'uppercase',
@@ -223,7 +223,7 @@ export default function RazgovorTab({ setScr, sCurEx }: RazgovorTabProps) {
                 {p.name}
               </span>
               <span
-                style={{ display: 'block', fontSize: 11.5, color: 'var(--subtext)', marginTop: 2 }}
+                style={{ display: 'block', fontSize: 12, color: 'var(--subtext)', marginTop: 2 }}
               >
                 {p.role}
               </span>

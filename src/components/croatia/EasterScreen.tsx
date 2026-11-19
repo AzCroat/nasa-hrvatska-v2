@@ -355,7 +355,7 @@ export default function EasterScreen({
               cursor: 'pointer',
               background: tab === t.id ? 'var(--card)' : 'transparent',
               fontFamily: "'Outfit',sans-serif",
-              fontSize: 11,
+              fontSize: 12,
               fontWeight: 700,
               color: tab === t.id ? accentInk(ACCENT) : 'var(--subtext)',
               boxShadow: tab === t.id ? '0 1px 4px rgba(0,0,0,.1)' : 'none',
@@ -478,7 +478,7 @@ export default function EasterScreen({
                   {ph && (
                     <div
                       style={{
-                        fontSize: 10,
+                        fontSize: 12,
                         color: 'var(--subtext)',
                         fontStyle: 'italic',
                         marginTop: 1,
@@ -529,7 +529,7 @@ export default function EasterScreen({
                   >
                     {r.title}
                   </div>
-                  <div style={{ fontSize: 11, color: accentInk(ACCENT), fontWeight: 700 }}>
+                  <div style={{ fontSize: 12, color: accentInk(ACCENT), fontWeight: 700 }}>
                     {r.subtitle}
                   </div>
                 </div>
@@ -563,13 +563,13 @@ export default function EasterScreen({
                         gap: 5,
                       }}
                     >
-                      <span aria-hidden="true" style={{ fontSize: 10 }}>
+                      <span aria-hidden="true" style={{ fontSize: 12 }}>
                         🔊
                       </span>
                       <span style={{ fontSize: 12, fontWeight: 700, color: accentInk(ACCENT) }}>
                         {kw.hr}
                       </span>
-                      <span style={{ fontSize: 11, color: 'var(--subtext)', fontWeight: 500 }}>
+                      <span style={{ fontSize: 12, color: 'var(--subtext)', fontWeight: 500 }}>
                         {kw.en}
                       </span>
                     </button>
@@ -760,7 +760,7 @@ export default function EasterScreen({
                         {!answers[qi] && (
                           <div
                             style={{
-                              fontSize: 11,
+                              fontSize: 12,
                               color: accentInk(ACCENT),
                               fontWeight: 700,
                               marginTop: 2,

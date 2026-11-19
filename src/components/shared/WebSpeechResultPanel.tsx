@@ -157,7 +157,7 @@ export default function WebSpeechResultPanel({
         >
           <div
             style={{
-              fontSize: 11,
+              fontSize: 12,
               fontWeight: 800,
               color: 'var(--ink-mode)',
               marginBottom: 4,
@@ -195,7 +195,7 @@ export default function WebSpeechResultPanel({
           {coaching.drills && coaching.drills.length > 0 && (
             <div>
               <div
-                style={{ fontSize: 11, fontWeight: 700, color: 'var(--ink-mode)', marginBottom: 4 }}
+                style={{ fontSize: 12, fontWeight: 700, color: 'var(--ink-mode)', marginBottom: 4 }}
               >
                 Practice these:
               </div>

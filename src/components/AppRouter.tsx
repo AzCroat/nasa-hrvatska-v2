@@ -1324,7 +1324,7 @@ export default function AppRouter(props: Record<string, any>) {
                           </div>
                           <span
                             style={{
-                              fontSize: 10,
+                              fontSize: 12,
                               padding: '3px 9px',
                               borderRadius: 20,
                               fontWeight: 700,

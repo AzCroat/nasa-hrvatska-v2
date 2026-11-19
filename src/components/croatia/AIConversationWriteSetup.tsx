@@ -110,7 +110,7 @@ export default function AIConversationWriteSetup({
                       </span>
                       <span
                         style={{
-                          fontSize: 10,
+                          fontSize: 12,
                           fontWeight: 800,
                           padding: '2px 7px',
                           borderRadius: 10,

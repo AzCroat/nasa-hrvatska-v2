@@ -211,7 +211,7 @@ function SpotifyCard({ pl, openId, setOpenId }: SpotifyCardProps) {
               style={{
                 background: '#1ed760',
                 color: '#000',
-                fontSize: 9,
+                fontSize: 12,
                 fontWeight: 800,
                 padding: '2px 7px',
                 borderRadius: 20,

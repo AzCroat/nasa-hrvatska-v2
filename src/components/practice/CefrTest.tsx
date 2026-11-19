@@ -947,7 +947,7 @@ export default function CefrTest({
                 </div>
                 <div
                   style={{
-                    fontSize: 11,
+                    fontSize: 12,
                     color: lv.text,
                     opacity: 0.75,
                     lineHeight: 1.4,
@@ -958,7 +958,7 @@ export default function CefrTest({
                 <div
                   style={{
                     marginTop: 10,
-                    fontSize: 10,
+                    fontSize: 12,
                     fontWeight: 700,
                     color: lv.text,
                     opacity: 0.6,
@@ -1084,7 +1084,7 @@ export default function CefrTest({
       >
         <div
           style={{
-            fontSize: 11,
+            fontSize: 12,
             fontWeight: 800,
             color: level.text,
             opacity: 0.7,
@@ -1167,7 +1167,7 @@ export default function CefrTest({
                         ? '#fca5a5'
                         : 'var(--bar-bg)',
                   color: answered && (optAccepted || i === selected) ? '#fff' : 'var(--subtext)',
-                  fontSize: 11,
+                  fontSize: 12,
                   fontWeight: 800,
                   flexShrink: 0,
                 }}

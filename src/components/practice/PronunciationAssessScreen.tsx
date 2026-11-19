@@ -539,7 +539,7 @@ export default function PronunciationAssessScreen({ goBack, award }: Pronunciati
               >
                 <span
                   style={{
-                    fontSize: 11,
+                    fontSize: 12,
                     fontWeight: 700,
                     color: 'var(--subtext)',
                     width: 20,
@@ -562,12 +562,12 @@ export default function PronunciationAssessScreen({ goBack, award }: Pronunciati
                   >
                     {p.hr}
                   </div>
-                  <div style={{ fontSize: 11, color: 'var(--subtext)' }}>{p.en}</div>
+                  <div style={{ fontSize: 12, color: 'var(--subtext)' }}>{p.en}</div>
                 </div>
                 {s === undefined ? (
-                  <span style={{ fontSize: 11, color: 'var(--subtext)' }}>—</span>
+                  <span style={{ fontSize: 12, color: 'var(--subtext)' }}>—</span>
                 ) : s === null ? (
-                  <span style={{ fontSize: 11, fontWeight: 700, color: 'var(--ink-green)' }}>
+                  <span style={{ fontSize: 12, fontWeight: 700, color: 'var(--ink-green)' }}>
                     ✓
                   </span>
                 ) : (
@@ -685,7 +685,7 @@ export default function PronunciationAssessScreen({ goBack, award }: Pronunciati
       >
         <div
           style={{
-            fontSize: 11,
+            fontSize: 12,
             fontWeight: 700,
             letterSpacing: '0.08em',
             color: 'var(--subtext)',

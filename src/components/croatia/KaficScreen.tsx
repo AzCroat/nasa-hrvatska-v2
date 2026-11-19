@@ -246,7 +246,7 @@ export default function KaficScreen({ goBack }: KaficScreenProps) {
                 >
                   {c.name}
                 </div>
-                <div style={{ fontSize: 11, color: 'var(--subtext)', lineHeight: 1.5 }}>
+                <div style={{ fontSize: 12, color: 'var(--subtext)', lineHeight: 1.5 }}>
                   {c.desc}
                 </div>
               </div>
@@ -280,7 +280,7 @@ export default function KaficScreen({ goBack }: KaficScreenProps) {
                   >
                     {c.hr}
                   </div>
-                  <div style={{ fontSize: 10, color: 'var(--subtext)', fontStyle: 'italic' }}>
+                  <div style={{ fontSize: 12, color: 'var(--subtext)', fontStyle: 'italic' }}>
                     /{c.ph}/
                   </div>
                 </div>
@@ -338,7 +338,7 @@ export default function KaficScreen({ goBack }: KaficScreenProps) {
                 >
                   {p.en}
                 </div>
-                <div style={{ fontSize: 10, color: 'var(--subtext)', fontStyle: 'italic' }}>
+                <div style={{ fontSize: 12, color: 'var(--subtext)', fontStyle: 'italic' }}>
                   /{p.ph}/
                 </div>
               </div>

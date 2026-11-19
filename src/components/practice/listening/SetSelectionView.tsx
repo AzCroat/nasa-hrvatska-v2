@@ -55,7 +55,7 @@ export default function SetSelectionView({ quiz }: { quiz: ListeningQuiz }) {
       >
         <div
           style={{
-            fontSize: 10,
+            fontSize: 12,
             fontWeight: 900,
             color: 'rgba(255,255,255,.55)',
             textTransform: 'uppercase',
@@ -92,10 +92,10 @@ export default function SetSelectionView({ quiz }: { quiz: ListeningQuiz }) {
           />
         </div>
         <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 6 }}>
-          <div style={{ fontSize: 11, color: 'rgba(255,255,255,.7)', fontWeight: 600 }}>
+          <div style={{ fontSize: 12, color: 'rgba(255,255,255,.7)', fontWeight: 600 }}>
             {completed}/{totalQ} questions completed
           </div>
-          <div style={{ fontSize: 11, color: 'rgba(255,255,255,.9)', fontWeight: 800 }}>{pct}%</div>
+          <div style={{ fontSize: 12, color: 'rgba(255,255,255,.9)', fontWeight: 800 }}>{pct}%</div>
         </div>
       </div>
 
@@ -190,7 +190,7 @@ export default function SetSelectionView({ quiz }: { quiz: ListeningQuiz }) {
                   />
                 </div>
                 <div
-                  style={{ fontSize: 10, color: 'var(--subtext)', fontWeight: 600, marginTop: 3 }}
+                  style={{ fontSize: 12, color: 'var(--subtext)', fontWeight: 600, marginTop: 3 }}
                 >
                   {setDone}/{setTotal} done
                 </div>

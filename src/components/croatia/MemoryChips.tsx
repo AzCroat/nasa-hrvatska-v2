@@ -55,7 +55,7 @@ export default function MemoryChips({ knownFacts }: Props) {
           key={key}
           style={{
             flexShrink: 0,
-            fontSize: 11,
+            fontSize: 12,
             padding: '3px 9px',
             borderRadius: 20,
             background: 'rgba(212,0,45,0.08)',

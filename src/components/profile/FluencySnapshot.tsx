@@ -129,7 +129,7 @@ export default function FluencySnapshot({
       >
         <span
           style={{
-            fontSize: 10,
+            fontSize: 12,
             fontWeight: 900,
             color: 'rgba(255,255,255,.5)',
             textTransform: 'uppercase',
@@ -170,7 +170,7 @@ export default function FluencySnapshot({
                   display: 'flex',
                   justifyContent: 'space-between',
                   marginBottom: 3,
-                  fontSize: 11,
+                  fontSize: 12,
                   fontWeight: 700,
                   color: 'rgba(255,255,255,.85)',
                 }}

@@ -154,7 +154,7 @@ export default function SlangQuizPanel({
       >
         <div
           style={{
-            fontSize: 11,
+            fontSize: 12,
             fontWeight: 800,
             color: 'var(--subtext)',
             textTransform: 'uppercase',
@@ -192,7 +192,7 @@ export default function SlangQuizPanel({
       >
         <div
           style={{
-            fontSize: 11,
+            fontSize: 12,
             color: 'var(--subtext)',
             fontWeight: 700,
             marginBottom: 8,

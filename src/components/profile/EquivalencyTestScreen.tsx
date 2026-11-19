@@ -471,7 +471,7 @@ export default function EquivalencyTestScreen({
         <div style={{ padding: '18px 16px' }}>
           <div
             style={{
-              fontSize: 11,
+              fontSize: 12,
               fontWeight: 900,
               color: 'var(--ink-error)',
               letterSpacing: '.22em',

@@ -48,7 +48,7 @@ export default function LevelSelectionView({
       >
         <div
           style={{
-            fontSize: 10,
+            fontSize: 12,
             fontWeight: 900,
             color: 'rgba(255,255,255,.5)',
             textTransform: 'uppercase',
@@ -125,7 +125,7 @@ export default function LevelSelectionView({
                       height: 16,
                       borderRadius: '50%',
                       background: '#fbbf24',
-                      fontSize: 9,
+                      fontSize: 12,
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
@@ -177,7 +177,7 @@ export default function LevelSelectionView({
                     }}
                   />
                 </div>
-                <div style={{ fontSize: 10, color: accentInk(ld.color), fontWeight: 700 }}>
+                <div style={{ fontSize: 12, color: accentInk(ld.color), fontWeight: 700 }}>
                   {ld.sets.length} sets · {completed}/{total} questions
                   {complete && ' · Complete 🏆'}
                 </div>

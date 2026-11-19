@@ -128,7 +128,7 @@ function StatTile({ value, label }: { value: string | number; label: string }) {
       </div>
       <div
         style={{
-          fontSize: 11,
+          fontSize: 12,
           color: 'var(--subtext)',
           marginTop: 4,
           fontWeight: 600,
@@ -173,7 +173,7 @@ function WordTile({
           position: 'absolute',
           top: 4,
           left: 5,
-          fontSize: 8,
+          fontSize: 12,
           fontWeight: 700,
           color: learned ? 'rgba(255,255,255,.5)' : 'var(--subtext)',
           lineHeight: 1,
@@ -187,7 +187,7 @@ function WordTile({
             position: 'absolute',
             top: 3,
             right: 4,
-            fontSize: 9,
+            fontSize: 12,
             color: 'rgba(255,255,255,.8)',
           }}
         >
@@ -207,7 +207,7 @@ function WordTile({
       </div>
       <div
         style={{
-          fontSize: 10,
+          fontSize: 12,
           marginTop: 2,
           lineHeight: 1.3,
           color: learned ? 'rgba(255,255,255,.7)' : 'var(--subtext)',
@@ -376,7 +376,7 @@ function QuizOverlay({
             <div style={{ textAlign: 'center', marginBottom: 6 }}>
               <div
                 style={{
-                  fontSize: 11,
+                  fontSize: 12,
                   fontWeight: 700,
                   color: 'var(--subtext)',
                   textTransform: 'uppercase',

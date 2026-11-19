@@ -282,7 +282,7 @@ export default function GradTab({
           <div style={{ display: 'flex', alignItems: 'baseline', gap: 8 }}>
             <span
               style={{
-                fontSize: 10,
+                fontSize: 12,
                 fontWeight: 900,
                 letterSpacing: '.16em',
                 textTransform: 'uppercase',
@@ -349,7 +349,7 @@ export default function GradTab({
           {/* ── TODAY CARD ───────────────────────────────────────────── */}
           <div
             style={{
-              fontSize: 10,
+              fontSize: 12,
               fontWeight: 900,
               letterSpacing: '.15em',
               textTransform: 'uppercase',
@@ -407,7 +407,7 @@ export default function GradTab({
               <div style={{ flex: 1, minWidth: 0 }}>
                 <div
                   style={{
-                    fontSize: 9,
+                    fontSize: 12,
                     fontWeight: 900,
                     letterSpacing: '.14em',
                     textTransform: 'uppercase',
@@ -419,7 +419,7 @@ export default function GradTab({
                 <div style={{ fontSize: 16, fontWeight: 800, lineHeight: 1.2, marginTop: 2 }}>
                   {rec.hr}
                 </div>
-                <div style={{ fontSize: 11, color: 'rgba(255,255,255,.72)', marginTop: 3 }}>
+                <div style={{ fontSize: 12, color: 'rgba(255,255,255,.72)', marginTop: 3 }}>
                   {rec.en} · ~{rec.durationMin} min
                 </div>
               </div>
@@ -456,7 +456,7 @@ export default function GradTab({
               alignItems: 'center',
               gap: 8,
               margin: '11px 2px 2px',
-              fontSize: 11,
+              fontSize: 12,
               color: 'var(--subtext)',
               fontWeight: 600,
             }}
@@ -503,7 +503,7 @@ export default function GradTab({
           {/* ── PLACES LIST ──────────────────────────────────────────── */}
           <div
             style={{
-              fontSize: 10,
+              fontSize: 12,
               fontWeight: 900,
               letterSpacing: '.15em',
               textTransform: 'uppercase',
@@ -576,7 +576,7 @@ export default function GradTab({
                   <span
                     style={{
                       display: 'block',
-                      fontSize: 11.5,
+                      fontSize: 12,
                       color: 'var(--subtext)',
                       marginTop: 2,
                     }}
@@ -587,7 +587,7 @@ export default function GradTab({
                 <span
                   style={{
                     flex: 'none',
-                    fontSize: 11,
+                    fontSize: 12,
                     fontWeight: 700,
                     // #6b4e0a clears WCAG AA (>=4.5:1) on the gold-tinted pill;
                     // the lighter #9a7407 measured 3.81:1 (axe serious).

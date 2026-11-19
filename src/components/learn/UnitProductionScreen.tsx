@@ -360,7 +360,7 @@ export default function UnitProductionScreen({ goBack, award }: Props) {
       <div
         data-testid="unit-production-count"
         style={{
-          fontSize: 11.5,
+          fontSize: 12,
           color: enough ? 'var(--ink-green)' : 'var(--subtext)',
           fontWeight: 700,
           margin: '6px 2px 12px',

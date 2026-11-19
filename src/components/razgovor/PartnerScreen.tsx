@@ -47,7 +47,7 @@ function ModeRow({
         <span style={{ display: 'block', fontSize: 14, fontWeight: 800, color: 'var(--heading)' }}>
           {mode.label}
         </span>
-        <span style={{ display: 'block', fontSize: 11, color: 'var(--subtext)', marginTop: 1 }}>
+        <span style={{ display: 'block', fontSize: 12, color: 'var(--subtext)', marginTop: 1 }}>
           {mode.desc}
         </span>
       </span>
@@ -148,7 +148,7 @@ export default function PartnerScreen({
             >
               {partner.greeting.hr}
             </span>
-            <span style={{ display: 'block', fontSize: 11, opacity: 0.85, marginTop: 2 }}>
+            <span style={{ display: 'block', fontSize: 12, opacity: 0.85, marginTop: 2 }}>
               {partner.greeting.en}
             </span>
           </span>
@@ -193,7 +193,7 @@ export default function PartnerScreen({
         </span>
         <span style={{ flex: 1, minWidth: 0 }}>
           <span style={{ display: 'block', fontSize: 15.5, fontWeight: 900 }}>{primary.label}</span>
-          <span style={{ display: 'block', fontSize: 11, opacity: 0.78, marginTop: 2 }}>
+          <span style={{ display: 'block', fontSize: 12, opacity: 0.78, marginTop: 2 }}>
             {primary.desc}
           </span>
         </span>
@@ -217,7 +217,7 @@ export default function PartnerScreen({
         <>
           <div
             style={{
-              fontSize: 10,
+              fontSize: 12,
               fontWeight: 900,
               letterSpacing: '.14em',
               textTransform: 'uppercase',

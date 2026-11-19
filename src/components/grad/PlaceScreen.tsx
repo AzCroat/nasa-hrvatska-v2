@@ -81,7 +81,7 @@ function ExerciseRow({ item }: { item: GradItem }) {
           {item.label}
         </span>
         {item.desc && (
-          <span style={{ display: 'block', fontSize: 11, color: 'var(--subtext)', marginTop: 1 }}>
+          <span style={{ display: 'block', fontSize: 12, color: 'var(--subtext)', marginTop: 1 }}>
             {item.desc} · {item.cefr}
           </span>
         )}
@@ -94,7 +94,7 @@ function ExerciseRow({ item }: { item: GradItem }) {
             color: LOCK_PILL_FG,
             borderRadius: 8,
             padding: '3px 8px',
-            fontSize: 10,
+            fontSize: 12,
             fontWeight: 800,
           }}
         >
@@ -219,7 +219,7 @@ export default function PlaceScreen({
             >
               {greeting.hr}
             </span>
-            <span style={{ display: 'block', fontSize: 11, opacity: 0.85, marginTop: 2 }}>
+            <span style={{ display: 'block', fontSize: 12, opacity: 0.85, marginTop: 2 }}>
               {greeting.en}
             </span>
           </span>
@@ -232,7 +232,7 @@ export default function PlaceScreen({
           display: 'flex',
           alignItems: 'center',
           gap: 8,
-          fontSize: 11.5,
+          fontSize: 12,
           color: 'var(--subtext)',
           fontWeight: 600,
           margin: '2px 2px 14px',
@@ -286,7 +286,7 @@ export default function PlaceScreen({
             <span
               style={{
                 display: 'block',
-                fontSize: 9,
+                fontSize: 12,
                 fontWeight: 900,
                 letterSpacing: '.12em',
                 textTransform: 'uppercase',
@@ -351,7 +351,7 @@ export default function PlaceScreen({
                 Speed Challenge
               </span>
               <span
-                style={{ display: 'block', fontSize: 11, color: 'var(--subtext)', marginTop: 1 }}
+                style={{ display: 'block', fontSize: 12, color: 'var(--subtext)', marginTop: 1 }}
               >
                 60 sekundi · koliko ih možeš?
               </span>
@@ -369,7 +369,7 @@ export default function PlaceScreen({
       {/* exercise list */}
       <div
         style={{
-          fontSize: 10,
+          fontSize: 12,
           fontWeight: 900,
           letterSpacing: '.14em',
           textTransform: 'uppercase',

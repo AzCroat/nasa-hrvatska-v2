@@ -528,7 +528,7 @@ export default function CroatiaToday({ goBack }: { goBack?: () => void }) {
               background: color + '18',
               color: accentInk(color),
               fontWeight: 800,
-              fontSize: 11,
+              fontSize: 12,
               padding: '3px 10px',
               borderRadius: 20,
               border: `1px solid ${color}33`,
@@ -615,7 +615,7 @@ export default function CroatiaToday({ goBack }: { goBack?: () => void }) {
         >
           <span>📝</span>
           <span>English Summary</span>
-          <span style={{ marginLeft: 'auto', fontSize: 11, fontWeight: 500 }}>
+          <span style={{ marginLeft: 'auto', fontSize: 12, fontWeight: 500 }}>
             {showSummary ? 'Hide ↑' : 'Show ↓'}
           </span>
         </button>
@@ -704,7 +704,7 @@ export default function CroatiaToday({ goBack }: { goBack?: () => void }) {
       <div style={{ marginBottom: 24 }}>
         <div
           style={{
-            fontSize: 11,
+            fontSize: 12,
             fontWeight: 800,
             color: 'var(--ink-info)',
             letterSpacing: '.06em',
@@ -741,7 +741,7 @@ export default function CroatiaToday({ goBack }: { goBack?: () => void }) {
               background: 'rgba(255,255,255,.25)',
               color: '#fff',
               fontWeight: 800,
-              fontSize: 10,
+              fontSize: 12,
               padding: '3px 10px',
               borderRadius: 20,
               display: 'inline-block',
@@ -774,7 +774,7 @@ export default function CroatiaToday({ goBack }: { goBack?: () => void }) {
             {featuredArticle.lead}
           </p>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-            <span style={{ fontSize: 11, color: 'rgba(255,255,255,.7)' }}>
+            <span style={{ fontSize: 12, color: 'rgba(255,255,255,.7)' }}>
               {featuredArticle.date}
             </span>
             <span
@@ -797,7 +797,7 @@ export default function CroatiaToday({ goBack }: { goBack?: () => void }) {
       {/* All articles */}
       <div
         style={{
-          fontSize: 11,
+          fontSize: 12,
           fontWeight: 800,
           color: 'var(--ink-muted-warm)',
           letterSpacing: '.06em',
@@ -833,7 +833,7 @@ export default function CroatiaToday({ goBack }: { goBack?: () => void }) {
                     right: 12,
                     background: color + '18',
                     color: accentInk(color),
-                    fontSize: 9,
+                    fontSize: 12,
                     fontWeight: 800,
                     padding: '2px 7px',
                     borderRadius: 10,
@@ -849,14 +849,14 @@ export default function CroatiaToday({ goBack }: { goBack?: () => void }) {
                     background: color + '18',
                     color: accentInk(color),
                     fontWeight: 800,
-                    fontSize: 10,
+                    fontSize: 12,
                     padding: '2px 8px',
                     borderRadius: 12,
                   }}
                 >
                   {art.category}
                 </span>
-                <span style={{ color: 'var(--ink-muted-warm)', fontSize: 11 }}>{art.date}</span>
+                <span style={{ color: 'var(--ink-muted-warm)', fontSize: 12 }}>{art.date}</span>
               </div>
               <p
                 style={{

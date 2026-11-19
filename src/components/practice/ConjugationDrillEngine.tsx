@@ -134,7 +134,7 @@ export default function ConjugationDrillEngine({ verbs, cells, onComplete, award
             display: 'inline-block',
             padding: '3px 12px',
             borderRadius: 14,
-            fontSize: 11,
+            fontSize: 12,
             fontWeight: 800,
             color: '#fff',
             background: '#0e7490',

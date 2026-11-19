@@ -81,7 +81,7 @@ export default function JourneyTimeline() {
         <div style={{ fontSize: 13, fontWeight: 600 }}>
           Your journey starts with your first lesson.
         </div>
-        <div style={{ fontSize: 11, marginTop: 4 }}>
+        <div style={{ fontSize: 12, marginTop: 4 }}>
           Milestones will appear here as you progress.
         </div>
       </div>
@@ -127,7 +127,7 @@ export default function JourneyTimeline() {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                fontSize: 8,
+                fontSize: 12,
                 color: '#fff',
                 fontWeight: 900,
               }}
@@ -149,12 +149,12 @@ export default function JourneyTimeline() {
                   <div style={{ fontSize: 13, fontWeight: 800, color: 'var(--heading)' }}>
                     {def.label}
                   </div>
-                  <div style={{ fontSize: 10, color: 'var(--subtext)', fontWeight: 600 }}>
+                  <div style={{ fontSize: 12, color: 'var(--subtext)', fontWeight: 600 }}>
                     {dateStr}
                   </div>
                 </div>
               </div>
-              <div style={{ fontSize: 11, color: 'var(--subtext)', fontStyle: 'italic' }}>
+              <div style={{ fontSize: 12, color: 'var(--subtext)', fontStyle: 'italic' }}>
                 {def.msg}
               </div>
             </div>
@@ -177,7 +177,7 @@ export default function JourneyTimeline() {
           }}
         />
         <div
-          style={{ fontSize: 11, color: 'var(--subtext)', fontStyle: 'italic', padding: '8px 0' }}
+          style={{ fontSize: 12, color: 'var(--subtext)', fontStyle: 'italic', padding: '8px 0' }}
         >
           Your journey begins here 🇭🇷
         </div>

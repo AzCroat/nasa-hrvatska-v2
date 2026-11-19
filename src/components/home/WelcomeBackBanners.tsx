@@ -71,7 +71,7 @@ export default function WelcomeBackBanners({
             </div>
             <div
               style={{
-                fontSize: 11,
+                fontSize: 12,
                 color: 'rgba(255,255,255,0.85)',
                 fontWeight: 500,
                 lineHeight: 1.5,
@@ -82,7 +82,7 @@ export default function WelcomeBackBanners({
             <div
               style={{
                 marginTop: 8,
-                fontSize: 11,
+                fontSize: 12,
                 color: 'rgba(255,255,255,0.7)',
                 fontStyle: 'italic',
               }}

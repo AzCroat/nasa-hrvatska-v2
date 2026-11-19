@@ -60,7 +60,7 @@ export default function MapScreen({ goBack }: { goBack: () => void }) {
           {next && (
             <div
               style={{
-                fontSize: 11,
+                fontSize: 12,
                 color: 'rgba(255,255,255,.6)',
                 marginTop: 8,
                 textAlign: 'center',
@@ -86,13 +86,13 @@ export default function MapScreen({ goBack }: { goBack: () => void }) {
                   {meta.title || r.key}
                 </div>
                 {r.restored ? (
-                  <div style={{ fontSize: 9.5, color: 'rgba(255,255,255,.5)', marginTop: 1 }}>
+                  <div style={{ fontSize: 12, color: 'rgba(255,255,255,.5)', marginTop: 1 }}>
                     {meta.sub || ''}
                   </div>
                 ) : isNext ? (
                   <div
                     style={{
-                      fontSize: 8.5,
+                      fontSize: 12,
                       letterSpacing: '.1em',
                       textTransform: 'uppercase',
                       color: '#7dd3fc',
@@ -103,7 +103,7 @@ export default function MapScreen({ goBack }: { goBack: () => void }) {
                     ▶ next · {r.xpThreshold.toLocaleString()} XP
                   </div>
                 ) : (
-                  <div style={{ fontSize: 9.5, color: 'rgba(255,255,255,.45)', marginTop: 2 }}>
+                  <div style={{ fontSize: 12, color: 'rgba(255,255,255,.45)', marginTop: 2 }}>
                     🔒 {r.xpThreshold.toLocaleString()} XP
                   </div>
                 )}
@@ -129,7 +129,7 @@ const progBox: React.CSSProperties = {
   marginBottom: 14,
 };
 const progLabel: React.CSSProperties = {
-  fontSize: 11,
+  fontSize: 12,
   letterSpacing: '.06em',
   textTransform: 'uppercase',
   color: 'rgba(200,152,10,.9)',

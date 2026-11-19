@@ -60,7 +60,7 @@ export default function ArcadeHub({
           <span style={{ fontSize: 26 }}>🗺️</span>
           <span>
             <span style={{ display: 'block', fontWeight: 900, fontSize: 15 }}>Your Croatia</span>
-            <span style={{ display: 'block', fontSize: 11, color: 'rgba(255,255,255,.65)' }}>
+            <span style={{ display: 'block', fontSize: 12, color: 'rgba(255,255,255,.65)' }}>
               Restore your heritage map
             </span>
           </span>
@@ -68,7 +68,7 @@ export default function ArcadeHub({
             <b style={{ display: 'block', fontSize: 18, fontWeight: 900, color: '#4ade80' }}>
               {restored}/{MAP_REGIONS.length}
             </b>
-            <span style={{ fontSize: 9, color: 'rgba(255,255,255,.5)' }}>regions</span>
+            <span style={{ fontSize: 12, color: 'rgba(255,255,255,.5)' }}>regions</span>
           </span>
         </button>
         {MODES.map((m) => (
@@ -95,7 +95,7 @@ export default function ArcadeHub({
             <span style={{ fontSize: 24 }}>{m.icon}</span>
             <span>
               <span style={{ display: 'block', fontWeight: 800, fontSize: 15 }}>{m.title}</span>
-              <span style={{ display: 'block', fontSize: 11, color: 'rgba(255,255,255,.55)' }}>
+              <span style={{ display: 'block', fontSize: 12, color: 'rgba(255,255,255,.55)' }}>
                 {m.live ? m.sub : 'Coming soon'}
               </span>
             </span>

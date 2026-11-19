@@ -221,7 +221,7 @@ export default function KnightToast() {
               </div>
               <div
                 style={{
-                  fontSize: 11,
+                  fontSize: 12,
                   color: 'rgba(255,255,255,.55)',
                   fontWeight: 600,
                   marginTop: 2,

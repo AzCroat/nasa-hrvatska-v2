@@ -107,7 +107,7 @@ export function EndingsTable({ endings }: EndingsTableProps) {
           }}
         >
           <div
-            style={{ fontSize: 10, color: 'var(--ink-muted)', fontWeight: 600, marginBottom: 2 }}
+            style={{ fontSize: 12, color: 'var(--ink-muted)', fontWeight: 600, marginBottom: 2 }}
           >
             {label}
           </div>
@@ -185,7 +185,7 @@ export function CaseCard({ caseData, expanded, onToggle }: CaseCardProps) {
             background: 'rgba(0,0,0,0.22)',
             color: '#fff',
             fontWeight: 800,
-            fontSize: 11,
+            fontSize: 12,
             padding: '2px 7px',
             borderRadius: 20,
             letterSpacing: '0.05em',
@@ -222,7 +222,7 @@ export function CaseCard({ caseData, expanded, onToggle }: CaseCardProps) {
 
           <div
             style={{
-              fontSize: 11,
+              fontSize: 12,
               color: 'var(--ink-muted)',
               marginBottom: 6,
               fontStyle: 'italic',

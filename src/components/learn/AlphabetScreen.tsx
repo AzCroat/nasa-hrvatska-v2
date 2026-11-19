@@ -205,7 +205,7 @@ export default function AlphabetScreen({ goBack, award }: Props) {
                   </div>
                   <div style={{ fontSize: 13 }}>
                     {l[2]}{' '}
-                    <span style={{ color: 'var(--ink-muted-warm)', fontSize: 11 }}>({l[3]})</span>
+                    <span style={{ color: 'var(--ink-muted-warm)', fontSize: 12 }}>({l[3]})</span>
                   </div>
                 </div>
               </div>

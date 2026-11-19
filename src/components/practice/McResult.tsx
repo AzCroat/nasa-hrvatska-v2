@@ -179,7 +179,7 @@ export default function McResult({
           📊 Session: {score || 0} correct ·{' '}
           <span style={{ fontVariantNumeric: 'tabular-nums' }}>{displayXP}</span> XP earned
         </div>
-        <div style={{ fontSize: 11, color: 'var(--subtext)', marginTop: 3, textAlign: 'center' }}>
+        <div style={{ fontSize: 12, color: 'var(--subtext)', marginTop: 3, textAlign: 'center' }}>
           {score} correct × 3 XP + 5 bonus = {targetXP} XP
         </div>
       </div>
@@ -310,7 +310,7 @@ export default function McResult({
               <div style={{ textAlign: 'center' }}>
                 <div
                   style={{
-                    fontSize: 11,
+                    fontSize: 12,
                     fontWeight: 700,
                     color: 'var(--subtext)',
                     letterSpacing: '0.08em',
@@ -354,7 +354,7 @@ export default function McResult({
               <div style={{ textAlign: 'center' }}>
                 <div
                   style={{
-                    fontSize: 11,
+                    fontSize: 12,
                     fontWeight: 700,
                     color: 'var(--subtext)',
                     letterSpacing: '0.08em',

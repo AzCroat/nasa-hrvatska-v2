@@ -187,7 +187,7 @@ function CityLocativeScreen({ goBack, award }: Props) {
                               ? 'var(--success-bg-strong)'
                               : 'var(--error-bg-strong)'
                             : 'var(--card)',
-                      fontSize: 11,
+                      fontSize: 12,
                       fontWeight: 600,
                       cursor: choices[i] !== undefined ? 'default' : 'pointer',
                       pointerEvents: choices[i] !== undefined ? 'none' : 'auto',

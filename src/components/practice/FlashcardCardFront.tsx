@@ -102,7 +102,7 @@ export default function FlashcardCardFront({ card, cardImg, cardImgLoading }: Pr
               backdropFilter: 'blur(4px)',
               borderRadius: 20,
               padding: '2px 8px',
-              fontSize: 9,
+              fontSize: 12,
               fontWeight: 800,
               color: '#fff',
               letterSpacing: '.04em',
@@ -118,7 +118,7 @@ export default function FlashcardCardFront({ card, cardImg, cardImgLoading }: Pr
         {blankedExample ? (
           <div style={{ textAlign: 'center' }}>
             <div
-              style={{ fontSize: 11, color: 'var(--subtext)', marginBottom: 8, fontWeight: 600 }}
+              style={{ fontSize: 12, color: 'var(--subtext)', marginBottom: 8, fontWeight: 600 }}
             >
               Fill in the blank:
             </div>

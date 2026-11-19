@@ -273,7 +273,7 @@ export default function FlashcardRecallQuiz({ pool, knownCount, onComplete }: Pr
             boxShadow: '0 2px 12px rgba(0,0,0,.06)',
           }}
         >
-          <div style={{ fontSize: 11, color: 'var(--subtext)', fontWeight: 700, marginBottom: 8 }}>
+          <div style={{ fontSize: 12, color: 'var(--subtext)', fontWeight: 700, marginBottom: 8 }}>
             What does this mean?
           </div>
           <div

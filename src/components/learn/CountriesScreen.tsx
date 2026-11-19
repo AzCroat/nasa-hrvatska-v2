@@ -181,7 +181,7 @@ const QUIZ_SECTION = ({ quiz, accent: _accent }: QuizSectionProps3) => {
             <div
               style={{
                 marginTop: 8,
-                fontSize: 11,
+                fontSize: 12,
                 color:
                   q.opts[answers[i] as number] === q.a ? 'var(--ink-green)' : 'var(--ink-error)',
                 fontWeight: 700,
@@ -233,7 +233,7 @@ function CountriesScreen({ goBack }: CountriesScreenProps) {
         <div>
           <div
             style={{
-              fontSize: 11,
+              fontSize: 12,
               color: 'var(--ink-muted-warm)',
               marginBottom: 12,
               lineHeight: 1.6,
@@ -283,7 +283,7 @@ function CountriesScreen({ goBack }: CountriesScreenProps) {
                     <span style={{ fontSize: 15, fontWeight: 800, color: 'var(--ink-info)' }}>
                       {c.country}
                     </span>
-                    <span style={{ fontSize: 11, color: 'var(--ink-muted-warm)' }}>{c.en}</span>
+                    <span style={{ fontSize: 12, color: 'var(--ink-muted-warm)' }}>{c.en}</span>
                   </div>
                   <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 4 }}>
                     {[c.adj_m, c.adj_f, c.adj_n].map((adj, ai) => (
@@ -292,7 +292,7 @@ function CountriesScreen({ goBack }: CountriesScreenProps) {
                         style={{
                           background: 'var(--info-bg)',
                           color: 'var(--ink-info)',
-                          fontSize: 11,
+                          fontSize: 12,
                           fontWeight: 700,
                           padding: '2px 8px',
                           borderRadius: 8,
@@ -305,7 +305,7 @@ function CountriesScreen({ goBack }: CountriesScreenProps) {
                     ))}
                   </div>
                   <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-                    <span style={{ fontSize: 11, color: 'var(--ink-body)' }}>
+                    <span style={{ fontSize: 12, color: 'var(--ink-body)' }}>
                       👤 {c.dem_m} / {c.dem_f}
                     </span>
                   </div>
@@ -313,7 +313,7 @@ function CountriesScreen({ goBack }: CountriesScreenProps) {
                     <div
                       style={{
                         marginTop: 4,
-                        fontSize: 11,
+                        fontSize: 12,
                         color: 'var(--ink-muted-warm)',
                         fontStyle: 'italic',
                       }}

@@ -145,7 +145,7 @@ export default function NextStepPrompt() {
           <span
             style={{
               display: 'block',
-              fontSize: 11,
+              fontSize: 12,
               fontWeight: 500,
               opacity: 0.85,
               // A failure is a sentence; nowrap would ellipsis it to nothing useful.

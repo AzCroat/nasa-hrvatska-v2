@@ -75,7 +75,7 @@ export default function LiveTutorControls({
                 background: 'rgba(212,0,45,.08)',
                 border: '1px solid rgba(212,0,45,.25)',
                 color: 'var(--ink-red)',
-                fontSize: 10,
+                fontSize: 12,
                 fontWeight: 700,
                 cursor: 'pointer',
               }}
@@ -92,7 +92,7 @@ export default function LiveTutorControls({
             background: showGloss ? 'rgba(99,102,241,.1)' : 'transparent',
             border: '1px solid ' + (showGloss ? 'rgba(99,102,241,.25)' : 'var(--card-b)'),
             color: showGloss ? 'var(--ink-mode)' : 'var(--subtext)',
-            fontSize: 10,
+            fontSize: 12,
             fontWeight: 700,
             cursor: 'pointer',
           }}

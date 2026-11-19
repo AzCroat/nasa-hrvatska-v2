@@ -75,7 +75,7 @@ const STYLES = {
   },
   section: { marginTop: 20 },
   sectionLabel: {
-    fontSize: 11,
+    fontSize: 12,
     letterSpacing: '0.08em',
     fontWeight: 700 as const,
     color: 'var(--subtext)',

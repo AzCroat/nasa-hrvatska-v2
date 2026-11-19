@@ -304,7 +304,7 @@ export default function CourseMapScreen({ goBack, onOpenLesson, setScr }: Course
             }}
           />
         </div>
-        <div style={{ fontSize: 11.5, color: 'var(--subtext)', marginTop: 8, lineHeight: 1.5 }}>
+        <div style={{ fontSize: 12, color: 'var(--subtext)', marginTop: 8, lineHeight: 1.5 }}>
           Every learner takes the same path, from Unit 1. Pass a unit’s five lessons and the next
           unit opens. Its test mixes questions from all five — harder than each check on its own, a
           far better sign that it has stuck, and passing it opens the next unit too. You can test
@@ -348,7 +348,7 @@ export default function CourseMapScreen({ goBack, onOpenLesson, setScr }: Course
             >
               <span
                 style={{
-                  fontSize: 11,
+                  fontSize: 12,
                   fontWeight: 900,
                   letterSpacing: '.12em',
                   color: LEVEL_COLOR[level],
@@ -359,7 +359,7 @@ export default function CourseMapScreen({ goBack, onOpenLesson, setScr }: Course
               >
                 {level}
               </span>
-              <span style={{ fontSize: 11.5, color: 'var(--subtext)', fontWeight: 700 }}>
+              <span style={{ fontSize: 12, color: 'var(--subtext)', fontWeight: 700 }}>
                 {rows.filter((r) => r.state === 'mastered').length} of {rows.length} mastered
               </span>
             </div>
@@ -507,7 +507,7 @@ function UnitRow({
             <span
               style={{
                 display: 'block',
-                fontSize: 11.5,
+                fontSize: 12,
                 color: 'var(--subtext)',
                 marginTop: 2,
                 lineHeight: 1.45,
@@ -520,7 +520,7 @@ function UnitRow({
         <span
           style={{
             flexShrink: 0,
-            fontSize: 11,
+            fontSize: 12,
             fontWeight: 800,
             color: state === 'current' ? accentInk(color) : 'var(--subtext)',
           }}
@@ -535,7 +535,7 @@ function UnitRow({
               unit test and production are there to check. */}
           {canDoFor(unit.id).length > 0 && (
             <div data-testid={`course-unit-cando-${unit.id}`} style={{ padding: '2px 2px 8px' }}>
-              <div style={{ fontSize: 11, fontWeight: 800, color: 'var(--subtext)' }}>
+              <div style={{ fontSize: 12, fontWeight: 800, color: 'var(--subtext)' }}>
                 By the end of this unit you can:
               </div>
               <ul style={{ margin: '4px 0 0', paddingLeft: 18 }}>
@@ -554,7 +554,7 @@ function UnitRow({
               data-testid={`course-unit-locked-${unit.id}`}
               role="status"
               style={{
-                fontSize: 11.5,
+                fontSize: 12,
                 fontWeight: 700,
                 color: 'var(--subtext)',
                 padding: '8px 2px 4px',
@@ -680,7 +680,7 @@ function UnitRow({
             <div
               data-testid={`course-unit-holding-${unit.id}`}
               style={{
-                fontSize: 11.5,
+                fontSize: 12,
                 fontWeight: 700,
                 color: 'var(--subtext)',
                 padding: '6px 2px 2px',
@@ -696,7 +696,7 @@ function UnitRow({
             <div
               data-testid={`course-unit-mastered-${unit.id}`}
               style={{
-                fontSize: 11.5,
+                fontSize: 12,
                 fontWeight: 700,
                 color: 'var(--ink-green)',
                 padding: '6px 2px 2px',
@@ -751,7 +751,7 @@ function UnitRow({
                         data-testid={`course-lesson-why-${lesson.id}`}
                         style={{
                           display: 'block',
-                          fontSize: 11,
+                          fontSize: 12,
                           fontWeight: 600,
                           color: 'var(--subtext)',
                         }}
@@ -776,7 +776,7 @@ function UnitRow({
                       border: `1px solid ${color}`,
                       background: 'transparent',
                       color: accentInk(color),
-                      fontSize: 11.5,
+                      fontSize: 12,
                       fontWeight: 800,
                       cursor: 'pointer',
                       fontFamily: "'Outfit',sans-serif",

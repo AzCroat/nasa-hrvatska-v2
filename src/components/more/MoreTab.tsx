@@ -96,7 +96,7 @@ export default function MoreTab({
             >
               {d.title}
             </span>
-            <span style={{ display: 'block', fontSize: 11, color: 'var(--subtext)', marginTop: 1 }}>
+            <span style={{ display: 'block', fontSize: 12, color: 'var(--subtext)', marginTop: 1 }}>
               {d.sub}
             </span>
           </span>

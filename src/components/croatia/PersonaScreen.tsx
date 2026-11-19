@@ -185,13 +185,13 @@ function PersonaCard({ persona, selected, onSelect }: PersonaCardProps) {
         >
           {persona.name}
         </div>
-        <div style={{ fontSize: 11, color: 'var(--subtext)', marginBottom: 4 }}>
+        <div style={{ fontSize: 12, color: 'var(--subtext)', marginBottom: 4 }}>
           {persona.age} god. · {persona.location}
         </div>
         <span
           style={{
             display: 'inline-block',
-            fontSize: 10,
+            fontSize: 12,
             fontWeight: 700,
             padding: '2px 8px',
             borderRadius: 20,
@@ -221,7 +221,7 @@ function PersonaCard({ persona, selected, onSelect }: PersonaCardProps) {
       {/* Level tag */}
       <span
         style={{
-          fontSize: 10,
+          fontSize: 12,
           color: 'var(--subtext)',
           border: '1px solid var(--card-b)',
           borderRadius: 6,
@@ -409,7 +409,7 @@ export default function PersonaScreen({ goBack, setScr }: Props) {
       {/* ── Info note ── */}
       <p
         style={{
-          fontSize: 11,
+          fontSize: 12,
           color: 'var(--subtext)',
           textAlign: 'center',
           marginTop: 12,

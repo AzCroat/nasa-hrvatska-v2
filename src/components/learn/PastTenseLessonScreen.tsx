@@ -162,7 +162,7 @@ export default function PastTenseLessonScreen({
                 >
                   <div
                     style={{
-                      fontSize: 10,
+                      fontSize: 12,
                       fontWeight: 800,
                       color: 'var(--subtext)',
                       textTransform: 'uppercase',
@@ -292,7 +292,7 @@ export default function PastTenseLessonScreen({
                       >
                         {form} <span aria-hidden="true">🔊</span>
                       </td>
-                      <td style={{ padding: '10px 14px', fontSize: 11, color: 'var(--subtext)' }}>
+                      <td style={{ padding: '10px 14px', fontSize: 12, color: 'var(--subtext)' }}>
                         {row.en}
                       </td>
                     </tr>
@@ -386,7 +386,7 @@ export default function PastTenseLessonScreen({
                 >
                   {v.inf}
                 </div>
-                <div style={{ fontSize: 11, color: 'var(--subtext)', marginBottom: 8 }}>{v.en}</div>
+                <div style={{ fontSize: 12, color: 'var(--subtext)', marginBottom: 8 }}>{v.en}</div>
                 {[
                   { label: '♂', form: v.m, color: '#0e7490' },
                   { label: '♀', form: v.f, color: '#dc2626' },
@@ -413,7 +413,7 @@ export default function PastTenseLessonScreen({
                     }}
                   >
                     {label} {form}{' '}
-                    <span aria-hidden="true" style={{ fontSize: 10 }}>
+                    <span aria-hidden="true" style={{ fontSize: 12 }}>
                       🔊
                     </span>
                   </button>
@@ -594,7 +594,7 @@ export default function PastTenseLessonScreen({
                     style={{
                       padding: '3px 10px',
                       borderRadius: 10,
-                      fontSize: 11,
+                      fontSize: 12,
                       fontWeight: 800,
                       background:
                         q.type === 'aspect'

@@ -77,7 +77,7 @@ export default function TodaysDiscoveries({ wod, pod, setScr }: Props) {
       <div
         style={{
           padding: '13px 18px 9px 22px',
-          fontSize: 10,
+          fontSize: 12,
           fontWeight: 900,
           letterSpacing: '.14em',
           textTransform: 'uppercase',
@@ -134,7 +134,7 @@ export default function TodaysDiscoveries({ wod, pod, setScr }: Props) {
               </span>
               <span
                 style={{
-                  fontSize: 11,
+                  fontSize: 12,
                   fontWeight: 800,
                   color: isActive ? accentInk(`rgb(${t.textColor})`) : 'var(--subtext)',
                   letterSpacing: '.02em',

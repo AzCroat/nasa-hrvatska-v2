@@ -196,7 +196,7 @@ export default function CaseChartVisual({ slide }: { slide: CaseChartSlide }) {
                       {slide.numbered === false ? '' : `${row.n ?? i + 1}. `}
                       {row.name}
                     </div>
-                    <div style={{ fontSize: 11, color: 'var(--subtext)' }}>{row.nameEn}</div>
+                    <div style={{ fontSize: 12, color: 'var(--subtext)' }}>{row.nameEn}</div>
                     {(row.asks ?? []).map((a) => (
                       <div key={a.hr} style={{ marginTop: 4, fontSize: 12 }}>
                         <div style={{ fontWeight: 700 }}>{a.hr}</div>
@@ -208,7 +208,7 @@ export default function CaseChartVisual({ slide }: { slide: CaseChartSlide }) {
                         data-testid="chart-this-lesson"
                         style={{
                           marginTop: 6,
-                          fontSize: 11,
+                          fontSize: 12,
                           fontWeight: 800,
                           color: 'var(--ink-accent)',
                         }}
@@ -224,7 +224,7 @@ export default function CaseChartVisual({ slide }: { slide: CaseChartSlide }) {
                           <Sentence line={ln} />
                           {ln.en && (
                             <div
-                              style={{ fontSize: 11, fontStyle: 'italic', color: 'var(--subtext)' }}
+                              style={{ fontSize: 12, fontStyle: 'italic', color: 'var(--subtext)' }}
                             >
                               {ln.en}
                             </div>

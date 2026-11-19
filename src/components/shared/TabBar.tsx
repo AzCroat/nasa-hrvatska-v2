@@ -397,7 +397,7 @@ export default function TabBar({
                 <span
                   className="nav-label"
                   style={{
-                    fontSize: 11,
+                    fontSize: 12,
                     fontWeight: isActive ? 800 : 600,
                     color: isActive
                       ? t.id === 'croatia'
@@ -414,7 +414,7 @@ export default function TabBar({
                   {t.cro}
                   <span
                     style={{
-                      fontSize: 11,
+                      fontSize: 12,
                       display: 'block',
                       color: 'inherit',
                       opacity: 1,
@@ -451,7 +451,7 @@ export default function TabBar({
                       right: 2,
                       background: 'linear-gradient(135deg,#6366f1,#8b5cf6)',
                       color: '#fff',
-                      fontSize: 9,
+                      fontSize: 12,
                       fontWeight: 800,
                       minWidth: 16,
                       height: 16,

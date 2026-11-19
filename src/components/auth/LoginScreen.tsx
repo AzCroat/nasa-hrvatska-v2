@@ -176,7 +176,7 @@ export default function LoginScreen({
               <span
                 key={f}
                 style={{
-                  fontSize: 11,
+                  fontSize: 12,
                   fontWeight: 700,
                   color: 'var(--info)',
                   background: 'var(--info-bg)',
