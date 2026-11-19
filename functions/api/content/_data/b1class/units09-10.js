@@ -1406,16 +1406,12 @@ export const CLASS_B1_U09_10 = {
         {
           type: 'transform',
           q: 'You are the tenant. Turn the statement into the question you would ask the landlord.',
-          from: 'Režije su uključene.',
-          answer: 'Jesu li režije uključene?',
-          accept: [
-            'Jesu li režije uključene u cijenu?',
-            'Jesu li uključene režije?',
-            'Jesu li režije uključene u najamninu?',
-          ],
-          hint: 'A yes/no question with biti opens with the long form of the verb, followed by li. Remember that this noun is always plural.',
+          from: 'Stan je blizu centra.',
+          answer: 'Je li stan blizu centra?',
+          accept: ['Je li stan blizu centra?', 'Je li blizu centra stan?'],
+          hint: 'A yes/no question with biti opens with the verb, followed by li.',
           explanation:
-            'Jesu li režije uključene? — režije is always plural, so the question opens with jesu, and the adjective is feminine plural.',
+            'Je li stan blizu centra? — a yes/no question with biti opens with the verb and li; the rest of the sentence stays as it was.',
         },
         {
           type: 'type',
@@ -1478,12 +1474,12 @@ export const CLASS_B1_U09_10 = {
       {
         type: 'fix',
         q: 'One word is wrong. Tap it.',
-        words: ['Jesu', 'li', 'režije', 'uključen', 'u', 'cijenu?'],
+        words: ['Stan', 'je', 'na', 'četvrti', 'katu.'],
         wrong: 3,
-        answer: 'uključene',
-        hint: 'The word describes the utilities — and that noun is feminine and always plural.',
+        answer: 'četvrtom',
+        hint: 'After na, saying where something is takes the locative, and the ordinal agrees with katu.',
         explanation:
-          'Jesu li režije uključene u cijenu? — the adjective agrees with režije: feminine plural.',
+          'Stan je na četvrtom katu. — na + the locative, and the ordinal agrees with it: četvrtom katu.',
       },
       1,
       {

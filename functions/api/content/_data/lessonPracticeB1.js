@@ -1926,7 +1926,7 @@ export const PRACTICE_B1 = {
       title: 'Guided Practice',
       items: [
         {
-          q: 'Nedostaje mi ___. (I miss my mom — mama)',
+          q: 'Nedostaje mi ___. (I miss my mom)',
           options: ['mama', 'mamu', 'mami', 'mame'],
           correct: 0,
           hint: 'Croatian turns it around: the person missed is the SUBJECT, and you are already in the dative.',
@@ -5345,7 +5345,7 @@ export const PRACTICE_B1 = {
         explanation: 'Her participle agrees with her: radila; after kao, the nominative.',
       },
       {
-        q: "Complete: 'Javljam se na ___ za mjesto voditelja.' (the public competition — natječaj)",
+        q: "Complete: 'Javljam se na ___ za mjesto voditelja.' (the public competition)",
         options: ['natječaju', 'natječaja', 'natječaj', 'natječajem'],
         correct: 2,
         explanation: 'javljati se na + the accusative: na natječaj.',
@@ -5836,7 +5836,7 @@ export const PRACTICE_B1 = {
           explanation: 'nacionalni parkovi — nominative plural.',
         },
         {
-          q: 'Idemo na izlet na ___. (to the island — otok)',
+          q: 'Idemo na izlet na ___. (to the island)',
           options: ['otoku', 'otok', 'otoka', 'otokom'],
           correct: 1,
           hint: 'A destination after a verb of motion.',

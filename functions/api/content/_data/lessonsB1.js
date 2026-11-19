@@ -717,7 +717,7 @@ export const LESSONS_B1 = [
         title: 'Mastery Check',
         items: [
           {
-            q: 'Complete: "Lezi na ___ i odmori se." (Lie down on the bed — krevet)',
+            q: 'Complete: "Lezi na ___ i odmori se." (Lie down on the bed)',
             options: ['krevetu', 'krevet', 'kreveta', 'krevetom'],
             correct: 1,
             explanation:
@@ -4268,7 +4268,7 @@ export const LESSONS_B1 = [
         points: [
           'vijesti, novine, članak, naslov, izvještaj, izvor',
           'Headlines drop biti — supply je or su mentally',
-          'A news sentence names who said it: rekao je da…, javlja da…, tvrde da…',
+          'A news sentence names its source: javlja policija, tvrde stručnjaci, navodno…',
           'žuti tisak, sapunica, feljton, glavni i sporedni lik',
           'Čuo sam na vijestima da… / Pisalo je u novinama da…',
           'Navodno marks a claim as second-hand',

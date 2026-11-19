@@ -4823,7 +4823,7 @@ export const PRACTICE_A1 = {
         explanation: 'više volim X nego Y — I prefer X to Y.',
       },
       {
-        q: 'Complete: "Volim ___." (I love Zagreb.)',
+        q: 'Complete: "Volim ___." (I love the capital of Croatia.)',
         options: ['Zagreb', 'Zagreba', 'Zagrebu', 'Zagrebom'],
         correct: 0,
         explanation: 'Volim Zagreb. — voljeti takes the accusative, and Zagreb does not change.',
@@ -5009,7 +5009,7 @@ export const PRACTICE_A1 = {
         explanation: "Može! — sure, let's go.",
       },
       {
-        q: 'Complete: "Za doručak jedem kruh i ___." (…bread and cheese — "sir")',
+        q: 'Complete: "Za doručak jedem kruh i ___." (…bread and cheese)',
         options: ['siru', 'sirom', 'sira', 'sir'],
         correct: 3,
         explanation: 'sir — a masculine thing that is not alive does not change.',

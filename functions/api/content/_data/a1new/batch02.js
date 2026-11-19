@@ -263,7 +263,7 @@ const ZVATI_SE = {
             'kako se zove asks for a name, and ovaj grad is "this city". Places are named with the same verb as people.',
         },
         {
-          q: '"Kako se zovu?" — "___ se Marko i Josip."',
+          q: 'Complete: "___ se Marko i Josip." (they are called Marko and Josip)',
           options: ['Zove', 'Zovemo', 'Zovu', 'Zovete'],
           correct: 2,
           explanation:

@@ -1121,7 +1121,7 @@ const L_GENITIVE_PARTITIVE = {
       title: 'Mastery Check',
       items: [
         {
-          q: 'Complete: "Molim Vas, šalicu ___." (tea — "čaj")',
+          q: 'Complete: "Molim Vas, šalicu ___." (tea)',
           options: ['čaj', 'čaja', 'čaju', 'čajem'],
           correct: 1,
           explanation: 'What fills the cup takes the genitive, masculine -a: šalicu čaja.',
