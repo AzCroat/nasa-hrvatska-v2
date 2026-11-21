@@ -79,6 +79,9 @@ export const CURRICULUM = [
       'Recognize the eight letters English does not have: č ć đ š ž lj nj dž',
       'Hear the difference between č and ć — the one that changes meaning',
     ],
+    // NOTHING TO WRITE YET: this lesson teaches sounds, not a single sentence a learner could
+    // produce, so the lesson page asks for no writing and Today's Session adds no "Write it".
+    produce: null,
   },
   {
     id: 'greetings-farewells',
@@ -90,22 +93,30 @@ export const CURRICULUM = [
       'Choose between bog and dobar dan without sounding too casual',
       'Ask how someone is and answer when asked',
     ],
+    produce: {
+      task: 'Greet someone, ask how they are, and tell them your name. The lesson gave you every word you need.',
+      minWords: 6,
+    },
   },
   {
     id: 'pronouns-biti',
     level: 'A1',
-    order: 4,
+    order: 5,
     prerequisites: ['greetings-farewells'],
     objectives: [
       'Say who you are and where you are from',
       'Use all six forms of biti (to be) in the present',
       'Understand why Croatian usually drops ja, ti and mi',
     ],
+    produce: {
+      task: 'Say who you are and where you are from, then say who someone else is. The lesson gave you biti and the pronouns.',
+      minWords: 6,
+    },
   },
   {
     id: 'gender',
     level: 'A1',
-    order: 6,
+    order: 7,
     prerequisites: ['alphabet'],
     objectives: [
       'Tell a noun’s gender from its ending in most cases',
@@ -116,7 +127,7 @@ export const CURRICULUM = [
   {
     id: 'plural-nouns',
     level: 'A1',
-    order: 9,
+    order: 10,
     prerequisites: ['gender'],
     objectives: [
       'Make any regular noun plural from its gender alone',
@@ -127,7 +138,7 @@ export const CURRICULUM = [
   {
     id: 'basic-questions',
     level: 'A1',
-    order: 8,
+    order: 9,
     prerequisites: ['pronouns-biti'],
     objectives: [
       'Ask who, what, where, when, why, from where and how much',
@@ -182,7 +193,7 @@ export const CURRICULUM = [
   {
     id: 'demonstratives',
     level: 'A1',
-    order: 7,
+    order: 8,
     prerequisites: ['gender'],
     objectives: [
       'Point at things using the three-way system: ovaj, taj, onaj',
@@ -204,7 +215,7 @@ export const CURRICULUM = [
   {
     id: 'countries-languages',
     level: 'A1',
-    order: 12,
+    order: 13,
     prerequisites: ['pronouns-biti'],
     objectives: [
       'Name countries, nationalities and languages, and say where you are from with the phrase Ja sam iz …',
@@ -215,13 +226,17 @@ export const CURRICULUM = [
   {
     id: 'numbers-time',
     level: 'A1',
-    order: 14,
-    prerequisites: ['gender'],
+    order: 4,
+    prerequisites: ['greetings-farewells'],
     objectives: [
       'Count from nula to deset',
       'Give your phone number and your address',
-      'Know the emergency numbers and why jedan matches its noun',
+      'Know the emergency numbers, 112, 192, 193 and 194, and that jedan changes with its noun',
     ],
+    produce: {
+      task: 'Write your phone number in words, digit by digit, and then your address. The lesson gave you the numbers and both phrases.',
+      minWords: 8,
+    },
   },
   {
     id: 'time-calendar',

@@ -28,18 +28,19 @@ export interface CourseUnitTitle {
 export const COURSE_UNIT_TITLES: Readonly<Record<string, CourseUnitTitle>> = {
   // ── A1 ──────────────────────────────────────────────────────────────────────
   'A1-1': {
-    title: 'Sounds, Hellos and Being',
-    subtitle: 'Read any Croatian word aloud, greet people, and say who you are and are not.',
+    title: 'Sounds, Hellos and Numbers',
+    subtitle:
+      'Read any Croatian word aloud, greet people, count to ten, give your phone number, and say who you are.',
   },
   'A1-2': {
-    title: 'Naming Things, One and Many',
+    title: 'Saying No, Naming Things, One and Many',
     subtitle:
-      'Tell a noun’s gender, point at things, ask simple questions, and make a noun plural.',
+      'Say who you are not, tell a noun’s gender, point at things, ask simple questions, and make a noun plural.',
   },
   'A1-3': {
     title: 'Work, Countries and Numbers',
     subtitle:
-      'Say what you do, where you are from and which language you speak, give your phone number, and count to a million.',
+      'Form irregular plurals, say what you do, where you are from and which language you speak, and count to a million.',
   },
   'A1-4': {
     title: 'Names, Family and Plurals',

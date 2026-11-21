@@ -5961,11 +5961,11 @@ const LESSONS_CORE = [
         title: 'Mastery Check',
         items: [
           {
-            q: "You meet your friend's grandmother for the first time. Complete: 'Dobar dan, kako ___?'",
-            options: ['si', 'ste', 'je', 'su'],
+            q: "You meet your friend's grandmother for the first time. After 'Dobar dan', what do you ask her?",
+            options: ['Kako si?', 'Kako ste?', 'Bog, kako si?', 'Čao, kako si?'],
             correct: 1,
             explanation:
-              "An elder you are meeting formally takes the Vi-form 'ste'. 'si' is for friends; 'je' and 'su' are third person.",
+              'Someone older, met for the first time, gets the polite form: Kako ste? Kako si? is for friends, and Bog and Čao are casual greetings.',
           },
           {
             q: 'It is 8 pm and you walk into a shop. Which greeting fits best?',
@@ -6287,13 +6287,13 @@ const LESSONS_CORE = [
       {
         type: 'rule',
         title: 'Jedan Has Three Forms',
-        body: 'When you count, you say jedan, dva, tri. But jedan in front of a noun matches the noun’s gender, which you met in the gender lesson: jedan grad (masculine), jedna kuća (feminine), jedno more (neuter). That is the only number on this slide that changes. Reading digits aloud, you always say jedan.',
+        body: 'When you count, you say jedan, dva, tri. But in front of a word, jedan changes its ending: jedan grad (one city), jedna kuća (one house), jedno more (one sea). For now, learn these three as set pairs; a few lessons from now you will see why each word takes its ending. It is the only number here that changes. Reading digits aloud, you always say jedan.',
         highlight: 'jedan grad, jedna kuća, jedno more',
       },
       {
         type: 'rule',
         title: 'Phone Numbers',
-        body: 'Croatians read a phone number digit by digit, often in small groups with a pause between them. 01 is the Zagreb code: nula jedan. Numbers starting 091, 092, 095, 098 or 099 are mobiles. To give your number, the book’s phrase is Moj telefon je…: Moj telefon je nula jedan, dva tri četiri, pet šest sedam.',
+        body: 'Croatians read a phone number digit by digit, often in small groups with a pause between them. 01 is the Zagreb code: nula jedan. Numbers starting 091, 092, 095, 098 or 099 are mobiles. To give your number, learn the whole phrase Moj telefon je… (je is explained two lessons from now): Moj telefon je nula jedan, dva tri četiri, pet šest sedam.',
         highlight: 'Moj telefon je',
       },
       {
@@ -6310,7 +6310,7 @@ const LESSONS_CORE = [
       {
         type: 'rule',
         title: 'Addresses',
-        body: 'In a Croatian address the house number comes AFTER the street name: Ilica 10 is read Ilica deset, Gajeva 2 is Gajeva dva. To give your address, say Moja adresa je…: Moja adresa je Kolarova osam. The city goes last, after a comma: Moja adresa je Ilica deset, Zagreb.',
+        body: 'In a Croatian address the house number comes AFTER the street name: Ilica 10 is read Ilica deset, Gajeva 2 is Gajeva dva. To give your address, learn the whole phrase Moja adresa je…: Moja adresa je Kolarova osam. The city goes last, after a comma: Moja adresa je Ilica deset, Zagreb.',
         highlight: 'Moja adresa je',
       },
       {
@@ -6349,24 +6349,24 @@ const LESSONS_CORE = [
         title: 'Emergency Numbers and Counting',
         items: [
           {
-            hr: 'Policija je jedan devet dva.',
-            en: 'The police number is 192.',
+            hr: 'Policija: jedan devet dva.',
+            en: 'Police: 192.',
             note: 'read digit by digit',
           },
           {
-            hr: 'Hitna pomoć je jedan devet četiri.',
-            en: 'The ambulance number is 194.',
+            hr: 'Hitna pomoć: jedan devet četiri.',
+            en: 'Ambulance: 194.',
             note: 'hitna pomoć = ambulance, emergency medical help',
           },
           {
-            hr: 'Vatrogasci su jedan devet tri.',
-            en: 'The fire brigade number is 193.',
-            note: 'vatrogasci is plural, so su',
+            hr: 'Vatrogasci: jedan devet tri.',
+            en: 'Fire brigade: 193.',
+            note: 'vatrogasci = the fire brigade',
           },
           {
             hr: 'Jedan grad, jedna kuća, jedno more.',
             en: 'One city, one house, one sea.',
-            note: 'jedan matches the gender of the noun',
+            note: 'jedan changes with the noun',
           },
           {
             hr: 'Nula, jedan, dva, tri, četiri, pet, šest, sedam, osam, devet, deset.',
@@ -6387,7 +6387,7 @@ const LESSONS_CORE = [
       {
         type: 'rule',
         title: 'Common Mistakes',
-        body: 'Three slips. First, reading an address in English order: the number follows the street, so say Ilica deset, not deset Ilica. Second, mixing up devet (9) and deset (10): they differ by one letter, v against s. Third, using jedan for every noun: in front of a noun it matches the gender — jedna kuća, jedno more.',
+        body: 'Three slips. First, reading an address in English order: the number follows the street, so say Ilica deset, not deset Ilica. Second, mixing up devet (9) and deset (10): they differ by one letter, v against s. Third, using jedan for every noun: in front of a noun it changes with the noun — jedna kuća, jedno more.',
         highlight: 'Ilica deset, not deset Ilica',
       },
       {
@@ -6404,7 +6404,7 @@ const LESSONS_CORE = [
             q: 'Complete: "___ kuća." (one house)',
             options: ['Jedan', 'Jedna', 'Jedno', 'Jedni'],
             correct: 1,
-            explanation: 'kuća is feminine, so jedna. jedan is masculine and jedno neuter.',
+            explanation: 'It is jedna kuća. jedan goes with grad and jedno with more.',
           },
           {
             q: 'You need an ambulance. Which number do you call?',
@@ -6428,8 +6428,7 @@ const LESSONS_CORE = [
             q: 'Complete: "Moja ___ je Gajeva dva." (address)',
             options: ['adresa', 'telefon', 'broj', 'grad'],
             correct: 0,
-            explanation:
-              'Moja adresa je… gives an address. telefon and broj are masculine, so they would need moj.',
+            explanation: 'Moja adresa je… gives an address. Moj telefon je… gives a phone number.',
           },
         ],
       },
@@ -6438,7 +6437,7 @@ const LESSONS_CORE = [
         title: 'Numbers 0–10 — Key Takeaways',
         points: [
           'nula, jedan, dva, tri, četiri, pet, šest, sedam, osam, devet, deset',
-          'jedan matches the noun: jedan grad, jedna kuća, jedno more',
+          'jedan changes before a word: jedan grad, jedna kuća, jedno more',
           'Phone numbers are read digit by digit: Moj telefon je nula jedan…',
           'Addresses put the number after the street: Moja adresa je Ilica deset.',
           'Emergencies: 112 for anything, 192 police, 193 fire, 194 ambulance',

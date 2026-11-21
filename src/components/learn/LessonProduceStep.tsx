@@ -43,6 +43,7 @@ import { recognizerErrorMessage } from '../../lib/recognizerError';
 import SpeakCheck from '../practice/SpeakCheck';
 import { unconfirmedWords, type SpokenCheck } from '../../lib/spokenCheck';
 import { taughtTermsList } from '../../lib/taughtTerms';
+import { learnerSafeBrief } from '../../lib/produceBrief';
 
 /** Minimum words before the grader is worth calling. Below this there is not
  *  enough language to judge, and a rubric score on four words would be noise. */
@@ -69,6 +70,8 @@ interface Props {
   /** The lesson's own "you will be able to…" lines, used as the brief so the
    *  learner produces THIS lesson's structure rather than free writing. */
   objectives: string[];
+  /** The lesson's own task and word floor (curriculum spine `produce`); absent = the default. */
+  produce?: { task: string; minWords: number } | null;
   award?: (xp: number, celebrate?: boolean, activityType?: string) => void;
   onDone: () => void;
   /** WRITE (default; the lesson summary) or SPEAK (the session's spoken produce slot). */
@@ -80,6 +83,7 @@ export default function LessonProduceStep({
   lessonTitle,
   level,
   objectives,
+  produce,
   award,
   onDone,
   kind = 'write',
@@ -101,8 +105,11 @@ export default function LessonProduceStep({
   const recRef = useRef<{ stop: () => void } | null>(null);
 
   const words = text.trim().split(/\s+/).filter(Boolean).length;
-  const enough = words >= MIN_PRODUCE_WORDS;
-  const brief = objectives.slice(0, 2).join(' ');
+  const minWords = produce?.minWords ?? MIN_PRODUCE_WORDS;
+  const enough = words >= minWords;
+  // The grader gets the full brief; the learner only the part that does not give the answer.
+  const brief = produce?.task ?? objectives.slice(0, 2).join(' ');
+  const shownBrief = produce?.task ?? learnerSafeBrief(objectives);
 
   async function submitSpoken() {
     const outcome = await requestSpeakingCoach({
@@ -314,11 +321,11 @@ export default function LessonProduceStep({
           ? 'Say two or three sentences in Croatian using what this lesson taught — the speaking coach grades what you said. No microphone? Type them instead; it counts the same.'
           : 'Write two or three sentences in Croatian using what this lesson taught. Recognizing a form and producing one are different skills — this trains the second.'}
       </p>
-      {brief && (
+      {shownBrief && (
         <p
           style={{ fontSize: 12, color: 'var(--subtext)', fontStyle: 'italic', margin: '0 0 10px' }}
         >
-          {brief}
+          {shownBrief}
         </p>
       )}
       <textarea
@@ -331,7 +338,7 @@ export default function LessonProduceStep({
         style={{ width: '100%', resize: 'vertical' }}
       />
       <div style={{ fontSize: 12, color: 'var(--subtext)', margin: '4px 0 10px' }}>
-        {words} / {MIN_PRODUCE_WORDS} words
+        {words} / {minWords} words
       </div>
       {kind === 'speak' && (
         <SpeakCheck

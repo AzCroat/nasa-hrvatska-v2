@@ -36,6 +36,7 @@ import {
 import { produceReason } from './activityReason';
 import { weakestProductionKind } from './masteryLedger';
 import type { CefrLevel } from './cefr';
+import { readCurriculumSpine } from './curriculumProgress';
 
 interface SlotLike {
   id: string;
@@ -56,6 +57,12 @@ export function selectLessonProduceSlot(
   if (!first || first.screen !== 'animlesson') return null;
   const lessonId = first.id.replace(/^curriculum_/, '');
   if (!lessonId || lessonId === first.id) return null;
+  // A lesson that declares `produce: null` teaches nothing writable yet: no "Write it" slot.
+  try {
+    if (readCurriculumSpine().find((e) => e.id === lessonId)?.produce === null) return null;
+  } catch {
+    /* no spine: fall through to the default */
+  }
   const kind = pickProduceKind(level);
   // A corrective day labels the LESSON "Again: <title>" (curriculumSlot); the
   // production task is about the concept, and "Write it: Again: …" read as nonsense.

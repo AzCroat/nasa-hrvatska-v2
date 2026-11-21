@@ -167,6 +167,7 @@ export const CURRICULUM_FIXTURE = CURRICULUM.filter((e) => _LESSON_BY_ID.has(e.i
     order: e.order,
     prerequisites: e.prerequisites,
     objectives: e.objectives,
+    produce: e.produce,
     title: l.title,
     subtitle: l.subtitle,
     icon: l.icon,

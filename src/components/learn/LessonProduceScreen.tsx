@@ -100,7 +100,7 @@ export default function LessonProduceScreen({ goBack, award, onOpenLesson }: Pro
 
   const title = entry?.title || 'Today’s lesson';
 
-  if (!lessonId || !entry) {
+  if (!lessonId || !entry || entry.produce === null) {
     return (
       <div className="scr-wrap">
         {H(icon, 'Use what today’s lesson taught', goBack)}
@@ -189,6 +189,7 @@ export default function LessonProduceScreen({ goBack, award, onOpenLesson }: Pro
           lessonTitle={entry.title || lessonId}
           level={entry.level}
           objectives={entry.objectives ?? []}
+          produce={entry.produce}
           award={award}
           onDone={goBack}
           kind={kind}
