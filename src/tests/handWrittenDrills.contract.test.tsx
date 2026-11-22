@@ -82,10 +82,10 @@ describe('the hand-written drill cohort — one contract, derived from the glob'
   beforeEach(() => markQuestMock.mockClear());
 
   it('the corpus is the whole cohort and is not vacuous', () => {
-    // A floor, because a glob typo would leave every clause below registering no tests
+    // (Floors lowered 2026-11-22: 9 drills with no lesson were removed.) A floor, because a glob typo would leave every clause below registering no tests
     // at all and the suite would stay green (`it.each` over an empty set is silent).
-    expect(SUBJECTS.length, 'the glob matched almost nothing').toBeGreaterThanOrEqual(95);
-    expect(DRIVEN.length).toBeGreaterThanOrEqual(92);
+    expect(SUBJECTS.length, 'the glob matched almost nothing').toBeGreaterThanOrEqual(85);
+    expect(DRIVEN.length).toBeGreaterThanOrEqual(85);
   });
 
   it('every exemption still names a file that exists', () => {

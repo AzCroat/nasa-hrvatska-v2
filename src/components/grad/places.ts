@@ -165,13 +165,10 @@ export const PLACE_ASSIGNMENTS: Record<string, { place: BucketId; subgroup?: str
   profgender: { place: 'soba', subgroup: 'padezi' },
   sibil: { place: 'soba', subgroup: 'padezi' },
   accusativedrill: { place: 'soba', subgroup: 'padezi' },
-  numcases: { place: 'soba', subgroup: 'padezi' },
-  neggen: { place: 'soba', subgroup: 'padezi' },
   dative: { place: 'soba', subgroup: 'padezi' },
   // soba / glagoli
   future: { place: 'soba', subgroup: 'glagoli' },
   reflexive: { place: 'soba', subgroup: 'glagoli' },
-  imperative: { place: 'soba', subgroup: 'glagoli' },
   passive: { place: 'soba', subgroup: 'glagoli' },
   fleetinga: { place: 'soba', subgroup: 'glagoli' },
   conjlab: { place: 'soba', subgroup: 'glagoli' },

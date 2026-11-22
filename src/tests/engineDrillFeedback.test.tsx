@@ -76,7 +76,7 @@ describe('every engine drill says what happened, and why', () => {
     // 109 practice-programme wrappers live under src/data/drills behind their own
     // screen files elsewhere; these are the ones in this directory. Measured 2026-09-27.
     expect(SUBJECTS.length).toBeGreaterThanOrEqual(70);
-    for (const n of ['AccusativeDrill', 'PrepDrill', 'NegationGenDrill', 'RegisterDrill'])
+    for (const n of ['AccusativeDrill', 'PrepDrill', 'GenitiveDrill', 'RegisterDrill'])
       expect(SUBJECTS.map((s) => s.name)).toContain(n);
   });
 
@@ -118,11 +118,6 @@ describe('every engine drill says what happened, and why', () => {
 });
 
 describe('what the converted drills carried with them', () => {
-  it('the negation drill still shows the sentence being negated', async () => {
-    await mount('../components/practice/NegationGenDrill.tsx');
-    expect(screen.getByTestId('drill-lead').textContent).toContain('Imam brata.');
-  });
-
   it('the case drills still teach the concept before the first question', async () => {
     const { default: Drill } = await import('../components/practice/AccusativeDrill');
     render(
