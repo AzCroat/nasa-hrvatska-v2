@@ -130,6 +130,7 @@ export async function tryAzure(
   { slow, prosody, phoneme, voiceName, outputFormat },
   azureKey,
   primaryRegion,
+  diag = null,
 ) {
   const ssml = buildAzureSsml(text, { slow, prosody, phoneme, voice: voiceName || undefined });
 
@@ -154,7 +155,10 @@ export async function tryAzure(
           signal: AbortSignal.timeout(5000),
         },
       );
-      if (!tokenRes.ok) continue;
+      if (!tokenRes.ok) {
+        if (diag && !diag.reason) diag.reason = `token${tokenRes.status}@${region}`;
+        continue;
+      }
       const token = await tokenRes.text();
 
       const response = await fetch(
@@ -175,9 +179,11 @@ export async function tryAzure(
       );
 
       if (response.ok) return response.arrayBuffer();
+      if (diag && !diag.reason) diag.reason = `synth${response.status}@${region}`;
       if (response.status !== 400) break; // 400 = bad SSML, no point retrying other regions
-    } catch {
+    } catch (e) {
       // Timeout or network error — try next region
+      if (diag && !diag.reason) diag.reason = `${e?.name || 'error'}@${region}`;
     }
   }
   return null;
@@ -778,6 +784,10 @@ export async function onRequestPost(context) {
     // evidence that Edge synthesizes a full passage had to be INFERRED by
     // elimination from a CI test failure rather than read off a response.
     let servedBy = null;
+    // WHY Azure failed (first failing stage and region, e.g. token401@eastus, synth429@eastus,
+    // TimeoutError@eastus). Until now a 503 said only "azure-failed", so a Sentry event could not
+    // tell a bad key from a quota refusal from an outage (tts_failed:provider_unavailable, /ai_listening).
+    const azureDiag = {};
     /** Run one backend; on playable audio, record its name. */
     const attempt = async (name, fn) => {
       if (isPlayableAudio(buffer)) return;
@@ -813,6 +823,7 @@ export async function onRequestPost(context) {
             { slow, prosody, phoneme, voiceName: voice === 'srecko' ? 'hr-HR-SreckoNeural' : null },
             AZURE_KEY,
             PRIMARY_REGION,
+            azureDiag,
           ),
         );
       }
@@ -848,7 +859,9 @@ export async function onRequestPost(context) {
               AZURE_KEY ? 'azure-failed' : 'azure-not-configured',
             ].join(',')
           : [
-              AZURE_KEY ? 'azure-failed' : 'azure-not-configured',
+              AZURE_KEY
+                ? `azure-failed${azureDiag.reason ? `(${azureDiag.reason})` : ''}`
+                : 'azure-not-configured',
               'edge-failed',
               'gtranslate-failed',
               GOOGLE_SA_JSON ? 'google-failed' : 'google-not-configured',
