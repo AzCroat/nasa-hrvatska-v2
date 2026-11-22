@@ -1159,6 +1159,8 @@ export async function speakSlow(text: string, opts?: { voice?: string }): Promis
   return _completeSpeak(t, ok, 0.65);
 }
 
+export const getUnlockedAudioElement = (): HTMLAudioElement | null => _htmlAudio; // see playbackElement.ts
+
 export function getAudioContext(): AudioContext | null {
   return _ctx;
 }

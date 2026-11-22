@@ -6,6 +6,7 @@ import { applyConversationCategoriesToAdaptive } from '../../lib/adaptiveFeedbac
 import { apiFetch } from '../../lib/apiFetch.js';
 import { getVoicePreference } from '../../lib/soundSettings.js';
 import { unlockAudio, ttsFetch, reportTtsPlaybackFailure } from '../../lib/audio.js';
+import { acquirePlaybackElement } from '../../lib/playbackElement';
 import MajaOrb from './MajaOrb';
 import ConversationBubble from './ConversationBubble';
 import DebriefScreen from './MajaDebrief';
@@ -322,8 +323,10 @@ export default function MajaScreen() {
       // Maja's voice play over the next screen with nothing able to stop it.
       if (!mountedRef.current) return;
       audioUrlRef.current = url;
-      const audio = new Audio(url);
-      audio.volume = 1.0; // required: low volume blocks activation on some WebViews
+      // The element the learner's tap unlocked, not a fresh one: an element made after the fetch
+      // above is refused with NotAllowedError on iOS and some WebViews.
+      const audio = acquirePlaybackElement();
+      audio.src = url;
       audioRef.current = audio;
 
       return new Promise((resolve) => {
@@ -385,7 +388,7 @@ export default function MajaScreen() {
   const startListeningRef = useRef<() => void>(() => {});
 
   // Fetch (but do not play) one sentence's TTS as a ready-to-play audio element.
-  const fetchClip = useCallback(async (text: string): Promise<HTMLAudioElement | null> => {
+  const fetchClip = useCallback(async (text: string): Promise<string | null> => {
     try {
       const res = await ttsFetch({ text, slow: false, voice: getVoicePreference() });
       if (!res || !res.ok) return null;
@@ -397,9 +400,7 @@ export default function MajaScreen() {
         r.onerror = () => reject(new Error('read failed'));
         r.readAsDataURL(blob);
       });
-      const audio = new Audio(url);
-      audio.volume = 1.0; // low volume blocks activation on some WebViews
-      return audio;
+      return url;
     } catch {
       return null;
     }
@@ -417,21 +418,25 @@ export default function MajaScreen() {
     async (gen: number) => {
       if (ttsActiveRef.current) return;
       ttsActiveRef.current = true;
-      let prefetch: Promise<HTMLAudioElement | null> | null = null;
+      let prefetch: Promise<string | null> | null = null;
       try {
         while (gen === ttsGenRef.current) {
           const next = ttsQueueRef.current.shift();
           if (next === undefined) break; // drained — re-kicked when more arrives
-          const clip = await (prefetch ?? fetchClip(next));
+          const clipUrl = await (prefetch ?? fetchClip(next));
           prefetch = null;
           if (gen !== ttsGenRef.current) break; // superseded by a newer turn
           // Prefetch the following sentence's audio while this one plays (no gap).
           const following = ttsQueueRef.current[0];
           if (following) prefetch = fetchClip(following);
-          if (!clip) continue; // TTS failed for this sentence — skip, keep going
+          if (!clipUrl) continue; // TTS failed for this sentence — skip, keep going
           if (phaseRef.current === 'debrief' || phaseRef.current === 'error') break;
           if (phaseRef.current !== 'maja-speaking') setPhase('maja-speaking');
           unlockAudio();
+          // Play through the element the tap unlocked; a clip is just its URL until now, so the
+          // prefetched next sentence never competes for the element while this one plays.
+          const clip = acquirePlaybackElement();
+          clip.src = clipUrl;
           audioRef.current = clip;
           await new Promise<void>((resolve) => {
             clip.onended = () => resolve();
