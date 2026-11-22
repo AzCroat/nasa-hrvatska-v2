@@ -146,7 +146,7 @@ describe('teach → practice coupling stays HONEST at A1', () => {
     // Mapped 2026-08-29 (practice programme wave 1): `pluraldrill` was authored
     // FOR this lesson. It was in DELIBERATELY_UNMAPPED until then for the
     // honest reason — no plural drill existed at any level.
-    'plural-nouns': 'plural',
+    'plural-nouns': 'a1-plural-nouns',
     // A1 tranche 2, same story: each of these was unmapped because no drill
     // taught it, and each now has one authored for it. The conservative
     // non-mapping was correct while the drill did not exist; building the drill
@@ -154,10 +154,10 @@ describe('teach → practice coupling stays HONEST at A1', () => {
     // `basic-questions` are the two CLAUDE.md named explicitly — the first is
     // now mapped, the second is still waiting for its drill.)
     negation: 'negation',
-    'adjectives-basic': 'adjectives',
+    'adjectives-basic': 'a1-adjectives-basic',
     demonstratives: 'demonstratives',
     'imati-nemati': 'having',
-    'imperative-basic': 'imperative',
+    'imperative-basic': 'a1-imperative-basic',
     // Not a new drill: `possess` already existed at A1 and already drilled
     // moj/moja/moje agreement. It was tagged 'nominative', so the lesson could
     // not be coupled to the drill written for it. Retagged 2026-08-29.
@@ -193,11 +193,11 @@ describe('teach → practice coupling stays HONEST at A1', () => {
     //                       the weather (kasno je, teško je)
     //   likes-preferences   the sviđati se flip: the thing is the subject and
     //                       the verb counts IT, not you
-    'family-people': 'family',
+    'family-people': 'a1-family-people',
     'countries-languages': 'countries',
-    'food-drink': 'food',
-    'directions-town': 'directions',
-    'weather-seasons': 'weather',
+    'food-drink': 'a1-food-drink',
+    'directions-town': 'a1-directions-town',
+    'weather-seasons': 'a1-weather-seasons',
     'likes-preferences': 'preferences',
   };
 

@@ -17,10 +17,8 @@ export const PRACTICE_PROGRAMME_ENTRIES: CefrPoolEntry[] = [
   // ── A1 ────────────────────────────────────────────────────────────────────
   // Wave 1: the plural — the commonest noun operation in the language, taught
   // at A1 and drilled at no level.
-  { id: 'pluraldrill', label: 'Plural', screen: 'pluraldrill', cefr: 'A1', category: 'plural' },
   // Tranche 2: one drill per A1 lesson that led nowhere.
   { id: 'negacija', label: 'Negation', screen: 'negacija', cefr: 'A1', category: 'negation' },
-  { id: 'pridjevi', label: 'Adjectives', screen: 'pridjevi', cefr: 'A1', category: 'adjectives' },
   {
     id: 'pokazne',
     label: 'Demonstratives',
@@ -35,7 +33,6 @@ export const PRACTICE_PROGRAMME_ENTRIES: CefrPoolEntry[] = [
     cefr: 'A1',
     category: 'having',
   },
-  { id: 'imperativ', label: 'Imperative', screen: 'imperativ', cefr: 'A1', category: 'imperative' },
   // Tranche 3: the four remaining A1 lessons whose subject is a RULE rather
   // than a topic. `vrijemea1` is deliberately separate from the existing
   // `datumi` drill, which is C1 (ordinal declension, dates in the genitive) and
@@ -217,39 +214,11 @@ export const PRACTICE_PROGRAMME_ENTRIES: CefrPoolEntry[] = [
   // banks pairs the topic with the STRUCTURE its lesson teaches, which is what
   // makes the coupling say something true.
   {
-    id: 'obitelj',
-    label: 'Family & people',
-    screen: 'obitelj',
-    cefr: 'A1',
-    category: 'family',
-  },
-  {
     id: 'zemlje',
     label: 'Countries & languages',
     screen: 'zemlje',
     cefr: 'A1',
     category: 'countries',
-  },
-  {
-    id: 'hrana',
-    label: 'Food & drink',
-    screen: 'hrana',
-    cefr: 'A1',
-    category: 'food',
-  },
-  {
-    id: 'grad',
-    label: 'Directions & town',
-    screen: 'grad',
-    cefr: 'A1',
-    category: 'directions',
-  },
-  {
-    id: 'meteo',
-    label: 'Weather & seasons',
-    screen: 'meteo',
-    cefr: 'A1',
-    category: 'weather',
   },
   {
     id: 'svidjanje',
@@ -270,8 +239,6 @@ export const PRACTICE_PROGRAMME_ENTRIES: CefrPoolEntry[] = [
   // word list, and never clear, which is exactly the `idioms` dead end. So all
   // ten are authored, and the five reference screens are untouched.
   { id: 'dom', label: 'House & home', screen: 'dom', cefr: 'A2', category: 'home' },
-  { id: 'zdravlje', label: 'Body & health', screen: 'zdravlje', cefr: 'A1', category: 'health' },
-  { id: 'odjeca', label: 'Clothes', screen: 'odjeca', cefr: 'A1', category: 'clothing' },
   {
     id: 'izgled',
     label: 'Describing people',

@@ -18,6 +18,15 @@ const LESSONS = [
   'reflexive-verbs',
   'dative-intro',
   'instrumental-intro',
+  'directions-town',
+  'food-drink',
+  'clothes-appearance',
+  'imperative-basic',
+  'family-people',
+  'body-health',
+  'plural-nouns',
+  'adjectives-basic',
+  'weather-seasons',
 ] as const;
 const camel = (id: string) => id.replace(/-(\w)/g, (_, c: string) => c.toUpperCase());
 const upper = (id: string) => id.toUpperCase().replace(/-/g, '_');
