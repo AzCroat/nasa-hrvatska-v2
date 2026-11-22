@@ -158,6 +158,15 @@ export default function AnimatedLesson({ lesson, goBack, award, onOpenLesson }: 
       return [];
     }
   }, [lessonId]);
+  // The lesson's own writing task; `null` = nothing writable yet (a sounds lesson), so no step.
+  const produce = useMemo(() => {
+    if (!lessonId) return undefined;
+    try {
+      return readCurriculumSpine().find((e) => e.id === lessonId)?.produce;
+    } catch {
+      return undefined;
+    }
+  }, [lessonId]);
   const alreadyComplete = !!lessonId && !!stats?.vs?.includes('al_' + lessonId);
   const allSlides = lesson?.slides || [];
   const slides = aheadLocked
@@ -634,13 +643,14 @@ export default function AnimatedLesson({ lesson, goBack, award, onOpenLesson }: 
                 so the summary is where the app asks for production. The step
                 is additive by contract — the pass is already recorded, so a
                 dead evaluator costs nothing but the extra. */}
-            {passed && lessonId && !produceDone && (
+            {passed && lessonId && !produceDone && produce !== null && (
               <div style={{ marginTop: 20, textAlign: 'left' }}>
                 <LessonProduceStep
                   lessonId={lessonId}
                   lessonTitle={lesson!.title}
                   level={lesson!.level}
                   objectives={objectives}
+                  produce={produce}
                   award={award}
                   onDone={() => setProduceDone(true)}
                 />
@@ -662,7 +672,7 @@ export default function AnimatedLesson({ lesson, goBack, award, onOpenLesson }: 
         fontFamily: "'Outfit', sans-serif",
         maxWidth: 600,
         margin: '0 auto',
-        padding: '0 0 calc(160px + env(safe-area-inset-bottom, 0px))',
+        padding: '0 0 calc(var(--tabbar-h, 68px) + 110px)',
       }}
     >
       {/* ── Header ── */}
@@ -764,7 +774,7 @@ export default function AnimatedLesson({ lesson, goBack, award, onOpenLesson }: 
         data-bottom-bar
         style={{
           position: 'fixed',
-          bottom: 'calc(60px + env(safe-area-inset-bottom, 0px))',
+          bottom: 'var(--tabbar-h, calc(68px + env(safe-area-inset-bottom, 0px)))',
           left: 0,
           right: 0,
           background: 'var(--app-bg)',

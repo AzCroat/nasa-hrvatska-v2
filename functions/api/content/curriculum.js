@@ -39,6 +39,8 @@ function buildSpine() {
       order: e.order,
       prerequisites: e.prerequisites,
       objectives: e.objectives,
+      // Optional per-lesson writing task; null means "nothing to write yet" (see lessonProduce.ts).
+      produce: e.produce,
       // Display metadata, from the lesson itself so it cannot disagree.
       title: lesson.title,
       subtitle: lesson.subtitle,

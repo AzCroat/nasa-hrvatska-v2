@@ -482,10 +482,25 @@ test.describe('Guided Speaking SPEAK, on the microphone', () => {
 
 // ── 4. The lesson produce step and the unit production task, spoken ──────────────
 
-const LESSON = CURRICULUM_FIXTURE.find((e) => e.level === 'A1');
+// The first A1 lesson that asks for writing: the alphabet declares `produce: null` (sounds only).
+const LESSON = CURRICULUM_FIXTURE.find((e) => e.level === 'A1' && e.produce !== null);
 const PRODUCE_SAID = 'Imam sestru i brata. Moja sestra živi u Zagrebu i radi u školi.';
 
 test.describe('The spoken production steps, on the microphone', () => {
+  test('a sounds lesson has nothing to write, so the step offers no writing box', async ({
+    page,
+  }) => {
+    const errors = await setup(page, { session: 'lessonproduce' });
+    await page.addInitScript(SEED_PASSED_LESSON, { spine: CURRICULUM_FIXTURE, id: 'alphabet' });
+    await page.addInitScript(() => {
+      if (window.top === window) sessionStorage.setItem('nh_lesson_produce', 'alphabet|write');
+    });
+    await page.goto('/lessonproduce', { waitUntil: 'domcontentloaded' });
+    await expect(page.getByTestId('lesson-produce-none')).toBeVisible({ timeout: 30_000 });
+    await expect(page.getByTestId('produce-input')).toHaveCount(0);
+    expect(errors).toEqual([]);
+  });
+
   test('the lesson produce step records, is graded and is credited once', async ({ page }) => {
     const errors = await setup(page, { session: 'lessonproduce' });
     await page.addInitScript(FAKE_RECOGNIZER);

@@ -16,23 +16,23 @@
 
 /** Keyed by unit id, e.g. 'A1-4'. Two or three statements per unit. */
 export const CAN_DO_A1: Readonly<Record<string, readonly string[]>> = {
-  // alphabet … biti-questions-negation
+  // alphabet … pronouns-biti
   'A1-1': [
     'I can read any Croatian word aloud, including č, ć, dž, đ, lj and nj.',
-    'I can greet someone and say goodbye at the right level of formality.',
-    'I can say who I am with ja sam, deny it with nisam, and ask a yes/no question with je li or jesi li.',
+    'I can greet someone, say goodbye at the right level of formality, and say who I am with ja sam.',
+    'I can count from nula to deset, give my phone number and address, and name the emergency numbers.',
   ],
-  // gender … plural-irregular
+  // biti-questions-negation … plural-nouns
   'A1-2': [
+    'I can deny it with nisam, and ask a yes/no question with je li or jesi li.',
     'I can tell whether a noun is masculine, feminine or neuter and point at it with ovaj, taj and onaj.',
-    'I can ask who, what, where, when and how much.',
-    'I can make a noun plural, including the irregular ones like ljudi and djeca.',
+    'I can ask who, what, where, when and how much, and make a noun plural.',
   ],
-  // jobs-professions … numbers-11-1000
+  // plural-irregular … numbers-11-1000
   'A1-3': [
-    'I can name a job in its male and female form, such as učitelj and učiteljica.',
-    'I can say where I am from, my nationality and which languages I speak.',
-    'I can count up to a million and give my phone number.',
+    'I can make irregular plurals like ljudi and djeca.',
+    'I can name a job in its male and female form, and say where I am from and which languages I speak.',
+    'I can count up to a million.',
   ],
   // zvati-se … sibilarization
   'A1-4': [

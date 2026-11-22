@@ -46,3 +46,29 @@ export function readWholeUnit(unitIndex: number): void {
   if (!unit) throw new Error(`no course unit with index ${unitIndex}`);
   for (const l of unit.lessons) markLessonComplete(l.id, '2026-09-10');
 }
+
+/**
+ * The first lesson of Unit 1 that asks for writing. The opening lessons (alphabet, sounds)
+ * declare `produce: null` on the spine, so a learner standing at unit 1 is not yet on a
+ * "Write it" day; the day that carries the produce step starts at the first lesson that has one.
+ */
+export function firstWritableLessonId(): string {
+  const unit = readCourseState().units[0]!;
+  const e = unit.lessons.find((l) => {
+    const spine = REAL_SPINE.find((s) => s.id === l.id);
+    return spine?.produce !== null && spine?.produce !== undefined;
+  });
+  if (!e) throw new Error('unit 1 has no lesson with a produce task');
+  return e.id;
+}
+
+/** Stand the learner on Unit 1 with every lesson before the first writable one already read. */
+export function seedFirstWritableDay(): string {
+  seedCourseAt(1);
+  const target = firstWritableLessonId();
+  for (const l of readCourseState().units[0]!.lessons) {
+    if (l.id === target) break;
+    markLessonComplete(l.id, DAY);
+  }
+  return target;
+}

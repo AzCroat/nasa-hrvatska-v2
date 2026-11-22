@@ -23,10 +23,12 @@ export const SPINE = [
       'Know that leaving a hook off can make a different word',
       'Write a word the same way however its last consonant is said',
     ],
+    // Sounds and spelling only: nothing a learner could write as a sentence yet.
+    produce: null,
   },
   {
     id: 'biti-questions-negation',
-    masterOrder: 5,
+    masterOrder: 6,
     prerequisites: ['pronouns-biti'],
     objectives: [
       'Say "I am not" for every person: nisam, nisi, nije, nismo, niste, nisu',
@@ -34,10 +36,14 @@ export const SPINE = [
       'Answer in one word: Jesam. / Nisam. / Jest. / Nije.',
       'Put the negative and the question form in the right place in the sentence',
     ],
+    produce: {
+      task: 'Ask a friend a yes/no question with biti, then answer for yourself, saying what you are and what you are not.',
+      minWords: 8,
+    },
   },
   {
     id: 'plural-irregular',
-    masterOrder: 10,
+    masterOrder: 11,
     prerequisites: ['plural-nouns', 'demonstratives', 'basic-questions'],
     objectives: [
       'Know the plurals that are different words: čovjek → ljudi, dijete → djeca',
@@ -48,7 +54,7 @@ export const SPINE = [
   },
   {
     id: 'jobs-professions',
-    masterOrder: 11,
+    masterOrder: 12,
     prerequisites: ['plural-irregular', 'gender', 'biti-questions-negation'],
     objectives: [
       'Ask and answer "What do you do?": Što si po zanimanju?',
@@ -59,7 +65,7 @@ export const SPINE = [
   },
   {
     id: 'nationalities',
-    masterOrder: 13,
+    masterOrder: 14,
     prerequisites: ['countries-languages', 'jobs-professions'],
     objectives: [
       'Say your nationality as a man or a woman: Hrvat, Hrvatica',

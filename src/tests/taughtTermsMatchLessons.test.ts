@@ -75,6 +75,6 @@ describe('A1 lessons name a grammar word only once it is taught', () => {
       level: 'A1',
       slides: [{ type: 'rule', body: 'iz takes the genitive' }],
     };
-    expect(earlyTerms([probe])).toEqual(['4 pronouns-biti: "genitive" (taught at 78)']);
+    expect(earlyTerms([probe])).toEqual(['5 pronouns-biti: "genitive" (taught at 78)']);
   });
 });

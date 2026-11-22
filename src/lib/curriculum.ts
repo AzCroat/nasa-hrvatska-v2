@@ -46,6 +46,8 @@ export interface CurriculumEntry {
   order: number;
   prerequisites: string[];
   objectives: string[];
+  /** The lesson's own writing task. null = nothing writable yet; absent = the default task. */
+  produce?: { task: string; minWords: number } | null;
   /** Display metadata carried on the spine payload. */
   title?: string;
   subtitle?: string;

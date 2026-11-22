@@ -38,8 +38,12 @@ import { recordCheckAttempt } from '../lib/lessonAttempts';
 import { rearmCourseHandoff } from '../lib/curriculumSlot';
 import { recordMasteryPass, markLessonProduced } from '../lib/lessonRetention';
 import { markLessonComplete } from '../lib/curriculumProgress';
-import { readCourseState } from '../lib/courseStep';
-import { seedCourseAt, readWholeUnit } from './helpers/courseSeed';
+import {
+  seedCourseAt,
+  readWholeUnit,
+  seedFirstWritableDay,
+  firstWritableLessonId,
+} from './helpers/courseSeed';
 import { unitIndexAt } from './helpers/unitIndex';
 import LessonProduceScreen from '../components/learn/LessonProduceScreen';
 
@@ -51,7 +55,7 @@ beforeEach(() => {
 
 /** The lesson the course serves at unit 1, and a "passed" retention record for it. */
 function dayOneLesson(): string {
-  return readCourseState().units[0]!.lessons[0]!.id;
+  return firstWritableLessonId();
 }
 function passLesson(lessonId: string): void {
   markLessonComplete(lessonId, '2026-09-28');
@@ -60,7 +64,7 @@ function passLesson(lessonId: string): void {
 
 describe('the builder — which day shapes carry the produce step', () => {
   it('a lesson day: the production slot IS the lesson’s produce step, and the pool pick is gone', () => {
-    seedCourseAt(1);
+    seedFirstWritableDay();
     const lessonId = dayOneLesson();
     const acts = buildSessionActivities('A1');
     expect(acts[0]?.screen).toBe('animlesson');
@@ -86,7 +90,7 @@ describe('the builder — which day shapes carry the produce step', () => {
   it('the day after a unit is read is a lesson day: it carries the produce step, no pool pick', () => {
     // Owner, 2026-11-19: reading a whole unit opens the next one; the unit test is no longer
     // the day's slot, so the day is a lesson day with the lesson's own produce step.
-    seedCourseAt(1);
+    seedFirstWritableDay();
     readWholeUnit(1);
     const acts = buildSessionActivities('A1');
     expect(acts[0]?.screen).toBe('animlesson');
@@ -95,10 +99,10 @@ describe('the builder — which day shapes carry the produce step', () => {
   });
 
   it('the length contract is untouched: the produce step takes the pool pick’s slot', () => {
-    seedCourseAt(1);
+    seedFirstWritableDay();
     const lessonDay = buildSessionActivities('A1').length;
     localStorage.clear();
-    seedCourseAt(1);
+    seedFirstWritableDay();
     readWholeUnit(1);
     const testDay = buildSessionActivities('A1').length;
     expect(lessonDay).toBe(testDay);
@@ -169,7 +173,7 @@ describe('the handoff', () => {
 
 describe('credit follows the work — a step written on the lesson page settles the slot', () => {
   it('creditProducedSlots marks the slot done only once `produced` is recorded', () => {
-    seedCourseAt(1);
+    seedFirstWritableDay();
     const lessonId = dayOneLesson();
     const session = newSession('A1', buildSessionActivities('A1'), []);
     const produceId = lessonProduceActivityId(lessonId);
@@ -186,7 +190,7 @@ describe('credit follows the work — a step written on the lesson page settles 
   });
 
   it('the hook credits the slot on its own (the effect), like the SRS auto-skip', () => {
-    seedCourseAt(1);
+    seedFirstWritableDay();
     const lessonId = dayOneLesson();
     const { result, rerender } = renderHook(() => useDailySession('A1'));
     const produceId = lessonProduceActivityId(lessonId);
@@ -213,7 +217,7 @@ describe('the standalone screen — four honest states', () => {
   });
 
   it('lesson not read → "finish the lesson first", with the lesson one tap away', () => {
-    seedCourseAt(1);
+    seedFirstWritableDay();
     const lessonId = dayOneLesson();
     requestLessonProduce(lessonId);
     const open = vi.fn();
@@ -228,7 +232,7 @@ describe('the standalone screen — four honest states', () => {
     // Walked in a browser (sweep 225): a corrective day's check failed again, and this
     // slot said "Finish today's lesson first" with a button into a check that is closed
     // until tomorrow — so Today's Session sat on it all day and Keep Learning never came.
-    seedCourseAt(1);
+    seedFirstWritableDay();
     const lessonId = dayOneLesson();
     recordCheckAttempt(lessonId, { score: 1, total: 6, passed: false, kind: 'lesson', missed: [] });
     requestLessonProduce(lessonId);
@@ -242,7 +246,7 @@ describe('the standalone screen — four honest states', () => {
   });
 
   it('a failed check on an EARLIER day does not close the step — it is simply unread', () => {
-    seedCourseAt(1);
+    seedFirstWritableDay();
     const lessonId = dayOneLesson();
     recordCheckAttempt(lessonId, {
       score: 1,
@@ -260,7 +264,7 @@ describe('the standalone screen — four honest states', () => {
   });
 
   it('already written → the score, and the session slot is freed on open', () => {
-    seedCourseAt(1);
+    seedFirstWritableDay();
     const lessonId = dayOneLesson();
     passLesson(lessonId);
     markLessonProduced(lessonId, 82);
@@ -273,7 +277,7 @@ describe('the standalone screen — four honest states', () => {
   });
 
   it('otherwise → the step; a graded submission awards, records and frees the slot', async () => {
-    seedCourseAt(1);
+    seedFirstWritableDay();
     const lessonId = dayOneLesson();
     // The day's session is built BEFORE the lesson is read (that is when it is built
     // in the app); once the lesson is complete the course serves the next one.
@@ -300,7 +304,7 @@ describe('the standalone screen — four honest states', () => {
   });
 
   it('an evaluator refusal names its cause and frees the slot — the learner wrote', async () => {
-    seedCourseAt(1);
+    seedFirstWritableDay();
     const lessonId = dayOneLesson();
     passLesson(lessonId);
     requestLessonProduce(lessonId);
@@ -330,7 +334,7 @@ describe('the standalone screen — four honest states', () => {
   it('inside a LESSON the step does not touch a slot that is not its own', async () => {
     // Started screen is the lesson: the signal is a no-op, and the Home effect
     // credits the produce slot from the record instead.
-    seedCourseAt(1);
+    seedFirstWritableDay();
     const lessonId = dayOneLesson();
     passLesson(lessonId);
     requestLessonProduce(lessonId);
@@ -353,7 +357,7 @@ describe('2b — write or speak', () => {
   it('opens on WRITE, then alternates from the last graded step when the ledger has no verdict', () => {
     expect(lastProducedKind()).toBeNull();
     expect(pickProduceKind('A1')).toBe('write');
-    seedCourseAt(1);
+    seedFirstWritableDay();
     const lessonId = dayOneLesson();
     passLesson(lessonId);
     markLessonProduced(lessonId, 80, '2026-09-27', 'write');
@@ -374,7 +378,7 @@ describe('2b — write or speak', () => {
   });
 
   it('a SPEAK slot carries category speaking, a "Say it" label, and its kind in the handoff', () => {
-    seedCourseAt(1);
+    seedFirstWritableDay();
     const lessonId = dayOneLesson();
     passLesson(lessonId);
     markLessonProduced(lessonId, 80, '2026-09-27', 'write'); // last was write → speak today
@@ -388,7 +392,7 @@ describe('2b — write or speak', () => {
   });
 
   it('a written step settles a SPEAK slot too — the work is production on the concept', () => {
-    seedCourseAt(1);
+    seedFirstWritableDay();
     const lessonId = dayOneLesson();
     const session = newSession(
       'A1',
@@ -410,7 +414,7 @@ describe('2b — write or speak', () => {
   });
 
   it('the spoken step: typed transcript → the speaking coach; awards speaking, records the kind, frees the slot', async () => {
-    seedCourseAt(1);
+    seedFirstWritableDay();
     const lessonId = dayOneLesson();
     passLesson(lessonId);
     requestLessonProduce(lessonId, 'speak');
@@ -445,7 +449,7 @@ describe('2b — write or speak', () => {
   });
 
   it('a coach refusal on the spoken step names its cause and frees the slot', async () => {
-    seedCourseAt(1);
+    seedFirstWritableDay();
     const lessonId = dayOneLesson();
     passLesson(lessonId);
     requestLessonProduce(lessonId, 'speak');

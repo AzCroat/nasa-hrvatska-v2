@@ -25,9 +25,9 @@ const units = buildCourseUnits(CURRICULUM as unknown as CurriculumEntry[], COURS
 
 /** [first lesson id, last lesson id] per unit — re-frozen on 2026-11-12 for the Croaticum-baseline restructure. */
 const BOUNDARIES: Readonly<Record<string, readonly [string, string]>> = {
-  'A1-1': ['alphabet', 'biti-questions-negation'],
-  'A1-2': ['gender', 'plural-irregular'],
-  'A1-3': ['jobs-professions', 'numbers-11-1000'],
+  'A1-1': ['alphabet', 'pronouns-biti'],
+  'A1-2': ['biti-questions-negation', 'plural-nouns'],
+  'A1-3': ['plural-irregular', 'numbers-11-1000'],
   'A1-4': ['zvati-se', 'sibilarization'],
   'A1-5': ['fleeting-a', 'present-tense-verbs'],
   'A1-6': ['negation', 'accusative-animate'],

@@ -32,7 +32,7 @@ import { isUnlocked, cefrRank } from '../lib/cefr';
 import { readCompletedLessons } from '../lib/curriculumProgress';
 import { readCourseState } from '../lib/courseStep';
 import { LESSON_TAUGHT_CATEGORY } from '../lib/teachPractice';
-import { seedCourseAt, readWholeUnit } from './helpers/courseSeed';
+import { seedCourseAt, readWholeUnit, seedFirstWritableDay } from './helpers/courseSeed';
 import { unitIndexAt } from './helpers/unitIndex';
 
 const RUNS = 40;
@@ -97,7 +97,8 @@ describe('increment 0 — how much of the session is on material the course has 
   function seed(pos: number, day: Day): void {
     localStorage.clear();
     sessionStorage.clear();
-    seedCourseAt(pos);
+    if (pos === 1) seedFirstWritableDay();
+    else seedCourseAt(pos);
     if (day === 'unit-done') readWholeUnit(pos);
   }
 

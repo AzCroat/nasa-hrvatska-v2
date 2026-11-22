@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import SearchModal from './SearchModal';
 import { lsGet, lsSet } from '../../lib/safeStorage';
 import { localDateStr } from '../../lib/dateUtils';
@@ -280,6 +280,22 @@ export default function TabBar({
   badges?: Record<string, number>;
 }) {
   const [showSearch, setShowSearch] = useState(false);
+  // Publish the bar's REAL height (0 when the desktop sidebar hides it) so anything fixed
+  // above it, like the lesson's Prev/Next bar, sits exactly on top instead of under it.
+  const navRef = useRef<HTMLElement>(null);
+  useEffect(() => {
+    const el = navRef.current;
+    if (!el || typeof ResizeObserver === 'undefined') return;
+    const root = document.documentElement;
+    const publish = () => root.style.setProperty('--tabbar-h', `${el.offsetHeight}px`);
+    publish();
+    const ro = new ResizeObserver(publish);
+    ro.observe(el);
+    return () => {
+      ro.disconnect();
+      root.style.removeProperty('--tabbar-h');
+    };
+  }, []);
 
   const croatiaHasNew = (() => {
     const lastVisit = lsGet('nh_croatia_last_visit');
@@ -333,7 +349,7 @@ export default function TabBar({
           onClose={() => setShowSearch(false)}
         />
       )}
-      <nav className="nav-bar" role="navigation" aria-label="Main navigation">
+      <nav ref={navRef} className="nav-bar" role="navigation" aria-label="Main navigation">
         {/* Sliding indicator — color follows active tab */}
         <div
           style={{

@@ -24,6 +24,7 @@
 // through — course progress must not depend on a live AI service the learner does
 // not control. A later successful grade clears it. The learner is told which it was,
 // in the app's own voice, via `aiFailure`.
+import { learnerSafeObjective } from '../../lib/produceBrief';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { H } from '../../data';
 import { _aiPost } from '../../lib/aiPost';
@@ -291,7 +292,10 @@ export default function UnitProductionScreen({ goBack, award }: Props) {
           Show that you can:
         </div>
         <ul style={{ margin: 0, paddingLeft: 18 }}>
-          {(canDoFor(unit.id).length ? canDoFor(unit.id) : brief.objectives).map((o) => (
+          {(canDoFor(unit.id).length
+            ? canDoFor(unit.id)
+            : brief.objectives.map(learnerSafeObjective).filter(Boolean)
+          ).map((o) => (
             <li
               key={o}
               data-testid="unit-production-cando"
