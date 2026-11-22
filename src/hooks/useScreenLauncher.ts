@@ -211,6 +211,9 @@ export function useScreenLauncher({
   } | null>(null);
   const returnContextRef = useRef<{ tab: string; screen?: string } | null>(null);
 
+  // A tab change means the exercise was left (only goBack cleared this): drop the old return place.
+  useEffect(() => void (returnContextRef.current = null), [tab]);
+
   useEffect(() => {
     const dwell = lpDwellRef.current;
     if (dwell && currentScreen !== dwell.screen) {
