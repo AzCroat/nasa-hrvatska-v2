@@ -60,6 +60,7 @@ import { MINUTES_PER_ACTIVITY } from './dailySessionStore';
 import { selectRetentionSlot } from './retentionSlot';
 import { buildConceptMap, type ConceptEntry, type ConceptMap } from './conceptMap';
 import { readRetention } from './lessonRetention';
+import { drilledSince } from './drillStamps';
 import { readCurriculumSpine } from './curriculumProgress';
 import {
   readCourseState,
@@ -284,8 +285,16 @@ export function gatherKeepCandidates(
 
   // ── 3. Shaky and due concepts; measured weak categories that are taught ────
   guarded(() => {
-    for (const e of entries.filter((x) => x.state === 'shaky')) drillFor(e, 3);
-    for (const e of entries.filter((x) => x.state === 'due')) drillFor(e, 3);
+    // A passed drill counts (owner, 2026-11-19), here as in tier 4: a concept whose drill was
+    // passed since its last check is not re-served; only its real re-check clears the state.
+    for (const state of ['shaky', 'due'] as const) {
+      for (const e of entries.filter((x) => x.state === state)) {
+        const cat = e.practiceCategory ?? LESSON_TAUGHT_CATEGORY[e.lessonId];
+        const since = readRetention().lessons[e.lessonId]?.last.at;
+        if (cat && since && drilledSince(cat, since)) continue;
+        drillFor(e, 3);
+      }
+    }
   });
   guarded(() => {
     const ahead = readCourseAhead();
