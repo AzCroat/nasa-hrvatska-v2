@@ -21,7 +21,6 @@ import { buildSessionActivities } from '../hooks/useDailySession';
 import { curriculumPracticeActivity, rearmCourseHandoff } from '../lib/curriculumSlot';
 import { recordCheckAttempt } from '../lib/lessonAttempts';
 import { markLessonComplete } from '../lib/curriculumProgress';
-import { readCourseState } from '../lib/courseStep';
 import {
   isCorrectiveLesson,
   latestLessonAttempt,
@@ -29,7 +28,7 @@ import {
   CORRECTIVE_LESSON_KEY,
   requestCorrectiveLesson,
 } from '../lib/correctiveDay';
-import { seedCourseAt } from './helpers/courseSeed';
+import { seedFirstWritableDay, firstWritableLessonId } from './helpers/courseSeed';
 import AnimatedLesson from '../components/learn/AnimatedLesson';
 
 beforeEach(() => {
@@ -59,8 +58,8 @@ const pass = (lessonId: string, at = '2026-09-28') =>
 
 describe('what makes a lesson corrective', () => {
   it('a failed real check on an incomplete lesson; not a test-out, not after a pass', () => {
-    seedCourseAt(1);
-    const lessonId = readCourseState().units[0]!.lessons[0]!.id;
+    seedFirstWritableDay();
+    const lessonId = firstWritableLessonId();
     expect(isCorrectiveLesson(lessonId)).toBe(false);
     recordCheckAttempt(lessonId, {
       score: 2,
@@ -94,8 +93,8 @@ describe('what makes a lesson corrective', () => {
 
 describe('the session on a corrective day', () => {
   it('names the sitting, states why, writes the handoff, and keeps the day a lesson day', () => {
-    seedCourseAt(1);
-    const lessonId = readCourseState().units[0]!.lessons[0]!.id;
+    seedFirstWritableDay();
+    const lessonId = firstWritableLessonId();
     const before = buildSessionActivities('A1');
     expect(before[0]!.label.startsWith('Again: ')).toBe(false);
     sessionStorage.clear();
@@ -133,8 +132,8 @@ describe('the session on a corrective day', () => {
   });
 
   it('rearmCourseHandoff re-arms the corrective handoff for the day’s lesson id, and only then', () => {
-    seedCourseAt(1);
-    const lessonId = readCourseState().units[0]!.lessons[0]!.id;
+    seedFirstWritableDay();
+    const lessonId = firstWritableLessonId();
     rearmCourseHandoff(`curriculum_${lessonId}`);
     expect(sessionStorage.getItem(CORRECTIVE_LESSON_KEY)).toBeNull();
     fail(lessonId);
