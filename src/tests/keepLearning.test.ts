@@ -41,6 +41,7 @@ import { LESSON_TAUGHT_CATEGORY, recordScreenPractised } from '../lib/teachPract
 import { CATEGORY_SCREEN_MAP, CATEGORY_EASIER_SCREEN, SCREEN_CEFR } from '../lib/categoryRoutes';
 import { isUnlocked } from '../lib/cefr';
 import { localDateStr } from '../lib/dateUtils';
+import { rateCategorySession } from '../lib/adaptive';
 import { readTaughtTerms } from '../lib/taughtTerms';
 import { seedCourseAt, REAL_SPINE } from './helpers/courseSeed';
 
@@ -481,5 +482,40 @@ describe('the progress line counts what the flow draws from', () => {
   it('says everything is proven when nothing is taught and unproven', () => {
     seedCourseAt(1);
     expect(keepProgress().line).toBe('Everything taught so far is proven · Unit 1');
+  });
+});
+
+describe('a drill the learner already aces does not come back every day (owner, 2026-11-22)', () => {
+  // Present-tense conjugation kept appearing daily at 100%: the drill cannot clear a shaky or
+  // due concept (only Lesson Review / the re-check can), so it was served again every day.
+  const LESSON = 'present-tense-verbs';
+  const category = LESSON_TAUGHT_CATEGORY[LESSON]!;
+  const served = () =>
+    gatherKeepCandidates('A1', { activities: [] }, 1, deps()).some(
+      (x) => x.activity.id === `keep_drill_${LESSON}`,
+    );
+
+  it('is served while the skill is unmeasured or below the pass mark', () => {
+    seedCourseAt(1);
+    makeShaky(LESSON);
+    expect(served()).toBe(true); // unmeasured
+    for (let i = 0; i < 4; i++) rateCategorySession(category, 0.3);
+    expect(served()).toBe(true); // measured weak
+  });
+
+  it('is not served once the measured skill is at or above the pass mark — shaky or due', () => {
+    seedCourseAt(1);
+    makeShaky(LESSON);
+    for (let i = 0; i < 6; i++) rateCategorySession(category, 1);
+    expect(served()).toBe(false);
+  });
+
+  it('a due re-check on a proven skill is still served by Lesson Review, not as a drill', () => {
+    seedCourseAt(1);
+    readAndPass(LESSON, '2026-09-01'); // passed long ago: its re-check is due
+    for (let i = 0; i < 6; i++) rateCategorySession(category, 1);
+    expect(served()).toBe(false);
+    const cands = gatherKeepCandidates('A1', { activities: [] }, 1, deps());
+    expect(cands.some((c) => c.activity.screen === 'lessonreview')).toBe(true);
   });
 });

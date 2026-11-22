@@ -230,10 +230,20 @@ export function gatherKeepCandidates(
     }
   };
   const recurring = (name: string) => `keep_${name}_${block}`;
-  const drillFor = (e: ConceptEntry, tier: KeepTier, reason?: string) => {
+  // `unlessProven`: a shaky or due concept is cleared only by Lesson Review / the re-check
+  // (tier 2), never by this drill, so a drill for it that the learner already aces would
+  // return every day for ever. Serve it only while the app's own measurement of the skill is
+  // missing or below the pass mark; at or above it the drill adds nothing.
+  const drillFor = (e: ConceptEntry, tier: KeepTier, reason?: string, unlessProven = false) => {
     const category = (e.practiceCategory ?? LESSON_TAUGHT_CATEGORY[e.lessonId]) as
       SkillCategory | undefined;
     if (!category) return false;
+    if (unlessProven) {
+      const status = getCategoryStatus(category);
+      if (status.seen && status.accuracy !== null && status.accuracy >= LESSON_PASS_THRESHOLD) {
+        return false;
+      }
+    }
     const screen = routeCategory(category, level, blockScreens);
     if (!screen) return false;
     add(
@@ -284,8 +294,8 @@ export function gatherKeepCandidates(
 
   // ── 3. Shaky and due concepts; measured weak categories that are taught ────
   guarded(() => {
-    for (const e of entries.filter((x) => x.state === 'shaky')) drillFor(e, 3);
-    for (const e of entries.filter((x) => x.state === 'due')) drillFor(e, 3);
+    for (const e of entries.filter((x) => x.state === 'shaky')) drillFor(e, 3, undefined, true);
+    for (const e of entries.filter((x) => x.state === 'due')) drillFor(e, 3, undefined, true);
   });
   guarded(() => {
     const ahead = readCourseAhead();
