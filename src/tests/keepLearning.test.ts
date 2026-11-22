@@ -41,6 +41,7 @@ import { LESSON_TAUGHT_CATEGORY, recordScreenPractised } from '../lib/teachPract
 import { CATEGORY_SCREEN_MAP, CATEGORY_EASIER_SCREEN, SCREEN_CEFR } from '../lib/categoryRoutes';
 import { isUnlocked } from '../lib/cefr';
 import { localDateStr } from '../lib/dateUtils';
+import { stampDrilled, drilledOn } from '../lib/drillStamps';
 import { readTaughtTerms } from '../lib/taughtTerms';
 import { seedCourseAt, REAL_SPINE } from './helpers/courseSeed';
 
@@ -481,5 +482,58 @@ describe('the progress line counts what the flow draws from', () => {
   it('says everything is proven when nothing is taught and unproven', () => {
     seedCourseAt(1);
     expect(keepProgress().line).toBe('Everything taught so far is proven · Unit 1');
+  });
+});
+
+describe('a passed drill counts in tier 3 too (owner, 2026-11-19 / 2026-11-22)', () => {
+  // Present-tense drill scored 100% twenty times and still came back daily: the drill stamps its
+  // category as passed, but the shaky/due tier never read the stamp. Only the real re-check clears
+  // the state; a passed drill must stop the same drill being served until then.
+  const LESSON = 'present-tense-verbs';
+  const category = LESSON_TAUGHT_CATEGORY[LESSON]!;
+  const served = () =>
+    gatherKeepCandidates('A1', { activities: [] }, 1, deps()).some(
+      (x) => x.activity.id === `keep_drill_${LESSON}`,
+    );
+  const yesterday = () => {
+    const d = new Date();
+    d.setDate(d.getDate() - 1);
+    return localDateStr(d);
+  };
+
+  it('finishing the present-tense drill is logged: its category is stamped passed today', () => {
+    expect(drilledOn(category)).toBeNull();
+    recordScreenPractised('present-tense');
+    expect(drilledOn(category)).toBe(TODAY);
+  });
+
+  it('a shaky concept is served until its drill is passed, then not again', () => {
+    seedCourseAt(1);
+    makeShaky(LESSON);
+    expect(served()).toBe(true);
+    recordScreenPractised('present-tense');
+    expect(served()).toBe(false);
+  });
+
+  it('a due re-check is the same: drilled since the last check, not re-served', () => {
+    seedCourseAt(1);
+    readAndPass(LESSON, '2026-09-01'); // re-check long overdue
+    expect(served()).toBe(true);
+    stampDrilled([category]);
+    expect(served()).toBe(false);
+  });
+
+  it('a drill passed BEFORE the last check does not suppress it (the stamp is per check)', () => {
+    seedCourseAt(1);
+    stampDrilled([category], yesterday());
+    makeShaky(LESSON); // its re-check went badly today
+    expect(served()).toBe(true);
+  });
+
+  it('a failed check (tier 1) is never suppressed by a passed drill', () => {
+    seedCourseAt(1);
+    failToday(LESSON);
+    stampDrilled([category]);
+    expect(served()).toBe(true);
   });
 });
