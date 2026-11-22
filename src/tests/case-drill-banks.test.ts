@@ -7,7 +7,6 @@
  */
 import { describe, it, expect } from 'vitest';
 import { DATA as NOM } from '../components/practice/NominativeDrill';
-import { DATA as INSTR } from '../components/practice/InstrumentalDrill';
 import { DATA as DAT } from '../components/practice/DativeDrill';
 
 interface DrillItem {
@@ -21,7 +20,6 @@ interface DrillItem {
 
 const BANKS: Array<[string, DrillItem[]]> = [
   ['NominativeDrill', NOM],
-  ['InstrumentalDrill', INSTR],
   ['DativeDrill', DAT],
 ];
 

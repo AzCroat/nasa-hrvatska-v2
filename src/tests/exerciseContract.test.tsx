@@ -205,11 +205,6 @@ async function completeDrill(awardMock: ReturnType<typeof vi.fn>, completionOver
 // AspectDrillScreen has been moved to its own isolated file: aspectDrillContract.test.tsx
 const FULL_CONTRACT_DRILLS = [
   // ─── Phase 1: Grammar drills (original 13) ───────────────────────────────────
-  {
-    name: 'InstrumentalDrill',
-    path: '../components/practice/InstrumentalDrill',
-    vsTag: 'instrumental',
-  },
   { name: 'PassiveDrill', path: '../components/practice/PassiveDrill', vsTag: 'passive' },
   { name: 'CliticDrill', path: '../components/practice/CliticDrill', vsTag: 'clitic' },
   { name: 'ImperativeDrill', path: '../components/practice/ImperativeDrill', vsTag: 'imperative' },

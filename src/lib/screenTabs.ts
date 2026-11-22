@@ -110,7 +110,6 @@ export const SCREEN_TAB: Record<string, string> = {
   clitic: 'practice',
   numcases: 'practice',
   passive: 'practice',
-  instrumental: 'practice',
   dative: 'practice',
   participles: 'practice',
   subordination: 'practice',

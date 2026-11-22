@@ -30,6 +30,7 @@
  * NOT CREDIT. Every interaction here is driven and localStorage is asserted
  * byte-identical afterward.
  */
+import { BOOK_QUIZ_LESSONS, bookQuizFor } from '../lib/bookQuizzes';
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { readFileSync, readdirSync } from 'node:fs';
 import { render, screen, fireEvent, cleanup } from '@testing-library/react';
@@ -120,6 +121,8 @@ describe('a drill can name the lesson that taught it', () => {
   it('every lesson it names genuinely teaches a category routed to that screen', () => {
     for (const id of engineDrillIds()) {
       for (const lesson of lessonsTeachingScreen(id)) {
+        // A book quiz names its lesson but is not that lesson's coupled practice (lib/bookQuizzes).
+        if (bookQuizFor(lesson)?.screen === id) continue;
         const cat = LESSON_TAUGHT_CATEGORY[lesson]!;
         expect(cat).toBeTruthy();
         expect([CATEGORY_SCREEN_MAP[cat], CATEGORY_EASIER_SCREEN[cat]]).toContain(id);
@@ -146,7 +149,10 @@ describe('both routes are taken, not just the primary one', () => {
     // learner below the primary route's CEFR gate is sent HERE by the session
     // builder, so these are the two that most need a way back to the teaching.
     const easierOnly = engineDrillIds().filter(
-      (id) => mirrorOnly(id).length === 0 && lessonsTeachingScreen(id).length > 0,
+      (id) =>
+        mirrorOnly(id).length === 0 &&
+        lessonsTeachingScreen(id).length > 0 &&
+        !BOOK_QUIZ_LESSONS.some((l) => bookQuizFor(l)?.screen === id), // a quiz is not an easier route
     );
     expect(easierOnly.sort()).toEqual(['isklonidbab2', 'objekt']);
   });

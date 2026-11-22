@@ -115,11 +115,11 @@ describe('the session on a corrective day', () => {
 
   it('the coupled drill prefers the EASIER route on a corrective day, the mapped one otherwise', () => {
     const base = {
-      lessonId: 'present-tense-verbs', // taught category: present-tense
+      lessonId: 'present-tense-verbs', // taught category: a1-present-tense-verbs
       userCefr: 'A1',
       used: new Set<string>(),
-      screenMap: { 'present-tense': 'hard' } as never,
-      easierMap: { 'present-tense': 'easy' } as never,
+      screenMap: { 'a1-present-tense-verbs': 'hard' } as never,
+      easierMap: { 'a1-present-tense-verbs': 'easy' } as never,
       screenCefr: { hard: 'A1', easy: 'A1' },
       isUnlocked: () => true,
     };

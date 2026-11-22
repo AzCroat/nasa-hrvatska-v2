@@ -48,12 +48,12 @@ const STRUCTURAL_GROUPS = ['case', 'verb', 'syntax'] as const;
  * assertion a reader can re-run rather than a sentence in a commit message.
  * Never regenerate it from the production set; that would make it vacuous.
  */
-const HAND_LISTED_21: readonly SkillCategory[] = [
+// 'instrumental' left this list on 2026-11-22: the old drill was replaced by the book-based a1-instrumental-intro.
+const HAND_LISTED_20: readonly SkillCategory[] = [
   'nominative',
   'genitive',
   'accusative',
   'dative-locative',
-  'instrumental',
   'vocative',
   'present-tense',
   'past-tense',
@@ -73,8 +73,8 @@ const HAND_LISTED_21: readonly SkillCategory[] = [
 ];
 
 describe('the derivation loses nothing', () => {
-  it('every one of the 21 hand-listed categories survives', () => {
-    const dropped = HAND_LISTED_21.filter((c) => !GRAMMAR_STRUCTURE_CATEGORIES.has(c));
+  it('every one of the 20 hand-listed categories survives', () => {
+    const dropped = HAND_LISTED_20.filter((c) => !GRAMMAR_STRUCTURE_CATEGORIES.has(c));
     expect(
       dropped,
       `deriving from SKILL_GROUP dropped ${dropped.join(', ')}. The derivation was adopted on ` +
@@ -86,7 +86,7 @@ describe('the derivation loses nothing', () => {
   it('and each of them is genuinely case, verb or syntax in SKILL_GROUP', () => {
     // The assertion above would also pass if the filter had quietly widened to
     // include everything. This one says WHY each survives.
-    for (const c of HAND_LISTED_21) {
+    for (const c of HAND_LISTED_20) {
       expect(STRUCTURAL_GROUPS, `${c} is grouped '${SKILL_GROUP[c]}'`).toContain(SKILL_GROUP[c]);
     }
   });
@@ -140,7 +140,7 @@ describe('the derivation is exactly the structural families', () => {
     // assertion above vacuous and would silently turn P2.7 off; one that
     // returned everything would make the whole distinction meaningless.
     const total = Object.keys(SKILL_GROUP).length;
-    expect(GRAMMAR_STRUCTURE_CATEGORIES.size).toBeGreaterThan(HAND_LISTED_21.length);
+    expect(GRAMMAR_STRUCTURE_CATEGORIES.size).toBeGreaterThan(HAND_LISTED_20.length);
     expect(GRAMMAR_STRUCTURE_CATEGORIES.size).toBeLessThan(total);
   });
 });

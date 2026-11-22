@@ -501,9 +501,9 @@ describe('a passed drill counts in tier 3 too (owner, 2026-11-19 / 2026-11-22)',
     return localDateStr(d);
   };
 
-  it('finishing the present-tense drill is logged: its category is stamped passed today', () => {
+  it('finishing the present-tense drill is logged: its own category is stamped passed today', () => {
     expect(drilledOn(category)).toBeNull();
-    recordScreenPractised('present-tense');
+    recordScreenPractised('a1presenttenseverbs');
     expect(drilledOn(category)).toBe(TODAY);
   });
 
@@ -511,7 +511,7 @@ describe('a passed drill counts in tier 3 too (owner, 2026-11-19 / 2026-11-22)',
     seedCourseAt(1);
     makeShaky(LESSON);
     expect(served()).toBe(true);
-    recordScreenPractised('present-tense');
+    recordScreenPractised('a1presenttenseverbs');
     expect(served()).toBe(false);
   });
 
@@ -535,5 +535,43 @@ describe('a passed drill counts in tier 3 too (owner, 2026-11-19 / 2026-11-22)',
     failToday(LESSON);
     stampDrilled([category]);
     expect(served()).toBe(true);
+  });
+});
+
+describe('a lesson with a book quiz alternates its interactive practice and the quiz (owner, 2026-11-22)', () => {
+  // Ten A1 lessons practise on an interactive screen and also have a quiz from Book 1. Keep
+  // Learning offers the screen first, then the quiz once the screen has been passed, then
+  // nothing (shaky/due) until the next check. Only taught lessons are ever listed.
+  const LESSON = 'gender';
+  const SCREEN_CAT = LESSON_TAUGHT_CATEGORY[LESSON]!;
+  const offered = () =>
+    gatherKeepCandidates('A1', { activities: [] }, 1, deps()).find(
+      (x) => x.activity.id === `keep_drill_${LESSON}`,
+    )?.activity;
+
+  it('shaky: the interactive screen first, then the quiz, then nothing', () => {
+    seedCourseAt(1);
+    makeShaky(LESSON);
+    expect(offered()?.category).toBe(SCREEN_CAT);
+    stampDrilled([SCREEN_CAT]);
+    expect(offered()?.category).toBe('a1-gender');
+    expect(offered()?.screen).toBe('a1gender');
+    stampDrilled(['a1-gender']);
+    expect(offered()).toBeUndefined();
+  });
+
+  it('a lesson the learner has not taught is never offered, quiz or screen', () => {
+    seedCourseAt(1);
+    expect(offered()).toBeUndefined();
+  });
+
+  it('after a failed check the screen is served, then the quiz, and the screen again once both are done', () => {
+    seedCourseAt(1);
+    failToday(LESSON);
+    expect(offered()?.category).toBe(SCREEN_CAT);
+    stampDrilled([SCREEN_CAT]);
+    expect(offered()?.category).toBe('a1-gender');
+    stampDrilled(['a1-gender']);
+    expect(offered()?.category).toBe(SCREEN_CAT); // a failed check is never suppressed (tier 1)
   });
 });

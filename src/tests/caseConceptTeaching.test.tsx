@@ -29,7 +29,6 @@ const DRILL_TO_CONCEPT = {
   'AccusativeDrill.tsx': 'accusative',
   'DativeDrill.tsx': 'dative',
   'LocativeDrill.tsx': 'locative',
-  'InstrumentalDrill.tsx': 'instrumental',
   'NominativeDrill.tsx': 'nominative',
   'CliticDrill.tsx': 'clitics',
 };

@@ -238,16 +238,6 @@ export function buildExercises({
       action: go('neggen'),
     },
     {
-      id: 'instrumental',
-      label: 'Instrumental Case',
-      icon: '🔧',
-      desc: 'With s/sa, means, baviti se, postati',
-      category: 'grammar',
-      cefr: 'A2',
-      duration: '~8 min',
-      action: go('instrumental'),
-    },
-    {
       id: 'dative',
       label: 'Dative Case',
       icon: '🤝',

@@ -423,7 +423,7 @@ describe('teaching leads straight into doing', () => {
     markLessonComplete('alphabet', '2026-08-28'); // advance to the verb lesson
     const acts = buildSessionActivities('A1');
     expect(acts[0]?.id).toBe('curriculum_present-tense-verbs');
-    expect(acts[1]?.id).toBe('curriculum_practice_present-tense');
+    expect(acts[1]?.id).toBe('curriculum_practice_a1-present-tense-verbs');
     expect(acts[1]?.reason).toContain('lesson taught');
   });
 

@@ -46,7 +46,6 @@ const CATEGORY_LABEL: Partial<Record<SkillCategory, string>> = {
   genitive: 'the genitive',
   accusative: 'the accusative',
   'dative-locative': 'dative and locative',
-  instrumental: 'the instrumental',
   vocative: 'the vocative',
   nominative: 'the nominative',
   'present-tense': 'the present tense',

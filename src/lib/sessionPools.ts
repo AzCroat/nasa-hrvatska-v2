@@ -335,13 +335,6 @@ export const CEFR_EXERCISE_POOL: CefrPoolEntry[] = [
   // B1 — case drills surfaced into the pool (previously routable but never in the
   // daily session). Instrumental/dative also gave the adaptive picker only the
   // generic cloze screen; these add dedicated at-level practice.
-  {
-    id: 'instrumental',
-    label: 'Instrumental Case',
-    screen: 'instrumental',
-    cefr: 'A1',
-    category: 'instrumental',
-  },
   { id: 'dative', label: 'Dative Case', screen: 'dative', cefr: 'B1', category: 'dative-locative' },
   // C1 — idiomatic, discourse-level and register/style competence.
   { id: 'idiomdrill', label: 'Idioms', screen: 'idiomdrill', cefr: 'C1', category: 'idioms' },

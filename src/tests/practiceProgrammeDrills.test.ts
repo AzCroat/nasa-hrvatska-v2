@@ -32,6 +32,7 @@
 // serves past-tense and conditional), which is exactly why those couplings once
 // failed to clear.
 
+import { BOOK_QUIZ_LESSONS, bookQuizFor } from '../lib/bookQuizzes';
 import fs from 'node:fs';
 import path from 'node:path';
 import { describe, it, expect } from 'vitest';
@@ -538,6 +539,12 @@ describe('every wrapper completes under the key it is routed at', () => {
 
     // And the pool has to know the screen under that same name, or the P3 fill
     // can never serve it and categoryForScreen credits nothing.
+    // EXCEPT a book quiz (lib/bookQuizzes): it sits beside an interactive screen, is offered by
+    // Keep Learning, and must stay OUT of the pool, because the pool is served without knowing the
+    // lesson and could show the quiz before the lesson is taught. Its completion still clears via
+    // the route (categoriesRoutedTo), which a1BookLessonDrills.test.ts pins.
+    const isBookQuiz = BOOK_QUIZ_LESSONS.some((l) => bookQuizFor(l)?.screen === id);
+    if (isBookQuiz) return;
     expect(
       CEFR_EXERCISE_POOL.some((e) => e.screen === id),
       `"${id}" is not a screen in CEFR_EXERCISE_POOL`,
