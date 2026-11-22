@@ -10,14 +10,12 @@
  */
 import { describe, it, expect } from 'vitest';
 import { KOLOKACIJE_DRILL_DATA } from '../components/practice/KolokacijeDrill';
-import { POVRATNI_DRILL_DATA } from '../components/practice/PovratniDrill';
 import { SKLONIDBA_DRILL_DATA } from '../components/practice/SklonidbaImenaDrill';
 import { PRIJEDLOZNI_DRILL_DATA } from '../components/practice/PrijedlozniIzraziDrill';
 import { EMFAZA_DRILL_DATA } from '../components/practice/EmfazaDrill';
 import { VIDNIJANSE_DRILL_DATA } from '../components/practice/VidNijanseDrill';
 import { POGODBENE_DRILL_DATA } from '../components/practice/PogodbeneDrill';
 import { ODREDJENOST_DRILL_DATA } from '../components/practice/OdredjenostDrill';
-import { DATUMI_DRILL_DATA } from '../components/practice/DatumiDrill';
 import { SKLONIDBA_BROJEVA_DRILL_DATA } from '../components/practice/SklonidbaBrojevaDrill';
 import { NAMJERA_DRILL_DATA } from '../components/practice/NamjeraDrill';
 import { SROCNOST_DRILL_DATA } from '../components/practice/SrocnostDrill';
@@ -52,13 +50,6 @@ const DRILLS = [
     tier: 5,
   },
   {
-    id: 'povratni',
-    data: POVRATNI_DRILL_DATA,
-    modes: ['oblik', 'vrste', 'znacenje'],
-    category: 'register',
-    tier: 4,
-  },
-  {
     id: 'sklonidbaimena',
     data: SKLONIDBA_DRILL_DATA,
     modes: ['osobna', 'titule', 'zemljopisna'],
@@ -91,13 +82,6 @@ const DRILLS = [
     data: ODREDJENOST_DRILL_DATA,
     modes: ['oblik', 'padez', 'znacenje'],
     category: 'nominative',
-    tier: 4,
-  },
-  {
-    id: 'datumi',
-    data: DATUMI_DRILL_DATA,
-    modes: ['datum', 'redni', 'vrijeme'],
-    category: 'numerals',
     tier: 4,
   },
   {

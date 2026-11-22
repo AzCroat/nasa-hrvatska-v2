@@ -31,7 +31,7 @@ describe('the taught queue', () => {
 
   it('queues the category a lesson taught', () => {
     recordLessonTaught('present-tense-verbs');
-    expect(pendingTaughtCategories()).toEqual(['present-tense']);
+    expect(pendingTaughtCategories()).toEqual(['a1-present-tense-verbs']);
   });
 
   // A hand-named unmapped lesson used to be asserted here as well —
@@ -83,7 +83,7 @@ describe('the taught queue', () => {
 
   it('practicing the category clears it', () => {
     recordLessonTaught('present-tense-verbs');
-    recordCategoryPractised('present-tense');
+    recordCategoryPractised('a1-present-tense-verbs');
     expect(pendingTaughtCategories()).toEqual([]);
   });
 
@@ -91,14 +91,14 @@ describe('the taught queue', () => {
     const t0 = 1_700_000_000_000;
     recordLessonTaught('present-tense-verbs', t0);
     recordLessonTaught('present-tense-verbs', t0 + DAY);
-    expect(pendingTaughtCategories(t0 + DAY)).toEqual(['present-tense']);
+    expect(pendingTaughtCategories(t0 + DAY)).toEqual(['a1-present-tense-verbs']);
   });
 
   it('returns oldest first so nothing waits behind a newer lesson', () => {
     const t0 = 1_700_000_000_000;
     recordLessonTaught('present-tense-verbs', t0);
     recordLessonTaught('genitive-deep', t0 + DAY);
-    expect(pendingTaughtCategories(t0 + 2 * DAY)).toEqual(['present-tense', 'genitive']);
+    expect(pendingTaughtCategories(t0 + 2 * DAY)).toEqual(['a1-present-tense-verbs', 'genitive']);
   });
 
   it('entries expire — a lesson finished long ago is no longer a pending intention', () => {
@@ -136,16 +136,16 @@ describe('taughtAgeDays — the age the reason line needs', () => {
   it('is 0 the day the lesson was finished', () => {
     const now = Date.now();
     recordLessonTaught('genitive-intro', now);
-    expect(taughtAgeDays('genitive', now)).toBe(0);
+    expect(taughtAgeDays('a1-genitive-intro', now)).toBe(0);
   });
 
   it('counts whole days since the lesson, not since midnight', () => {
     const now = Date.now();
     recordLessonTaught('genitive-intro', now - 9 * DAY);
-    expect(taughtAgeDays('genitive', now)).toBe(9);
+    expect(taughtAgeDays('a1-genitive-intro', now)).toBe(9);
     // ...and a part-day does not round up: 9 days and 23 hours is still 9.
     recordLessonTaught('genitive-intro', now - (9 * DAY + 23 * 3600000));
-    expect(taughtAgeDays('genitive', now)).toBe(9);
+    expect(taughtAgeDays('a1-genitive-intro', now)).toBe(9);
   });
 
   it('is null for a category nothing queued', () => {
@@ -192,7 +192,7 @@ describe('the lesson map is sane', () => {
   });
 
   it('covers the A1 verb lesson this coupling was built for', () => {
-    expect(LESSON_TAUGHT_CATEGORY['present-tense-verbs']).toBe('present-tense');
+    expect(LESSON_TAUGHT_CATEGORY['present-tense-verbs']).toBe('a1-present-tense-verbs');
   });
 });
 
@@ -217,7 +217,7 @@ describe('the session slot', () => {
     // would promise practice it never delivers.
     recordLessonTaught('present-tense-verbs');
     const act = resolveTaughtPracticeActivity('A1', new Set());
-    expect(act?.screen).toBe('presentdrill');
+    expect(act?.screen).toBe('a1presenttenseverbs');
   });
 
   it('never returns a drill above the learner CEFR', () => {
@@ -237,6 +237,6 @@ describe('the session slot', () => {
     recordLessonTaught('wishes-regrets', now - 1000); // B2 drill — locked at A1 (clitics now has an A1 easier route, objekt)
     recordLessonTaught('cases', now); // → nominative → nomdrill (A1)
     const act = resolveTaughtPracticeActivity('A1', new Set());
-    expect(act?.screen).toBe('nomdrill');
+    expect(act?.screen).toBe('a1cases');
   });
 });

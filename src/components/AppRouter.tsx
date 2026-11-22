@@ -194,7 +194,6 @@ const AspectDrillScreen = lazyWithReload(() => import('./practice/AspectDrillScr
 const TranslateDrillsScreen = lazyWithReload(() => import('./practice/TranslateDrillsScreen'));
 const CliticDrill = lazyWithReload(() => import('./practice/CliticDrill'));
 const PassiveDrill = lazyWithReload(() => import('./practice/PassiveDrill'));
-const InstrumentalDrill = lazyWithReload(() => import('./practice/InstrumentalDrill'));
 const DativeDrill = lazyWithReload(() => import('./practice/DativeDrill'));
 const GenitiveDrill = lazyWithReload(() => import('./practice/GenitiveDrill'));
 const NominativeDrill = lazyWithReload(() => import('./practice/NominativeDrill'));
@@ -205,8 +204,6 @@ const WordOrderDrill = lazyWithReload(() => import('./practice/WordOrderDrill'))
 const LocativeDrill = lazyWithReload(() => import('./practice/LocativeDrill'));
 const FleetingADrill = lazyWithReload(() => import('./practice/FleetingADrill'));
 const SlangScreen = lazyWithReload(() => import('./practice/SlangScreen'));
-const NumbersCasesDrill = lazyWithReload(() => import('./practice/NumbersCasesDrill'));
-const ImperativeDrill = lazyWithReload(() => import('./practice/ImperativeDrill'));
 const C2StructureDrill = lazyWithReload(() => import('./practice/C2StructureDrill'));
 const GerundDrill = lazyWithReload(() => import('./practice/GerundDrill'));
 const PrecisionDrill = lazyWithReload(() => import('./practice/PrecisionDrill'));
@@ -214,7 +211,6 @@ const FuturDrugiDrill = lazyWithReload(() => import('./practice/FuturDrugiDrill'
 const KolokacijeDrill = lazyWithReload(() => import('./practice/KolokacijeDrill'));
 const PogodbeneDrill = lazyWithReload(() => import('./practice/PogodbeneDrill'));
 const OdredjenostDrill = lazyWithReload(() => import('./practice/OdredjenostDrill'));
-const DatumiDrill = lazyWithReload(() => import('./practice/DatumiDrill'));
 const PosudjeniceDrill = lazyWithReload(() => import('./practice/PosudjeniceDrill'));
 const GlasovnePromjeneDrill = lazyWithReload(() => import('./practice/GlasovnePromjeneDrill'));
 const AdministrativniDrill = lazyWithReload(() => import('./practice/AdministrativniDrill'));
@@ -686,6 +682,38 @@ const A1SportsFreeTimeDrill = lazyWithReload(
   () => import('./practice/drills/A1SportsFreeTimeDrill'),
 );
 const A1AbstractOstDrill = lazyWithReload(() => import('./practice/drills/A1AbstractOstDrill'));
+const A1InstrumentalIntroDrill = lazyWithReload(
+  () => import('./practice/drills/A1InstrumentalIntroDrill'),
+);
+const A1AlphabetDrill = lazyWithReload(() => import('./practice/drills/A1AlphabetDrill'));
+const A1GenderDrill = lazyWithReload(() => import('./practice/drills/A1GenderDrill'));
+const A1PossessivesDrill = lazyWithReload(() => import('./practice/drills/A1PossessivesDrill'));
+const A1NumbersTimeDrill = lazyWithReload(() => import('./practice/drills/A1NumbersTimeDrill'));
+const A1ShoppingPricesDrill = lazyWithReload(
+  () => import('./practice/drills/A1ShoppingPricesDrill'),
+);
+const A1OrdinalsDatesDrill = lazyWithReload(() => import('./practice/drills/A1OrdinalsDatesDrill'));
+const A1VocativeIntroDrill = lazyWithReload(() => import('./practice/drills/A1VocativeIntroDrill'));
+const A1PastTenseDrill = lazyWithReload(() => import('./practice/drills/A1PastTenseDrill'));
+const A1PastQuestionsNegationDrill = lazyWithReload(
+  () => import('./practice/drills/A1PastQuestionsNegationDrill'),
+);
+const A1FutureTenseDrill = lazyWithReload(() => import('./practice/drills/A1FutureTenseDrill'));
+const A1PronounsBitiDrill = lazyWithReload(() => import('./practice/drills/A1PronounsBitiDrill'));
+const A1PresentTenseVerbsDrill = lazyWithReload(
+  () => import('./practice/drills/A1PresentTenseVerbsDrill'),
+);
+const A1CasesDrill = lazyWithReload(() => import('./practice/drills/A1CasesDrill'));
+const A1AccusativeIntroDrill = lazyWithReload(
+  () => import('./practice/drills/A1AccusativeIntroDrill'),
+);
+const A1LocativeIntroDrill = lazyWithReload(() => import('./practice/drills/A1LocativeIntroDrill'));
+const A1GenitiveIntroDrill = lazyWithReload(() => import('./practice/drills/A1GenitiveIntroDrill'));
+const A1ModalsBasicDrill = lazyWithReload(() => import('./practice/drills/A1ModalsBasicDrill'));
+const A1ReflexiveVerbsDrill = lazyWithReload(
+  () => import('./practice/drills/A1ReflexiveVerbsDrill'),
+);
+const A1DativeIntroDrill = lazyWithReload(() => import('./practice/drills/A1DativeIntroDrill'));
 const A1FeelingsDrill = lazyWithReload(() => import('./practice/drills/A1FeelingsDrill'));
 const A1ImperativeNegativeDrill = lazyWithReload(
   () => import('./practice/drills/A1ImperativeNegativeDrill'),
@@ -778,7 +806,6 @@ const PravopisDrill = lazyWithReload(() => import('./practice/PravopisDrill'));
 const KonektoriDrill = lazyWithReload(() => import('./practice/KonektoriDrill'));
 const RazgovorniDrill = lazyWithReload(() => import('./practice/RazgovorniDrill'));
 const VidImperativDrill = lazyWithReload(() => import('./practice/VidImperativDrill'));
-const PosvojniDrill = lazyWithReload(() => import('./practice/PosvojniDrill'));
 const VremenskeDrill = lazyWithReload(() => import('./practice/VremenskeDrill'));
 const SklonidbaBrojevaDrill = lazyWithReload(() => import('./practice/SklonidbaBrojevaDrill'));
 const NamjeraDrill = lazyWithReload(() => import('./practice/NamjeraDrill'));
@@ -786,7 +813,6 @@ const SrocnostDrill = lazyWithReload(() => import('./practice/SrocnostDrill'));
 const EnklitikeDrill = lazyWithReload(() => import('./practice/EnklitikeDrill'));
 const AkademskiDrill = lazyWithReload(() => import('./practice/AkademskiDrill'));
 const InterpunkcijaDrill = lazyWithReload(() => import('./practice/InterpunkcijaDrill'));
-const MnozinaDrill = lazyWithReload(() => import('./practice/MnozinaDrill'));
 const ProstorniDrill = lazyWithReload(() => import('./practice/ProstorniDrill'));
 const StupnjevanjeDrill = lazyWithReload(() => import('./practice/StupnjevanjeDrill'));
 const TrpniDrill = lazyWithReload(() => import('./practice/TrpniDrill'));
@@ -795,9 +821,7 @@ const VidskiParoviDrill = lazyWithReload(() => import('./practice/VidskiParoviDr
 const VelikoSlovoDrill = lazyWithReload(() => import('./practice/VelikoSlovoDrill'));
 const KraticeDrill = lazyWithReload(() => import('./practice/KraticeDrill'));
 const LektorDrill = lazyWithReload(() => import('./practice/LektorDrill'));
-const ZamjeniceDrill = lazyWithReload(() => import('./practice/ZamjeniceDrill'));
 const UzrocneDrill = lazyWithReload(() => import('./practice/UzrocneDrill'));
-const KolicinaDrill = lazyWithReload(() => import('./practice/KolicinaDrill'));
 const DopusneDrill = lazyWithReload(() => import('./practice/DopusneDrill'));
 const PluskvamperfektDrill = lazyWithReload(() => import('./practice/PluskvamperfektDrill'));
 const SavSvakiDrill = lazyWithReload(() => import('./practice/SavSvakiDrill'));
@@ -824,7 +848,6 @@ const StilskeFigureDrill = lazyWithReload(() => import('./practice/StilskeFigure
 const DopisiDrill = lazyWithReload(() => import('./practice/DopisiDrill'));
 const NeodredjeneDrill = lazyWithReload(() => import('./practice/NeodredjeneDrill'));
 const SlaganjeBrojevaDrill = lazyWithReload(() => import('./practice/SlaganjeBrojevaDrill'));
-const PovratniDrill = lazyWithReload(() => import('./practice/PovratniDrill'));
 const SklonidbaImenaDrill = lazyWithReload(() => import('./practice/SklonidbaImenaDrill'));
 const PrijedlozniIzraziDrill = lazyWithReload(() => import('./practice/PrijedlozniIzraziDrill'));
 const FrazeologijaDrill = lazyWithReload(() => import('./practice/FrazeologijaDrill'));
@@ -841,7 +864,6 @@ const IdiomDrill = lazyWithReload(() => import('./practice/IdiomDrill'));
 const DiscourseDrill = lazyWithReload(() => import('./practice/DiscourseDrill'));
 const RegisterDrill = lazyWithReload(() => import('./practice/RegisterDrill'));
 const NominalizationDrill = lazyWithReload(() => import('./practice/NominalizationDrill'));
-const NegationGenDrill = lazyWithReload(() => import('./practice/NegationGenDrill'));
 const VocativeScreen = lazyWithReload(() => import('./practice/VocativeScreen'));
 const CollocationsGame = lazyWithReload(() => import('./practice/CollocationsGame'));
 const WordFamilies = lazyWithReload(() => import('./practice/WordFamilies'));
@@ -2408,16 +2430,6 @@ export default function AppRouter(props: Record<string, any>) {
             <CliticDrill goBack={goBack} award={award} />
           </ScreenErrorBoundary>
         )}
-        {currentScreen === 'numcases' && (
-          <ScreenErrorBoundary key="numcases" name="numcases">
-            <NumbersCasesDrill goBack={goBack} award={award} />
-          </ScreenErrorBoundary>
-        )}
-        {currentScreen === 'imperative' && (
-          <ScreenErrorBoundary key="imperative" name="imperative">
-            <ImperativeDrill goBack={goBack} award={award} />
-          </ScreenErrorBoundary>
-        )}
         {currentScreen === 'c2drill' && (
           <ScreenErrorBoundary key="c2drill" name="c2drill">
             <C2StructureDrill goBack={goBack} award={award} />
@@ -2446,11 +2458,6 @@ export default function AppRouter(props: Record<string, any>) {
         {currentScreen === 'sinonimija' && (
           <ScreenErrorBoundary key="sinonimija" name="sinonimija">
             <SinonimijaDrill goBack={goBack} award={award} />
-          </ScreenErrorBoundary>
-        )}
-        {currentScreen === 'povratni' && (
-          <ScreenErrorBoundary key="povratni" name="povratni">
-            <PovratniDrill goBack={goBack} award={award} />
           </ScreenErrorBoundary>
         )}
         {currentScreen === 'sklonidbaimena' && (
@@ -2583,19 +2590,9 @@ export default function AppRouter(props: Record<string, any>) {
             <EponimiDrill goBack={goBack} award={award} />
           </ScreenErrorBoundary>
         )}
-        {currentScreen === 'zamjenice' && (
-          <ScreenErrorBoundary key="zamjenice" name="zamjenice">
-            <ZamjeniceDrill goBack={goBack} award={award} />
-          </ScreenErrorBoundary>
-        )}
         {currentScreen === 'uzrocne' && (
           <ScreenErrorBoundary key="uzrocne" name="uzrocne">
             <UzrocneDrill goBack={goBack} award={award} />
-          </ScreenErrorBoundary>
-        )}
-        {currentScreen === 'kolicina' && (
-          <ScreenErrorBoundary key="kolicina" name="kolicina">
-            <KolicinaDrill goBack={goBack} award={award} />
           </ScreenErrorBoundary>
         )}
         {currentScreen === 'dopusne' && (
@@ -2626,11 +2623,6 @@ export default function AppRouter(props: Record<string, any>) {
         {currentScreen === 'modalnost' && (
           <ScreenErrorBoundary key="modalnost" name="modalnost">
             <ModalnostDrill goBack={goBack} award={award} />
-          </ScreenErrorBoundary>
-        )}
-        {currentScreen === 'mnozina' && (
-          <ScreenErrorBoundary key="mnozina" name="mnozina">
-            <MnozinaDrill goBack={goBack} award={award} />
           </ScreenErrorBoundary>
         )}
         {currentScreen === 'prostorni' && (
@@ -2676,11 +2668,6 @@ export default function AppRouter(props: Record<string, any>) {
         {currentScreen === 'vidimperativ' && (
           <ScreenErrorBoundary key="vidimperativ" name="vidimperativ">
             <VidImperativDrill goBack={goBack} award={award} />
-          </ScreenErrorBoundary>
-        )}
-        {currentScreen === 'posvojni' && (
-          <ScreenErrorBoundary key="posvojni" name="posvojni">
-            <PosvojniDrill goBack={goBack} award={award} />
           </ScreenErrorBoundary>
         )}
         {currentScreen === 'vremenske' && (
@@ -3847,6 +3834,106 @@ export default function AppRouter(props: Record<string, any>) {
             <A1AbstractOstDrill goBack={goBack} award={award} />
           </ScreenErrorBoundary>
         )}
+        {currentScreen === 'a1instrumentalintro' && (
+          <ScreenErrorBoundary key="a1instrumentalintro" name="a1instrumentalintro">
+            <A1InstrumentalIntroDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'a1alphabet' && (
+          <ScreenErrorBoundary key="a1alphabet" name="a1alphabet">
+            <A1AlphabetDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'a1gender' && (
+          <ScreenErrorBoundary key="a1gender" name="a1gender">
+            <A1GenderDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'a1possessives' && (
+          <ScreenErrorBoundary key="a1possessives" name="a1possessives">
+            <A1PossessivesDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'a1numberstime' && (
+          <ScreenErrorBoundary key="a1numberstime" name="a1numberstime">
+            <A1NumbersTimeDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'a1shoppingprices' && (
+          <ScreenErrorBoundary key="a1shoppingprices" name="a1shoppingprices">
+            <A1ShoppingPricesDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'a1ordinalsdates' && (
+          <ScreenErrorBoundary key="a1ordinalsdates" name="a1ordinalsdates">
+            <A1OrdinalsDatesDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'a1vocativeintro' && (
+          <ScreenErrorBoundary key="a1vocativeintro" name="a1vocativeintro">
+            <A1VocativeIntroDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'a1pasttense' && (
+          <ScreenErrorBoundary key="a1pasttense" name="a1pasttense">
+            <A1PastTenseDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'a1pastquestionsnegation' && (
+          <ScreenErrorBoundary key="a1pastquestionsnegation" name="a1pastquestionsnegation">
+            <A1PastQuestionsNegationDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'a1futuretense' && (
+          <ScreenErrorBoundary key="a1futuretense" name="a1futuretense">
+            <A1FutureTenseDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'a1pronounsbiti' && (
+          <ScreenErrorBoundary key="a1pronounsbiti" name="a1pronounsbiti">
+            <A1PronounsBitiDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'a1presenttenseverbs' && (
+          <ScreenErrorBoundary key="a1presenttenseverbs" name="a1presenttenseverbs">
+            <A1PresentTenseVerbsDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'a1cases' && (
+          <ScreenErrorBoundary key="a1cases" name="a1cases">
+            <A1CasesDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'a1accusativeintro' && (
+          <ScreenErrorBoundary key="a1accusativeintro" name="a1accusativeintro">
+            <A1AccusativeIntroDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'a1locativeintro' && (
+          <ScreenErrorBoundary key="a1locativeintro" name="a1locativeintro">
+            <A1LocativeIntroDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'a1genitiveintro' && (
+          <ScreenErrorBoundary key="a1genitiveintro" name="a1genitiveintro">
+            <A1GenitiveIntroDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'a1modalsbasic' && (
+          <ScreenErrorBoundary key="a1modalsbasic" name="a1modalsbasic">
+            <A1ModalsBasicDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'a1reflexiveverbs' && (
+          <ScreenErrorBoundary key="a1reflexiveverbs" name="a1reflexiveverbs">
+            <A1ReflexiveVerbsDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'a1dativeintro' && (
+          <ScreenErrorBoundary key="a1dativeintro" name="a1dativeintro">
+            <A1DativeIntroDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
         {currentScreen === 'a1feelings' && (
           <ScreenErrorBoundary key="a1feelings" name="a1feelings">
             <A1FeelingsDrill goBack={goBack} award={award} />
@@ -4242,11 +4329,6 @@ export default function AppRouter(props: Record<string, any>) {
             <OdredjenostDrill goBack={goBack} award={award} />
           </ScreenErrorBoundary>
         )}
-        {currentScreen === 'datumi' && (
-          <ScreenErrorBoundary key="datumi" name="datumi">
-            <DatumiDrill goBack={goBack} award={award} />
-          </ScreenErrorBoundary>
-        )}
         {currentScreen === 'kolokacije' && (
           <ScreenErrorBoundary key="kolokacije" name="kolokacije">
             <KolokacijeDrill goBack={goBack} award={award} />
@@ -4277,19 +4359,9 @@ export default function AppRouter(props: Record<string, any>) {
             <MotionVerbsDrill goBack={goBack} award={award} />
           </ScreenErrorBoundary>
         )}
-        {currentScreen === 'neggen' && (
-          <ScreenErrorBoundary key="neggen" name="neggen">
-            <NegationGenDrill goBack={goBack} award={award} />
-          </ScreenErrorBoundary>
-        )}
         {currentScreen === 'passive' && (
           <ScreenErrorBoundary key="passive" name="passive">
             <PassiveDrill goBack={goBack} award={award} />
-          </ScreenErrorBoundary>
-        )}
-        {currentScreen === 'instrumental' && (
-          <ScreenErrorBoundary key="instrumental" name="instrumental">
-            <InstrumentalDrill goBack={goBack} award={award} />
           </ScreenErrorBoundary>
         )}
         {currentScreen === 'dative' && (

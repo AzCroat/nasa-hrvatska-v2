@@ -38,6 +38,7 @@
 
 import { LESSON_TAUGHT_CATEGORY } from './teachPractice';
 import { CATEGORY_SCREEN_MAP, CATEGORY_EASIER_SCREEN } from './categoryRoutes';
+import { BOOK_QUIZ_LESSONS, bookQuizFor } from './bookQuizzes';
 
 /** The one-shot handoff key. Ephemeral navigation state, never progress. */
 export const LESSON_LOOKUP_KEY = 'nh_lookup_lessons';
@@ -55,6 +56,9 @@ export function lessonsTeachingScreen(screen: string): string[] {
       out.add(lessonId);
     }
   }
+  // A book quiz is not the lesson's coupled practice (see bookQuizzes), but it still names its lesson.
+  for (const lessonId of BOOK_QUIZ_LESSONS)
+    if (bookQuizFor(lessonId)?.screen === screen) out.add(lessonId);
   return [...out].sort();
 }
 

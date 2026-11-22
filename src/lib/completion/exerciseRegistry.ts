@@ -377,6 +377,26 @@ const RAW: Record<string, ExerciseEntry> = {
   a1pluraliatantum: g('gc', 'grammar', 'grammar'),
   a1sportsfreetime: g('gc', 'grammar', 'grammar'),
   a1abstractost: g('gc', 'grammar', 'grammar'),
+  a1instrumentalintro: g('gc', 'grammar', 'grammar'),
+  a1alphabet: g('lc', 'vocab'),
+  a1gender: g('gc', 'grammar', 'grammar'),
+  a1possessives: g('gc', 'grammar', 'grammar'),
+  a1numberstime: g('gc', 'grammar', 'grammar'),
+  a1shoppingprices: g('gc', 'grammar', 'grammar'),
+  a1ordinalsdates: g('gc', 'grammar', 'grammar'),
+  a1vocativeintro: g('gc', 'grammar', 'grammar'),
+  a1pasttense: g('gc', 'grammar', 'grammar'),
+  a1pastquestionsnegation: g('gc', 'grammar', 'grammar'),
+  a1futuretense: g('gc', 'grammar', 'grammar'),
+  a1pronounsbiti: g('gc', 'grammar', 'grammar'),
+  a1presenttenseverbs: g('gc', 'grammar', 'grammar'),
+  a1cases: g('gc', 'grammar', 'grammar'),
+  a1accusativeintro: g('gc', 'grammar', 'grammar'),
+  a1locativeintro: g('gc', 'grammar', 'grammar'),
+  a1genitiveintro: g('gc', 'grammar', 'grammar'),
+  a1modalsbasic: g('gc', 'grammar', 'grammar'),
+  a1reflexiveverbs: g('gc', 'grammar', 'grammar'),
+  a1dativeintro: g('gc', 'grammar', 'grammar'),
   a1feelings: g('gc', 'grammar', 'grammar'),
   a1imperativenegative: g('gc', 'grammar', 'grammar'),
   a1infinitiveci: g('gc', 'grammar', 'grammar'),
@@ -454,7 +474,6 @@ const RAW: Record<string, ExerciseEntry> = {
   modalninijanse: g('gc', 'grammar', 'grammar'),
   dvopadezni: g('gc', 'grammar', 'grammar'),
   genitive: g('gc', 'grammar', 'grammar'),
-  imperative: g('gc', 'grammar', 'grammar'),
   // C2 structure drill (literary tenses / nominal style / comma) — first C2
   // grammar drill in the session pool.
   c2drill: g('gc', 'grammar', 'grammar'),
@@ -474,11 +493,9 @@ const RAW: Record<string, ExerciseEntry> = {
   // Tranche 4 (2026-08-15): B2 aspect/possessives/temporals, C1 numerals/
   // purpose/agreement, C2 clitics/academic/punctuation.
   vidimperativ: g('gc', 'grammar', 'grammar'),
-  posvojni: g('gc', 'grammar', 'grammar'),
   vremenske: g('gc', 'grammar', 'grammar'),
   // Tranche 5 (2026-08-15): B2 plurals/prepositions/comparison, C1 participle/
   // infinitive/aspect-pairs, C2 capitalization/abbreviations/normative traps.
-  mnozina: g('gc', 'grammar', 'grammar'),
   prostorni: g('gc', 'grammar', 'grammar'),
   stupnjevanje: g('gc', 'grammar', 'grammar'),
   trpni: g('gc', 'grammar', 'grammar'),
@@ -489,9 +506,7 @@ const RAW: Record<string, ExerciseEntry> = {
   lektor: g('gc', 'grammar', 'grammar'),
   // Tranche 6 (2026-08-15): B2 pronouns/cause/quantity, C1 concessives/
   // pluperfect/quantifiers, C2 journalese/figurative/modality.
-  zamjenice: g('gc', 'grammar', 'grammar'),
   uzrocne: g('gc', 'grammar', 'grammar'),
-  kolicina: g('gc', 'grammar', 'grammar'),
   dopusne: g('gc', 'grammar', 'grammar'),
   pluskvamperfekt: g('gc', 'grammar', 'grammar'),
   savsvaki: g('gc', 'grammar', 'grammar'),
@@ -530,13 +545,11 @@ const RAW: Record<string, ExerciseEntry> = {
   // C1 drill-pool expansion (2026-08-14): collocations, word order, aspect nuance.
   kolokacije: g('gc', 'grammar', 'grammar'),
   // C1 tranche 2 (2026-08-15): se-verbs, name declension, prepositions.
-  povratni: g('gc', 'grammar', 'grammar'),
   sklonidbaimena: g('gc', 'grammar', 'grammar'),
   prijedlozni: g('gc', 'grammar', 'grammar'),
   // C1 tranche 3 (2026-08-15): conditionals, definiteness, dates and time.
   pogodbene: g('gc', 'grammar', 'grammar'),
   odredjenost: g('gc', 'grammar', 'grammar'),
-  datumi: g('gc', 'grammar', 'grammar'),
   // C2 drill-pool expansion (2026-08-15): phraseology, word formation, synonymy.
   frazeologija: g('gc', 'grammar', 'grammar'),
   // C2 tranche 2 (2026-08-15): loanwords, sound changes, admin register.
@@ -553,7 +566,6 @@ const RAW: Record<string, ExerciseEntry> = {
   vidnijanse: g('gc', 'grammar', 'grammar'),
   neizravni: g('gc', 'grammar', 'grammar'),
   kretanje: g('gc', 'grammar', 'grammar'),
-  instrumental: g('gc', 'grammar', 'grammar'),
   locative: g('gc', 'grammar', 'grammar'),
   negation: g('gc', 'grammar', 'grammar'),
   negationgen: g('gc', 'grammar', 'grammar'),

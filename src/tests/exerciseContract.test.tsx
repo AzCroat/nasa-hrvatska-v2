@@ -205,19 +205,8 @@ async function completeDrill(awardMock: ReturnType<typeof vi.fn>, completionOver
 // AspectDrillScreen has been moved to its own isolated file: aspectDrillContract.test.tsx
 const FULL_CONTRACT_DRILLS = [
   // ─── Phase 1: Grammar drills (original 13) ───────────────────────────────────
-  {
-    name: 'InstrumentalDrill',
-    path: '../components/practice/InstrumentalDrill',
-    vsTag: 'instrumental',
-  },
   { name: 'PassiveDrill', path: '../components/practice/PassiveDrill', vsTag: 'passive' },
   { name: 'CliticDrill', path: '../components/practice/CliticDrill', vsTag: 'clitic' },
-  { name: 'ImperativeDrill', path: '../components/practice/ImperativeDrill', vsTag: 'imperative' },
-  {
-    name: 'NegationGenDrill',
-    path: '../components/practice/NegationGenDrill',
-    vsTag: 'negationgen',
-  },
   { name: 'PrepDrill', path: '../components/practice/PrepDrill', vsTag: 'preposition' },
   { name: 'GenitiveDrill', path: '../components/practice/GenitiveDrill', vsTag: 'genitive' },
   { name: 'NominativeDrill', path: '../components/practice/NominativeDrill', vsTag: 'nominative' },
@@ -367,12 +356,6 @@ const FULL_CONTRACT_DRILLS = [
     vsTag: 'shadowing',
     skip: true,
     skipReason: 'Audio recording interaction (microphone); helper cannot simulate speech',
-  },
-  // NumbersCasesDrill: contract-compliant AND driveable — .ob buttons + "See results" / "Next →".
-  {
-    name: 'NumbersCasesDrill',
-    path: '../components/practice/NumbersCasesDrill',
-    vsTag: 'numbers-cases',
   },
 
   // ─── SP2 Tier 3: exercises/ subdir — all contract-compliant ──────────────────

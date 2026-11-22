@@ -61,6 +61,8 @@ import { selectRetentionSlot } from './retentionSlot';
 import { buildConceptMap, type ConceptEntry, type ConceptMap } from './conceptMap';
 import { readRetention } from './lessonRetention';
 import { drilledSince } from './drillStamps';
+import { bookQuizFor } from './bookQuizzes';
+import { latestLessonAttempt } from './correctiveDay';
 import { readCurriculumSpine } from './curriculumProgress';
 import {
   readCourseState,
@@ -231,10 +233,26 @@ export function gatherKeepCandidates(
     }
   };
   const recurring = (name: string) => `keep_${name}_${block}`;
-  const drillFor = (e: ConceptEntry, tier: KeepTier, reason?: string) => {
-    const category = (e.practiceCategory ?? LESSON_TAUGHT_CATEGORY[e.lessonId]) as
+  // The date of the lesson's last check: a drill passed on or after it counts (drillStamps).
+  const lastCheckAt = (e: ConceptEntry): string | undefined =>
+    e.state === 'notpassed'
+      ? latestLessonAttempt(e.lessonId)?.at
+      : readRetention().lessons[e.lessonId]?.last.at;
+  // `skipDrilled` (shaky/due tier): a concept whose practice was passed since its last check is
+  // not re-served; only its real re-check clears the state. A lesson with a book quiz has two
+  // practices (its interactive screen and the quiz): the quiz is offered once the screen has been
+  // passed, so the two alternate and neither repeats until the next check.
+  const drillFor = (e: ConceptEntry, tier: KeepTier, reason?: string, skipDrilled = false) => {
+    let category = (e.practiceCategory ?? LESSON_TAUGHT_CATEGORY[e.lessonId]) as
       SkillCategory | undefined;
     if (!category) return false;
+    const since = lastCheckAt(e);
+    const done = (c: string) => !!since && drilledSince(c, since);
+    if (done(category)) {
+      const quiz = bookQuizFor(e.lessonId);
+      if (quiz && !done(quiz.category)) category = quiz.category as SkillCategory;
+      else if (skipDrilled) return false;
+    }
     const screen = routeCategory(category, level, blockScreens);
     if (!screen) return false;
     add(
@@ -285,15 +303,9 @@ export function gatherKeepCandidates(
 
   // ── 3. Shaky and due concepts; measured weak categories that are taught ────
   guarded(() => {
-    // A passed drill counts (owner, 2026-11-19), here as in tier 4: a concept whose drill was
-    // passed since its last check is not re-served; only its real re-check clears the state.
+    // A passed drill counts (owner, 2026-11-19): see drillFor.
     for (const state of ['shaky', 'due'] as const) {
-      for (const e of entries.filter((x) => x.state === state)) {
-        const cat = e.practiceCategory ?? LESSON_TAUGHT_CATEGORY[e.lessonId];
-        const since = readRetention().lessons[e.lessonId]?.last.at;
-        if (cat && since && drilledSince(cat, since)) continue;
-        drillFor(e, 3);
-      }
+      for (const e of entries.filter((x) => x.state === state)) drillFor(e, 3, undefined, true);
     }
   });
   guarded(() => {

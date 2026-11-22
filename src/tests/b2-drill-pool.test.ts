@@ -18,14 +18,10 @@ import { GLAGOLSKI_PRILOZI_DRILL_DATA } from '../components/practice/GlagolskiPr
 import { AORIST_IMPERFEKT_DRILL_DATA } from '../components/practice/AoristImperfektDrill';
 import { REKCIJA_DRILL_DATA } from '../components/practice/RekcijaDrill';
 import { VID_IMPERATIV_DRILL_DATA } from '../components/practice/VidImperativDrill';
-import { POSVOJNI_DRILL_DATA } from '../components/practice/PosvojniDrill';
 import { VREMENSKE_DRILL_DATA } from '../components/practice/VremenskeDrill';
-import { MNOZINA_DRILL_DATA } from '../components/practice/MnozinaDrill';
 import { PROSTORNI_DRILL_DATA } from '../components/practice/ProstorniDrill';
 import { STUPNJEVANJE_DRILL_DATA } from '../components/practice/StupnjevanjeDrill';
-import { ZAMJENICE_DRILL_DATA } from '../components/practice/ZamjeniceDrill';
 import { UZROCNE_DRILL_DATA } from '../components/practice/UzrocneDrill';
-import { KOLICINA_DRILL_DATA } from '../components/practice/KolicinaDrill';
 import { PRIJEDLOZI_GEN_DRILL_DATA } from '../components/practice/PrijedloziGenDrill';
 import { IMENICE_ME_DRILL_DATA } from '../components/practice/ImeniceMeDrill';
 import { PITANJA_DRILL_DATA } from '../components/practice/PitanjaDrill';
@@ -97,22 +93,10 @@ const DRILLS = [
     category: 'aspect-perfective',
   },
   {
-    id: 'posvojni',
-    data: POSVOJNI_DRILL_DATA,
-    modes: ['sklonidba', 'tvorba', 'uporaba'],
-    category: 'genitive',
-  },
-  {
     id: 'vremenske',
     data: VREMENSKE_DRILL_DATA,
     modes: ['prijenos', 'veznici', 'vid'],
     category: 'subordination',
-  },
-  {
-    id: 'mnozina',
-    data: MNOZINA_DRILL_DATA,
-    modes: ['dugamn', 'genmn', 'oblici'],
-    category: 'nominative',
   },
   {
     id: 'prostorni',
@@ -127,22 +111,10 @@ const DRILLS = [
     category: 'nominative',
   },
   {
-    id: 'zamjenice',
-    data: ZAMJENICE_DRILL_DATA,
-    modes: ['naglaseni', 'oblici', 'recenica'],
-    category: 'clitics',
-  },
-  {
     id: 'uzrocne',
     data: UZROCNE_DRILL_DATA,
     modes: ['posljedica', 'razlika', 'uzrok'],
     category: 'subordination',
-  },
-  {
-    id: 'kolicina',
-    data: KOLICINA_DRILL_DATA,
-    modes: ['brojivo', 'mjere', 'partitiv'],
-    category: 'genitive',
   },
   {
     id: 'prijedlozigen',

@@ -137,13 +137,6 @@ export const CEFR_EXERCISE_POOL: CefrPoolEntry[] = [
   { id: 'dictation', label: 'Dictation', screen: 'dictation', cefr: 'B1', category: 'writing' },
   // B2 — advanced grammar (existing drills surfaced into the session pool).
   { id: 'passive', label: 'Passive Voice', screen: 'passive', cefr: 'B2', category: 'passive' },
-  {
-    id: 'numcases',
-    label: 'Numbers & Cases',
-    screen: 'numcases',
-    cefr: 'B2',
-    category: 'numerals',
-  },
   // B2 — net-new drills authored to clear the coverage floor.
   {
     id: 'participles',
@@ -201,34 +194,13 @@ export const CEFR_EXERCISE_POOL: CefrPoolEntry[] = [
   },
   // B2 tranche 6 (2026-08-15): pronoun forms, cause/consequence, quantity.
   {
-    id: 'zamjenice',
-    label: 'Naglašene i nenaglašene',
-    screen: 'zamjenice',
-    cefr: 'B2',
-    category: 'clitics',
-  },
-  {
     id: 'uzrocne',
     label: 'Uzrok i posljedica',
     screen: 'uzrocne',
     cefr: 'B2',
     category: 'subordination',
   },
-  {
-    id: 'kolicina',
-    label: 'Izricanje količine',
-    screen: 'kolicina',
-    cefr: 'B2',
-    category: 'genitive',
-  },
   // B2 tranche 5 (2026-08-15): irregular plurals, spatial prepositions, comparison.
-  {
-    id: 'mnozina',
-    label: 'Nepravilna množina',
-    screen: 'mnozina',
-    cefr: 'B2',
-    category: 'nominative',
-  },
   {
     id: 'prostorni',
     label: 'Prostorni prijedlozi',
@@ -250,13 +222,6 @@ export const CEFR_EXERCISE_POOL: CefrPoolEntry[] = [
     screen: 'vidimperativ',
     cefr: 'B2',
     category: 'aspect-perfective',
-  },
-  {
-    id: 'posvojni',
-    label: 'Posvojni pridjevi',
-    screen: 'posvojni',
-    cefr: 'B2',
-    category: 'genitive',
   },
   {
     id: 'vremenske',
@@ -335,13 +300,6 @@ export const CEFR_EXERCISE_POOL: CefrPoolEntry[] = [
   // B1 — case drills surfaced into the pool (previously routable but never in the
   // daily session). Instrumental/dative also gave the adaptive picker only the
   // generic cloze screen; these add dedicated at-level practice.
-  {
-    id: 'instrumental',
-    label: 'Instrumental Case',
-    screen: 'instrumental',
-    cefr: 'A1',
-    category: 'instrumental',
-  },
   { id: 'dative', label: 'Dative Case', screen: 'dative', cefr: 'B1', category: 'dative-locative' },
   // C1 — idiomatic, discourse-level and register/style competence.
   { id: 'idiomdrill', label: 'Idioms', screen: 'idiomdrill', cefr: 'C1', category: 'idioms' },
@@ -408,14 +366,6 @@ export const CEFR_EXERCISE_POOL: CefrPoolEntry[] = [
     cefr: 'A1',
     category: 'dative-locative',
   },
-  {
-    id: 'imperative',
-    label: 'Imperative',
-    screen: 'imperative',
-    cefr: 'A2',
-    category: 'present-tense',
-  },
-  { id: 'neggen', label: 'Negative Genitive', screen: 'neggen', cefr: 'A2', category: 'genitive' },
   {
     id: 'coloragree',
     label: 'Color Agreement',

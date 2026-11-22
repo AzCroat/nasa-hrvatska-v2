@@ -209,7 +209,7 @@ describe('answer-key integrity — corpus sweep', () => {
     const keys = Object.keys(MODULES);
     for (const f of [
       'NominativeDrill.tsx',
-      'MnozinaDrill.tsx',
+      'PassiveDrill.tsx',
       'InterpunkcijaDrill.tsx',
       'FrazeologijaDrill.tsx',
     ])

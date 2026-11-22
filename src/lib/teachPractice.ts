@@ -57,16 +57,16 @@ export const TAUGHT_MAX = 5;
  */
 export const LESSON_TAUGHT_CATEGORY: Readonly<Record<string, SkillCategory>> = {
   // ── verbs: present ────────────────────────────────────────────────────────
-  'present-tense-verbs': 'present-tense',
+  'present-tense-verbs': 'a1-present-tense-verbs',
   present: 'present-tense',
   'modal-verbs-a2': 'present-tense',
   // Teaches biti + personal pronouns; presentdrill carries the biti items.
-  'pronouns-biti': 'present-tense',
+  'pronouns-biti': 'a1-pronouns-biti',
   // A1 modals and reflexives are both present-tense conjugation in practice,
   // and presentdrill is the A1-reachable drill for it — the same reasoning that
   // already pairs modal-verbs-a2 with this category.
-  'modals-basic': 'present-tense',
-  'reflexive-verbs': 'present-tense',
+  'modals-basic': 'a1-modals-basic',
+  'reflexive-verbs': 'a1-reflexive-verbs',
   // ── verbs: other tenses ───────────────────────────────────────────────────
   'past-tense': 'past-tense',
   // The A2 lesson on asking and denying in the past. `cloze` is A2, so unlike
@@ -109,23 +109,23 @@ export const LESSON_TAUGHT_CATEGORY: Readonly<Record<string, SkillCategory>> = {
   // ── cases ─────────────────────────────────────────────────────────────────
   // The umbrella `cases` lesson introduces the system; nominative is where a
   // learner starts using it, and nomdrill is available from A1.
-  cases: 'nominative',
+  cases: 'a1-cases',
   declension: 'genitive',
   'genitive-deep': 'genitive',
-  'genitive-intro': 'genitive',
+  'genitive-intro': 'a1-genitive-intro',
   'accusative-deep': 'accusative',
-  'accusative-intro': 'accusative',
+  'accusative-intro': 'a1-accusative-intro',
   'dative-locative': 'dative-locative',
   // The A1 locative lesson: locdrill is A1, so unlike the vocab route below
   // this one actually resolves for the learners the lesson is written for.
-  'locative-intro': 'dative-locative',
+  'locative-intro': 'a1-locative-intro',
   // The A2 dative lesson routes to the same category: dative and locative share
   // their singular endings, which is exactly why CATEGORY_SCREEN_MAP already
   // sends the combined category to the locative drill.
-  'dative-intro': 'dative-locative',
+  'dative-intro': 'a1-dative-intro',
   'vocative-intro': 'vocative',
   instrumental: 'b1-instrumental',
-  'instrumental-intro': 'instrumental',
+  'instrumental-intro': 'a1-instrumental-intro',
   // C1 verb government — which case each verb demands. Mappable as of
   // 2026-08-28: the `rekcija` pool entry was retagged from 'dative-locative'
   // to 'verb-government' (owner decision), so the coupling now lands on

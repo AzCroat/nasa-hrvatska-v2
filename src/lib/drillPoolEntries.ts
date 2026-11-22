@@ -134,13 +134,6 @@ export const C_LEVEL_DRILL_ENTRIES: CefrPoolEntry[] = [
     category: 'aspect-perfective',
   },
   {
-    id: 'povratni',
-    label: 'Povratni glagoli',
-    screen: 'povratni',
-    cefr: 'C1',
-    category: 'register',
-  },
-  {
     id: 'sklonidbaimena',
     label: 'Sklonidba imena',
     screen: 'sklonidbaimena',
@@ -167,13 +160,6 @@ export const C_LEVEL_DRILL_ENTRIES: CefrPoolEntry[] = [
     screen: 'odredjenost',
     cefr: 'C1',
     category: 'nominative',
-  },
-  {
-    id: 'datumi',
-    label: 'Datumi i vrijeme',
-    screen: 'datumi',
-    cefr: 'C1',
-    category: 'numerals',
   },
   // C1 tranche 4 (2026-08-15): numeral declension, purpose clauses, agreement.
   {

@@ -136,12 +136,12 @@ describe('teach → practice coupling stays HONEST at A1', () => {
   // connection the app cannot deliver, and a wrong drill right after a lesson
   // is worse than no drill.
   const EXPECTED: Record<string, string> = {
-    'accusative-intro': 'accusative',
-    'locative-intro': 'dative-locative',
-    'genitive-intro': 'genitive',
+    'accusative-intro': 'a1-accusative-intro',
+    'locative-intro': 'a1-locative-intro',
+    'genitive-intro': 'a1-genitive-intro',
     'vocative-intro': 'vocative',
-    'modals-basic': 'present-tense',
-    'reflexive-verbs': 'present-tense',
+    'modals-basic': 'a1-modals-basic',
+    'reflexive-verbs': 'a1-reflexive-verbs',
     'shopping-prices': 'numerals',
     // Mapped 2026-08-29 (practice programme wave 1): `pluraldrill` was authored
     // FOR this lesson. It was in DELIBERATELY_UNMAPPED until then for the

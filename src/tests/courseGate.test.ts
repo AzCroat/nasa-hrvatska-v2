@@ -75,16 +75,20 @@ describe('courseAhead — the pure rule', () => {
   });
 
   it('a concept revisited later is reached once ANY lesson teaching it is reached', () => {
-    const genitiveLessons = SPINE.filter((l) => LESSON_TAUGHT_CATEGORY[l.id] === 'genitive');
-    expect(genitiveLessons.length).toBeGreaterThan(1); // intro + deep
+    // Any concept taught by 2+ lessons (it was genitive until the A1 intro got its own drill).
+    const shared = [
+      ...new Set(SPINE.map((l) => LESSON_TAUGHT_CATEGORY[l.id]).filter(Boolean)),
+    ].find((c) => SPINE.filter((l) => LESSON_TAUGHT_CATEGORY[l.id] === c).length > 1)!;
+    const genitiveLessons = SPINE.filter((l) => LESSON_TAUGHT_CATEGORY[l.id] === shared);
+    expect(genitiveLessons.length).toBeGreaterThan(1);
     const earliest = [...genitiveLessons].sort(
       (x, y) =>
         UNITS.findIndex((u) => u.lessons.includes(x)) -
         UNITS.findIndex((u) => u.lessons.includes(y)),
     )[0]!;
     const a = courseAhead(UNITS, new Set([...UNIT1, earliest.id]));
-    expect(a.categories.has('genitive')).toBe(false);
-    expect(a.reached.has('genitive')).toBe(true);
+    expect(a.categories.has(shared)).toBe(false);
+    expect(a.reached.has(shared)).toBe(true);
   });
 
   it('everything reached → nothing ahead; no units → nothing ahead', () => {

@@ -75,7 +75,7 @@ describe('the lint actually covers what it claims to', () => {
     // block of authored Croatian outside src/data, and they were invisible to
     // the lint until 2026-08-31. A new one must not reopen that hole.
     const drills = globSync('src/components/practice/*Drill.tsx');
-    expect(drills.length, 'the drill glob matched nothing — check the path').toBeGreaterThan(90);
+    expect(drills.length, 'the drill glob matched nothing — check the path').toBeGreaterThan(80);
     const uncovered = drills.filter((f) => !targets.has(f));
     expect(
       uncovered,
