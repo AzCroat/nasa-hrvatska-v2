@@ -111,10 +111,11 @@ jobs:
     #
     # This TIGHTENS the gate, it does not relax it — an unbounded job is not a
     # stricter check, it is one that can never report. Headroom is deliberate:
-    # observed durations are ~4m14s–5m13s, so 20 gives ~4x. That matches the
-    # ratio the e2e job already uses (75 for a ~16-minute suite). If the suite
-    # legitimately grows past this, raise the number — do not remove it.
-    timeout-minutes: 20
+    # observed durations were ~4m14s–5m13s when this was set. The suite has since grown to
+    # 14–20 min depending on the runner (one run passed at 19m36s, two were cancelled at 20m),
+    # so the cap is 30. If the suite legitimately grows past this, raise the number — do not
+    # remove it.
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v7
 
