@@ -765,7 +765,6 @@ export type SkillCategory =
   | 'a1-present-tense-verbs'
   | 'a1-cases'
   | 'a1-accusative-intro'
-  | 'a1-locative-intro'
   | 'a1-genitive-intro'
   | 'a1-modals-basic'
   | 'a1-reflexive-verbs'

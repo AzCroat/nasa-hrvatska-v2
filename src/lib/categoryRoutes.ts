@@ -315,7 +315,6 @@ export const CATEGORY_SCREEN_MAP: Partial<Record<SkillCategory, string>> = {
   'a1-present-tense-verbs': 'a1presenttenseverbs',
   'a1-cases': 'a1cases',
   'a1-accusative-intro': 'a1accusativeintro',
-  'a1-locative-intro': 'a1locativeintro',
   'a1-genitive-intro': 'a1genitiveintro',
   'a1-modals-basic': 'a1modalsbasic',
   'a1-reflexive-verbs': 'a1reflexiveverbs',

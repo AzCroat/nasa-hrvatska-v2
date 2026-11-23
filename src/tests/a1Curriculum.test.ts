@@ -137,7 +137,7 @@ describe('teach → practice coupling stays HONEST at A1', () => {
   // is worse than no drill.
   const EXPECTED: Record<string, string> = {
     'accusative-intro': 'a1-accusative-intro',
-    'locative-intro': 'a1-locative-intro',
+    'locative-intro': 'dative-locative',
     'genitive-intro': 'a1-genitive-intro',
     'vocative-intro': 'vocative',
     'modals-basic': 'a1-modals-basic',

@@ -386,7 +386,6 @@ export const SKILL_GROUP: Record<SkillCategory, SkillGroup> = {
   'a1-present-tense-verbs': 'verb',
   'a1-cases': 'case',
   'a1-accusative-intro': 'case',
-  'a1-locative-intro': 'case',
   'a1-genitive-intro': 'case',
   'a1-modals-basic': 'verb',
   'a1-reflexive-verbs': 'verb',
