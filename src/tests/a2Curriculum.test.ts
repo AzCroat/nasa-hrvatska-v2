@@ -201,7 +201,7 @@ describe('every A2 lesson is a usable lesson', () => {
 describe('teach → practice coupling stays HONEST at A2', () => {
   const EXPECTED: Record<string, string> = {
     'dative-intro': 'a1-dative-intro',
-    'instrumental-intro': 'a1-instrumental-intro',
+    'instrumental-intro': 'instrumental',
     'ordinals-dates': 'numerals',
     'past-questions-negation': 'past-tense',
     // Practice programme, A2 tranche 1 (2026-08-29). Every one of these was in

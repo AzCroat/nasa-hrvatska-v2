@@ -293,7 +293,7 @@ export const CATEGORY_SCREEN_MAP: Partial<Record<SkillCategory, string>> = {
   'a1-plural-nouns': 'a1pluralnouns',
   'a1-adjectives-basic': 'a1adjectivesbasic',
   'a1-weather-seasons': 'a1weatherseasons',
-  'a1-instrumental-intro': 'a1instrumentalintro',
+  instrumental: 'a1instrumentalintro',
   'a1-alphabet': 'a1alphabet',
   'a1-gender': 'a1gender',
   'a1-possessives': 'a1possessives',
