@@ -9,8 +9,13 @@ name: Re-run CI after a browser-install stall
 # - It re-runs FAILED jobs only (passed jobs are kept).
 # - Attempt 1 only: a re-run is attempt 2, whose completion event does not
 #   trigger another, so a persistent outage stops after one retry.
-# - A test failure, a lint failure or a cancelled run is never retried: the
-#   condition is "every failed step is named Install Playwright ...".
+# - A test failure or a lint failure is never retried: the condition is "every failed
+#   step is named Install Playwright ...".
+# - A whole-course walk shard that was CANCELLED AT ITS TIMEOUT is retried once too
+#   (2026-11-22/23: shard 5/5 normally takes ~25 minutes and three times sat until the 45-minute
+#   cap and was cancelled, which skipped Build & Deploy; a re-run passed both times). A run
+#   cancelled early because a newer push replaced it stops far short of the cap and never matches:
+#   the condition is "nothing failed, and every cancelled job is a walk job that ran >= 44 minutes".
 # Shares nothing with ci.yml: no cache key, artifact or concurrency group.
 
 on:
@@ -26,7 +31,7 @@ jobs:
   rerun:
     name: Re-run failed install jobs once
     runs-on: ubuntu-latest
-    if: github.event.workflow_run.conclusion == 'failure' && github.event.workflow_run.run_attempt == 1
+    if: (github.event.workflow_run.conclusion == 'failure' || github.event.workflow_run.conclusion == 'cancelled') && github.event.workflow_run.run_attempt == 1
     steps:
       - uses: actions/github-script@v7
         with:
@@ -44,9 +49,21 @@ jobs:
               failed.length > 0 &&
               failedSteps.length > 0 &&
               failedSteps.every((n) => n.startsWith('Install Playwright'));
-            if (!onlyInstall) {
-              core.info(`Not re-running: failed steps = ${JSON.stringify(failedSteps)}`);
+            // A walk shard cancelled by its own 45-minute timeout (a hung run), as opposed to a run
+            // superseded by a newer push, which is cancelled within minutes.
+            const minutes = (j) => (new Date(j.completed_at) - new Date(j.started_at)) / 60000;
+            const cancelled = jobs.filter((j) => j.conclusion === 'cancelled');
+            const walkTimedOut =
+              failed.length === 0 &&
+              cancelled.length > 0 &&
+              cancelled.every((j) => /whole-course walk/.test(j.name) && minutes(j) >= 44);
+            if (!onlyInstall && !walkTimedOut) {
+              core.info(`Not re-running: failed steps = ${JSON.stringify(failedSteps)}, cancelled = ${JSON.stringify(cancelled.map((j) => j.name))}`);
               return;
             }
-            core.warning(`Browser install stalled (${failed.map((j) => j.name).join(', ')}); re-running failed jobs once.`);
+            core.warning(
+              onlyInstall
+                ? `Browser install stalled (${failed.map((j) => j.name).join(', ')}); re-running failed jobs once.`
+                : `Walk shard hit its timeout (${cancelled.map((j) => j.name).join(', ')}); re-running once.`,
+            );
             await github.rest.actions.reRunWorkflowFailedJobs({ owner, repo, run_id: run.id });
