@@ -89,10 +89,8 @@ describe('applyWritingErrorsToAdaptive — writing corrections (3b)', () => {
     // Regression guard for the bug where every coarse "case" error was pinned to
     // genitive, so the daily session served genitive endlessly. Each submission
     // with a case error should nudge the NEXT case in the round-robin, so five
-    // successive case-error submissions cover all the scheduled cases. (Instrumental left the
-    // rotation on 2026-11-22: its old drill was replaced by the book-based A1 lesson drill, which
-    // is not a category the adaptive picker serves, so nothing could be scheduled for it.)
-    const CASES = ['genitive', 'accusative', 'dative-locative', 'vocative'];
+    // successive case-error submissions cover all the scheduled cases.
+    const CASES = ['genitive', 'accusative', 'dative-locative', 'instrumental', 'vocative'];
     for (let i = 0; i < CASES.length; i++) {
       applyWritingErrorsToAdaptive(['case']); // separate submissions — pointer advances
     }

@@ -484,7 +484,7 @@ export const A1_LESSON_DRILL_ENTRIES: CefrPoolEntry[] = [
     label: 'The Instrumental',
     screen: 'a1instrumentalintro',
     cefr: 'A1',
-    category: 'a1-instrumental-intro',
+    category: 'instrumental',
   },
   {
     id: 'a1directionstown',

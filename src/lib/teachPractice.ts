@@ -125,7 +125,7 @@ export const LESSON_TAUGHT_CATEGORY: Readonly<Record<string, SkillCategory>> = {
   'dative-intro': 'a1-dative-intro',
   'vocative-intro': 'vocative',
   instrumental: 'b1-instrumental',
-  'instrumental-intro': 'a1-instrumental-intro',
+  'instrumental-intro': 'instrumental',
   // C1 verb government — which case each verb demands. Mappable as of
   // 2026-08-28: the `rekcija` pool entry was retagged from 'dative-locative'
   // to 'verb-government' (owner decision), so the coupling now lands on

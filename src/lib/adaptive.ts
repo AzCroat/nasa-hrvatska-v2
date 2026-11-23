@@ -276,6 +276,7 @@ export type SkillCategory =
   | 'genitive'
   | 'accusative'
   | 'dative-locative'
+  | 'instrumental'
   | 'vocative'
   | 'nominative'
   | 'word-order'
@@ -750,7 +751,6 @@ export type SkillCategory =
   | 'a1-plural-nouns'
   | 'a1-adjectives-basic'
   | 'a1-weather-seasons'
-  | 'a1-instrumental-intro'
   | 'a1-alphabet'
   | 'a1-gender'
   | 'a1-possessives'
@@ -810,6 +810,7 @@ export const ALL_CATEGORIES: SkillCategory[] = [
   'genitive',
   'accusative',
   'dative-locative',
+  'instrumental',
   'vocative',
   'present-tense',
   'past-tense',

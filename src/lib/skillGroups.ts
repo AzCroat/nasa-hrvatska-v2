@@ -371,7 +371,7 @@ export const SKILL_GROUP: Record<SkillCategory, SkillGroup> = {
   'a1-plural-nouns': 'case',
   'a1-adjectives-basic': 'case',
   'a1-weather-seasons': 'case',
-  'a1-instrumental-intro': 'case',
+  instrumental: 'case',
   'a1-alphabet': 'vocab',
   'a1-gender': 'case',
   'a1-possessives': 'case',

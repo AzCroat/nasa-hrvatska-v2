@@ -6,6 +6,7 @@ import { describe, expect, it } from 'vitest';
 import { LESSON_TAUGHT_CATEGORY, recordScreenPractised } from '../lib/teachPractice';
 import { CATEGORY_SCREEN_MAP, SCREEN_CEFR } from '../lib/categoryRoutes';
 import { A1_LESSON_DRILL_ENTRIES } from '../lib/practiceDrillEntriesA1';
+import { ALL_CATEGORIES } from '../lib/adaptive';
 
 const LESSONS = [
   'pronouns-biti',
@@ -17,7 +18,6 @@ const LESSONS = [
   'modals-basic',
   'reflexive-verbs',
   'dative-intro',
-  'instrumental-intro',
   'directions-town',
   'food-drink',
   'clothes-appearance',
@@ -30,6 +30,47 @@ const LESSONS = [
 ] as const;
 const camel = (id: string) => id.replace(/-(\w)/g, (_, c: string) => c.toUpperCase());
 const upper = (id: string) => id.toUpperCase().replace(/-/g, '_');
+
+describe('A1 instrumental-intro', () => {
+  // Like A2 dative-locative: the lesson keeps its category (the adaptive picker and the written-mistake
+  // rotation use it), and that category's route is the A1 book drill.
+  it('keeps its category, routed to the A1 book drill, still in the picker and rotation', () => {
+    expect(LESSON_TAUGHT_CATEGORY['instrumental-intro']).toBe('instrumental');
+    expect(CATEGORY_SCREEN_MAP['instrumental']).toBe('a1instrumentalintro');
+    expect(SCREEN_CEFR['a1instrumentalintro']).toBe('A1');
+    expect((ALL_CATEGORIES as readonly string[]).includes('instrumental')).toBe(true);
+    expect(
+      A1_LESSON_DRILL_ENTRIES.some(
+        (e) => e.screen === 'a1instrumentalintro' && e.category === 'instrumental',
+      ),
+    ).toBe(true);
+  });
+
+  it('is well formed: 24-28 items, 3 modes of 6+, one right answer among 4 distinct options', async () => {
+    const m = await import('../data/drills/a1/instrumentalIntroDrill');
+    const data = m.INSTRUMENTAL_INTRO_DRILL_DATA as {
+      mode: string;
+      q: string;
+      opts: string[];
+      answer: string;
+      tip: string;
+    }[];
+    expect(data.length).toBeGreaterThanOrEqual(24);
+    expect(data.length).toBeLessThanOrEqual(28);
+    const modes = new Map<string, number>();
+    for (const d of data) modes.set(d.mode, (modes.get(d.mode) ?? 0) + 1);
+    expect(modes.size).toBe(3);
+    for (const n of modes.values()) expect(n).toBeGreaterThanOrEqual(6);
+    const seen = new Set<string>();
+    for (const d of data) {
+      expect(new Set(d.opts).size, d.q).toBe(4);
+      expect(d.opts, d.q).toContain(d.answer);
+      expect(seen.has(d.q), `duplicate question: ${d.q}`).toBe(false);
+      seen.add(d.q);
+      expect(d.tip.length, `tip: ${d.q}`).toBeGreaterThanOrEqual(20);
+    }
+  });
+});
 
 describe.each(LESSONS)('A1 book drill for %s', (id) => {
   it('is wired: the lesson practises its own category, routed to its own A1 screen', () => {

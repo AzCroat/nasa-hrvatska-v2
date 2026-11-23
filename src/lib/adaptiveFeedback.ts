@@ -74,7 +74,13 @@ const ERRORTYPE_TO_CATEGORY: Record<string, SkillCategory> = {
 // even coverage of all cases over successive submissions. The rotation is stable
 // WITHIN one submission (all its `case` errors resolve to the same category, so
 // the per-submission de-dupe below still holds) and advances only BETWEEN them.
-const CASE_CATEGORIES: SkillCategory[] = ['genitive', 'accusative', 'dative-locative', 'vocative'];
+const CASE_CATEGORIES: SkillCategory[] = [
+  'genitive',
+  'accusative',
+  'dative-locative',
+  'instrumental',
+  'vocative',
+];
 const CASE_ROTATION_KEY = 'nh_case_rotation';
 
 function nextCaseCategory(): SkillCategory {
