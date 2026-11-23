@@ -116,9 +116,11 @@ export const LESSON_TAUGHT_CATEGORY: Readonly<Record<string, SkillCategory>> = {
   'accusative-deep': 'accusative',
   'accusative-intro': 'a1-accusative-intro',
   'dative-locative': 'dative-locative',
-  // The A1 locative lesson: locdrill is A1, so unlike the vocab route below
-  // this one actually resolves for the learners the lesson is written for.
-  'locative-intro': 'a1-locative-intro',
+  // The A1 locative lesson keeps the combined dative-locative category (same arrangement as
+  // instrumental): the category's route is the A2 drill, and CATEGORY_EASIER_SCREEN drops an A1
+  // learner to the A1 book drill, so the lesson's practice resolves at A1 and the category is
+  // reached by the course gate at A1.
+  'locative-intro': 'dative-locative',
   // The A2 dative lesson routes to the same category: dative and locative share
   // their singular endings, which is exactly why CATEGORY_SCREEN_MAP already
   // sends the combined category to the locative drill.

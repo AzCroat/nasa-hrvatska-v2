@@ -449,7 +449,7 @@ export const A1_LESSON_DRILL_ENTRIES: CefrPoolEntry[] = [
     label: 'The Locative',
     screen: 'a1locativeintro',
     cefr: 'A1',
-    category: 'a1-locative-intro',
+    category: 'dative-locative',
   },
   {
     id: 'a1genitiveintro',

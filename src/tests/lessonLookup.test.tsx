@@ -154,7 +154,8 @@ describe('both routes are taken, not just the primary one', () => {
         lessonsTeachingScreen(id).length > 0 &&
         !BOOK_QUIZ_LESSONS.some((l) => bookQuizFor(l)?.screen === id), // a quiz is not an easier route
     );
-    expect(easierOnly.sort()).toEqual(['isklonidbab2', 'objekt']);
+    // a1locativeintro: the A1 book drill is the easier route of the dative-locative category.
+    expect(easierOnly.sort()).toEqual(['a1locativeintro', 'isklonidbab2', 'objekt']);
   });
 
   it('reports several lessons rather than picking one', () => {
@@ -169,9 +170,11 @@ describe('both routes are taken, not just the primary one', () => {
 
   it('is unambiguous everywhere else', () => {
     const plural = engineDrillIds().filter((id) => lessonsTeachingScreen(id).length > 1);
+    // a1locativeintro (2026-11-23): the A1 locative lesson and the A2 dative-locative lesson share
+    // the dative-locative category, so both honestly name the A1 book drill and the A2 drill.
     // a2conditionalforms (2026-11-13): the A2 conditional drill is also the easier route of the
     // B2 conditional lesson's own drill, so both conditional lessons honestly name it.
-    expect(plural).toEqual(['a1locativeintro', 'a2conditionalforms', 'objekt']);
+    expect(plural).toEqual(['a1locativeintro', 'a2conditionalforms', 'a2dativelocative', 'objekt']);
   });
 });
 
