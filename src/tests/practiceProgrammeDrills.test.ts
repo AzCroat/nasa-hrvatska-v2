@@ -66,12 +66,9 @@ const PROGRAMME_DRILLS: {
    */
   lessonLevel?: string;
 }[] = [
-  { screen: 'pluraldrill', category: 'plural', lesson: 'plural-nouns', cefr: 'A1' },
   { screen: 'negacija', category: 'negation', lesson: 'negation', cefr: 'A1' },
-  { screen: 'pridjevi', category: 'adjectives', lesson: 'adjectives-basic', cefr: 'A1' },
   { screen: 'pokazne', category: 'demonstratives', lesson: 'demonstratives', cefr: 'A1' },
   { screen: 'imatidrill', category: 'having', lesson: 'imati-nemati', cefr: 'A1' },
-  { screen: 'imperativ', category: 'imperative', lesson: 'imperative-basic', cefr: 'A1' },
   { screen: 'possess', category: 'possessives', lesson: 'possessives', cefr: 'A1' },
   { screen: 'upitne', category: 'questions', lesson: 'basic-questions', cefr: 'A1' },
   {
@@ -103,8 +100,6 @@ const PROGRAMME_DRILLS: {
   // specific to this block: five of the ten have a same-named REFERENCE screen
   // in the pool, so a wrong tag would be easy to write and hard to see.
   { screen: 'dom', category: 'home', lesson: 'house-home', cefr: 'A2' },
-  { screen: 'zdravlje', category: 'health', lesson: 'body-health', cefr: 'A1' },
-  { screen: 'odjeca', category: 'clothing', lesson: 'clothes-appearance', cefr: 'A1' },
   { screen: 'izgled', category: 'appearance', lesson: 'describing-people', cefr: 'A2' },
   { screen: 'zanimanja', category: 'jobs', lesson: 'work-jobs', cefr: 'A2' },
   { screen: 'skola', category: 'education', lesson: 'school-studies', cefr: 'A2' },
@@ -229,11 +224,7 @@ const PROGRAMME_DRILLS: {
   },
 
   // ── A1 topical block ──────────────────────────────────────────────────────
-  { screen: 'obitelj', category: 'family', lesson: 'family-people', cefr: 'A1' },
   { screen: 'zemlje', category: 'countries', lesson: 'countries-languages', cefr: 'A1' },
-  { screen: 'hrana', category: 'food', lesson: 'food-drink', cefr: 'A1' },
-  { screen: 'grad', category: 'directions', lesson: 'directions-town', cefr: 'A1' },
-  { screen: 'meteo', category: 'weather', lesson: 'weather-seasons', cefr: 'A1' },
   { screen: 'svidjanje', category: 'preferences', lesson: 'likes-preferences', cefr: 'A1' },
 
   // ── Former C2 block (2026-08-30; gated C1 since 2026-11-18) ─────────────────────────────────────────────────

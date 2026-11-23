@@ -53,12 +53,9 @@ export const CATEGORY_SCREEN_MAP: Partial<Record<SkillCategory, string>> = {
   // learners the lesson is written for.
   gender: 'genderdrill',
   // A1 plural drill (practice programme wave 1, 2026-08-29).
-  plural: 'pluraldrill',
   negation: 'negacija',
-  adjectives: 'pridjevi',
   demonstratives: 'pokazne',
   having: 'imatidrill',
-  imperative: 'imperativ',
   // Existing A1 drill, retagged 2026-08-29 (it was 'nominative').
   possessives: 'possess',
   // A1 tranche 3 (2026-08-29). `time` routes to the A1 clock-and-calendar
@@ -96,19 +93,13 @@ export const CATEGORY_SCREEN_MAP: Partial<Record<SkillCategory, string>> = {
   // screens that were only ever unreachable because their pool tag was a
   // catch-all; the other four route to authored C1 banks.
   // A1 topical block (2026-08-29). Topic-specific banks, each routed to itself.
-  family: 'obitelj',
   countries: 'zemlje',
-  food: 'hrana',
-  directions: 'grad',
-  weather: 'meteo',
   preferences: 'svidjanje',
   // A2 topical block (2026-08-29). Each routes to its own authored bank. None
   // routes to the same-named REFERENCE screen (`clothes`, `bodydesc`,
   // `professions`, `countries`, `lifeevents`): those are browse lists with no
   // completion, so a coupling at one could resolve and never clear.
   home: 'dom',
-  health: 'zdravlje',
-  clothing: 'odjeca',
   'a2-declension-review': 'a2declensionreview',
   'a2-relational-adjectives': 'a2relationaladjectives',
   'a2-possessive-adjectives-cases': 'a2possessiveadjectivescases',
@@ -293,6 +284,15 @@ export const CATEGORY_SCREEN_MAP: Partial<Record<SkillCategory, string>> = {
   'a1-pluralia-tantum': 'a1pluraliatantum',
   'a1-sports-free-time': 'a1sportsfreetime',
   'a1-abstract-ost': 'a1abstractost',
+  'a1-directions-town': 'a1directionstown',
+  'a1-food-drink': 'a1fooddrink',
+  'a1-clothes-appearance': 'a1clothesappearance',
+  'a1-imperative-basic': 'a1imperativebasic',
+  'a1-family-people': 'a1familypeople',
+  'a1-body-health': 'a1bodyhealth',
+  'a1-plural-nouns': 'a1pluralnouns',
+  'a1-adjectives-basic': 'a1adjectivesbasic',
+  'a1-weather-seasons': 'a1weatherseasons',
   'a1-instrumental-intro': 'a1instrumentalintro',
   'a1-alphabet': 'a1alphabet',
   'a1-gender': 'a1gender',

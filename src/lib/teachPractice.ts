@@ -171,12 +171,12 @@ export const LESSON_TAUGHT_CATEGORY: Readonly<Record<string, SkillCategory>> = {
   gender: 'gender',
   // A1 plural formation. `pluraldrill` is A1 and was authored FOR this lesson
   // (practice programme wave 1) — the lesson had no drill anywhere before it.
-  'plural-nouns': 'plural',
+  'plural-nouns': 'a1-plural-nouns',
   negation: 'negation',
-  'adjectives-basic': 'adjectives',
+  'adjectives-basic': 'a1-adjectives-basic',
   demonstratives: 'demonstratives',
   'imati-nemati': 'having',
-  'imperative-basic': 'imperative',
+  'imperative-basic': 'a1-imperative-basic',
   possessives: 'possessives',
   // A1 tranche 3 (2026-08-29). `basic-questions` is one of the two lessons this
   // file has named for months as unmapped "because no drill teaches exactly
@@ -228,11 +228,11 @@ export const LESSON_TAUGHT_CATEGORY: Readonly<Record<string, SkillCategory>> = {
   // in every DELIBERATELY_UNMAPPED list, and the reason was sound: the only
   // partner available was a topic-blind vocabulary game. They leave the list the
   // only honest way — a drill written for each lesson's actual subject.
-  'family-people': 'family',
+  'family-people': 'a1-family-people',
   'countries-languages': 'countries',
-  'food-drink': 'food',
-  'directions-town': 'directions',
-  'weather-seasons': 'weather',
+  'food-drink': 'a1-food-drink',
+  'directions-town': 'a1-directions-town',
+  'weather-seasons': 'a1-weather-seasons',
   'declension-review': 'a2-declension-review',
   'relational-adjectives': 'a2-relational-adjectives',
   'possessive-adjectives-cases': 'a2-possessive-adjectives-cases',
@@ -415,8 +415,8 @@ export const LESSON_TAUGHT_CATEGORY: Readonly<Record<string, SkillCategory>> = {
   // `lifeevents` are reference/browse entries with no completion, so a mapping
   // to one would resolve and then never clear.
   'house-home': 'home',
-  'body-health': 'health',
-  'clothes-appearance': 'clothing',
+  'body-health': 'a1-body-health',
+  'clothes-appearance': 'a1-clothes-appearance',
   'describing-people': 'appearance',
   'work-jobs': 'jobs',
   'school-studies': 'education',

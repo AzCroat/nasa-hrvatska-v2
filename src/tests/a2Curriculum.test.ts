@@ -243,8 +243,8 @@ describe('teach → practice coupling stays HONEST at A2', () => {
     // auto-complete on view and never reach recordScreenPractised, so a mapping
     // to one would resolve and then never clear — the `idioms` dead end.
     'house-home': 'home',
-    'body-health': 'health',
-    'clothes-appearance': 'clothing',
+    'body-health': 'a1-body-health',
+    'clothes-appearance': 'a1-clothes-appearance',
     'describing-people': 'appearance',
     'work-jobs': 'jobs',
     'school-studies': 'education',
