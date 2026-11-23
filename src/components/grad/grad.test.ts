@@ -65,7 +65,6 @@ describe('Grad place registry', () => {
     const DE_ORPHANED = [
       'nomdrill',
       'genitivedrill',
-      'locdrill',
       'participles',
       'conditionaldrill',
       'subordination',

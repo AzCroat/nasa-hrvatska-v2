@@ -70,13 +70,6 @@ export const CEFR_EXERCISE_POOL: CefrPoolEntry[] = [
     category: 'word-order',
   },
   {
-    id: 'locdrill',
-    label: 'Locative Case',
-    screen: 'locdrill',
-    cefr: 'A1',
-    category: 'dative-locative',
-  },
-  {
     id: 'sentbuild',
     label: 'Build Sentences',
     screen: 'sentbuild',

@@ -33,12 +33,6 @@ describe('content depth — high-traffic A1–B1 pools meet minimum size', () =>
       min: 50,
     },
     {
-      name: 'LocativeDrill',
-      path: 'src/components/practice/LocativeDrill.tsx',
-      re: /answer:/g,
-      min: 50,
-    },
-    {
       name: 'CliticDrill',
       path: 'src/components/practice/CliticDrill.tsx',
       re: /answer:/g,

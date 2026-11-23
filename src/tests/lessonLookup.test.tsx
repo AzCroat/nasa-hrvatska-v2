@@ -171,7 +171,7 @@ describe('both routes are taken, not just the primary one', () => {
     const plural = engineDrillIds().filter((id) => lessonsTeachingScreen(id).length > 1);
     // a2conditionalforms (2026-11-13): the A2 conditional drill is also the easier route of the
     // B2 conditional lesson's own drill, so both conditional lessons honestly name it.
-    expect(plural).toEqual(['a2conditionalforms', 'objekt']);
+    expect(plural).toEqual(['a1locativeintro', 'a2conditionalforms', 'objekt']);
   });
 });
 

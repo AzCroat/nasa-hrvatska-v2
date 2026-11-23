@@ -174,7 +174,7 @@ describe('categoryForScreen — both completion-key shapes', () => {
   });
 
   it('resolves a key that is a screen id (drills that key on the screen)', () => {
-    expect(categoryForScreen('locdrill')).toBe('dative-locative');
+    expect(categoryForScreen('a2dativelocative')).toBe('dative-locative');
     expect(categoryForScreen('presentdrill')).toBe('present-tense');
   });
 

@@ -238,36 +238,12 @@ export const PRACTICE_PROGRAMME_ENTRIES: CefrPoolEntry[] = [
   // on view. Routing a coupling at one would resolve, send the learner to a
   // word list, and never clear, which is exactly the `idioms` dead end. So all
   // ten are authored, and the five reference screens are untouched.
-  { id: 'dom', label: 'House & home', screen: 'dom', cefr: 'A2', category: 'home' },
-  {
-    id: 'izgled',
-    label: 'Describing people',
-    screen: 'izgled',
-    cefr: 'A2',
-    category: 'appearance',
-  },
-  { id: 'zanimanja', label: 'Work & jobs', screen: 'zanimanja', cefr: 'A2', category: 'jobs' },
   {
     id: 'skola',
     label: 'School & studying',
     screen: 'skola',
     cefr: 'A2',
     category: 'education',
-  },
-  { id: 'hobiji', label: 'Free time', screen: 'hobiji', cefr: 'A2', category: 'hobbies' },
-  {
-    id: 'putovanje',
-    label: 'Travel & transport',
-    screen: 'putovanje',
-    cefr: 'A2',
-    category: 'travel',
-  },
-  {
-    id: 'dogovor',
-    label: 'Plans & invitations',
-    screen: 'dogovor',
-    cefr: 'A2',
-    category: 'invitations',
   },
   {
     id: 'blagdani',
@@ -665,20 +641,6 @@ export const PRACTICE_PROGRAMME_ENTRIES: CefrPoolEntry[] = [
     screen: 'persiranje',
     cefr: 'A2',
     category: 'politeness',
-  },
-  {
-    id: 'prijedlozia2',
-    label: 'Prepositions in action',
-    screen: 'prijedlozia2',
-    cefr: 'A2',
-    category: 'preposition-case',
-  },
-  {
-    id: 'slaganjea2',
-    label: 'Adjective agreement',
-    screen: 'slaganjea2',
-    cefr: 'A2',
-    category: 'adjective-agreement',
   },
   { id: 'prilozia2', label: 'Adverbs', screen: 'prilozia2', cefr: 'A2', category: 'adverbs' },
   { id: 'veznici', label: 'Conjunctions', screen: 'veznici', cefr: 'A2', category: 'conjunctions' },
