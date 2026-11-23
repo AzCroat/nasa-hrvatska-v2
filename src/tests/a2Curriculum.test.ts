@@ -242,15 +242,15 @@ describe('teach → practice coupling stays HONEST at A2', () => {
     // exist and look like ready-made partners; all five are browse lists that
     // auto-complete on view and never reach recordScreenPractised, so a mapping
     // to one would resolve and then never clear — the `idioms` dead end.
-    'house-home': 'home',
+    'house-home': 'a2-house-home',
     'body-health': 'a1-body-health',
     'clothes-appearance': 'a1-clothes-appearance',
-    'describing-people': 'appearance',
-    'work-jobs': 'jobs',
+    'describing-people': 'a2-describing-people',
+    'work-jobs': 'a2-work-jobs',
     'school-studies': 'education',
-    'hobbies-free-time': 'hobbies',
-    'travel-transport': 'travel',
-    'plans-invitations': 'invitations',
+    'hobbies-free-time': 'a2-hobbies-free-time',
+    'travel-transport': 'a2-travel-transport',
+    'plans-invitations': 'a2-plans-invitations',
     'celebrations-holidays': 'celebrations',
     // The debt block (2026-08-30). These four were the last of the A2 list, and
     // they came off it exactly the way the note below the list said they would:

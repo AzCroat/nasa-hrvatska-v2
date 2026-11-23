@@ -99,13 +99,7 @@ const PROGRAMME_DRILLS: {
   // here for the usual two reasons (attribution and SKILL_GROUP) plus a third
   // specific to this block: five of the ten have a same-named REFERENCE screen
   // in the pool, so a wrong tag would be easy to write and hard to see.
-  { screen: 'dom', category: 'home', lesson: 'house-home', cefr: 'A2' },
-  { screen: 'izgled', category: 'appearance', lesson: 'describing-people', cefr: 'A2' },
-  { screen: 'zanimanja', category: 'jobs', lesson: 'work-jobs', cefr: 'A2' },
   { screen: 'skola', category: 'education', lesson: 'school-studies', cefr: 'A2' },
-  { screen: 'hobiji', category: 'hobbies', lesson: 'hobbies-free-time', cefr: 'A2' },
-  { screen: 'putovanje', category: 'travel', lesson: 'travel-transport', cefr: 'A2' },
-  { screen: 'dogovor', category: 'invitations', lesson: 'plans-invitations', cefr: 'A2' },
   {
     screen: 'blagdani',
     category: 'celebrations',
@@ -266,18 +260,6 @@ const PROGRAMME_DRILLS: {
   // nearest drill was gated above the lesson AND its tag was already spoken
   // for — the shape the A2 and B1 blocks found, three more times over.
   { screen: 'persiranje', category: 'politeness', lesson: 'vi-vs-ti', cefr: 'A2' },
-  {
-    screen: 'prijedlozia2',
-    category: 'preposition-case',
-    lesson: 'prepositions-action',
-    cefr: 'A2',
-  },
-  {
-    screen: 'slaganjea2',
-    category: 'adjective-agreement',
-    lesson: 'adjective-agreement',
-    cefr: 'A2',
-  },
   { screen: 'prilozia2', category: 'adverbs', lesson: 'adverbs', cefr: 'A2' },
   // These three lessons moved A2 → B1 (2026-11-12); the drills keep their A2 gate.
   {

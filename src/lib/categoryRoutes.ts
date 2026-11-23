@@ -33,7 +33,7 @@ export const CATEGORY_SCREEN_MAP: Partial<Record<SkillCategory, string>> = {
   // all collapsed to generic 'cloze', so even when the adaptive picker chose them
   // the learner never got a real case drill. Dative & locative share endings in
   // Croatian, so the locative drill covers the combined 'dative-locative' category.
-  'dative-locative': 'locdrill',
+  'dative-locative': 'a2dativelocative',
   // Like 'nominative' above, 'subordination' is NOT in ALL_CATEGORIES, so the
   // adaptive queue never picks it and this row is inert for
   // resolveAdaptiveActivity. It exists for the teach → practice coupling, and it
@@ -99,12 +99,19 @@ export const CATEGORY_SCREEN_MAP: Partial<Record<SkillCategory, string>> = {
   // routes to the same-named REFERENCE screen (`clothes`, `bodydesc`,
   // `professions`, `countries`, `lifeevents`): those are browse lists with no
   // completion, so a coupling at one could resolve and never clear.
-  home: 'dom',
   'a2-declension-review': 'a2declensionreview',
   'a2-relational-adjectives': 'a2relationaladjectives',
   'a2-possessive-adjectives-cases': 'a2possessiveadjectivescases',
   'a2-official-forms': 'a2officialforms',
   'a2-accusative-adjectives': 'a2accusativeadjectives',
+  'a2-work-jobs': 'a2workjobs',
+  'a2-travel-transport': 'a2traveltransport',
+  'a2-describing-people': 'a2describingpeople',
+  'a2-prepositions-action': 'a2prepositionsaction',
+  'a2-house-home': 'a2househome',
+  'a2-plans-invitations': 'a2plansinvitations',
+  'a2-hobbies-free-time': 'a2hobbiesfreetime',
+  'a2-adjective-agreement': 'a2adjectiveagreement',
   'a2-clitic-order': 'a2cliticorder',
   'a2-verbs-nuti': 'a2verbsnuti',
   'a2-weekend-plans': 'a2weekendplans',
@@ -318,12 +325,7 @@ export const CATEGORY_SCREEN_MAP: Partial<Record<SkillCategory, string>> = {
   'a1-infinitive-ci': 'a1infinitiveci',
   'a1-formal-address': 'a1formaladdress',
   'a1-travel-croatia': 'a1travelcroatia',
-  appearance: 'izgled',
-  jobs: 'zanimanja',
   education: 'skola',
-  hobbies: 'hobiji',
-  travel: 'putovanje',
-  invitations: 'dogovor',
   celebrations: 'blagdani',
   // B1 topical block (2026-08-30). Each routes to its own authored bank.
   opinions: 'misljenje',
@@ -380,8 +382,6 @@ export const CATEGORY_SCREEN_MAP: Partial<Record<SkillCategory, string>> = {
   'dialects-deep': 'dijalektic2',
   'language-society': 'jezikdrustvo',
   politeness: 'persiranje',
-  'preposition-case': 'prijedlozia2',
-  'adjective-agreement': 'slaganjea2',
   adverbs: 'prilozia2',
   conjunctions: 'veznici',
   'relative-koji': 'kojia2',
@@ -482,6 +482,8 @@ export const CATEGORY_SCREEN_MAP: Partial<Record<SkillCategory, string>> = {
 // can never surface a locked screen; it only rescues a category that would
 // otherwise be dropped for the whole level.
 export const CATEGORY_EASIER_SCREEN: Partial<Record<SkillCategory, string>> = {
+  // A learner below the A2 drill's level gets the A1 book drill for the same case pair.
+  'dative-locative': 'a1locativeintro',
   // present-tense maps to `cloze` (A2). A1 learners meet verbs in the
   // `present-tense-verbs` lesson and previously had nowhere to practise them.
   'present-tense': 'presentdrill',

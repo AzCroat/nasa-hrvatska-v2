@@ -414,15 +414,15 @@ export const LESSON_TAUGHT_CATEGORY: Readonly<Record<string, SkillCategory>> = {
   // could have served: `clothes`, `bodydesc`, `professions`, `countries` and
   // `lifeevents` are reference/browse entries with no completion, so a mapping
   // to one would resolve and then never clear.
-  'house-home': 'home',
+  'house-home': 'a2-house-home',
   'body-health': 'a1-body-health',
   'clothes-appearance': 'a1-clothes-appearance',
-  'describing-people': 'appearance',
-  'work-jobs': 'jobs',
+  'describing-people': 'a2-describing-people',
+  'work-jobs': 'a2-work-jobs',
   'school-studies': 'education',
-  'hobbies-free-time': 'hobbies',
-  'travel-transport': 'travel',
-  'plans-invitations': 'invitations',
+  'hobbies-free-time': 'a2-hobbies-free-time',
+  'travel-transport': 'a2-travel-transport',
+  'plans-invitations': 'a2-plans-invitations',
   'celebrations-holidays': 'celebrations',
   // B1 topical block (2026-08-30). The last ten topical lessons at B1; the
   // three B1 lessons still unmapped after this are grammar (time-duration,
@@ -482,8 +482,8 @@ export const LESSON_TAUGHT_CATEGORY: Readonly<Record<string, SkillCategory>> = {
   'spontani-govor': 'spontaneous',
   'jezik-i-drustvo': 'language-society',
   'vi-vs-ti': 'politeness',
-  'prepositions-action': 'preposition-case',
-  'adjective-agreement': 'adjective-agreement',
+  'prepositions-action': 'a2-prepositions-action',
+  'adjective-agreement': 'a2-adjective-agreement',
   adverbs: 'adverbs',
   conjunctions: 'conjunctions',
   'relative-koji': 'relative-koji',

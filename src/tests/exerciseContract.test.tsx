@@ -210,7 +210,6 @@ const FULL_CONTRACT_DRILLS = [
   { name: 'PrepDrill', path: '../components/practice/PrepDrill', vsTag: 'preposition' },
   { name: 'GenitiveDrill', path: '../components/practice/GenitiveDrill', vsTag: 'genitive' },
   { name: 'NominativeDrill', path: '../components/practice/NominativeDrill', vsTag: 'nominative' },
-  { name: 'LocativeDrill', path: '../components/practice/LocativeDrill', vsTag: 'locative' },
   { name: 'AccusativeDrill', path: '../components/practice/AccusativeDrill', vsTag: 'accusative' },
   {
     name: 'ConjugationDrill',

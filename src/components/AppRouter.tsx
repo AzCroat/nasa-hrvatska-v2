@@ -201,7 +201,6 @@ const NominativeDrill = lazyWithReload(() => import('./practice/NominativeDrill'
 // word order but had no drill at its own level to practise either.
 const PresentTenseDrill = lazyWithReload(() => import('./practice/PresentTenseDrill'));
 const WordOrderDrill = lazyWithReload(() => import('./practice/WordOrderDrill'));
-const LocativeDrill = lazyWithReload(() => import('./practice/LocativeDrill'));
 const FleetingADrill = lazyWithReload(() => import('./practice/FleetingADrill'));
 const SlangScreen = lazyWithReload(() => import('./practice/SlangScreen'));
 const C2StructureDrill = lazyWithReload(() => import('./practice/C2StructureDrill'));
@@ -259,7 +258,6 @@ const DiminutivesC1Drill = lazyWithReload(() => import('./practice/drills/Diminu
 const SummarisingDrill = lazyWithReload(() => import('./practice/drills/SummarisingDrill'));
 const CountriesDrill = lazyWithReload(() => import('./practice/drills/CountriesDrill'));
 const PreferencesDrill = lazyWithReload(() => import('./practice/drills/PreferencesDrill'));
-const HomeDrill = lazyWithReload(() => import('./practice/drills/HomeDrill'));
 const A2DeclensionReviewDrill = lazyWithReload(
   () => import('./practice/drills/A2DeclensionReviewDrill'),
 );
@@ -272,6 +270,29 @@ const A2PossessiveAdjectivesCasesDrill = lazyWithReload(
 const A2OfficialFormsDrill = lazyWithReload(() => import('./practice/drills/A2OfficialFormsDrill'));
 const A2AccusativeAdjectivesDrill = lazyWithReload(
   () => import('./practice/drills/A2AccusativeAdjectivesDrill'),
+);
+const A2WorkJobsDrill = lazyWithReload(() => import('./practice/drills/A2WorkJobsDrill'));
+const A2TravelTransportDrill = lazyWithReload(
+  () => import('./practice/drills/A2TravelTransportDrill'),
+);
+const A2DescribingPeopleDrill = lazyWithReload(
+  () => import('./practice/drills/A2DescribingPeopleDrill'),
+);
+const A2PrepositionsActionDrill = lazyWithReload(
+  () => import('./practice/drills/A2PrepositionsActionDrill'),
+);
+const A2HouseHomeDrill = lazyWithReload(() => import('./practice/drills/A2HouseHomeDrill'));
+const A2PlansInvitationsDrill = lazyWithReload(
+  () => import('./practice/drills/A2PlansInvitationsDrill'),
+);
+const A2HobbiesFreeTimeDrill = lazyWithReload(
+  () => import('./practice/drills/A2HobbiesFreeTimeDrill'),
+);
+const A2AdjectiveAgreementDrill = lazyWithReload(
+  () => import('./practice/drills/A2AdjectiveAgreementDrill'),
+);
+const A2DativeLocativeDrill = lazyWithReload(
+  () => import('./practice/drills/A2DativeLocativeDrill'),
 );
 const A2CliticOrderDrill = lazyWithReload(() => import('./practice/drills/A2CliticOrderDrill'));
 const A2VerbsNutiDrill = lazyWithReload(() => import('./practice/drills/A2VerbsNutiDrill'));
@@ -731,12 +752,7 @@ const A1ImperativeNegativeDrill = lazyWithReload(
 const A1InfinitiveCiDrill = lazyWithReload(() => import('./practice/drills/A1InfinitiveCiDrill'));
 const A1FormalAddressDrill = lazyWithReload(() => import('./practice/drills/A1FormalAddressDrill'));
 const A1TravelCroatiaDrill = lazyWithReload(() => import('./practice/drills/A1TravelCroatiaDrill'));
-const AppearanceDrill = lazyWithReload(() => import('./practice/drills/AppearanceDrill'));
-const JobsDrill = lazyWithReload(() => import('./practice/drills/JobsDrill'));
 const EducationDrill = lazyWithReload(() => import('./practice/drills/EducationDrill'));
-const HobbiesDrill = lazyWithReload(() => import('./practice/drills/HobbiesDrill'));
-const TravelDrill = lazyWithReload(() => import('./practice/drills/TravelDrill'));
-const InvitationsDrill = lazyWithReload(() => import('./practice/drills/InvitationsDrill'));
 const CelebrationsDrill = lazyWithReload(() => import('./practice/drills/CelebrationsDrill'));
 const OpinionsDrill = lazyWithReload(() => import('./practice/drills/OpinionsDrill'));
 const FeelingsDrill = lazyWithReload(() => import('./practice/drills/FeelingsDrill'));
@@ -796,10 +812,6 @@ const PhraseologyDrill = lazyWithReload(() => import('./practice/drills/Phraseol
 const DialectsDeepDrill = lazyWithReload(() => import('./practice/drills/DialectsDeepDrill'));
 const LanguageSocietyDrill = lazyWithReload(() => import('./practice/drills/LanguageSocietyDrill'));
 const PolitenessDrill = lazyWithReload(() => import('./practice/drills/PolitenessDrill'));
-const PrepositionCaseDrill = lazyWithReload(() => import('./practice/drills/PrepositionCaseDrill'));
-const AdjectiveAgreementDrill = lazyWithReload(
-  () => import('./practice/drills/AdjectiveAgreementDrill'),
-);
 const AdverbsDrill = lazyWithReload(() => import('./practice/drills/AdverbsDrill'));
 const ConjunctionsDrill = lazyWithReload(() => import('./practice/drills/ConjunctionsDrill'));
 const RelativeKojiDrill = lazyWithReload(() => import('./practice/drills/RelativeKojiDrill'));
@@ -2880,11 +2892,6 @@ export default function AppRouter(props: Record<string, any>) {
             <PreferencesDrill goBack={goBack} award={award} />
           </ScreenErrorBoundary>
         )}
-        {currentScreen === 'dom' && (
-          <ScreenErrorBoundary key="dom" name="dom">
-            <HomeDrill goBack={goBack} award={award} />
-          </ScreenErrorBoundary>
-        )}
         {currentScreen === 'a2declensionreview' && (
           <ScreenErrorBoundary key="a2declensionreview" name="a2declensionreview">
             <A2DeclensionReviewDrill goBack={goBack} award={award} />
@@ -2908,6 +2915,51 @@ export default function AppRouter(props: Record<string, any>) {
         {currentScreen === 'a2accusativeadjectives' && (
           <ScreenErrorBoundary key="a2accusativeadjectives" name="a2accusativeadjectives">
             <A2AccusativeAdjectivesDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'a2workjobs' && (
+          <ScreenErrorBoundary key="a2workjobs" name="a2workjobs">
+            <A2WorkJobsDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'a2traveltransport' && (
+          <ScreenErrorBoundary key="a2traveltransport" name="a2traveltransport">
+            <A2TravelTransportDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'a2describingpeople' && (
+          <ScreenErrorBoundary key="a2describingpeople" name="a2describingpeople">
+            <A2DescribingPeopleDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'a2prepositionsaction' && (
+          <ScreenErrorBoundary key="a2prepositionsaction" name="a2prepositionsaction">
+            <A2PrepositionsActionDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'a2househome' && (
+          <ScreenErrorBoundary key="a2househome" name="a2househome">
+            <A2HouseHomeDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'a2plansinvitations' && (
+          <ScreenErrorBoundary key="a2plansinvitations" name="a2plansinvitations">
+            <A2PlansInvitationsDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'a2hobbiesfreetime' && (
+          <ScreenErrorBoundary key="a2hobbiesfreetime" name="a2hobbiesfreetime">
+            <A2HobbiesFreeTimeDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'a2adjectiveagreement' && (
+          <ScreenErrorBoundary key="a2adjectiveagreement" name="a2adjectiveagreement">
+            <A2AdjectiveAgreementDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'a2dativelocative' && (
+          <ScreenErrorBoundary key="a2dativelocative" name="a2dativelocative">
+            <A2DativeLocativeDrill goBack={goBack} award={award} />
           </ScreenErrorBoundary>
         )}
         {currentScreen === 'a2cliticorder' && (
@@ -3969,34 +4021,9 @@ export default function AppRouter(props: Record<string, any>) {
             <A1TravelCroatiaDrill goBack={goBack} award={award} />
           </ScreenErrorBoundary>
         )}
-        {currentScreen === 'izgled' && (
-          <ScreenErrorBoundary key="izgled" name="izgled">
-            <AppearanceDrill goBack={goBack} award={award} />
-          </ScreenErrorBoundary>
-        )}
-        {currentScreen === 'zanimanja' && (
-          <ScreenErrorBoundary key="zanimanja" name="zanimanja">
-            <JobsDrill goBack={goBack} award={award} />
-          </ScreenErrorBoundary>
-        )}
         {currentScreen === 'skola' && (
           <ScreenErrorBoundary key="skola" name="skola">
             <EducationDrill goBack={goBack} award={award} />
-          </ScreenErrorBoundary>
-        )}
-        {currentScreen === 'hobiji' && (
-          <ScreenErrorBoundary key="hobiji" name="hobiji">
-            <HobbiesDrill goBack={goBack} award={award} />
-          </ScreenErrorBoundary>
-        )}
-        {currentScreen === 'putovanje' && (
-          <ScreenErrorBoundary key="putovanje" name="putovanje">
-            <TravelDrill goBack={goBack} award={award} />
-          </ScreenErrorBoundary>
-        )}
-        {currentScreen === 'dogovor' && (
-          <ScreenErrorBoundary key="dogovor" name="dogovor">
-            <InvitationsDrill goBack={goBack} award={award} />
           </ScreenErrorBoundary>
         )}
         {currentScreen === 'blagdani' && (
@@ -4264,16 +4291,6 @@ export default function AppRouter(props: Record<string, any>) {
             <PolitenessDrill goBack={goBack} award={award} />
           </ScreenErrorBoundary>
         )}
-        {currentScreen === 'prijedlozia2' && (
-          <ScreenErrorBoundary key="prijedlozia2" name="prijedlozia2">
-            <PrepositionCaseDrill goBack={goBack} award={award} />
-          </ScreenErrorBoundary>
-        )}
-        {currentScreen === 'slaganjea2' && (
-          <ScreenErrorBoundary key="slaganjea2" name="slaganjea2">
-            <AdjectiveAgreementDrill goBack={goBack} award={award} />
-          </ScreenErrorBoundary>
-        )}
         {currentScreen === 'prilozia2' && (
           <ScreenErrorBoundary key="prilozia2" name="prilozia2">
             <AdverbsDrill goBack={goBack} award={award} />
@@ -4397,11 +4414,6 @@ export default function AppRouter(props: Record<string, any>) {
         {currentScreen === 'genitivedrill' && (
           <ScreenErrorBoundary key="genitivedrill" name="genitivedrill">
             <GenitiveDrill goBack={goBack} award={award} />
-          </ScreenErrorBoundary>
-        )}
-        {currentScreen === 'locdrill' && (
-          <ScreenErrorBoundary key="locdrill" name="locdrill">
-            <LocativeDrill goBack={goBack} award={award} />
           </ScreenErrorBoundary>
         )}
         {currentScreen === 'fleetinga' && (

@@ -158,7 +158,6 @@ export const PLACE_ASSIGNMENTS: Record<string, { place: BucketId; subgroup?: str
   // soba / padezi
   nomdrill: { place: 'soba', subgroup: 'padezi' },
   genitivedrill: { place: 'soba', subgroup: 'padezi' },
-  locdrill: { place: 'soba', subgroup: 'padezi' },
   grammarmap: { place: 'soba', subgroup: 'padezi' },
   prepdrill: { place: 'soba', subgroup: 'padezi' },
   genderdrill: { place: 'soba', subgroup: 'padezi' },

@@ -29,16 +29,6 @@ export function buildDeorphanedDrills(go: Go) {
       action: go('genitivedrill'),
     },
     {
-      id: 'locdrill',
-      label: 'Locative',
-      icon: '📍',
-      desc: 'Location and "about", after prepositions',
-      category: 'grammar',
-      cefr: 'B1',
-      duration: '~10 min',
-      action: go('locdrill'),
-    },
-    {
       id: 'participles',
       label: 'Participles',
       icon: '🧩',
