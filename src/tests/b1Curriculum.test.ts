@@ -224,7 +224,7 @@ describe('teach → practice coupling stays HONEST at B1', () => {
     // Each now has its own pool-only category and its own B1 drill.
     'infinitive-vs-da': 'infinitive-da',
     'reported-speech': 'reported-speech',
-    impersonal: 'impersonal',
+    impersonal: 'a2-impersonal',
     'time-clauses': 'time-clauses',
     'cause-purpose': 'cause-purpose',
     // The debt block (2026-08-30) — the last three B1 lessons. Same collision

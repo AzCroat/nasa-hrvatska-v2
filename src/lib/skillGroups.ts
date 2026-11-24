@@ -73,8 +73,6 @@ export const SKILL_GROUP: Record<SkillCategory, SkillGroup> = {
   // the cases; `comparison` is adjective morphology and groups there too, for
   // the same reason `adjectives` does. Nothing here joins 'vocab' — every one of
   // them is a form the learner has to build.
-  'reflexive-possessive': 'case',
-  'plural-cases': 'case',
   comparison: 'case',
   // B1 tranche 1 (2026-08-29). Four are clause construction and group with
   // 'syntax', beside the other subordination content they sit next to in a
@@ -87,7 +85,6 @@ export const SKILL_GROUP: Record<SkillCategory, SkillGroup> = {
   'reported-speech': 'syntax',
   'time-clauses': 'syntax',
   'cause-purpose': 'syntax',
-  impersonal: 'verb',
   // C2 tranche 1 (2026-08-29). Every row here PRESERVES the group the entry
   // already had through its old catch-all tag, so the P3 variety pass behaves
   // byte-identically to before the retag — the same rule the `rekcija` retag
@@ -165,6 +162,13 @@ export const SKILL_GROUP: Record<SkillCategory, SkillGroup> = {
   'a2-possessive-adjectives-cases': 'case',
   'a2-official-forms': 'case',
   'a2-accusative-adjectives': 'case',
+  'a2-adverbs': 'vocab',
+  'a2-celebrations-holidays': 'vocab',
+  'a2-vi-vs-ti': 'vocab',
+  'a2-svoj': 'case',
+  'a2-plural-cases': 'case',
+  'a2-school-studies': 'vocab',
+  'a2-impersonal': 'verb',
   'a2-work-jobs': 'case',
   'a2-travel-transport': 'case',
   'a2-describing-people': 'case',
@@ -397,11 +401,9 @@ export const SKILL_GROUP: Record<SkillCategory, SkillGroup> = {
   'a1-travel-croatia': 'case',
   appearance: 'vocab',
   jobs: 'vocab',
-  education: 'vocab',
   hobbies: 'vocab',
   travel: 'case',
   invitations: 'vocab',
-  celebrations: 'vocab',
   // B1 topical block (2026-08-30), grouped by the structure the drill tests
   // rather than by the topic label — SKILL_GROUP is what the P3 variety pass
   // reads. `feelings` is case government end to end (bojati se + genitive,
@@ -542,10 +544,8 @@ export const SKILL_GROUP: Record<SkillCategory, SkillGroup> = {
   phraseology: 'vocab',
   'dialects-deep': 'vocab',
   'language-society': 'vocab',
-  politeness: 'vocab',
   'preposition-case': 'case',
   'adjective-agreement': 'case',
-  adverbs: 'vocab',
   conjunctions: 'syntax',
   'relative-koji': 'syntax',
   // indefinites: regrouped 'vocab' → 'case' (2026-11-12): 14 of its 24 items produce a form

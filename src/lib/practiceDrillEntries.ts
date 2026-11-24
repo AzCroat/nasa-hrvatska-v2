@@ -31,25 +31,11 @@ export const PRACTICE_PROGRAMME_ENTRIES: CefrPoolEntry[] = [
   // CATEGORY_EASIER_SCREEN.clitics, which also gives every learner below B2 a
   // clitics drill for the first time.
   {
-    id: 'svojdrill',
-    label: 'Svoj',
-    screen: 'svojdrill',
-    cefr: 'A2',
-    category: 'reflexive-possessive',
-  },
-  {
     id: 'a1objectpronouns',
     label: 'Object pronouns',
     screen: 'a1objectpronouns',
     cefr: 'A1',
     category: 'clitics',
-  },
-  {
-    id: 'mnozinapadezi',
-    label: 'Plural cases',
-    screen: 'mnozinapadezi',
-    cefr: 'A2',
-    category: 'plural-cases',
   },
   {
     id: 'komparacija',
@@ -80,13 +66,6 @@ export const PRACTICE_PROGRAMME_ENTRIES: CefrPoolEntry[] = [
     screen: 'prepricavanje',
     cefr: 'B1',
     category: 'reported-speech',
-  },
-  {
-    id: 'bezlicnob1',
-    label: 'Impersonal',
-    screen: 'bezlicnob1',
-    cefr: 'A2',
-    category: 'impersonal',
   },
   {
     id: 'vrijemeklauze',
@@ -198,20 +177,6 @@ export const PRACTICE_PROGRAMME_ENTRIES: CefrPoolEntry[] = [
   // on view. Routing a coupling at one would resolve, send the learner to a
   // word list, and never clear, which is exactly the `idioms` dead end. So all
   // ten are authored, and the five reference screens are untouched.
-  {
-    id: 'skola',
-    label: 'School & studying',
-    screen: 'skola',
-    cefr: 'A2',
-    category: 'education',
-  },
-  {
-    id: 'blagdani',
-    label: 'Celebrations',
-    screen: 'blagdani',
-    cefr: 'A2',
-    category: 'celebrations',
-  },
 
   // ── B1, the TOPICAL block (2026-08-30) ────────────────────────────────────
   // Ten lessons, and the survey found only ONE near-miss: `techvoc` (B2,
@@ -595,14 +560,6 @@ export const PRACTICE_PROGRAMME_ENTRIES: CefrPoolEntry[] = [
   // unchanged; each is new rather than a retag, because in every case the
   // nearest existing drill was both CEFR-gated above the lesson and carrying
   // a category already routed elsewhere.
-  {
-    id: 'persiranje',
-    label: 'Vi and ti',
-    screen: 'persiranje',
-    cefr: 'A2',
-    category: 'politeness',
-  },
-  { id: 'prilozia2', label: 'Adverbs', screen: 'prilozia2', cefr: 'A2', category: 'adverbs' },
   { id: 'veznici', label: 'Conjunctions', screen: 'veznici', cefr: 'A2', category: 'conjunctions' },
   { id: 'kojia2', label: 'The word koji', screen: 'kojia2', cefr: 'A2', category: 'relative-koji' },
   {

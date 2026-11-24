@@ -193,9 +193,9 @@ export const LESSON_TAUGHT_CATEGORY: Readonly<Record<string, SkillCategory>> = {
   // out as unmappable because the only clitic drill was B2; the A2 drill is
   // wired as the easier route for the same category, so the mapping is now
   // honest at the level the lesson is written for.
-  svoj: 'reflexive-possessive',
+  svoj: 'a2-svoj',
   'object-pronouns': 'clitics',
-  'plural-cases': 'plural-cases',
+  'plural-cases': 'a2-plural-cases',
   quantity: 'a1-quantity',
   'comparatives-a2': 'comparison',
   // B1 tranche 1 (2026-08-29). `reported-speech` is the entry this file recorded
@@ -205,7 +205,7 @@ export const LESSON_TAUGHT_CATEGORY: Readonly<Record<string, SkillCategory>> = {
   // own category and its own B1 drill, so nothing is shared or displaced.
   'infinitive-vs-da': 'infinitive-da',
   'reported-speech': 'reported-speech',
-  impersonal: 'impersonal',
+  impersonal: 'a2-impersonal',
   'time-clauses': 'time-clauses',
   'cause-purpose': 'cause-purpose',
   // C2 tranche 1 (2026-08-29). `precizno-nijansiranje` is the entry this file
@@ -421,11 +421,11 @@ export const LESSON_TAUGHT_CATEGORY: Readonly<Record<string, SkillCategory>> = {
   'clothes-appearance': 'a1-clothes-appearance',
   'describing-people': 'a2-describing-people',
   'work-jobs': 'a2-work-jobs',
-  'school-studies': 'education',
+  'school-studies': 'a2-school-studies',
   'hobbies-free-time': 'a2-hobbies-free-time',
   'travel-transport': 'a2-travel-transport',
   'plans-invitations': 'a2-plans-invitations',
-  'celebrations-holidays': 'celebrations',
+  'celebrations-holidays': 'a2-celebrations-holidays',
   // B1 topical block (2026-08-30). The last ten topical lessons at B1; the
   // three B1 lessons still unmapped after this are grammar (time-duration,
   // position-placement, real-conditions), none of which has a drill anywhere.
@@ -483,10 +483,10 @@ export const LESSON_TAUGHT_CATEGORY: Readonly<Record<string, SkillCategory>> = {
   'rekonstrukcija-argumenta': 'reconstruction',
   'spontani-govor': 'spontaneous',
   'jezik-i-drustvo': 'language-society',
-  'vi-vs-ti': 'politeness',
+  'vi-vs-ti': 'a2-vi-vs-ti',
   'prepositions-action': 'a2-prepositions-action',
   'adjective-agreement': 'a2-adjective-agreement',
-  adverbs: 'adverbs',
+  adverbs: 'a2-adverbs',
   conjunctions: 'conjunctions',
   'relative-koji': 'relative-koji',
   indefinites: 'indefinites',

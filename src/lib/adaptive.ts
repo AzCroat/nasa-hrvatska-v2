@@ -350,8 +350,6 @@ export type SkillCategory =
   // deliberately NOT among them: the A2 object-pronoun drill is wired as
   // CATEGORY_EASIER_SCREEN.clitics instead, because clitics is a real
   // ALL_CATEGORIES member whose only drill was B2-gated.
-  | 'reflexive-possessive'
-  | 'plural-cases'
   | 'comparison'
   // Pool-only tags (practice programme, B1 tranche 1, 2026-08-29). Every one of
   // these lessons had an existing drill at B2/C1 that ALSO carried a category
@@ -360,7 +358,6 @@ export type SkillCategory =
   // B1 lessons to the same drill, and one of them to relative pronouns.
   | 'infinitive-da'
   | 'reported-speech'
-  | 'impersonal'
   | 'time-clauses'
   | 'cause-purpose'
   // Pool-only tags (practice programme, C2 tranche 1, 2026-08-29). C2's gap was
@@ -428,11 +425,9 @@ export type SkillCategory =
   | 'clothing'
   | 'appearance'
   | 'jobs'
-  | 'education'
   | 'hobbies'
   | 'travel'
   | 'invitations'
-  | 'celebrations'
   // Pool-only tags (practice programme, B1 TOPICAL block, 2026-08-30). Same
   // shape again: the obligatory `da` after every opinion frame, the case each
   // reflexive emotion verb governs, reporting a fault rather than a culprit,
@@ -523,10 +518,8 @@ export type SkillCategory =
   // grid, placing an event in time, change against state, conditions that
   // may really happen, one vowel between advice and regret, how hard a
   // modal lands, and the prepositions whose case changes their meaning.
-  | 'politeness'
   | 'preposition-case'
   | 'adjective-agreement'
-  | 'adverbs'
   | 'conjunctions'
   | 'relative-koji'
   | 'indefinites'
@@ -546,6 +539,13 @@ export type SkillCategory =
   | 'a2-possessive-adjectives-cases'
   | 'a2-official-forms'
   | 'a2-accusative-adjectives'
+  | 'a2-adverbs'
+  | 'a2-celebrations-holidays'
+  | 'a2-vi-vs-ti'
+  | 'a2-svoj'
+  | 'a2-plural-cases'
+  | 'a2-school-studies'
+  | 'a2-impersonal'
   | 'a2-work-jobs'
   | 'a2-travel-transport'
   | 'a2-describing-people'

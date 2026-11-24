@@ -336,11 +336,11 @@ describe('drill banks — answer-key integrity', () => {
     // decorative-guard failure this repo keeps meeting. The figures are
     // cross-checked against CLAUDE.md's own "109 ModeDrill-backed drills".
     const banks = new Set(Object.keys(MODULES));
-    // (Floor lowered from 100 on 2026-11-22/23, and to 80 on 2026-11-23: old hand-written drills replaced by book drills; the glob below covers src/data/drills/*.ts only, not the a1/a2/b1... folders.)
+    // (Floor lowered from 100 on 2026-11-22/23, to 80 on 2026-11-23 and to 70 on 2026-11-24: old hand-written drills replaced by book drills; the glob below covers src/data/drills/*.ts only, not the a1/a2/b1... folders.)
     expect(banks.size, 'the drill glob matched nothing — check the path').toBeGreaterThanOrEqual(
-      80,
+      70,
     );
-    expect(items.length).toBeGreaterThan(1900);
+    expect(items.length).toBeGreaterThan(1700);
   });
 
   it('every item declares an answer present among its own options', () => {

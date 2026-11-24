@@ -60,8 +60,6 @@ export const CATEGORY_SCREEN_MAP: Partial<Record<SkillCategory, string>> = {
   // those and they are about counting and ordinal declension.
   // A2 tranche 1 (2026-08-29). Each replaces a route that existed only at B1/B2
   // and so could never resolve for the A2 lesson that needed it.
-  'reflexive-possessive': 'svojdrill',
-  'plural-cases': 'mnozinapadezi',
   comparison: 'komparacija',
   // B1 tranche 1 (2026-08-29). None of these reuses an existing category: the
   // drills that already taught this material are tagged `subordination`,
@@ -69,7 +67,6 @@ export const CATEGORY_SCREEN_MAP: Partial<Record<SkillCategory, string>> = {
   // would have collided on one screen.
   'infinitive-da': 'infda',
   'reported-speech': 'prepricavanje',
-  impersonal: 'bezlicnob1',
   'time-clauses': 'vrijemeklauze',
   'cause-purpose': 'uzrokb1',
   // C2 tranche 1 (2026-08-29). No new drills — each of these routes to an
@@ -94,6 +91,13 @@ export const CATEGORY_SCREEN_MAP: Partial<Record<SkillCategory, string>> = {
   'a2-possessive-adjectives-cases': 'a2possessiveadjectivescases',
   'a2-official-forms': 'a2officialforms',
   'a2-accusative-adjectives': 'a2accusativeadjectives',
+  'a2-adverbs': 'a2adverbs',
+  'a2-celebrations-holidays': 'a2celebrationsholidays',
+  'a2-vi-vs-ti': 'a2vivsti',
+  'a2-svoj': 'a2svoj',
+  'a2-plural-cases': 'a2pluralcases',
+  'a2-school-studies': 'a2schoolstudies',
+  'a2-impersonal': 'a2impersonal',
   'a2-work-jobs': 'a2workjobs',
   'a2-travel-transport': 'a2traveltransport',
   'a2-describing-people': 'a2describingpeople',
@@ -324,8 +328,6 @@ export const CATEGORY_SCREEN_MAP: Partial<Record<SkillCategory, string>> = {
   'a1-infinitive-ci': 'a1infinitiveci',
   'a1-formal-address': 'a1formaladdress',
   'a1-travel-croatia': 'a1travelcroatia',
-  education: 'skola',
-  celebrations: 'blagdani',
   // B1 topical block (2026-08-30). Each routes to its own authored bank.
   opinions: 'misljenje',
   feelings: 'osjecaji',
@@ -380,8 +382,6 @@ export const CATEGORY_SCREEN_MAP: Partial<Record<SkillCategory, string>> = {
   phraseology: 'frazemi',
   'dialects-deep': 'dijalektic2',
   'language-society': 'jezikdrustvo',
-  politeness: 'persiranje',
-  adverbs: 'prilozia2',
   conjunctions: 'veznici',
   'relative-koji': 'kojia2',
   indefinites: 'neodredjenea2',
