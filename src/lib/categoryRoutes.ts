@@ -502,7 +502,7 @@ export const CATEGORY_EASIER_SCREEN: Partial<Record<SkillCategory, string>> = {
   // clitics used to have the category dropped for their whole level and is now
   // served the A2 drill. That is the same fix `present-tense` got, and the same
   // reason.
-  clitics: 'objekt',
+  clitics: 'a1objectpronouns',
   // i-declension maps to `isklonidba` (C1). The B2 lesson that teaches this
   // paradigm needs a drill a B2 learner can open.
   'i-declension': 'isklonidbab2',

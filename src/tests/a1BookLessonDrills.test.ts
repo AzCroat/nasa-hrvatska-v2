@@ -40,6 +40,43 @@ const LESSONS = [
 const camel = (id: string) => id.replace(/-(\w)/g, (_, c: string) => c.toUpperCase());
 const upper = (id: string) => id.toUpperCase().replace(/-/g, '_');
 
+describe('A1 object-pronouns', () => {
+  // The lesson keeps the shared `clitics` category (the adaptive picker uses it, and the B2 and C1
+  // lessons share it). The B2 drill is the route; the A1 book drill is the easier route.
+  it('keeps the clitics category: B2 drill as the route, A1 book drill as the easier route', () => {
+    expect(LESSON_TAUGHT_CATEGORY['object-pronouns']).toBe('clitics');
+    expect(CATEGORY_SCREEN_MAP['clitics']).toBe('clitic');
+    expect(CATEGORY_EASIER_SCREEN['clitics']).toBe('a1objectpronouns');
+    expect(SCREEN_CEFR['a1objectpronouns']).toBe('A1');
+    expect((ALL_CATEGORIES as readonly string[]).includes('clitics')).toBe(true);
+  });
+
+  it('is well formed: 24-28 items, 3 modes of 6+, one right answer among 4 distinct options', async () => {
+    const m = await import('../data/drills/a1/objectPronounsDrill');
+    const data = m.OBJECT_PRONOUNS_DRILL_DATA as {
+      mode: string;
+      q: string;
+      opts: string[];
+      answer: string;
+      tip: string;
+    }[];
+    expect(data.length).toBeGreaterThanOrEqual(24);
+    expect(data.length).toBeLessThanOrEqual(28);
+    const modes = new Map<string, number>();
+    for (const d of data) modes.set(d.mode, (modes.get(d.mode) ?? 0) + 1);
+    expect(modes.size).toBe(3);
+    for (const n of modes.values()) expect(n).toBeGreaterThanOrEqual(6);
+    const seen = new Set<string>();
+    for (const d of data) {
+      expect(new Set(d.opts).size, d.q).toBe(4);
+      expect(d.opts, d.q).toContain(d.answer);
+      expect(seen.has(d.q), d.q).toBe(false);
+      seen.add(d.q);
+      expect(d.tip.length, `tip: ${d.q}`).toBeGreaterThanOrEqual(20);
+    }
+  });
+});
+
 describe('A1 locative-intro', () => {
   it('keeps the dative-locative category: A2 drill as the route, A1 book drill as the easier route', () => {
     expect(LESSON_TAUGHT_CATEGORY['locative-intro']).toBe('dative-locative');

@@ -159,7 +159,7 @@ const RAW: Record<string, ExerciseEntry> = {
   'future-tense': g('gc', 'grammar', 'grammar'),
   gender: g('gc', 'grammar', 'grammar'),
   svojdrill: g('gc', 'grammar', 'grammar'),
-  objekt: g('gc', 'grammar', 'grammar'),
+  a1objectpronouns: g('gc', 'grammar', 'grammar'),
   mnozinapadezi: g('gc', 'grammar', 'grammar'),
   komparacija: g('gc', 'grammar', 'grammar'),
   infda: g('gc', 'grammar', 'grammar'),

@@ -244,7 +244,7 @@ export const ROUTE_KEYS: ReadonlySet<string> = new Set([
   'norma',
   'novinski',
   'numtime',
-  'objekt',
+  'a1objectpronouns',
   'odredjenost',
   'ograde',
   'opposites',
