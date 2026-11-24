@@ -96,9 +96,9 @@ export const CEFR_EXERCISE_POOL: CefrPoolEntry[] = [
     id: 'accusativedrill',
     label: 'Accusative Case',
     screen: 'accusativedrill',
-    // Accusative (direct object) is foundational — introduced at A1 with the rest
-    // of the case system (was B1). Content is basic direct objects.
-    cefr: 'A1',
+    // The A2 accusative-deep lesson's book drill (2026-11-24). The A1 accusative lessons have their
+    // own book drills; CATEGORY_EASIER_SCREEN.accusative sends a learner below A2 to the A1 one.
+    cefr: 'A2',
     category: 'accusative',
   },
   { id: 'future', label: 'Future Tense', screen: 'future', cefr: 'A1', category: 'future-tense' },
