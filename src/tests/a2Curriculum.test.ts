@@ -208,8 +208,8 @@ describe('teach → practice coupling stays HONEST at A2', () => {
     // DELIBERATELY_UNMAPPED below for the honest reason — the drill the lesson
     // needed sat one or two levels above it and could never resolve. Authoring
     // the A2 drill is the only way a lesson leaves that list.
-    svoj: 'reflexive-possessive',
-    'plural-cases': 'plural-cases',
+    svoj: 'a2-svoj',
+    'plural-cases': 'a2-plural-cases',
     quantity: 'a1-quantity',
     'comparatives-a2': 'comparison',
     // The one this file predicted: "If a clitic drill ever ships at A2, move it
@@ -247,11 +247,11 @@ describe('teach → practice coupling stays HONEST at A2', () => {
     'clothes-appearance': 'a1-clothes-appearance',
     'describing-people': 'a2-describing-people',
     'work-jobs': 'a2-work-jobs',
-    'school-studies': 'education',
+    'school-studies': 'a2-school-studies',
     'hobbies-free-time': 'a2-hobbies-free-time',
     'travel-transport': 'a2-travel-transport',
     'plans-invitations': 'a2-plans-invitations',
-    'celebrations-holidays': 'celebrations',
+    'celebrations-holidays': 'a2-celebrations-holidays',
     // The debt block (2026-08-30). These four were the last of the A2 list, and
     // they came off it exactly the way the note below the list said they would:
     // a drill authored for each lesson's actual subject. Nothing here is a
@@ -260,7 +260,7 @@ describe('teach → practice coupling stays HONEST at A2', () => {
     // for. `relative-koji` is the sharpest instance: `relpron` IS a relative
     // pronoun drill, but it is B1 and it carries `subordination`, whose easier
     // route is pinned TO `relpron` by b1Curriculum for three B2 lessons.
-    adverbs: 'adverbs',
+    adverbs: 'a2-adverbs',
     conjunctions: 'conjunctions',
     'relative-koji': 'relative-koji',
     indefinites: 'indefinites',

@@ -18,6 +18,13 @@ const OWN_CATEGORY = [
   'plans-invitations',
   'hobbies-free-time',
   'adjective-agreement',
+  'adverbs',
+  'celebrations-holidays',
+  'vi-vs-ti',
+  'svoj',
+  'plural-cases',
+  'school-studies',
+  'impersonal',
 ] as const;
 const ALL = [...OWN_CATEGORY, 'dative-locative'] as const;
 const camel = (id: string) => id.replace(/-(\w)/g, (_, c: string) => c.toUpperCase());

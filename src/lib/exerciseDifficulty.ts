@@ -18,15 +18,12 @@ export const EXERCISE_DIFFICULTY: Record<string, number> = {
   nomdrill: 2,
   // A2 tranche 1: tier 3, a step above the A1 banks — these ask for a case
   // choice or a form the learner has to build, not a recognition pick.
-  svojdrill: 3,
   a1objectpronouns: 3,
-  mnozinapadezi: 3,
   komparacija: 3,
   // B1 tranche 1: tier 4. These are clause-level choices — which connector,
   // which subject, whether the tense moves — not a single form to build.
   infda: 4,
   prepricavanje: 4,
-  bezlicnob1: 4,
   vrijemeklauze: 4,
   uzrokb1: 4,
   // B2 tranche 1: tier 4, same as the B1 banks. These ask for a governed
@@ -50,6 +47,13 @@ export const EXERCISE_DIFFICULTY: Record<string, number> = {
   a2possessiveadjectivescases: 2,
   a2officialforms: 2,
   a2accusativeadjectives: 2,
+  a2adverbs: 3,
+  a2celebrationsholidays: 3,
+  a2vivsti: 3,
+  a2svoj: 3,
+  a2pluralcases: 3,
+  a2schoolstudies: 3,
+  a2impersonal: 4,
   a2workjobs: 2,
   a2traveltransport: 2,
   a2describingpeople: 2,
@@ -279,8 +283,6 @@ export const EXERCISE_DIFFICULTY: Record<string, number> = {
   a1infinitiveci: 2,
   a1formaladdress: 2,
   a1travelcroatia: 2,
-  skola: 3,
-  blagdani: 3,
   // B1 topical block: tier 4, matching the other B1 banks.
   misljenje: 4,
   osjecaji: 4,
@@ -335,8 +337,6 @@ export const EXERCISE_DIFFICULTY: Record<string, number> = {
   frazemi: 6,
   dijalektic2: 6,
   jezikdrustvo: 6,
-  persiranje: 3,
-  prilozia2: 3,
   veznici: 3,
   kojia2: 3,
   neodredjenea2: 3,

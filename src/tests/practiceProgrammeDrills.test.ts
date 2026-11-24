@@ -68,13 +68,6 @@ const PROGRAMME_DRILLS: {
 }[] = [
   { screen: 'possess', category: 'possessives', lesson: 'possessives', cefr: 'A1' },
   // ── A2 ────────────────────────────────────────────────────────────────────
-  { screen: 'svojdrill', category: 'reflexive-possessive', lesson: 'svoj', cefr: 'A2' },
-  {
-    screen: 'mnozinapadezi',
-    category: 'plural-cases',
-    lesson: 'plural-cases',
-    cefr: 'A2',
-  },
   {
     screen: 'komparacija',
     category: 'comparison',
@@ -86,13 +79,6 @@ const PROGRAMME_DRILLS: {
   // here for the usual two reasons (attribution and SKILL_GROUP) plus a third
   // specific to this block: five of the ten have a same-named REFERENCE screen
   // in the pool, so a wrong tag would be easy to write and hard to see.
-  { screen: 'skola', category: 'education', lesson: 'school-studies', cefr: 'A2' },
-  {
-    screen: 'blagdani',
-    category: 'celebrations',
-    lesson: 'celebrations-holidays',
-    cefr: 'A2',
-  },
   // B1 topical block (2026-08-30). Ten authored banks.
   { screen: 'misljenje', category: 'opinions', lesson: 'opinions-agreeing', cefr: 'B1' },
   { screen: 'osjecaji', category: 'feelings', lesson: 'feelings-inner-life', cefr: 'B1' },
@@ -143,7 +129,6 @@ const PROGRAMME_DRILLS: {
     lesson: 'reported-speech',
     cefr: 'B1',
   },
-  { screen: 'bezlicnob1', category: 'impersonal', lesson: 'impersonal', cefr: 'A2' },
   { screen: 'vrijemeklauze', category: 'time-clauses', lesson: 'time-clauses', cefr: 'B1' },
   { screen: 'uzrokb1', category: 'cause-purpose', lesson: 'cause-purpose', cefr: 'B1' },
   // ── Former C2 (the course now ends at C1; all gated C1) ──────────────────────────────────────────────────────────────
@@ -244,8 +229,6 @@ const PROGRAMME_DRILLS: {
   // category rather than reusing an existing one, because in every case the
   // nearest drill was gated above the lesson AND its tag was already spoken
   // for — the shape the A2 and B1 blocks found, three more times over.
-  { screen: 'persiranje', category: 'politeness', lesson: 'vi-vs-ti', cefr: 'A2' },
-  { screen: 'prilozia2', category: 'adverbs', lesson: 'adverbs', cefr: 'A2' },
   // These three lessons moved A2 → B1 (2026-11-12); the drills keep their A2 gate.
   {
     screen: 'veznici',
