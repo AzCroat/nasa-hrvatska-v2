@@ -170,11 +170,14 @@ describe('both routes are taken, not just the primary one', () => {
 
   it('is unambiguous everywhere else', () => {
     const plural = engineDrillIds().filter((id) => lessonsTeachingScreen(id).length > 1);
+    // a1accusativeintro (2026-11-24): the A2 accusative-deep lesson keeps the accusative category,
+    // whose easier route is the A1 accusative drill, so both lessons honestly name it.
     // a1locativeintro (2026-11-23): the A1 locative lesson and the A2 dative-locative lesson share
     // the dative-locative category, so both honestly name the A1 book drill and the A2 drill.
     // a2conditionalforms (2026-11-13): the A2 conditional drill is also the easier route of the
     // B2 conditional lesson's own drill, so both conditional lessons honestly name it.
     expect(plural).toEqual([
+      'a1accusativeintro',
       'a1locativeintro',
       'a1objectpronouns',
       'a2conditionalforms',

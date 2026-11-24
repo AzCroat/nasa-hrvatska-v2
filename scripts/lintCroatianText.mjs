@@ -443,6 +443,7 @@ const TARGETS = [
   'src/data/drills/a2/publicTransportDrill.ts',
   'src/data/drills/a2/phoneCallsA2Drill.ts',
   'src/data/drills/a2/workJobsDrill.ts',
+  'src/data/drills/a2/accusativeDeepDrill.ts',
   'src/data/drills/a2/impersonalDrill.ts',
   'src/data/drills/a2/schoolStudiesDrill.ts',
   'src/data/drills/a2/pluralCasesDrill.ts',

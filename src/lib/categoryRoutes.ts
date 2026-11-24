@@ -494,6 +494,9 @@ export const CATEGORY_EASIER_SCREEN: Partial<Record<SkillCategory, string>> = {
   // needs a drill a B1 learner can actually open, and `relpron` is the one that
   // teaches the same thing one level down.
   subordination: 'relpron',
+  // The A2 accusative-deep lesson owns the `accusative` category: its route is the A2 book drill.
+  // A learner below A2 who is picked for accusative gets the A1 book drill for the same case.
+  accusative: 'a1accusativeintro',
   // clitics maps to `clitic` (B2). The A2 `object-pronouns` lesson is where
   // me/te/ga/joj are actually taught, and CLAUDE.md recorded that lesson as
   // unmappable precisely because the only clitic drill was two levels above it.
