@@ -234,13 +234,13 @@ describe('the walker itself works', () => {
   it('sees a call one import away', () => {
     // Every engine-backed drill is a wrapper whose own file never mentions
     // completeExercise — the call is in ModeDrill.
-    const wrapper = path.join(SRC, 'components/practice/drills/QuestionsDrill.tsx');
+    const wrapper = path.join(SRC, 'components/practice/drills/A1BasicQuestionsDrill.tsx');
     expect(/completeExercise/.test(fs.readFileSync(wrapper, 'utf8'))).toBe(false);
     expect(reachesClearingPath(wrapper)).toBe(true);
   });
 
   it('does not see one where there is none', () => {
-    const bank = path.join(SRC, 'data/drills/questionsDrill.ts');
+    const bank = path.join(SRC, 'data/drills/a1/basicQuestionsDrill.ts');
     expect(reachesClearingPath(bank)).toBe(false);
   });
 });

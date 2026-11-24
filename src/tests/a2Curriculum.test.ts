@@ -210,7 +210,7 @@ describe('teach → practice coupling stays HONEST at A2', () => {
     // the A2 drill is the only way a lesson leaves that list.
     svoj: 'reflexive-possessive',
     'plural-cases': 'plural-cases',
-    quantity: 'quantity',
+    quantity: 'a1-quantity',
     'comparatives-a2': 'comparison',
     // The one this file predicted: "If a clitic drill ever ships at A2, move it
     // into EXPECTED above." `objekt` is that drill, wired as the EASIER route

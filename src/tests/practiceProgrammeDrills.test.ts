@@ -66,19 +66,7 @@ const PROGRAMME_DRILLS: {
    */
   lessonLevel?: string;
 }[] = [
-  { screen: 'negacija', category: 'negation', lesson: 'negation', cefr: 'A1' },
-  { screen: 'pokazne', category: 'demonstratives', lesson: 'demonstratives', cefr: 'A1' },
-  { screen: 'imatidrill', category: 'having', lesson: 'imati-nemati', cefr: 'A1' },
   { screen: 'possess', category: 'possessives', lesson: 'possessives', cefr: 'A1' },
-  { screen: 'upitne', category: 'questions', lesson: 'basic-questions', cefr: 'A1' },
-  {
-    screen: 'mjesto',
-    category: 'place-prepositions',
-    lesson: 'prepositions-place',
-    cefr: 'A1',
-  },
-  { screen: 'vrijemea1', category: 'time', lesson: 'time-calendar', cefr: 'A1' },
-  { screen: 'pozdravi', category: 'greetings', lesson: 'greetings-farewells', cefr: 'A1' },
   // ── A2 ────────────────────────────────────────────────────────────────────
   { screen: 'svojdrill', category: 'reflexive-possessive', lesson: 'svoj', cefr: 'A2' },
   {
@@ -87,7 +75,6 @@ const PROGRAMME_DRILLS: {
     lesson: 'plural-cases',
     cefr: 'A2',
   },
-  { screen: 'kolicinaa2', category: 'quantity', lesson: 'quantity', cefr: 'A1' },
   {
     screen: 'komparacija',
     category: 'comparison',
@@ -218,8 +205,6 @@ const PROGRAMME_DRILLS: {
   },
 
   // ── A1 topical block ──────────────────────────────────────────────────────
-  { screen: 'zemlje', category: 'countries', lesson: 'countries-languages', cefr: 'A1' },
-  { screen: 'svidjanje', category: 'preferences', lesson: 'likes-preferences', cefr: 'A1' },
 
   // ── Former C2 block (2026-08-30; gated C1 since 2026-11-18) ─────────────────────────────────────────────────
   // The last seventeen of the programme. Every one is a new bank; every

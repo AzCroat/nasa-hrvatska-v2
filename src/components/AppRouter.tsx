@@ -222,19 +222,9 @@ const RekcijaDrill = lazyWithReload(() => import('./practice/RekcijaDrill'));
 // Lazy, not static — firstPaintGraph.test.ts forbids src/data on the
 // first-paint path, and at 180 drills a static bank import would ship every
 // bank to every learner on first load. See practice/ModeDrill.tsx.
-const NegationDrill = lazyWithReload(() => import('./practice/drills/NegationDrill'));
-const DemonstrativesDrill = lazyWithReload(() => import('./practice/drills/DemonstrativesDrill'));
-const ImatiDrill = lazyWithReload(() => import('./practice/drills/ImatiDrill'));
-const QuestionsDrill = lazyWithReload(() => import('./practice/drills/QuestionsDrill'));
-const PlacePrepositionsDrill = lazyWithReload(
-  () => import('./practice/drills/PlacePrepositionsDrill'),
-);
-const TimeCalendarDrill = lazyWithReload(() => import('./practice/drills/TimeCalendarDrill'));
-const GreetingsDrill = lazyWithReload(() => import('./practice/drills/GreetingsDrill'));
 const SvojDrill = lazyWithReload(() => import('./practice/drills/SvojDrill'));
 const ObjectPronounsDrill = lazyWithReload(() => import('./practice/drills/ObjectPronounsDrill'));
 const PluralCasesDrill = lazyWithReload(() => import('./practice/drills/PluralCasesDrill'));
-const QuantityDrill = lazyWithReload(() => import('./practice/drills/QuantityDrill'));
 const ComparisonDrill = lazyWithReload(() => import('./practice/drills/ComparisonDrill'));
 const InfinitiveDaDrill = lazyWithReload(() => import('./practice/drills/InfinitiveDaDrill'));
 const ReportedSpeechB1Drill = lazyWithReload(
@@ -256,8 +246,6 @@ const AdvancedComparisonDrill = lazyWithReload(
 const WordFormationDrill = lazyWithReload(() => import('./practice/drills/WordFormationDrill'));
 const DiminutivesC1Drill = lazyWithReload(() => import('./practice/drills/DiminutivesC1Drill'));
 const SummarisingDrill = lazyWithReload(() => import('./practice/drills/SummarisingDrill'));
-const CountriesDrill = lazyWithReload(() => import('./practice/drills/CountriesDrill'));
-const PreferencesDrill = lazyWithReload(() => import('./practice/drills/PreferencesDrill'));
 const A2DeclensionReviewDrill = lazyWithReload(
   () => import('./practice/drills/A2DeclensionReviewDrill'),
 );
@@ -694,6 +682,28 @@ const A1SportsFreeTimeDrill = lazyWithReload(
   () => import('./practice/drills/A1SportsFreeTimeDrill'),
 );
 const A1AbstractOstDrill = lazyWithReload(() => import('./practice/drills/A1AbstractOstDrill'));
+const A1DemonstrativesDrill = lazyWithReload(
+  () => import('./practice/drills/A1DemonstrativesDrill'),
+);
+const A1TimeCalendarDrill = lazyWithReload(() => import('./practice/drills/A1TimeCalendarDrill'));
+const A1LikesPreferencesDrill = lazyWithReload(
+  () => import('./practice/drills/A1LikesPreferencesDrill'),
+);
+const A1QuantityDrill = lazyWithReload(() => import('./practice/drills/A1QuantityDrill'));
+const A1ImatiNematiDrill = lazyWithReload(() => import('./practice/drills/A1ImatiNematiDrill'));
+const A1GreetingsFarewellsDrill = lazyWithReload(
+  () => import('./practice/drills/A1GreetingsFarewellsDrill'),
+);
+const A1PrepositionsPlaceDrill = lazyWithReload(
+  () => import('./practice/drills/A1PrepositionsPlaceDrill'),
+);
+const A1BasicQuestionsDrill = lazyWithReload(
+  () => import('./practice/drills/A1BasicQuestionsDrill'),
+);
+const A1CountriesLanguagesDrill = lazyWithReload(
+  () => import('./practice/drills/A1CountriesLanguagesDrill'),
+);
+const A1NegationDrill = lazyWithReload(() => import('./practice/drills/A1NegationDrill'));
 const A1DirectionsTownDrill = lazyWithReload(
   () => import('./practice/drills/A1DirectionsTownDrill'),
 );
@@ -2752,41 +2762,6 @@ export default function AppRouter(props: Record<string, any>) {
             <AoristImperfektDrill goBack={goBack} award={award} />
           </ScreenErrorBoundary>
         )}
-        {currentScreen === 'negacija' && (
-          <ScreenErrorBoundary key="negacija" name="negacija">
-            <NegationDrill goBack={goBack} award={award} />
-          </ScreenErrorBoundary>
-        )}
-        {currentScreen === 'pokazne' && (
-          <ScreenErrorBoundary key="pokazne" name="pokazne">
-            <DemonstrativesDrill goBack={goBack} award={award} />
-          </ScreenErrorBoundary>
-        )}
-        {currentScreen === 'imatidrill' && (
-          <ScreenErrorBoundary key="imatidrill" name="imatidrill">
-            <ImatiDrill goBack={goBack} award={award} />
-          </ScreenErrorBoundary>
-        )}
-        {currentScreen === 'upitne' && (
-          <ScreenErrorBoundary key="upitne" name="upitne">
-            <QuestionsDrill goBack={goBack} award={award} />
-          </ScreenErrorBoundary>
-        )}
-        {currentScreen === 'mjesto' && (
-          <ScreenErrorBoundary key="mjesto" name="mjesto">
-            <PlacePrepositionsDrill goBack={goBack} award={award} />
-          </ScreenErrorBoundary>
-        )}
-        {currentScreen === 'vrijemea1' && (
-          <ScreenErrorBoundary key="vrijemea1" name="vrijemea1">
-            <TimeCalendarDrill goBack={goBack} award={award} />
-          </ScreenErrorBoundary>
-        )}
-        {currentScreen === 'pozdravi' && (
-          <ScreenErrorBoundary key="pozdravi" name="pozdravi">
-            <GreetingsDrill goBack={goBack} award={award} />
-          </ScreenErrorBoundary>
-        )}
         {currentScreen === 'svojdrill' && (
           <ScreenErrorBoundary key="svojdrill" name="svojdrill">
             <SvojDrill goBack={goBack} award={award} />
@@ -2800,11 +2775,6 @@ export default function AppRouter(props: Record<string, any>) {
         {currentScreen === 'mnozinapadezi' && (
           <ScreenErrorBoundary key="mnozinapadezi" name="mnozinapadezi">
             <PluralCasesDrill goBack={goBack} award={award} />
-          </ScreenErrorBoundary>
-        )}
-        {currentScreen === 'kolicinaa2' && (
-          <ScreenErrorBoundary key="kolicinaa2" name="kolicinaa2">
-            <QuantityDrill goBack={goBack} award={award} />
           </ScreenErrorBoundary>
         )}
         {currentScreen === 'komparacija' && (
@@ -2880,16 +2850,6 @@ export default function AppRouter(props: Record<string, any>) {
         {currentScreen === 'sazimanje' && (
           <ScreenErrorBoundary key="sazimanje" name="sazimanje">
             <SummarisingDrill goBack={goBack} award={award} />
-          </ScreenErrorBoundary>
-        )}
-        {currentScreen === 'zemlje' && (
-          <ScreenErrorBoundary key="zemlje" name="zemlje">
-            <CountriesDrill goBack={goBack} award={award} />
-          </ScreenErrorBoundary>
-        )}
-        {currentScreen === 'svidjanje' && (
-          <ScreenErrorBoundary key="svidjanje" name="svidjanje">
-            <PreferencesDrill goBack={goBack} award={award} />
           </ScreenErrorBoundary>
         )}
         {currentScreen === 'a2declensionreview' && (
@@ -3849,6 +3809,56 @@ export default function AppRouter(props: Record<string, any>) {
         {currentScreen === 'a1abstractost' && (
           <ScreenErrorBoundary key="a1abstractost" name="a1abstractost">
             <A1AbstractOstDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'a1demonstratives' && (
+          <ScreenErrorBoundary key="a1demonstratives" name="a1demonstratives">
+            <A1DemonstrativesDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'a1timecalendar' && (
+          <ScreenErrorBoundary key="a1timecalendar" name="a1timecalendar">
+            <A1TimeCalendarDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'a1likespreferences' && (
+          <ScreenErrorBoundary key="a1likespreferences" name="a1likespreferences">
+            <A1LikesPreferencesDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'a1quantity' && (
+          <ScreenErrorBoundary key="a1quantity" name="a1quantity">
+            <A1QuantityDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'a1imatinemati' && (
+          <ScreenErrorBoundary key="a1imatinemati" name="a1imatinemati">
+            <A1ImatiNematiDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'a1greetingsfarewells' && (
+          <ScreenErrorBoundary key="a1greetingsfarewells" name="a1greetingsfarewells">
+            <A1GreetingsFarewellsDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'a1prepositionsplace' && (
+          <ScreenErrorBoundary key="a1prepositionsplace" name="a1prepositionsplace">
+            <A1PrepositionsPlaceDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'a1basicquestions' && (
+          <ScreenErrorBoundary key="a1basicquestions" name="a1basicquestions">
+            <A1BasicQuestionsDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'a1countrieslanguages' && (
+          <ScreenErrorBoundary key="a1countrieslanguages" name="a1countrieslanguages">
+            <A1CountriesLanguagesDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'a1negation' && (
+          <ScreenErrorBoundary key="a1negation" name="a1negation">
+            <A1NegationDrill goBack={goBack} award={award} />
           </ScreenErrorBoundary>
         )}
         {currentScreen === 'a1directionstown' && (
