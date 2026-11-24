@@ -53,23 +53,15 @@ export const CATEGORY_SCREEN_MAP: Partial<Record<SkillCategory, string>> = {
   // learners the lesson is written for.
   gender: 'genderdrill',
   // A1 plural drill (practice programme wave 1, 2026-08-29).
-  negation: 'negacija',
-  demonstratives: 'pokazne',
-  having: 'imatidrill',
   // Existing A1 drill, retagged 2026-08-29 (it was 'nominative').
   possessives: 'possess',
   // A1 tranche 3 (2026-08-29). `time` routes to the A1 clock-and-calendar
   // drill, NOT to `numtime`/`datumi` — the `numerals` category already owns
   // those and they are about counting and ordinal declension.
-  questions: 'upitne',
-  'place-prepositions': 'mjesto',
-  time: 'vrijemea1',
-  greetings: 'pozdravi',
   // A2 tranche 1 (2026-08-29). Each replaces a route that existed only at B1/B2
   // and so could never resolve for the A2 lesson that needed it.
   'reflexive-possessive': 'svojdrill',
   'plural-cases': 'mnozinapadezi',
-  quantity: 'kolicinaa2',
   comparison: 'komparacija',
   // B1 tranche 1 (2026-08-29). None of these reuses an existing category: the
   // drills that already taught this material are tagged `subordination`,
@@ -93,8 +85,6 @@ export const CATEGORY_SCREEN_MAP: Partial<Record<SkillCategory, string>> = {
   // screens that were only ever unreachable because their pool tag was a
   // catch-all; the other four route to authored C1 banks.
   // A1 topical block (2026-08-29). Topic-specific banks, each routed to itself.
-  countries: 'zemlje',
-  preferences: 'svidjanje',
   // A2 topical block (2026-08-29). Each routes to its own authored bank. None
   // routes to the same-named REFERENCE screen (`clothes`, `bodydesc`,
   // `professions`, `countries`, `lifeevents`): those are browse lists with no
@@ -292,6 +282,16 @@ export const CATEGORY_SCREEN_MAP: Partial<Record<SkillCategory, string>> = {
   'a1-sports-free-time': 'a1sportsfreetime',
   'a1-abstract-ost': 'a1abstractost',
   'a1-directions-town': 'a1directionstown',
+  'a1-demonstratives': 'a1demonstratives',
+  'a1-time-calendar': 'a1timecalendar',
+  'a1-likes-preferences': 'a1likespreferences',
+  'a1-quantity': 'a1quantity',
+  'a1-imati-nemati': 'a1imatinemati',
+  'a1-greetings-farewells': 'a1greetingsfarewells',
+  'a1-prepositions-place': 'a1prepositionsplace',
+  'a1-basic-questions': 'a1basicquestions',
+  'a1-countries-languages': 'a1countrieslanguages',
+  'a1-negation': 'a1negation',
   'a1-food-drink': 'a1fooddrink',
   'a1-clothes-appearance': 'a1clothesappearance',
   'a1-imperative-basic': 'a1imperativebasic',

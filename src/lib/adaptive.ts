@@ -337,10 +337,7 @@ export type SkillCategory =
   // Pool-only tags (practice programme, A1 tranche 2, 2026-08-29). Each was
   // authored for a specific A1 lesson that had no drill anywhere. None is in
   // ALL_CATEGORIES, so the adaptive picker is untouched.
-  | 'negation'
   | 'adjectives'
-  | 'demonstratives'
-  | 'having'
   | 'imperative'
   // Retagged existing A1 drill (`possess`) — see sessionPools.
   | 'possessives'
@@ -349,17 +346,12 @@ export type SkillCategory =
   // ALL_CATEGORIES. `time` deliberately does not reuse 'numerals', which routes
   // to the C1 dates drill — telling the time at A1 and declining ordinals at C1
   // are not the same practice.
-  | 'questions'
-  | 'place-prepositions'
-  | 'time'
-  | 'greetings'
   // Pool-only tags (practice programme, A2 tranche 1, 2026-08-29). `clitics` is
   // deliberately NOT among them: the A2 object-pronoun drill is wired as
   // CATEGORY_EASIER_SCREEN.clitics instead, because clitics is a real
   // ALL_CATEGORIES member whose only drill was B2-gated.
   | 'reflexive-possessive'
   | 'plural-cases'
-  | 'quantity'
   | 'comparison'
   // Pool-only tags (practice programme, B1 tranche 1, 2026-08-29). Every one of
   // these lessons had an existing drill at B2/C1 that ALSO carried a category
@@ -420,11 +412,9 @@ export type SkillCategory =
   // vs genitive when ordering, the subjectless sentence, the sviđati se flip),
   // and the structure is what a drill can actually test.
   | 'family'
-  | 'countries'
   | 'food'
   | 'directions'
   | 'weather'
-  | 'preferences'
   // Pool-only tags (practice programme, A2 TOPICAL block, 2026-08-29). Same
   // shape as the A1 block above: each lesson is a topic PLUS a structure, and
   // the structure is what the drill tests — u/na with the locative against the
@@ -743,6 +733,16 @@ export type SkillCategory =
   | 'a1-sports-free-time'
   | 'a1-abstract-ost'
   | 'a1-directions-town'
+  | 'a1-demonstratives'
+  | 'a1-time-calendar'
+  | 'a1-likes-preferences'
+  | 'a1-quantity'
+  | 'a1-imati-nemati'
+  | 'a1-greetings-farewells'
+  | 'a1-prepositions-place'
+  | 'a1-basic-questions'
+  | 'a1-countries-languages'
+  | 'a1-negation'
   | 'a1-food-drink'
   | 'a1-clothes-appearance'
   | 'a1-imperative-basic'

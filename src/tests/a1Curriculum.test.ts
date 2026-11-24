@@ -153,10 +153,10 @@ describe('teach → practice coupling stays HONEST at A1', () => {
     // is the only honest way a lesson leaves that list. (`adjectives-basic` and
     // `basic-questions` are the two CLAUDE.md named explicitly — the first is
     // now mapped, the second is still waiting for its drill.)
-    negation: 'negation',
+    negation: 'a1-negation',
     'adjectives-basic': 'a1-adjectives-basic',
-    demonstratives: 'demonstratives',
-    'imati-nemati': 'having',
+    demonstratives: 'a1-demonstratives',
+    'imati-nemati': 'a1-imati-nemati',
     'imperative-basic': 'a1-imperative-basic',
     // Not a new drill: `possess` already existed at A1 and already drilled
     // moj/moja/moje agreement. It was tagged 'nominative', so the lesson could
@@ -168,10 +168,10 @@ describe('teach → practice coupling stays HONEST at A1', () => {
     // both are now served. `time-calendar` did not get the existing `datumi`
     // drill — that one is C1 and is about declining ordinals, which is a
     // different skill from reading a clock.
-    'basic-questions': 'questions',
-    'prepositions-place': 'place-prepositions',
-    'time-calendar': 'time',
-    'greetings-farewells': 'greetings',
+    'basic-questions': 'a1-basic-questions',
+    'prepositions-place': 'a1-prepositions-place',
+    'time-calendar': 'a1-time-calendar',
+    'greetings-farewells': 'a1-greetings-farewells',
     // The TOPICAL block (2026-08-29). These six were the longest-standing
     // entries in DELIBERATELY_UNMAPPED below, and the reason recorded there was
     // sound at the time: the only partner on offer was a topic-blind vocabulary
@@ -194,11 +194,11 @@ describe('teach → practice coupling stays HONEST at A1', () => {
     //   likes-preferences   the sviđati se flip: the thing is the subject and
     //                       the verb counts IT, not you
     'family-people': 'a1-family-people',
-    'countries-languages': 'countries',
+    'countries-languages': 'a1-countries-languages',
     'food-drink': 'a1-food-drink',
     'directions-town': 'a1-directions-town',
     'weather-seasons': 'a1-weather-seasons',
-    'likes-preferences': 'preferences',
+    'likes-preferences': 'a1-likes-preferences',
   };
 
   it.each(Object.entries(EXPECTED))('%s practises %s', (lesson, category) => {

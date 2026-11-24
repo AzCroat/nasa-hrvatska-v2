@@ -18,42 +18,11 @@ export const PRACTICE_PROGRAMME_ENTRIES: CefrPoolEntry[] = [
   // Wave 1: the plural — the commonest noun operation in the language, taught
   // at A1 and drilled at no level.
   // Tranche 2: one drill per A1 lesson that led nowhere.
-  { id: 'negacija', label: 'Negation', screen: 'negacija', cefr: 'A1', category: 'negation' },
-  {
-    id: 'pokazne',
-    label: 'Demonstratives',
-    screen: 'pokazne',
-    cefr: 'A1',
-    category: 'demonstratives',
-  },
-  {
-    id: 'imatidrill',
-    label: 'Imati / nemati',
-    screen: 'imatidrill',
-    cefr: 'A1',
-    category: 'having',
-  },
   // Tranche 3: the four remaining A1 lessons whose subject is a RULE rather
   // than a topic. `vrijemea1` is deliberately separate from the existing
   // `datumi` drill, which is C1 (ordinal declension, dates in the genitive) and
   // so is neither reachable nor useful to a learner who has just met the days
   // of the week.
-  { id: 'upitne', label: 'Questions', screen: 'upitne', cefr: 'A1', category: 'questions' },
-  {
-    id: 'mjesto',
-    label: 'Place prepositions',
-    screen: 'mjesto',
-    cefr: 'A1',
-    category: 'place-prepositions',
-  },
-  {
-    id: 'vrijemea1',
-    label: 'Time & calendar',
-    screen: 'vrijemea1',
-    cefr: 'A1',
-    category: 'time',
-  },
-  { id: 'pozdravi', label: 'Greetings', screen: 'pozdravi', cefr: 'A1', category: 'greetings' },
   // ── A2 ────────────────────────────────────────────────────────────────────
   // Tranche 1. Four of the five sit above an existing drill that was gated one
   // or two levels too high for the lesson that needed it (`svojmoj` B1,
@@ -76,7 +45,6 @@ export const PRACTICE_PROGRAMME_ENTRIES: CefrPoolEntry[] = [
     cefr: 'A2',
     category: 'plural-cases',
   },
-  { id: 'kolicinaa2', label: 'Quantity', screen: 'kolicinaa2', cefr: 'A1', category: 'quantity' },
   {
     id: 'komparacija',
     label: 'Comparison',
@@ -213,20 +181,6 @@ export const PRACTICE_PROGRAMME_ENTRIES: CefrPoolEntry[] = [
   // the only available partner was a topic-blind vocabulary game. Each of these
   // banks pairs the topic with the STRUCTURE its lesson teaches, which is what
   // makes the coupling say something true.
-  {
-    id: 'zemlje',
-    label: 'Countries & languages',
-    screen: 'zemlje',
-    cefr: 'A1',
-    category: 'countries',
-  },
-  {
-    id: 'svidjanje',
-    label: 'Likes & preferences',
-    screen: 'svidjanje',
-    cefr: 'A1',
-    category: 'preferences',
-  },
 
   // ── A2, the TOPICAL block (2026-08-29) ────────────────────────────────────
   // Ten lessons, and a THIRD variant of "check whether the drill already

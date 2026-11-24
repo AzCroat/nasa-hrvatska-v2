@@ -58,11 +58,8 @@ export const SKILL_GROUP: Record<SkillCategory, SkillGroup> = {
   // negation and the imperative are verb operations; possessives agree like
   // adjectives, so both sit in the noun-phrase family.
   adjectives: 'case',
-  demonstratives: 'case',
   possessives: 'case',
-  negation: 'verb',
   imperative: 'verb',
-  having: 'verb',
   // A1 tranche 3 (2026-08-29). `questions` is sentence construction — li
   // placement and question-word order — so it groups with word-order and the
   // clitics, not with vocabulary. `place-prepositions` is a case choice
@@ -72,17 +69,12 @@ export const SKILL_GROUP: Record<SkillCategory, SkillGroup> = {
   // a closed vocabulary set with one counting rule attached, and grouping it as
   // 'case' would let it sit beside three case drills in a session, which is the
   // monotony the variety pass exists to stop.
-  questions: 'syntax',
-  'place-prepositions': 'case',
-  time: 'vocab',
-  greetings: 'vocab',
   // A2 tranche 1 (2026-08-29). Three are noun-phrase morphology and group with
   // the cases; `comparison` is adjective morphology and groups there too, for
   // the same reason `adjectives` does. Nothing here joins 'vocab' — every one of
   // them is a form the learner has to build.
   'reflexive-possessive': 'case',
   'plural-cases': 'case',
-  quantity: 'case',
   comparison: 'case',
   // B1 tranche 1 (2026-08-29). Four are clause construction and group with
   // 'syntax', beside the other subordination content they sit next to in a
@@ -149,11 +141,9 @@ export const SKILL_GROUP: Record<SkillCategory, SkillGroup> = {
   // `preferences` was already the exception here and stays 'verb': its subject
   // is the sviđati se flip, not the vocabulary of liking things.
   family: 'case',
-  countries: 'case',
   food: 'case',
   directions: 'verb',
   weather: 'verb',
-  preferences: 'verb',
   // A2 topical block (2026-08-29). Three are grouped by the STRUCTURE their
   // drill actually tests rather than by their topic label, because SKILL_GROUP
   // is what the P3 variety pass reads: `home` and `travel` are case selection
@@ -363,6 +353,16 @@ export const SKILL_GROUP: Record<SkillCategory, SkillGroup> = {
   'a1-sports-free-time': 'verb',
   'a1-abstract-ost': 'case',
   'a1-directions-town': 'case',
+  'a1-demonstratives': 'case',
+  'a1-time-calendar': 'vocab',
+  'a1-likes-preferences': 'verb',
+  'a1-quantity': 'case',
+  'a1-imati-nemati': 'verb',
+  'a1-greetings-farewells': 'vocab',
+  'a1-prepositions-place': 'case',
+  'a1-basic-questions': 'syntax',
+  'a1-countries-languages': 'case',
+  'a1-negation': 'verb',
   'a1-food-drink': 'case',
   'a1-clothes-appearance': 'case',
   'a1-imperative-basic': 'verb',

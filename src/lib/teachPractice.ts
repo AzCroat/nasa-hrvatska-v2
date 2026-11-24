@@ -174,10 +174,10 @@ export const LESSON_TAUGHT_CATEGORY: Readonly<Record<string, SkillCategory>> = {
   // A1 plural formation. `pluraldrill` is A1 and was authored FOR this lesson
   // (practice programme wave 1) — the lesson had no drill anywhere before it.
   'plural-nouns': 'a1-plural-nouns',
-  negation: 'negation',
+  negation: 'a1-negation',
   'adjectives-basic': 'a1-adjectives-basic',
-  demonstratives: 'demonstratives',
-  'imati-nemati': 'having',
+  demonstratives: 'a1-demonstratives',
+  'imati-nemati': 'a1-imati-nemati',
   'imperative-basic': 'a1-imperative-basic',
   possessives: 'possessives',
   // A1 tranche 3 (2026-08-29). `basic-questions` is one of the two lessons this
@@ -185,10 +185,10 @@ export const LESSON_TAUGHT_CATEGORY: Readonly<Record<string, SkillCategory>> = {
   // those" — that was true until the drill was written. `greetings-farewells`
   // looks like the topical block and is not: which greeting you use is decided
   // by the hour and by the relationship, which is a rule a drill can test.
-  'basic-questions': 'questions',
-  'prepositions-place': 'place-prepositions',
-  'time-calendar': 'time',
-  'greetings-farewells': 'greetings',
+  'basic-questions': 'a1-basic-questions',
+  'prepositions-place': 'a1-prepositions-place',
+  'time-calendar': 'a1-time-calendar',
+  'greetings-farewells': 'a1-greetings-farewells',
   // A2 tranche 1 (2026-08-29). `object-pronouns` is the entry CLAUDE.md singled
   // out as unmappable because the only clitic drill was B2; the A2 drill is
   // wired as the easier route for the same category, so the mapping is now
@@ -196,7 +196,7 @@ export const LESSON_TAUGHT_CATEGORY: Readonly<Record<string, SkillCategory>> = {
   svoj: 'reflexive-possessive',
   'object-pronouns': 'clitics',
   'plural-cases': 'plural-cases',
-  quantity: 'quantity',
+  quantity: 'a1-quantity',
   'comparatives-a2': 'comparison',
   // B1 tranche 1 (2026-08-29). `reported-speech` is the entry this file recorded
   // as the notable one — the pool HAS a reported-speech drill, but it is B2 and
@@ -231,7 +231,7 @@ export const LESSON_TAUGHT_CATEGORY: Readonly<Record<string, SkillCategory>> = {
   // partner available was a topic-blind vocabulary game. They leave the list the
   // only honest way — a drill written for each lesson's actual subject.
   'family-people': 'a1-family-people',
-  'countries-languages': 'countries',
+  'countries-languages': 'a1-countries-languages',
   'food-drink': 'a1-food-drink',
   'directions-town': 'a1-directions-town',
   'weather-seasons': 'a1-weather-seasons',
@@ -410,7 +410,7 @@ export const LESSON_TAUGHT_CATEGORY: Readonly<Record<string, SkillCategory>> = {
   'infinitive-ci': 'a1-infinitive-ci',
   'formal-address': 'a1-formal-address',
   'travel-croatia': 'a1-travel-croatia',
-  'likes-preferences': 'preferences',
+  'likes-preferences': 'a1-likes-preferences',
   // A2 topical block (2026-08-29), the last ten topical lessons at A2. Five of
   // them had a same-named screen already in the pool and none of those five
   // could have served: `clothes`, `bodydesc`, `professions`, `countries` and

@@ -26,6 +26,16 @@ const LESSONS = [
   'plural-nouns',
   'adjectives-basic',
   'weather-seasons',
+  'demonstratives',
+  'time-calendar',
+  'likes-preferences',
+  'quantity',
+  'imati-nemati',
+  'greetings-farewells',
+  'prepositions-place',
+  'basic-questions',
+  'countries-languages',
+  'negation',
 ] as const;
 const camel = (id: string) => id.replace(/-(\w)/g, (_, c: string) => c.toUpperCase());
 const upper = (id: string) => id.toUpperCase().replace(/-/g, '_');
