@@ -307,7 +307,7 @@ const EASIER_ROUTE_DRILLS: {
   lesson: string;
   cefr: string;
 }[] = [
-  { screen: 'objekt', category: 'clitics', lesson: 'object-pronouns', cefr: 'A1' },
+  { screen: 'a1objectpronouns', category: 'clitics', lesson: 'object-pronouns', cefr: 'A1' },
   // Same shape at B2, and a mis-tag fixed with it: `isklonidba` (C1) IS the
   // i-declension paradigm — it was tagged `instrumental`, which is a case, not
   // a declension class. It keeps the primary route; the B2 lesson gets a drill

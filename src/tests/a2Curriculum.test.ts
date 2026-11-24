@@ -277,7 +277,7 @@ describe('teach → practice coupling stays HONEST at A2', () => {
     // an A2 screen (that would take the B2 drill away from B2 learners) but to
     // give it an easier route, which is what CATEGORY_EASIER_SCREEN is for.
     expect(CATEGORY_SCREEN_MAP['clitics']).toBe('clitic');
-    expect(CATEGORY_EASIER_SCREEN['clitics']).toBe('objekt');
+    expect(CATEGORY_EASIER_SCREEN['clitics']).toBe('a1objectpronouns');
   });
 
   // The DELIBERATELY_UNMAPPED list this file carried is EMPTY as of 2026-08-30

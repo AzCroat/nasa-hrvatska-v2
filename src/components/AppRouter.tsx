@@ -223,7 +223,9 @@ const RekcijaDrill = lazyWithReload(() => import('./practice/RekcijaDrill'));
 // first-paint path, and at 180 drills a static bank import would ship every
 // bank to every learner on first load. See practice/ModeDrill.tsx.
 const SvojDrill = lazyWithReload(() => import('./practice/drills/SvojDrill'));
-const ObjectPronounsDrill = lazyWithReload(() => import('./practice/drills/ObjectPronounsDrill'));
+const A1ObjectPronounsDrill = lazyWithReload(
+  () => import('./practice/drills/A1ObjectPronounsDrill'),
+);
 const PluralCasesDrill = lazyWithReload(() => import('./practice/drills/PluralCasesDrill'));
 const ComparisonDrill = lazyWithReload(() => import('./practice/drills/ComparisonDrill'));
 const InfinitiveDaDrill = lazyWithReload(() => import('./practice/drills/InfinitiveDaDrill'));
@@ -2767,9 +2769,9 @@ export default function AppRouter(props: Record<string, any>) {
             <SvojDrill goBack={goBack} award={award} />
           </ScreenErrorBoundary>
         )}
-        {currentScreen === 'objekt' && (
-          <ScreenErrorBoundary key="objekt" name="objekt">
-            <ObjectPronounsDrill goBack={goBack} award={award} />
+        {currentScreen === 'a1objectpronouns' && (
+          <ScreenErrorBoundary key="a1objectpronouns" name="a1objectpronouns">
+            <A1ObjectPronounsDrill goBack={goBack} award={award} />
           </ScreenErrorBoundary>
         )}
         {currentScreen === 'mnozinapadezi' && (

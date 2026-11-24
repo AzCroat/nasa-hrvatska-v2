@@ -19,7 +19,7 @@ export const EXERCISE_DIFFICULTY: Record<string, number> = {
   // A2 tranche 1: tier 3, a step above the A1 banks — these ask for a case
   // choice or a form the learner has to build, not a recognition pick.
   svojdrill: 3,
-  objekt: 3,
+  a1objectpronouns: 3,
   mnozinapadezi: 3,
   komparacija: 3,
   // B1 tranche 1: tier 4. These are clause-level choices — which connector,

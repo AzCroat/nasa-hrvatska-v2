@@ -155,13 +155,13 @@ describe('both routes are taken, not just the primary one', () => {
         !BOOK_QUIZ_LESSONS.some((l) => bookQuizFor(l)?.screen === id), // a quiz is not an easier route
     );
     // a1locativeintro: the A1 book drill is the easier route of the dative-locative category.
-    expect(easierOnly.sort()).toEqual(['a1locativeintro', 'isklonidbab2', 'objekt']);
+    expect(easierOnly.sort()).toEqual(['a1locativeintro', 'a1objectpronouns', 'isklonidbab2']);
   });
 
   it('reports several lessons rather than picking one', () => {
-    // `objekt` is the documented CATEGORY_EASIER_SCREEN.clitics case. Naming one
+    // `a1objectpronouns` is the documented CATEGORY_EASIER_SCREEN.clitics case. Naming one
     // of three would be a claim the maps do not support.
-    expect(lessonsTeachingScreen('objekt')).toEqual([
+    expect(lessonsTeachingScreen('a1objectpronouns')).toEqual([
       'clitics',
       'clitics-advanced',
       'object-pronouns',
@@ -174,7 +174,12 @@ describe('both routes are taken, not just the primary one', () => {
     // the dative-locative category, so both honestly name the A1 book drill and the A2 drill.
     // a2conditionalforms (2026-11-13): the A2 conditional drill is also the easier route of the
     // B2 conditional lesson's own drill, so both conditional lessons honestly name it.
-    expect(plural).toEqual(['a1locativeintro', 'a2conditionalforms', 'a2dativelocative', 'objekt']);
+    expect(plural).toEqual([
+      'a1locativeintro',
+      'a1objectpronouns',
+      'a2conditionalforms',
+      'a2dativelocative',
+    ]);
   });
 });
 
@@ -296,7 +301,7 @@ describe('the wrong-answer panel offers the lesson', () => {
   });
 
   it('says several when the maps name several, and never picks one', () => {
-    renderPanel({ screen: 'objekt' });
+    renderPanel({ screen: 'a1objectpronouns' });
     expect(screen.getByTestId('wrong-answer-learn').textContent).toBe('Lessons that teach this');
   });
 
