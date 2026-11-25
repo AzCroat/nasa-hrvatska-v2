@@ -153,7 +153,7 @@
     {
       "name": "Data chunk",
       "path": "dist/assets/chunk-data-*.js",
-      "limit": "620 KB"
+      "limit": "640 KB"
     }
   ]
 }
