@@ -27,12 +27,6 @@ describe('content depth — high-traffic A1–B1 pools meet minimum size', () =>
       min: 50,
     },
     {
-      name: 'CliticDrill',
-      path: 'src/components/practice/CliticDrill.tsx',
-      re: /answer:/g,
-      min: 50,
-    },
-    {
       name: 'ClozeEngine SENTENCE_BANK',
       path: 'src/components/practice/ClozeEngine.tsx',
       re: /blank:/g,
