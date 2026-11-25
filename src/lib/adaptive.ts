@@ -547,6 +547,7 @@ export type SkillCategory =
   | 'a2-school-studies'
   | 'a2-impersonal'
   | 'a2-work-jobs'
+  | 'a2-modal-verbs-a2'
   | 'a2-travel-transport'
   | 'a2-describing-people'
   | 'a2-prepositions-action'

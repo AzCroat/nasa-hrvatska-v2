@@ -21,7 +21,7 @@ vi.mock('../lib/cefrCertification', () => ({ getCurrentContentLevel: () => 'A1' 
 
 import { CEFR_EXERCISE_POOL } from '../lib/sessionPools';
 import { EXERCISE_DIFFICULTY } from '../lib/exerciseDifficulty';
-import { DATA as VERB_DATA } from '../components/practice/PresentTenseDrill';
+import { PRESENT_DRILL_DATA as VERB_DATA } from '../data/drills/a2/presentDrill';
 import { DATA as ORDER_DATA } from '../components/practice/WordOrderDrill';
 import { A1_CONCEPTS, a1ConceptById } from '../data/a1Concepts';
 
@@ -57,6 +57,9 @@ describe('the A1 practice hole stays closed', () => {
   });
 });
 
+// 2026-11-24: the screen's bank is now the A2 book drill. The old "options share a verb stem" check
+// belonged to the single-mode ending drill; the book drill mixes sentence-choice items, so it is
+// not applied here. Its format is pinned in a2BookLessonDrills.
 describe('present-tense drill content', () => {
   it('has a usable bank and every item is internally consistent', () => {
     expect(VERB_DATA.length).toBeGreaterThanOrEqual(16);
@@ -64,32 +67,7 @@ describe('present-tense drill content', () => {
       expect(item.opts, `"${item.q}" must offer 4 options`).toHaveLength(4);
       expect(item.opts, `"${item.q}" answer must be among its options`).toContain(item.answer);
       expect(new Set(item.opts).size, `"${item.q}" has a duplicated option`).toBe(4);
-      expect(item.en.length, `"${item.q}" needs an English gloss`).toBeGreaterThan(0);
       expect(item.tip.length, `"${item.q}" needs a plain-English tip`).toBeGreaterThan(0);
-    }
-  });
-
-  it('distractors are other PERSONS of the same verb, never a different word', () => {
-    // The contract that makes a wrong tap diagnostic: the learner is choosing an
-    // ENDING, so all four options must share a stem. Checked by requiring a
-    // common prefix — 'sam/si/je/smo' (biti) is the documented exception, since
-    // biti is suppletive and has no shared stem in any language.
-    const BITI = new Set(['sam', 'si', 'je', 'smo', 'ste', 'su']);
-    for (const item of VERB_DATA) {
-      const opts = item.opts.map((o) => o.toLowerCase());
-      if (opts.every((o) => BITI.has(o))) continue; // biti — suppletive
-      const prefixLen = Math.min(...opts.map((o) => o.length));
-      let shared = 0;
-      outer: for (let i = 0; i < prefixLen; i++) {
-        const c = opts[0]![i];
-        for (const o of opts) if (o[i] !== c) break outer;
-        shared++;
-      }
-      expect(
-        shared,
-        `"${item.q}" options ${JSON.stringify(item.opts)} must share a verb stem — ` +
-          'mixing verbs lets the learner answer by recognizing the word instead of the ending.',
-      ).toBeGreaterThanOrEqual(2);
     }
   });
 });

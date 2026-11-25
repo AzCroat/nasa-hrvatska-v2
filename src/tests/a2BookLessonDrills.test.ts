@@ -25,6 +25,7 @@ const OWN_CATEGORY = [
   'plural-cases',
   'school-studies',
   'impersonal',
+  'modal-verbs-a2',
 ] as const;
 const ALL = [...OWN_CATEGORY, 'dative-locative'] as const;
 const camel = (id: string) => id.replace(/-(\w)/g, (_, c: string) => c.toUpperCase());
@@ -42,6 +43,49 @@ describe.each(OWN_CATEGORY)('A2 book drill for %s', (id) => {
     ).toBe(true);
   });
 });
+
+describe('A2 present', () => {
+  // The lesson keeps the shared present-tense category (the adaptive picker uses it). The screen
+  // keeps its id; its content is the A2 book drill. The A1 book drill is the easier route.
+  it('keeps present-tense: A2 book drill as the route, A1 book drill as the easier route', () => {
+    expect(LESSON_TAUGHT_CATEGORY['present']).toBe('present-tense');
+    expect(CATEGORY_SCREEN_MAP['present-tense']).toBe('presentdrill');
+    expect(CATEGORY_EASIER_SCREEN['present-tense']).toBe('a1presenttenseverbs');
+    expect(SCREEN_CEFR['presentdrill']).toBe('A2');
+    expect(SCREEN_CEFR['a1presenttenseverbs']).toBe('A1');
+    expect((ALL_CATEGORIES as readonly string[]).includes('present-tense')).toBe(true);
+  });
+});
+
+describe.each([['present', 'presentDrill', 'PRESENT']] as const)(
+  'A2 book drill content for %s',
+  (id, file, upperName) => {
+    it('is well formed: 24-28 items, 3 modes of 6+, one right answer among 4 distinct options', async () => {
+      const m = await import(`../data/drills/a2/${file}.ts`);
+      const data = m[`${upperName}_DRILL_DATA`] as {
+        mode: string;
+        q: string;
+        opts: string[];
+        answer: string;
+        tip: string;
+      }[];
+      expect(data.length, id).toBeGreaterThanOrEqual(24);
+      expect(data.length).toBeLessThanOrEqual(28);
+      const modes = new Map<string, number>();
+      for (const d of data) modes.set(d.mode, (modes.get(d.mode) ?? 0) + 1);
+      expect(modes.size).toBe(3);
+      for (const n of modes.values()) expect(n).toBeGreaterThanOrEqual(6);
+      const seen = new Set<string>();
+      for (const d of data) {
+        expect(new Set(d.opts).size, d.q).toBe(4);
+        expect(d.opts, d.q).toContain(d.answer);
+        expect(seen.has(d.q), `duplicate question: ${d.q}`).toBe(false);
+        seen.add(d.q);
+        expect(d.tip.length, `tip: ${d.q}`).toBeGreaterThanOrEqual(20);
+      }
+    });
+  },
+);
 
 describe('A2 accusative-deep', () => {
   // Like dative-locative: the lesson keeps its category (the adaptive picker and the written-mistake

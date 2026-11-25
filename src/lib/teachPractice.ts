@@ -59,7 +59,7 @@ export const LESSON_TAUGHT_CATEGORY: Readonly<Record<string, SkillCategory>> = {
   // ── verbs: present ────────────────────────────────────────────────────────
   'present-tense-verbs': 'a1-present-tense-verbs',
   present: 'present-tense',
-  'modal-verbs-a2': 'present-tense',
+  'modal-verbs-a2': 'a2-modal-verbs-a2',
   // Teaches biti + personal pronouns; presentdrill carries the biti items.
   'pronouns-biti': 'a1-pronouns-biti',
   // A1 modals and reflexives are both present-tense conjugation in practice,
