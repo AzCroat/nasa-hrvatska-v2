@@ -519,6 +519,7 @@ const TARGETS = [
   'src/data/drills/b2/dependentClausesB2Drill.ts',
   'src/data/drills/b2/filmAndMusicDrill.ts',
   'src/data/drills/b2/genitiveOfNegationDrill.ts',
+  'src/data/drills/b2/cliticsDrill.ts',
   'src/data/drills/b2/climateEnvironmentDrill.ts',
   'src/data/drills/b2/reportedSpeechB2Drill.ts',
   'src/data/drills/b2/interjectionsDrill.ts',
