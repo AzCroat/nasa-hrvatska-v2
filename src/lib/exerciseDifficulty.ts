@@ -55,6 +55,7 @@ export const EXERCISE_DIFFICULTY: Record<string, number> = {
   a2schoolstudies: 3,
   a2impersonal: 4,
   a2workjobs: 2,
+  a2aspect: 2,
   a2modalverbsa2: 2,
   a2traveltransport: 2,
   a2describingpeople: 2,

@@ -102,6 +102,7 @@ export const CATEGORY_SCREEN_MAP: Partial<Record<SkillCategory, string>> = {
   'a2-school-studies': 'a2schoolstudies',
   'a2-impersonal': 'a2impersonal',
   'a2-work-jobs': 'a2workjobs',
+  'a2-aspect': 'a2aspect',
   'a2-modal-verbs-a2': 'a2modalverbsa2',
   'a2-travel-transport': 'a2traveltransport',
   'a2-describing-people': 'a2describingpeople',
