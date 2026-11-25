@@ -268,6 +268,7 @@ const A2PluralCasesDrill = lazyWithReload(() => import('./practice/drills/A2Plur
 const A2SchoolStudiesDrill = lazyWithReload(() => import('./practice/drills/A2SchoolStudiesDrill'));
 const A2ImpersonalDrill = lazyWithReload(() => import('./practice/drills/A2ImpersonalDrill'));
 const A2ModalVerbsA2Drill = lazyWithReload(() => import('./practice/drills/A2ModalVerbsA2Drill'));
+const A2AspectDrill = lazyWithReload(() => import('./practice/drills/A2AspectDrill'));
 const A2WorkJobsDrill = lazyWithReload(() => import('./practice/drills/A2WorkJobsDrill'));
 const A2TravelTransportDrill = lazyWithReload(
   () => import('./practice/drills/A2TravelTransportDrill'),
@@ -2905,6 +2906,11 @@ export default function AppRouter(props: Record<string, any>) {
         {currentScreen === 'a2modalverbsa2' && (
           <ScreenErrorBoundary key="a2modalverbsa2" name="a2modalverbsa2">
             <A2ModalVerbsA2Drill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'a2aspect' && (
+          <ScreenErrorBoundary key="a2aspect" name="a2aspect">
+            <A2AspectDrill goBack={goBack} award={award} />
           </ScreenErrorBoundary>
         )}
         {currentScreen === 'a2workjobs' && (

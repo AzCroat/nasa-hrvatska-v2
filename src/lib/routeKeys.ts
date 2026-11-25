@@ -523,6 +523,7 @@ export const ROUTE_KEYS: ReadonlySet<string> = new Set([
   'a2schoolstudies',
   'a2impersonal',
   'a2workjobs',
+  'a2aspect',
   'a2modalverbsa2',
   'a2traveltransport',
   'a2describingpeople',

@@ -89,7 +89,9 @@ export const LESSON_TAUGHT_CATEGORY: Readonly<Record<string, SkillCategory>> = {
   // the conditional drill is where it is practised.
   'kondicional-drugi': 'conditional',
   // ── aspect ────────────────────────────────────────────────────────────────
-  aspect: 'aspect-imperfective',
+  // The A2 aspect lesson has its own category and drill. `aspect-imperfective` stays with the B1
+  // and B2 aspect lessons, the adaptive picker and the written-mistake rotation.
+  aspect: 'a2-aspect',
   'aspect-imperfective': 'aspect-imperfective',
   'aspect-perfective': 'aspect-perfective',
   'aspect-negation': 'aspect-negation',

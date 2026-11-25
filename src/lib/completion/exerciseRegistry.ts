@@ -186,6 +186,7 @@ const RAW: Record<string, ExerciseEntry> = {
   a2schoolstudies: g('gc', 'grammar', 'grammar'),
   a2impersonal: g('gc', 'grammar', 'grammar'),
   a2workjobs: g('gc', 'grammar', 'grammar'),
+  a2aspect: g('gc', 'grammar', 'grammar'),
   a2modalverbsa2: g('gc', 'grammar', 'grammar'),
   a2traveltransport: g('gc', 'grammar', 'grammar'),
   a2describingpeople: g('gc', 'grammar', 'grammar'),

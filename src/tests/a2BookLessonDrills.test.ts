@@ -26,6 +26,7 @@ const OWN_CATEGORY = [
   'school-studies',
   'impersonal',
   'modal-verbs-a2',
+  'aspect',
 ] as const;
 const ALL = [...OWN_CATEGORY, 'dative-locative'] as const;
 const camel = (id: string) => id.replace(/-(\w)/g, (_, c: string) => c.toUpperCase());
