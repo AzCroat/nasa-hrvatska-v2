@@ -59,7 +59,7 @@ export const CEFR_EXERCISE_POOL: CefrPoolEntry[] = [
     id: 'presentdrill',
     label: 'Present Tense',
     screen: 'presentdrill',
-    cefr: 'A1',
+    cefr: 'A2',
     category: 'present-tense',
   },
   {

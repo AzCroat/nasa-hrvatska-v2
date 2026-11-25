@@ -170,6 +170,8 @@ describe('both routes are taken, not just the primary one', () => {
 
   it('is unambiguous everywhere else', () => {
     const plural = engineDrillIds().filter((id) => lessonsTeachingScreen(id).length > 1);
+    // a1presenttenseverbs (2026-11-24): the A2 present lesson keeps present-tense, whose easier route
+    // is the A1 present-tense drill, so both lessons honestly name it.
     // a1accusativeintro (2026-11-24): the A2 accusative-deep lesson keeps the accusative category,
     // whose easier route is the A1 accusative drill, so both lessons honestly name it.
     // a1locativeintro (2026-11-23): the A1 locative lesson and the A2 dative-locative lesson share
@@ -180,6 +182,7 @@ describe('both routes are taken, not just the primary one', () => {
       'a1accusativeintro',
       'a1locativeintro',
       'a1objectpronouns',
+      'a1presenttenseverbs',
       'a2conditionalforms',
       'a2dativelocative',
     ]);

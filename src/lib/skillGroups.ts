@@ -170,6 +170,7 @@ export const SKILL_GROUP: Record<SkillCategory, SkillGroup> = {
   'a2-school-studies': 'vocab',
   'a2-impersonal': 'verb',
   'a2-work-jobs': 'case',
+  'a2-modal-verbs-a2': 'case',
   'a2-travel-transport': 'case',
   'a2-describing-people': 'case',
   'a2-prepositions-action': 'case',

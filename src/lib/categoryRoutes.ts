@@ -28,6 +28,9 @@ export const CATEGORY_SCREEN_MAP: Partial<Record<SkillCategory, string>> = {
   // would queue a category it could never resolve, and the lesson would once
   // again lead nowhere.
   nominative: 'nomdrill',
+  // The A2 `present` lesson owns `present-tense`: its route is the A2 book drill. A learner below A2
+  // gets the A1 book drill for the same tense (CATEGORY_EASIER_SCREEN).
+  'present-tense': 'presentdrill',
   // Route each case to its dedicated drill (these components already exist and
   // are registered in AppRouter). Previously dative-locative/instrumental/vocative
   // all collapsed to generic 'cloze', so even when the adaptive picker chose them
@@ -99,6 +102,7 @@ export const CATEGORY_SCREEN_MAP: Partial<Record<SkillCategory, string>> = {
   'a2-school-studies': 'a2schoolstudies',
   'a2-impersonal': 'a2impersonal',
   'a2-work-jobs': 'a2workjobs',
+  'a2-modal-verbs-a2': 'a2modalverbsa2',
   'a2-travel-transport': 'a2traveltransport',
   'a2-describing-people': 'a2describingpeople',
   'a2-prepositions-action': 'a2prepositionsaction',
@@ -485,7 +489,7 @@ export const CATEGORY_EASIER_SCREEN: Partial<Record<SkillCategory, string>> = {
   'dative-locative': 'a1locativeintro',
   // present-tense maps to `cloze` (A2). A1 learners meet verbs in the
   // `present-tense-verbs` lesson and previously had nowhere to practise them.
-  'present-tense': 'presentdrill',
+  'present-tense': 'a1presenttenseverbs',
   // b2-conditional maps to `b2conditional` (B2). The lesson id 'conditional' is ALSO the
   // completion key of the B1 ConditionalScreen, so a B1 learner queues this category too;
   // the A2 conditional-forms drill is the conditional drill that learner can open.

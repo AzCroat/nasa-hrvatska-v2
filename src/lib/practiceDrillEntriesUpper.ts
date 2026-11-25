@@ -94,6 +94,13 @@ export const UPPER_LESSON_DRILL_ENTRIES: CefrPoolEntry[] = [
     category: 'a2-impersonal',
   },
   {
+    id: 'a2modalverbsa2',
+    label: 'Modal verbs',
+    screen: 'a2modalverbsa2',
+    cefr: 'A2',
+    category: 'a2-modal-verbs-a2',
+  },
+  {
     id: 'a2workjobs',
     label: 'Work and Jobs',
     screen: 'a2workjobs',
