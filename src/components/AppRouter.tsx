@@ -233,12 +233,6 @@ const ReportedSpeechB1Drill = lazyWithReload(
 const TimeClausesDrill = lazyWithReload(() => import('./practice/drills/TimeClausesDrill'));
 const CausePurposeDrill = lazyWithReload(() => import('./practice/drills/CausePurposeDrill'));
 const IDeclensionDrill = lazyWithReload(() => import('./practice/drills/IDeclensionDrill'));
-const VerbalAdverbsDrill = lazyWithReload(() => import('./practice/drills/VerbalAdverbsDrill'));
-const NegationAdvancedDrill = lazyWithReload(
-  () => import('./practice/drills/NegationAdvancedDrill'),
-);
-const AspectVerbsDrill = lazyWithReload(() => import('./practice/drills/AspectVerbsDrill'));
-const IntensityDrill = lazyWithReload(() => import('./practice/drills/IntensityDrill'));
 const AdvancedComparisonDrill = lazyWithReload(
   () => import('./practice/drills/AdvancedComparisonDrill'),
 );
@@ -477,6 +471,35 @@ const B2DependentClausesB2Drill = lazyWithReload(
   () => import('./practice/drills/B2DependentClausesB2Drill'),
 );
 const B2FilmAndMusicDrill = lazyWithReload(() => import('./practice/drills/B2FilmAndMusicDrill'));
+const B2VerbalAdverbsDrill = lazyWithReload(() => import('./practice/drills/B2VerbalAdverbsDrill'));
+const B2AspectWithVerbsDrill = lazyWithReload(
+  () => import('./practice/drills/B2AspectWithVerbsDrill'),
+);
+const B2MeetingsNegotiationDrill = lazyWithReload(
+  () => import('./practice/drills/B2MeetingsNegotiationDrill'),
+);
+const B2BusinessEconomyDrill = lazyWithReload(
+  () => import('./practice/drills/B2BusinessEconomyDrill'),
+);
+const B2WishesRegretsDrill = lazyWithReload(() => import('./practice/drills/B2WishesRegretsDrill'));
+const B2PoliticsSocietyDrill = lazyWithReload(
+  () => import('./practice/drills/B2PoliticsSocietyDrill'),
+);
+const B2DegreesIntensityDrill = lazyWithReload(
+  () => import('./practice/drills/B2DegreesIntensityDrill'),
+);
+const B2ArgumentStructureDrill = lazyWithReload(
+  () => import('./practice/drills/B2ArgumentStructureDrill'),
+);
+const B2SmallTalkFluencyDrill = lazyWithReload(
+  () => import('./practice/drills/B2SmallTalkFluencyDrill'),
+);
+const B2NegationAdvancedDrill = lazyWithReload(
+  () => import('./practice/drills/B2NegationAdvancedDrill'),
+);
+const B2LiteratureCanonDrill = lazyWithReload(
+  () => import('./practice/drills/B2LiteratureCanonDrill'),
+);
 const B2GenitiveOfNegationDrill = lazyWithReload(
   () => import('./practice/drills/B2GenitiveOfNegationDrill'),
 );
@@ -782,18 +805,12 @@ const NewsDrill = lazyWithReload(() => import('./practice/drills/NewsDrill'));
 const TechnologyDrill = lazyWithReload(() => import('./practice/drills/TechnologyDrill'));
 const NatureDrill = lazyWithReload(() => import('./practice/drills/NatureDrill'));
 const CookingDrill = lazyWithReload(() => import('./practice/drills/CookingDrill'));
-const ArgumentDrill = lazyWithReload(() => import('./practice/drills/ArgumentDrill'));
 const HedgingDrill = lazyWithReload(() => import('./practice/drills/HedgingDrill'));
 const AbstractDrill = lazyWithReload(() => import('./practice/drills/AbstractDrill'));
 const RegistersDrill = lazyWithReload(() => import('./practice/drills/RegistersDrill'));
 const PresentingDrill = lazyWithReload(() => import('./practice/drills/PresentingDrill'));
-const MeetingsDrill = lazyWithReload(() => import('./practice/drills/MeetingsDrill'));
-const BusinessDrill = lazyWithReload(() => import('./practice/drills/BusinessDrill'));
-const PoliticsDrill = lazyWithReload(() => import('./practice/drills/PoliticsDrill'));
-const SmalltalkDrill = lazyWithReload(() => import('./practice/drills/SmalltalkDrill'));
 const HumourDrill = lazyWithReload(() => import('./practice/drills/HumourDrill'));
 const LanguageHistoryDrill = lazyWithReload(() => import('./practice/drills/LanguageHistoryDrill'));
-const LiteratureDrill = lazyWithReload(() => import('./practice/drills/LiteratureDrill'));
 const ParticlesDrill = lazyWithReload(() => import('./practice/drills/ParticlesDrill'));
 const DebateDrill = lazyWithReload(() => import('./practice/drills/DebateDrill'));
 const FormalSpeechDrill = lazyWithReload(() => import('./practice/drills/FormalSpeechDrill'));
@@ -835,7 +852,6 @@ const IndefinitesDrill = lazyWithReload(() => import('./practice/drills/Indefini
 const DurationDrill = lazyWithReload(() => import('./practice/drills/DurationDrill'));
 const PositionDrill = lazyWithReload(() => import('./practice/drills/PositionDrill'));
 const RealConditionsDrill = lazyWithReload(() => import('./practice/drills/RealConditionsDrill'));
-const WishesDrill = lazyWithReload(() => import('./practice/drills/WishesDrill'));
 const ModalNuanceDrill = lazyWithReload(() => import('./practice/drills/ModalNuanceDrill'));
 const TwoCasePrepositionsDrill = lazyWithReload(
   () => import('./practice/drills/TwoCasePrepositionsDrill'),
@@ -2803,26 +2819,6 @@ export default function AppRouter(props: Record<string, any>) {
             <IDeclensionDrill goBack={goBack} award={award} />
           </ScreenErrorBoundary>
         )}
-        {currentScreen === 'prilozib2' && (
-          <ScreenErrorBoundary key="prilozib2" name="prilozib2">
-            <VerbalAdverbsDrill goBack={goBack} award={award} />
-          </ScreenErrorBoundary>
-        )}
-        {currentScreen === 'negacijab2' && (
-          <ScreenErrorBoundary key="negacijab2" name="negacijab2">
-            <NegationAdvancedDrill goBack={goBack} award={award} />
-          </ScreenErrorBoundary>
-        )}
-        {currentScreen === 'vidglagoli' && (
-          <ScreenErrorBoundary key="vidglagoli" name="vidglagoli">
-            <AspectVerbsDrill goBack={goBack} award={award} />
-          </ScreenErrorBoundary>
-        )}
-        {currentScreen === 'intenzitet' && (
-          <ScreenErrorBoundary key="intenzitet" name="intenzitet">
-            <IntensityDrill goBack={goBack} award={award} />
-          </ScreenErrorBoundary>
-        )}
         {currentScreen === 'usporedbec1' && (
           <ScreenErrorBoundary key="usporedbec1" name="usporedbec1">
             <AdvancedComparisonDrill goBack={goBack} award={award} />
@@ -3364,6 +3360,61 @@ export default function AppRouter(props: Record<string, any>) {
         {currentScreen === 'b2filmandmusic' && (
           <ScreenErrorBoundary key="b2filmandmusic" name="b2filmandmusic">
             <B2FilmAndMusicDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'b2verbaladverbs' && (
+          <ScreenErrorBoundary key="b2verbaladverbs" name="b2verbaladverbs">
+            <B2VerbalAdverbsDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'b2aspectwithverbs' && (
+          <ScreenErrorBoundary key="b2aspectwithverbs" name="b2aspectwithverbs">
+            <B2AspectWithVerbsDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'b2meetingsnegotiation' && (
+          <ScreenErrorBoundary key="b2meetingsnegotiation" name="b2meetingsnegotiation">
+            <B2MeetingsNegotiationDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'b2businesseconomy' && (
+          <ScreenErrorBoundary key="b2businesseconomy" name="b2businesseconomy">
+            <B2BusinessEconomyDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'b2wishesregrets' && (
+          <ScreenErrorBoundary key="b2wishesregrets" name="b2wishesregrets">
+            <B2WishesRegretsDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'b2politicssociety' && (
+          <ScreenErrorBoundary key="b2politicssociety" name="b2politicssociety">
+            <B2PoliticsSocietyDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'b2degreesintensity' && (
+          <ScreenErrorBoundary key="b2degreesintensity" name="b2degreesintensity">
+            <B2DegreesIntensityDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'b2argumentstructure' && (
+          <ScreenErrorBoundary key="b2argumentstructure" name="b2argumentstructure">
+            <B2ArgumentStructureDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'b2smalltalkfluency' && (
+          <ScreenErrorBoundary key="b2smalltalkfluency" name="b2smalltalkfluency">
+            <B2SmallTalkFluencyDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'b2negationadvanced' && (
+          <ScreenErrorBoundary key="b2negationadvanced" name="b2negationadvanced">
+            <B2NegationAdvancedDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'b2literaturecanon' && (
+          <ScreenErrorBoundary key="b2literaturecanon" name="b2literaturecanon">
+            <B2LiteratureCanonDrill goBack={goBack} award={award} />
           </ScreenErrorBoundary>
         )}
         {currentScreen === 'b2genitiveofnegation' && (
@@ -4117,11 +4168,6 @@ export default function AppRouter(props: Record<string, any>) {
             <CookingDrill goBack={goBack} award={award} />
           </ScreenErrorBoundary>
         )}
-        {currentScreen === 'argumentacija' && (
-          <ScreenErrorBoundary key="argumentacija" name="argumentacija">
-            <ArgumentDrill goBack={goBack} award={award} />
-          </ScreenErrorBoundary>
-        )}
         {currentScreen === 'ograde' && (
           <ScreenErrorBoundary key="ograde" name="ograde">
             <HedgingDrill goBack={goBack} award={award} />
@@ -4142,26 +4188,6 @@ export default function AppRouter(props: Record<string, any>) {
             <PresentingDrill goBack={goBack} award={award} />
           </ScreenErrorBoundary>
         )}
-        {currentScreen === 'sastanci' && (
-          <ScreenErrorBoundary key="sastanci" name="sastanci">
-            <MeetingsDrill goBack={goBack} award={award} />
-          </ScreenErrorBoundary>
-        )}
-        {currentScreen === 'poslovno' && (
-          <ScreenErrorBoundary key="poslovno" name="poslovno">
-            <BusinessDrill goBack={goBack} award={award} />
-          </ScreenErrorBoundary>
-        )}
-        {currentScreen === 'politika' && (
-          <ScreenErrorBoundary key="politika" name="politika">
-            <PoliticsDrill goBack={goBack} award={award} />
-          </ScreenErrorBoundary>
-        )}
-        {currentScreen === 'caskanje' && (
-          <ScreenErrorBoundary key="caskanje" name="caskanje">
-            <SmalltalkDrill goBack={goBack} award={award} />
-          </ScreenErrorBoundary>
-        )}
         {currentScreen === 'humor' && (
           <ScreenErrorBoundary key="humor" name="humor">
             <HumourDrill goBack={goBack} award={award} />
@@ -4170,11 +4196,6 @@ export default function AppRouter(props: Record<string, any>) {
         {currentScreen === 'povijestjezika' && (
           <ScreenErrorBoundary key="povijestjezika" name="povijestjezika">
             <LanguageHistoryDrill goBack={goBack} award={award} />
-          </ScreenErrorBoundary>
-        )}
-        {currentScreen === 'knjizevnost' && (
-          <ScreenErrorBoundary key="knjizevnost" name="knjizevnost">
-            <LiteratureDrill goBack={goBack} award={award} />
           </ScreenErrorBoundary>
         )}
         {currentScreen === 'cestice' && (
@@ -4350,11 +4371,6 @@ export default function AppRouter(props: Record<string, any>) {
         {currentScreen === 'stvarniuvjeti' && (
           <ScreenErrorBoundary key="stvarniuvjeti" name="stvarniuvjeti">
             <RealConditionsDrill goBack={goBack} award={award} />
-          </ScreenErrorBoundary>
-        )}
-        {currentScreen === 'zaljenje' && (
-          <ScreenErrorBoundary key="zaljenje" name="zaljenje">
-            <WishesDrill goBack={goBack} award={award} />
           </ScreenErrorBoundary>
         )}
         {currentScreen === 'modalninijanse' && (

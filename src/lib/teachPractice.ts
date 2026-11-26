@@ -444,18 +444,18 @@ export const LESSON_TAUGHT_CATEGORY: Readonly<Record<string, SkillCategory>> = {
   // B2 functional block (2026-08-30): the level's second half. The three B2
   // lessons still unmapped after this are grammar (wishes-regrets,
   // modal-nuance, prepositions-advanced).
-  'argument-structure': 'argument',
+  'argument-structure': 'b2-argument-structure',
   'hedging-precision': 'hedging',
   'abstract-topics': 'abstract',
   'writing-registers': 'registers',
   presentations: 'presenting',
-  'meetings-negotiation': 'meetings',
-  'business-economy': 'business',
-  'politics-society': 'politics',
-  'small-talk-fluency': 'smalltalk',
+  'meetings-negotiation': 'b2-meetings-negotiation',
+  'business-economy': 'b2-business-economy',
+  'politics-society': 'b2-politics-society',
+  'small-talk-fluency': 'b2-small-talk-fluency',
   'humour-irony': 'humour',
   'language-history': 'language-history',
-  'literature-canon': 'literature',
+  'literature-canon': 'b2-literature-canon',
   // C1 functional block (2026-08-30). `discourse-particles` is the notable one:
   // it was uncoupled because the `discourse` drill covers CONNECTORS while the
   // lesson teaches ATTITUDE particles, which is a real distinction and not a
@@ -495,7 +495,7 @@ export const LESSON_TAUGHT_CATEGORY: Readonly<Record<string, SkillCategory>> = {
   'time-duration': 'duration',
   'position-placement': 'position',
   'real-conditions': 'real-conditions',
-  'wishes-regrets': 'wishes',
+  'wishes-regrets': 'b2-wishes-regrets',
   'modal-nuance': 'modal-nuance',
   'prepositions-advanced': 'two-case-prepositions',
   // The last uncoupled lesson (2026-08-30). AlphabetScreen's quiz IS what this
@@ -508,10 +508,10 @@ export const LESSON_TAUGHT_CATEGORY: Readonly<Record<string, SkillCategory>> = {
   'diminutives-augmentatives': 'diminutives',
   'summarising-paraphrase': 'summarising',
   'i-declension': 'i-declension',
-  'verbal-adverbs': 'verbal-adverbs',
-  'negation-advanced': 'negation-advanced',
-  'aspect-with-verbs': 'aspect-verbs',
-  'degrees-intensity': 'intensity',
+  'verbal-adverbs': 'b2-verbal-adverbs',
+  'negation-advanced': 'b2-negation-advanced',
+  'aspect-with-verbs': 'b2-aspect-with-verbs',
+  'degrees-intensity': 'b2-degrees-intensity',
   'pravopis-dvojbe': 'orthography',
   'publicisticki-stil': 'journalistic-style',
   'stilske-figure': 'figures-of-speech',

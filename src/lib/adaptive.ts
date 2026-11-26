@@ -382,10 +382,6 @@ export type SkillCategory =
   // `i-declension` is the exception and carries both: the C1 `isklonidba` as
   // the primary route and the new B2 bank as the easier one.
   | 'i-declension'
-  | 'verbal-adverbs'
-  | 'negation-advanced'
-  | 'aspect-verbs'
-  | 'intensity'
   // Pool-only tags (practice programme, C1 tranche 1, 2026-08-29). A MIX: C1 is
   // the only level where both earlier moves were available and both were partly
   // wrong. `collocations` and `prosody` are retags of C1 drills that were buried
@@ -453,18 +449,12 @@ export type SkillCategory =
   // dobit/gubitak/gospodarstvo, Sabor and the pluralia-tantum `izbori`,
   // hesitating aloud, the `ma` particle and understatement, the jat reflex,
   // and how to pick a first book.
-  | 'argument'
   | 'hedging'
   | 'abstract'
   | 'registers'
   | 'presenting'
-  | 'meetings'
-  | 'business'
-  | 'politics'
-  | 'smalltalk'
   | 'humour'
   | 'language-history'
-  | 'literature'
   // Pool-only tags (practice programme, C1 FUNCTIONAL block, 2026-08-30): the
   // attitude particles, conceding before defeating a point, the ceremonial
   // formulas and the dative nazdraviti takes, the calques that mark a text as
@@ -526,7 +516,6 @@ export type SkillCategory =
   | 'duration'
   | 'position'
   | 'real-conditions'
-  | 'wishes'
   | 'modal-nuance'
   | 'two-case-prepositions'
   // Pool-only tag (2026-08-30). The A1 alphabet quiz, retagged off `vocab-a2`
@@ -637,6 +626,17 @@ export type SkillCategory =
   | 'b2-consumerism-advertising'
   | 'b2-dependent-clauses-b2'
   | 'b2-film-and-music'
+  | 'b2-verbal-adverbs'
+  | 'b2-aspect-with-verbs'
+  | 'b2-meetings-negotiation'
+  | 'b2-business-economy'
+  | 'b2-wishes-regrets'
+  | 'b2-politics-society'
+  | 'b2-degrees-intensity'
+  | 'b2-argument-structure'
+  | 'b2-small-talk-fluency'
+  | 'b2-negation-advanced'
+  | 'b2-literature-canon'
   | 'b2-genitive-of-negation'
   | 'b2-climate-environment'
   | 'b2-reported-speech-b2'

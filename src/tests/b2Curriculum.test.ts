@@ -218,15 +218,15 @@ describe('teach → practice coupling stays HONEST at B2', () => {
     // was nothing lower to fall back to. Authoring the B2 drill is the only way
     // a lesson leaves that list here.
     'i-declension': 'i-declension',
-    'verbal-adverbs': 'verbal-adverbs',
-    'negation-advanced': 'negation-advanced',
-    'aspect-with-verbs': 'aspect-verbs',
+    'verbal-adverbs': 'b2-verbal-adverbs',
+    'negation-advanced': 'b2-negation-advanced',
+    'aspect-with-verbs': 'b2-aspect-with-verbs',
     // The debt block (2026-08-30) — the last three B2 lessons, and the same
     // downward-only problem as the tranche above. `zelje` (C1) and
     // `naciniobveze` (C2) both carry categories claimed by their own lessons,
     // and `naciniobveze` was authored in the C2 block one commit earlier —
     // closing a level can create the collision that blocks a lower one.
-    'wishes-regrets': 'wishes',
+    'wishes-regrets': 'b2-wishes-regrets',
     'modal-nuance': 'modal-nuance',
     'prepositions-advanced': 'two-case-prepositions',
     // NOT mapped to `stupnjevanje` despite the close names: that drill builds
@@ -234,7 +234,7 @@ describe('teach → practice coupling stays HONEST at B2', () => {
     // `komparacija`. This lesson grades what is already said — sve + comparative,
     // the intensifier register, pre- meaning "too". Pairing the two would be the
     // wrong-drill mistake this list exists to prevent.
-    'degrees-intensity': 'intensity',
+    'degrees-intensity': 'b2-degrees-intensity',
     // The FUNCTIONAL block (2026-08-30): B2's whole second half. Each lesson is
     // a function PLUS a structure, and the structure is what the drill tests:
     //   argument-structure     the fixed `u tome što` frame, and Što se tiče
@@ -260,18 +260,18 @@ describe('teach → practice coupling stays HONEST at B2', () => {
     // `register` by `razgovorni-stil`, `nominalization` by two lessons,
     // `idiomdrill` by `idioms-register`. Retagging any of them would take a
     // drill away from the lesson it was written for.
-    'argument-structure': 'argument',
+    'argument-structure': 'b2-argument-structure',
     'hedging-precision': 'hedging',
     'abstract-topics': 'abstract',
     'writing-registers': 'registers',
     presentations: 'presenting',
-    'meetings-negotiation': 'meetings',
-    'business-economy': 'business',
-    'politics-society': 'politics',
-    'small-talk-fluency': 'smalltalk',
+    'meetings-negotiation': 'b2-meetings-negotiation',
+    'business-economy': 'b2-business-economy',
+    'politics-society': 'b2-politics-society',
+    'small-talk-fluency': 'b2-small-talk-fluency',
     'humour-irony': 'humour',
     'language-history': 'language-history',
-    'literature-canon': 'literature',
+    'literature-canon': 'b2-literature-canon',
   };
 
   it.each(Object.entries(EXPECTED))('%s practises %s', (lesson, category) => {

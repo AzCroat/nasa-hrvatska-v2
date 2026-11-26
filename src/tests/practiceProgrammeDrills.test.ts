@@ -91,15 +91,10 @@ const PROGRAMME_DRILLS: {
   { screen: 'priroda', category: 'nature', lesson: 'environment-nature', cefr: 'B1' },
   { screen: 'kuhanje', category: 'cooking', lesson: 'food-cooking', cefr: 'B1' },
   // B2 functional block (2026-08-30). Twelve authored banks.
-  { screen: 'argumentacija', category: 'argument', lesson: 'argument-structure', cefr: 'B2' },
   { screen: 'ograde', category: 'hedging', lesson: 'hedging-precision', cefr: 'B2' },
   { screen: 'apstraktno', category: 'abstract', lesson: 'abstract-topics', cefr: 'B2' },
   { screen: 'registri', category: 'registers', lesson: 'writing-registers', cefr: 'B2' },
   { screen: 'izlaganje', category: 'presenting', lesson: 'presentations', cefr: 'B2' },
-  { screen: 'sastanci', category: 'meetings', lesson: 'meetings-negotiation', cefr: 'B2' },
-  { screen: 'poslovno', category: 'business', lesson: 'business-economy', cefr: 'B2' },
-  { screen: 'politika', category: 'politics', lesson: 'politics-society', cefr: 'B2' },
-  { screen: 'caskanje', category: 'smalltalk', lesson: 'small-talk-fluency', cefr: 'B2' },
   { screen: 'humor', category: 'humour', lesson: 'humour-irony', cefr: 'B2' },
   {
     screen: 'povijestjezika',
@@ -107,7 +102,6 @@ const PROGRAMME_DRILLS: {
     lesson: 'language-history',
     cefr: 'B2',
   },
-  { screen: 'knjizevnost', category: 'literature', lesson: 'literature-canon', cefr: 'B2' },
   // C1 functional block (2026-08-30). Twelve authored banks.
   { screen: 'cestice', category: 'particles', lesson: 'discourse-particles', cefr: 'C1' },
   { screen: 'debata', category: 'debate', lesson: 'debate-persuasion', cefr: 'C1' },
@@ -156,15 +150,6 @@ const PROGRAMME_DRILLS: {
   },
   { screen: 'preciznost', category: 'precision', lesson: 'precizno-nijansiranje', cefr: 'C1' },
   // ── B2 ────────────────────────────────────────────────────────────────────
-  { screen: 'prilozib2', category: 'verbal-adverbs', lesson: 'verbal-adverbs', cefr: 'B2' },
-  {
-    screen: 'negacijab2',
-    category: 'negation-advanced',
-    lesson: 'negation-advanced',
-    cefr: 'B2',
-  },
-  { screen: 'vidglagoli', category: 'aspect-verbs', lesson: 'aspect-with-verbs', cefr: 'B2' },
-  { screen: 'intenzitet', category: 'intensity', lesson: 'degrees-intensity', cefr: 'B2' },
   // ── C1 ────────────────────────────────────────────────────────────────────
   // The first two are RETAGS of existing C1 drills; the rest are authored.
   { screen: 'kolokacije', category: 'collocations', lesson: 'collocations', cefr: 'C1' },
@@ -254,7 +239,6 @@ const PROGRAMME_DRILLS: {
   { screen: 'trajanje', category: 'duration', lesson: 'time-duration', cefr: 'B1' },
   { screen: 'polozaj', category: 'position', lesson: 'position-placement', cefr: 'B1' },
   { screen: 'stvarniuvjeti', category: 'real-conditions', lesson: 'real-conditions', cefr: 'B1' },
-  { screen: 'zaljenje', category: 'wishes', lesson: 'wishes-regrets', cefr: 'B2' },
   { screen: 'modalninijanse', category: 'modal-nuance', lesson: 'modal-nuance', cefr: 'B2' },
   {
     screen: 'dvopadezni',

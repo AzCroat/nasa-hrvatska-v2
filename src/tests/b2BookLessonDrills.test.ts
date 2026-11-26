@@ -45,3 +45,55 @@ describe('B2 clitics', () => {
     }
   });
 });
+
+// Batch 1: eleven B2 lessons with their own category and screen.
+const OWN = [
+  'verbal-adverbs',
+  'aspect-with-verbs',
+  'meetings-negotiation',
+  'business-economy',
+  'wishes-regrets',
+  'politics-society',
+  'degrees-intensity',
+  'argument-structure',
+  'small-talk-fluency',
+  'negation-advanced',
+  'literature-canon',
+] as const;
+const camel = (id: string) => id.replace(/-(\w)/g, (_, c: string) => c.toUpperCase());
+const upper = (id: string) => id.toUpperCase().replace(/-/g, '_');
+
+describe.each(OWN)('B2 book drill for %s', (id) => {
+  it('is wired: the lesson practises its own category, routed to its own B2 screen', () => {
+    const cat = `b2-${id}`;
+    const screen = `b2${id.replace(/-/g, '')}`;
+    expect(LESSON_TAUGHT_CATEGORY[id]).toBe(cat);
+    expect(CATEGORY_SCREEN_MAP[cat as keyof typeof CATEGORY_SCREEN_MAP]).toBe(screen);
+    expect(SCREEN_CEFR[screen]).toBe('B2');
+  });
+
+  it('is well formed: 24-28 items, 3 modes of 6+, one right answer among 4 distinct options', async () => {
+    const m = await import(`../data/drills/b2/${camel(id)}Drill.ts`);
+    const data = m[`${upper(id)}_DRILL_DATA`] as {
+      mode: string;
+      q: string;
+      opts: string[];
+      answer: string;
+      tip: string;
+    }[];
+    expect(data.length).toBeGreaterThanOrEqual(24);
+    expect(data.length).toBeLessThanOrEqual(28);
+    const modes = new Map<string, number>();
+    for (const d of data) modes.set(d.mode, (modes.get(d.mode) ?? 0) + 1);
+    expect(modes.size).toBe(3);
+    for (const n of modes.values()) expect(n).toBeGreaterThanOrEqual(6);
+    const seen = new Set<string>();
+    for (const d of data) {
+      expect(new Set(d.opts).size, d.q).toBe(4);
+      expect(d.opts, d.q).toContain(d.answer);
+      expect(seen.has(d.q), `duplicate question: ${d.q}`).toBe(false);
+      seen.add(d.q);
+      expect(d.tip.length, `tip: ${d.q}`).toBeGreaterThanOrEqual(20);
+    }
+  });
+});
