@@ -96,34 +96,6 @@ export const PRACTICE_PROGRAMME_ENTRIES: CefrPoolEntry[] = [
     cefr: 'B2',
     category: 'i-declension',
   },
-  {
-    id: 'prilozib2',
-    label: 'Verbal adverbs',
-    screen: 'prilozib2',
-    cefr: 'B2',
-    category: 'verbal-adverbs',
-  },
-  {
-    id: 'negacijab2',
-    label: 'Advanced negation',
-    screen: 'negacijab2',
-    cefr: 'B2',
-    category: 'negation-advanced',
-  },
-  {
-    id: 'vidglagoli',
-    label: 'Aspect after verbs',
-    screen: 'vidglagoli',
-    cefr: 'B2',
-    category: 'aspect-verbs',
-  },
-  {
-    id: 'intenzitet',
-    label: 'Degrees & intensity',
-    screen: 'intenzitet',
-    cefr: 'B2',
-    category: 'intensity',
-  },
   // ── C1 ────────────────────────────────────────────────────────────────────
   // Tranche 1, and the only level where the survey's first answer was wrong in
   // BOTH directions. Two C1 drills were reachable and merely buried under a
@@ -269,13 +241,6 @@ export const PRACTICE_PROGRAMME_ENTRIES: CefrPoolEntry[] = [
   // a drill away from the lesson it was written for. So all twelve are
   // authored.
   {
-    id: 'argumentacija',
-    label: 'Argument structure',
-    screen: 'argumentacija',
-    cefr: 'B2',
-    category: 'argument',
-  },
-  {
     id: 'ograde',
     label: 'Hedging & precision',
     screen: 'ograde',
@@ -304,34 +269,6 @@ export const PRACTICE_PROGRAMME_ENTRIES: CefrPoolEntry[] = [
     category: 'presenting',
   },
   {
-    id: 'sastanci',
-    label: 'Meetings',
-    screen: 'sastanci',
-    cefr: 'B2',
-    category: 'meetings',
-  },
-  {
-    id: 'poslovno',
-    label: 'Business & economy',
-    screen: 'poslovno',
-    cefr: 'B2',
-    category: 'business',
-  },
-  {
-    id: 'politika',
-    label: 'Politics & society',
-    screen: 'politika',
-    cefr: 'B2',
-    category: 'politics',
-  },
-  {
-    id: 'caskanje',
-    label: 'Conversational fluency',
-    screen: 'caskanje',
-    cefr: 'B2',
-    category: 'smalltalk',
-  },
-  {
     id: 'humor',
     label: 'Humor & tone',
     screen: 'humor',
@@ -344,13 +281,6 @@ export const PRACTICE_PROGRAMME_ENTRIES: CefrPoolEntry[] = [
     screen: 'povijestjezika',
     cefr: 'B2',
     category: 'language-history',
-  },
-  {
-    id: 'knjizevnost',
-    label: 'Literature',
-    screen: 'knjizevnost',
-    cefr: 'B2',
-    category: 'literature',
   },
 
   // ── C1, the FUNCTIONAL block (2026-08-30) ─────────────────────────────────
@@ -590,7 +520,6 @@ export const PRACTICE_PROGRAMME_ENTRIES: CefrPoolEntry[] = [
     cefr: 'B1',
     category: 'real-conditions',
   },
-  { id: 'zaljenje', label: 'Wishes & regrets', screen: 'zaljenje', cefr: 'B2', category: 'wishes' },
   {
     id: 'modalninijanse',
     label: 'Modal nuance',

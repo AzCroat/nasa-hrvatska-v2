@@ -28,9 +28,9 @@ interface Finding {
 const REVIEWED_USAGE: Record<string, number> = {
   flat: 142, // level ground, a flat tire, a flat tone, the tongue held flat
   flats: 4, // salt flats, tidal flats
-  holiday: 23, // public and religious holidays (3 in the A2 celebrations drill, 2026-11-24)
+  holiday: 24, // public and religious holidays (3 in the A2 celebrations drill, 1 in the B2 negation drill, 2026-11-26)
   holidays: 18,
-  rang: 28, // the phone / the doorbell rang
+  rang: 30, // the phone / the doorbell rang (2 in the B2 verbal-adverbs drill, 2026-11-26)
   lift: 16, // Croatian "lift", a ski lift, the verb
   sweets: 9,
   booking: 5, // "booking a hotel"
