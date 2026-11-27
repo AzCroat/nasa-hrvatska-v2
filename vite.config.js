@@ -256,6 +256,14 @@ export default defineConfig({
             return 'chunk-content-hub';
           // (`src/lib/appData` was in this test until sweep 136: a re-export barrel
           // over src/data that nothing in the app ever imported.)
+          // Drill question banks (src/data/drills/**) are imported ONLY by lazy drill screens, and
+          // were about 3.5 MB of the source that this catch-all folded into chunk-data, so opening
+          // any one drill downloaded every bank. One chunk per level (the folder), and the older
+          // top-level banks in `chunk-drills-misc`, so a learner fetches one level's banks. The
+          // `chunk-` prefix keeps them out of the precache like the other data chunks, and the
+          // name must NOT start with `chunk-data`, which the "Data chunk" size limit globs.
+          const drillBank = id.match(/src[/\\]data[/\\]drills[/\\](?:(a1|a2|b1|b2|c1)[/\\])?/);
+          if (drillBank) return `chunk-drills-${drillBank[1] ?? 'misc'}`;
           if (id.includes('src/data')) return 'chunk-data';
           // src/lib/** claimed EXPLICITLY, and this line is the one that actually
           // moved first paint (894 kB -> 598 kB gzipped, -33%).
