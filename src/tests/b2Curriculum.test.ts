@@ -202,8 +202,8 @@ describe('teach → practice coupling stays HONEST at B2', () => {
   // which goes through the real session builder. This file pins only WHICH
   // category each lesson claims — the editorial decision, not the plumbing.
   const EXPECTED: Record<string, string> = {
-    'aspect-suffixes': 'aspect-imperfective',
-    'participial-adjectives': 'passive',
+    'aspect-suffixes': 'b2-aspect-suffixes',
+    'participial-adjectives': 'b2-participial-adjectives',
     // B2 book comparison (2026-11-13): both had pointed at drills that do not practice
     // them (the subordination screen has no unatoč + dative; the cloze bank has no
     // conditional at all). Each now has its own bank.

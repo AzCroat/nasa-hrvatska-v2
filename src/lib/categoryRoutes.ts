@@ -198,6 +198,10 @@ export const CATEGORY_SCREEN_MAP: Partial<Record<SkillCategory, string>> = {
   'b2-business-economy': 'b2businesseconomy',
   'b2-wishes-regrets': 'b2wishesregrets',
   'b2-politics-society': 'b2politicssociety',
+  'b2-aspect-suffixes': 'b2aspectsuffixes',
+  'b2-passive-voice': 'b2passivevoice',
+  'b2-participial-adjectives': 'b2participialadjectives',
+  'b2-complex-sentences': 'b2complexsentences',
   'b2-degrees-intensity': 'b2degreesintensity',
   'b2-argument-structure': 'b2argumentstructure',
   'b2-small-talk-fluency': 'b2smalltalkfluency',
@@ -454,7 +458,7 @@ export const CATEGORY_SCREEN_MAP: Partial<Record<SkillCategory, string>> = {
   'future-tense': 'future',
   'aspect-imperfective': 'aspectdrill',
   'aspect-perfective': 'aspectdrill',
-  'aspect-negation': 'aspectdrill',
+  'aspect-negation': 'b2aspectnegation',
   conditional: 'cloze',
   clitics: 'clitic',
   'vocab-a2': 'znam',
@@ -514,6 +518,9 @@ export const CATEGORY_EASIER_SCREEN: Partial<Record<SkillCategory, string>> = {
   // i-declension maps to `isklonidba` (C1). The B2 lesson that teaches this
   // paradigm needs a drill a B2 learner can open.
   'i-declension': 'isklonidbab2',
+  // aspect-negation keeps its category (the picker and conjugation lab use it); the B2 book drill is
+  // the route and the A2 aspect screen is the easier route.
+  'aspect-negation': 'aspectdrill',
 };
 
 // Screen → CEFR lookup derived from the pool. Used to CEFR-gate the adaptive
