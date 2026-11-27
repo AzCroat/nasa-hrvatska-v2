@@ -482,6 +482,19 @@ const B2BusinessEconomyDrill = lazyWithReload(
   () => import('./practice/drills/B2BusinessEconomyDrill'),
 );
 const B2WishesRegretsDrill = lazyWithReload(() => import('./practice/drills/B2WishesRegretsDrill'));
+const B2ComplexSentencesDrill = lazyWithReload(
+  () => import('./practice/drills/B2ComplexSentencesDrill'),
+);
+const B2ParticipialAdjectivesDrill = lazyWithReload(
+  () => import('./practice/drills/B2ParticipialAdjectivesDrill'),
+);
+const B2PassiveVoiceDrill = lazyWithReload(() => import('./practice/drills/B2PassiveVoiceDrill'));
+const B2AspectSuffixesDrill = lazyWithReload(
+  () => import('./practice/drills/B2AspectSuffixesDrill'),
+);
+const B2AspectNegationDrill = lazyWithReload(
+  () => import('./practice/drills/B2AspectNegationDrill'),
+);
 const B2PoliticsSocietyDrill = lazyWithReload(
   () => import('./practice/drills/B2PoliticsSocietyDrill'),
 );
@@ -3385,6 +3398,31 @@ export default function AppRouter(props: Record<string, any>) {
         {currentScreen === 'b2wishesregrets' && (
           <ScreenErrorBoundary key="b2wishesregrets" name="b2wishesregrets">
             <B2WishesRegretsDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'b2complexsentences' && (
+          <ScreenErrorBoundary key="b2complexsentences" name="b2complexsentences">
+            <B2ComplexSentencesDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'b2participialadjectives' && (
+          <ScreenErrorBoundary key="b2participialadjectives" name="b2participialadjectives">
+            <B2ParticipialAdjectivesDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'b2passivevoice' && (
+          <ScreenErrorBoundary key="b2passivevoice" name="b2passivevoice">
+            <B2PassiveVoiceDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'b2aspectsuffixes' && (
+          <ScreenErrorBoundary key="b2aspectsuffixes" name="b2aspectsuffixes">
+            <B2AspectSuffixesDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'b2aspectnegation' && (
+          <ScreenErrorBoundary key="b2aspectnegation" name="b2aspectnegation">
+            <B2AspectNegationDrill goBack={goBack} award={award} />
           </ScreenErrorBoundary>
         )}
         {currentScreen === 'b2politicssociety' && (

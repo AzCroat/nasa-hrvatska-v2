@@ -103,7 +103,7 @@ export const LESSON_TAUGHT_CATEGORY: Readonly<Record<string, SkillCategory>> = {
   'verb-prefixes': 'b1-verb-prefixes',
   // B2 secondary imperfectives (-ivati / -avati): aspectdrill is the pair drill,
   // and making a perfective imperfective again is exactly what it tests.
-  'aspect-suffixes': 'aspect-imperfective',
+  'aspect-suffixes': 'b2-aspect-suffixes',
   // C1 aspect nuance is about CHOOSING between two grammatical aspects; the
   // perfective side is the one the lesson argues for most often, and aspectdrill
   // (B1) is the pair drill a C1 learner opens without a gate.
@@ -139,7 +139,7 @@ export const LESSON_TAUGHT_CATEGORY: Readonly<Record<string, SkillCategory>> = {
   'word-order-emphasis': 'word-order',
   clitics: 'clitics',
   'clitics-advanced': 'clitics',
-  'complex-sentences': 'subordination',
+  'complex-sentences': 'b2-complex-sentences',
   // B1 relative clauses. CATEGORY_SCREEN_MAP now routes this category, and
   // CATEGORY_EASIER_SCREEN drops it to `relpron` (B1) — the drill that teaches
   // exactly relative pronouns — so it resolves for the level it is written for.
@@ -151,13 +151,13 @@ export const LESSON_TAUGHT_CATEGORY: Readonly<Record<string, SkillCategory>> = {
   // C1 clause types names and builds every subordinate clause Croatian uses —
   // the `subordination` screen is that inventory as a drill.
   'clause-types': 'subordination',
-  'passive-voice': 'passive',
+  'passive-voice': 'b2-passive-voice',
   // C1 passive CHOICES: participial vs se-passive vs impersonal. The passive
   // drill is where those alternatives are contrasted.
   'passive-choices': 'passive',
   // The B2 participial-adjective lesson builds the passive participle, which is
   // the ingredient the passive drill is made of.
-  'participial-adjectives': 'passive',
+  'participial-adjectives': 'b2-participial-adjectives',
   'verbal-nouns': 'nominalization',
   // C1 condensation IS nominalization applied: compressing a clause into a
   // phrase is exactly what the nominalization drill asks for.
