@@ -211,7 +211,7 @@ describe('teach → practice coupling stays HONEST at A2', () => {
     svoj: 'a2-svoj',
     'plural-cases': 'a2-plural-cases',
     quantity: 'a1-quantity',
-    'comparatives-a2': 'comparison',
+    'comparatives-a2': 'b1-comparatives-a2',
     // The one this file predicted: "If a clitic drill ever ships at A2, move it
     // into EXPECTED above." `objekt` is that drill, wired as the EASIER route
     // for clitics so the B2 `clitic` stays the primary. See
@@ -261,9 +261,9 @@ describe('teach → practice coupling stays HONEST at A2', () => {
     // pronoun drill, but it is B1 and it carries `subordination`, whose easier
     // route is pinned TO `relpron` by b1Curriculum for three B2 lessons.
     adverbs: 'a2-adverbs',
-    conjunctions: 'conjunctions',
-    'relative-koji': 'relative-koji',
-    indefinites: 'indefinites',
+    conjunctions: 'b1-conjunctions',
+    'relative-koji': 'b1-relative-koji',
+    indefinites: 'b1-indefinites',
   };
 
   it.each(Object.entries(EXPECTED))('%s practises %s', (lesson, category) => {

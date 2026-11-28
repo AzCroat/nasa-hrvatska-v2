@@ -73,7 +73,7 @@ export const SKILL_GROUP: Record<SkillCategory, SkillGroup> = {
   // the cases; `comparison` is adjective morphology and groups there too, for
   // the same reason `adjectives` does. Nothing here joins 'vocab' — every one of
   // them is a form the learner has to build.
-  comparison: 'case',
+  'b1-comparatives-a2': 'case',
   // B1 tranche 1 (2026-08-29). Four are clause construction and group with
   // 'syntax', beside the other subordination content they sit next to in a
   // session. `impersonal` is grouped with the VERBS, not with syntax: what the
@@ -81,10 +81,10 @@ export const SKILL_GROUP: Record<SkillCategory, SkillGroup> = {
   // subjectless third person), and grouping it as syntax would let it appear
   // alongside three other clause drills — the monotony the variety pass exists
   // to prevent.
-  'infinitive-da': 'syntax',
-  'reported-speech': 'syntax',
-  'time-clauses': 'syntax',
-  'cause-purpose': 'syntax',
+  'b1-infinitive-vs-da': 'syntax',
+  'b1-reported-speech': 'syntax',
+  'b1-time-clauses': 'syntax',
+  'b1-cause-purpose': 'syntax',
   // C2 tranche 1 (2026-08-29). Every row here PRESERVES the group the entry
   // already had through its old catch-all tag, so the P3 variety pass behaves
   // byte-identically to before the retag — the same rule the `rekcija` retag
@@ -557,14 +557,14 @@ export const SKILL_GROUP: Record<SkillCategory, SkillGroup> = {
   'language-society': 'vocab',
   'preposition-case': 'case',
   'adjective-agreement': 'case',
-  conjunctions: 'syntax',
-  'relative-koji': 'syntax',
+  'b1-conjunctions': 'syntax',
+  'b1-relative-koji': 'syntax',
   // indefinites: regrouped 'vocab' → 'case' (2026-11-12): 14 of its 24 items produce a form
   // (negative concord, nikoga/ničega, ni s kim), the same bar that regrouped the A1 topic drills.
-  indefinites: 'case',
-  duration: 'case',
-  position: 'verb',
-  'real-conditions': 'verb',
+  'b1-indefinites': 'case',
+  'b1-time-duration': 'case',
+  'b1-position-placement': 'verb',
+  'b1-real-conditions': 'verb',
   'modal-nuance': 'verb',
   'two-case-prepositions': 'case',
   alphabet: 'vocab',

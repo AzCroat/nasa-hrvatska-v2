@@ -43,6 +43,8 @@ const HOMONYMS: Record<string, string> = {
   spavaće: 'adjective spavaći, "sleeping" (spavaće sobe, bedrooms)',
   spavaću: 'accusative of spavaća (spavaću sobu)',
   daće: 'accusative plural of daća, "feudal levy, tribute" (hist.)',
+  // 2026-11-28: `bit će` in the corpus makes `bi` a stem; `biće` is the noun "being" (društveno biće).
+  biće: 'noun biće, "being" (društveno biće, a social being)',
 };
 
 function corpus(): Map<string, string> {

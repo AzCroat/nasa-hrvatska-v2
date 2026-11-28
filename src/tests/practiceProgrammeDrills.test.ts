@@ -69,11 +69,10 @@ const PROGRAMME_DRILLS: {
   { screen: 'possess', category: 'possessives', lesson: 'possessives', cefr: 'A1' },
   // ── A2 ────────────────────────────────────────────────────────────────────
   {
-    screen: 'komparacija',
-    category: 'comparison',
+    screen: 'b1comparativesa2',
+    category: 'b1-comparatives-a2',
     lesson: 'comparatives-a2',
-    cefr: 'A2',
-    lessonLevel: 'B1',
+    cefr: 'B1',
   },
   // A2 topical block (2026-08-29). Ten authored banks. The pool tag matters
   // here for the usual two reasons (attribution and SKILL_GROUP) plus a third
@@ -116,15 +115,20 @@ const PROGRAMME_DRILLS: {
   { screen: 'identitet', category: 'identity', lesson: 'language-identity', cefr: 'C1' },
   { screen: 'dijaspora', category: 'diaspora', lesson: 'diaspora-identity', cefr: 'C1' },
   // ── B1 ────────────────────────────────────────────────────────────────────
-  { screen: 'infda', category: 'infinitive-da', lesson: 'infinitive-vs-da', cefr: 'B1' },
   {
-    screen: 'prepricavanje',
-    category: 'reported-speech',
+    screen: 'b1infinitivevsda',
+    category: 'b1-infinitive-vs-da',
+    lesson: 'infinitive-vs-da',
+    cefr: 'B1',
+  },
+  {
+    screen: 'b1reportedspeech',
+    category: 'b1-reported-speech',
     lesson: 'reported-speech',
     cefr: 'B1',
   },
-  { screen: 'vrijemeklauze', category: 'time-clauses', lesson: 'time-clauses', cefr: 'B1' },
-  { screen: 'uzrokb1', category: 'cause-purpose', lesson: 'cause-purpose', cefr: 'B1' },
+  { screen: 'b1timeclauses', category: 'b1-time-clauses', lesson: 'time-clauses', cefr: 'B1' },
+  { screen: 'b1causepurpose', category: 'b1-cause-purpose', lesson: 'cause-purpose', cefr: 'B1' },
   // ── Former C2 (the course now ends at C1; all gated C1) ──────────────────────────────────────────────────────────────
   // These eight are RETAGS, not new banks — the drill already existed and was
   // already right. They belong in this table for exactly the reason the table
@@ -216,29 +220,36 @@ const PROGRAMME_DRILLS: {
   // for — the shape the A2 and B1 blocks found, three more times over.
   // These three lessons moved A2 → B1 (2026-11-12); the drills keep their A2 gate.
   {
-    screen: 'veznici',
-    category: 'conjunctions',
+    screen: 'b1conjunctions',
+    category: 'b1-conjunctions',
     lesson: 'conjunctions',
-    cefr: 'A2',
-    lessonLevel: 'B1',
+    cefr: 'B1',
   },
   {
-    screen: 'kojia2',
-    category: 'relative-koji',
+    screen: 'b1relativekoji',
+    category: 'b1-relative-koji',
     lesson: 'relative-koji',
-    cefr: 'A2',
-    lessonLevel: 'B1',
+    cefr: 'B1',
   },
   {
-    screen: 'neodredjenea2',
-    category: 'indefinites',
+    screen: 'b1indefinites',
+    category: 'b1-indefinites',
     lesson: 'indefinites',
-    cefr: 'A2',
-    lessonLevel: 'B1',
+    cefr: 'B1',
   },
-  { screen: 'trajanje', category: 'duration', lesson: 'time-duration', cefr: 'B1' },
-  { screen: 'polozaj', category: 'position', lesson: 'position-placement', cefr: 'B1' },
-  { screen: 'stvarniuvjeti', category: 'real-conditions', lesson: 'real-conditions', cefr: 'B1' },
+  { screen: 'b1timeduration', category: 'b1-time-duration', lesson: 'time-duration', cefr: 'B1' },
+  {
+    screen: 'b1positionplacement',
+    category: 'b1-position-placement',
+    lesson: 'position-placement',
+    cefr: 'B1',
+  },
+  {
+    screen: 'b1realconditions',
+    category: 'b1-real-conditions',
+    lesson: 'real-conditions',
+    cefr: 'B1',
+  },
   { screen: 'modalninijanse', category: 'modal-nuance', lesson: 'modal-nuance', cefr: 'B2' },
   {
     screen: 'dvopadezni',

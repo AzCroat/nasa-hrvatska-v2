@@ -63,15 +63,15 @@ export const CATEGORY_SCREEN_MAP: Partial<Record<SkillCategory, string>> = {
   // those and they are about counting and ordinal declension.
   // A2 tranche 1 (2026-08-29). Each replaces a route that existed only at B1/B2
   // and so could never resolve for the A2 lesson that needed it.
-  comparison: 'komparacija',
+  'b1-comparatives-a2': 'b1comparativesa2',
   // B1 tranche 1 (2026-08-29). None of these reuses an existing category: the
   // drills that already taught this material are tagged `subordination`,
   // `passive` and `register`, all of which route elsewhere and three of which
   // would have collided on one screen.
-  'infinitive-da': 'infda',
-  'reported-speech': 'prepricavanje',
-  'time-clauses': 'vrijemeklauze',
-  'cause-purpose': 'uzrokb1',
+  'b1-infinitive-vs-da': 'b1infinitivevsda',
+  'b1-reported-speech': 'b1reportedspeech',
+  'b1-time-clauses': 'b1timeclauses',
+  'b1-cause-purpose': 'b1causepurpose',
   // C2 tranche 1 (2026-08-29). No new drills — each of these routes to an
   // EXISTING C2 screen that was already the right exercise and could not be
   // reached, because its pool tag was one of the C-level catch-alls (`register`
@@ -396,12 +396,12 @@ export const CATEGORY_SCREEN_MAP: Partial<Record<SkillCategory, string>> = {
   phraseology: 'frazemi',
   'dialects-deep': 'dijalektic2',
   'language-society': 'jezikdrustvo',
-  conjunctions: 'veznici',
-  'relative-koji': 'kojia2',
-  indefinites: 'neodredjenea2',
-  duration: 'trajanje',
-  position: 'polozaj',
-  'real-conditions': 'stvarniuvjeti',
+  'b1-conjunctions': 'b1conjunctions',
+  'b1-relative-koji': 'b1relativekoji',
+  'b1-indefinites': 'b1indefinites',
+  'b1-time-duration': 'b1timeduration',
+  'b1-position-placement': 'b1positionplacement',
+  'b1-real-conditions': 'b1realconditions',
   'modal-nuance': 'modalninijanse',
   'two-case-prepositions': 'dvopadezni',
   alphabet: 'alphabet',

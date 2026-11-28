@@ -222,19 +222,19 @@ describe('teach → practice coupling stays HONEST at B1', () => {
     // routed somewhere else. Three of them shared `subordination`, so mapping
     // them as they stood would have sent three different lessons to one screen.
     // Each now has its own pool-only category and its own B1 drill.
-    'infinitive-vs-da': 'infinitive-da',
-    'reported-speech': 'reported-speech',
+    'infinitive-vs-da': 'b1-infinitive-vs-da',
+    'reported-speech': 'b1-reported-speech',
     impersonal: 'a2-impersonal',
-    'time-clauses': 'time-clauses',
-    'cause-purpose': 'cause-purpose',
+    'time-clauses': 'b1-time-clauses',
+    'cause-purpose': 'b1-cause-purpose',
     // The debt block (2026-08-30) — the last three B1 lessons. Same collision
     // shape as the tranche above: every conditional drill in the pool carries
     // `conditional`, which routes to `cloze` and belongs to a C2 lesson, so
     // `real-conditions` could not reuse one. New pool-only categories
     // throughout.
-    'time-duration': 'duration',
-    'position-placement': 'position',
-    'real-conditions': 'real-conditions',
+    'time-duration': 'b1-time-duration',
+    'position-placement': 'b1-position-placement',
+    'real-conditions': 'b1-real-conditions',
     // The TOPICAL block (2026-08-30), the ten B1 lessons whose subject reads as
     // a topic. Each is a topic PLUS a structure, and the structure is what the
     // drill tests:
@@ -283,8 +283,8 @@ describe('teach → practice coupling stays HONEST at B1', () => {
     // lessons (`time-clauses`, `cause-purpose`) sat behind the same category, so
     // the collision was threefold. Each got its own pool-only category instead,
     // which is what makes all three resolvable at once.
-    expect(LESSON_TAUGHT_CATEGORY['reported-speech']).toBe('reported-speech');
-    expect(CATEGORY_SCREEN_MAP['reported-speech']).toBe('prepricavanje');
+    expect(LESSON_TAUGHT_CATEGORY['reported-speech']).toBe('b1-reported-speech');
+    expect(CATEGORY_SCREEN_MAP['b1-reported-speech']).toBe('b1reportedspeech');
     // The B2 drill and the B1 route must stay distinct; collapsing them would
     // reintroduce the collision from the other direction.
     expect(CATEGORY_EASIER_SCREEN['subordination']).toBe('relpron');
