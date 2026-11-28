@@ -225,13 +225,17 @@ const RekcijaDrill = lazyWithReload(() => import('./practice/RekcijaDrill'));
 const A1ObjectPronounsDrill = lazyWithReload(
   () => import('./practice/drills/A1ObjectPronounsDrill'),
 );
-const ComparisonDrill = lazyWithReload(() => import('./practice/drills/ComparisonDrill'));
-const InfinitiveDaDrill = lazyWithReload(() => import('./practice/drills/InfinitiveDaDrill'));
-const ReportedSpeechB1Drill = lazyWithReload(
-  () => import('./practice/drills/ReportedSpeechB1Drill'),
+const B1ComparativesA2Drill = lazyWithReload(
+  () => import('./practice/drills/B1ComparativesA2Drill'),
 );
-const TimeClausesDrill = lazyWithReload(() => import('./practice/drills/TimeClausesDrill'));
-const CausePurposeDrill = lazyWithReload(() => import('./practice/drills/CausePurposeDrill'));
+const B1InfinitiveVsDaDrill = lazyWithReload(
+  () => import('./practice/drills/B1InfinitiveVsDaDrill'),
+);
+const B1ReportedSpeechDrill = lazyWithReload(
+  () => import('./practice/drills/B1ReportedSpeechDrill'),
+);
+const B1TimeClausesDrill = lazyWithReload(() => import('./practice/drills/B1TimeClausesDrill'));
+const B1CausePurposeDrill = lazyWithReload(() => import('./practice/drills/B1CausePurposeDrill'));
 const IDeclensionDrill = lazyWithReload(() => import('./practice/drills/IDeclensionDrill'));
 const AdvancedComparisonDrill = lazyWithReload(
   () => import('./practice/drills/AdvancedComparisonDrill'),
@@ -859,12 +863,16 @@ const SpecialistTranslationDrill = lazyWithReload(
 const PhraseologyDrill = lazyWithReload(() => import('./practice/drills/PhraseologyDrill'));
 const DialectsDeepDrill = lazyWithReload(() => import('./practice/drills/DialectsDeepDrill'));
 const LanguageSocietyDrill = lazyWithReload(() => import('./practice/drills/LanguageSocietyDrill'));
-const ConjunctionsDrill = lazyWithReload(() => import('./practice/drills/ConjunctionsDrill'));
-const RelativeKojiDrill = lazyWithReload(() => import('./practice/drills/RelativeKojiDrill'));
-const IndefinitesDrill = lazyWithReload(() => import('./practice/drills/IndefinitesDrill'));
-const DurationDrill = lazyWithReload(() => import('./practice/drills/DurationDrill'));
-const PositionDrill = lazyWithReload(() => import('./practice/drills/PositionDrill'));
-const RealConditionsDrill = lazyWithReload(() => import('./practice/drills/RealConditionsDrill'));
+const B1ConjunctionsDrill = lazyWithReload(() => import('./practice/drills/B1ConjunctionsDrill'));
+const B1RelativeKojiDrill = lazyWithReload(() => import('./practice/drills/B1RelativeKojiDrill'));
+const B1IndefinitesDrill = lazyWithReload(() => import('./practice/drills/B1IndefinitesDrill'));
+const B1TimeDurationDrill = lazyWithReload(() => import('./practice/drills/B1TimeDurationDrill'));
+const B1PositionPlacementDrill = lazyWithReload(
+  () => import('./practice/drills/B1PositionPlacementDrill'),
+);
+const B1RealConditionsDrill = lazyWithReload(
+  () => import('./practice/drills/B1RealConditionsDrill'),
+);
 const ModalNuanceDrill = lazyWithReload(() => import('./practice/drills/ModalNuanceDrill'));
 const TwoCasePrepositionsDrill = lazyWithReload(
   () => import('./practice/drills/TwoCasePrepositionsDrill'),
@@ -2802,29 +2810,29 @@ export default function AppRouter(props: Record<string, any>) {
             <A1ObjectPronounsDrill goBack={goBack} award={award} />
           </ScreenErrorBoundary>
         )}
-        {currentScreen === 'komparacija' && (
-          <ScreenErrorBoundary key="komparacija" name="komparacija">
-            <ComparisonDrill goBack={goBack} award={award} />
+        {currentScreen === 'b1comparativesa2' && (
+          <ScreenErrorBoundary key="b1comparativesa2" name="b1comparativesa2">
+            <B1ComparativesA2Drill goBack={goBack} award={award} />
           </ScreenErrorBoundary>
         )}
-        {currentScreen === 'infda' && (
-          <ScreenErrorBoundary key="infda" name="infda">
-            <InfinitiveDaDrill goBack={goBack} award={award} />
+        {currentScreen === 'b1infinitivevsda' && (
+          <ScreenErrorBoundary key="b1infinitivevsda" name="b1infinitivevsda">
+            <B1InfinitiveVsDaDrill goBack={goBack} award={award} />
           </ScreenErrorBoundary>
         )}
-        {currentScreen === 'prepricavanje' && (
-          <ScreenErrorBoundary key="prepricavanje" name="prepricavanje">
-            <ReportedSpeechB1Drill goBack={goBack} award={award} />
+        {currentScreen === 'b1reportedspeech' && (
+          <ScreenErrorBoundary key="b1reportedspeech" name="b1reportedspeech">
+            <B1ReportedSpeechDrill goBack={goBack} award={award} />
           </ScreenErrorBoundary>
         )}
-        {currentScreen === 'vrijemeklauze' && (
-          <ScreenErrorBoundary key="vrijemeklauze" name="vrijemeklauze">
-            <TimeClausesDrill goBack={goBack} award={award} />
+        {currentScreen === 'b1timeclauses' && (
+          <ScreenErrorBoundary key="b1timeclauses" name="b1timeclauses">
+            <B1TimeClausesDrill goBack={goBack} award={award} />
           </ScreenErrorBoundary>
         )}
-        {currentScreen === 'uzrokb1' && (
-          <ScreenErrorBoundary key="uzrokb1" name="uzrokb1">
-            <CausePurposeDrill goBack={goBack} award={award} />
+        {currentScreen === 'b1causepurpose' && (
+          <ScreenErrorBoundary key="b1causepurpose" name="b1causepurpose">
+            <B1CausePurposeDrill goBack={goBack} award={award} />
           </ScreenErrorBoundary>
         )}
         {currentScreen === 'isklonidbab2' && (
@@ -4381,34 +4389,34 @@ export default function AppRouter(props: Record<string, any>) {
             <LanguageSocietyDrill goBack={goBack} award={award} />
           </ScreenErrorBoundary>
         )}
-        {currentScreen === 'veznici' && (
-          <ScreenErrorBoundary key="veznici" name="veznici">
-            <ConjunctionsDrill goBack={goBack} award={award} />
+        {currentScreen === 'b1conjunctions' && (
+          <ScreenErrorBoundary key="b1conjunctions" name="b1conjunctions">
+            <B1ConjunctionsDrill goBack={goBack} award={award} />
           </ScreenErrorBoundary>
         )}
-        {currentScreen === 'kojia2' && (
-          <ScreenErrorBoundary key="kojia2" name="kojia2">
-            <RelativeKojiDrill goBack={goBack} award={award} />
+        {currentScreen === 'b1relativekoji' && (
+          <ScreenErrorBoundary key="b1relativekoji" name="b1relativekoji">
+            <B1RelativeKojiDrill goBack={goBack} award={award} />
           </ScreenErrorBoundary>
         )}
-        {currentScreen === 'neodredjenea2' && (
-          <ScreenErrorBoundary key="neodredjenea2" name="neodredjenea2">
-            <IndefinitesDrill goBack={goBack} award={award} />
+        {currentScreen === 'b1indefinites' && (
+          <ScreenErrorBoundary key="b1indefinites" name="b1indefinites">
+            <B1IndefinitesDrill goBack={goBack} award={award} />
           </ScreenErrorBoundary>
         )}
-        {currentScreen === 'trajanje' && (
-          <ScreenErrorBoundary key="trajanje" name="trajanje">
-            <DurationDrill goBack={goBack} award={award} />
+        {currentScreen === 'b1timeduration' && (
+          <ScreenErrorBoundary key="b1timeduration" name="b1timeduration">
+            <B1TimeDurationDrill goBack={goBack} award={award} />
           </ScreenErrorBoundary>
         )}
-        {currentScreen === 'polozaj' && (
-          <ScreenErrorBoundary key="polozaj" name="polozaj">
-            <PositionDrill goBack={goBack} award={award} />
+        {currentScreen === 'b1positionplacement' && (
+          <ScreenErrorBoundary key="b1positionplacement" name="b1positionplacement">
+            <B1PositionPlacementDrill goBack={goBack} award={award} />
           </ScreenErrorBoundary>
         )}
-        {currentScreen === 'stvarniuvjeti' && (
-          <ScreenErrorBoundary key="stvarniuvjeti" name="stvarniuvjeti">
-            <RealConditionsDrill goBack={goBack} award={award} />
+        {currentScreen === 'b1realconditions' && (
+          <ScreenErrorBoundary key="b1realconditions" name="b1realconditions">
+            <B1RealConditionsDrill goBack={goBack} award={award} />
           </ScreenErrorBoundary>
         )}
         {currentScreen === 'modalninijanse' && (

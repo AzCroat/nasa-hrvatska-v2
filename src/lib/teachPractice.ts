@@ -199,17 +199,17 @@ export const LESSON_TAUGHT_CATEGORY: Readonly<Record<string, SkillCategory>> = {
   'object-pronouns': 'clitics',
   'plural-cases': 'a2-plural-cases',
   quantity: 'a1-quantity',
-  'comparatives-a2': 'comparison',
+  'comparatives-a2': 'b1-comparatives-a2',
   // B1 tranche 1 (2026-08-29). `reported-speech` is the entry this file recorded
   // as the notable one — the pool HAS a reported-speech drill, but it is B2 and
   // the easier route for its category was taken by `relpron`, so mapping it
   // would have sent a B1 learner to relative pronouns. Each of these now has its
   // own category and its own B1 drill, so nothing is shared or displaced.
-  'infinitive-vs-da': 'infinitive-da',
-  'reported-speech': 'reported-speech',
+  'infinitive-vs-da': 'b1-infinitive-vs-da',
+  'reported-speech': 'b1-reported-speech',
   impersonal: 'a2-impersonal',
-  'time-clauses': 'time-clauses',
-  'cause-purpose': 'cause-purpose',
+  'time-clauses': 'b1-time-clauses',
+  'cause-purpose': 'b1-cause-purpose',
   // C2 tranche 1 (2026-08-29). `precizno-nijansiranje` is the entry this file
   // recorded as the near miss worth writing down: the `preciznost` drill IS
   // precision of expression, but its pool entry was tagged `idioms`, so the
@@ -489,12 +489,12 @@ export const LESSON_TAUGHT_CATEGORY: Readonly<Record<string, SkillCategory>> = {
   'prepositions-action': 'a2-prepositions-action',
   'adjective-agreement': 'a2-adjective-agreement',
   adverbs: 'a2-adverbs',
-  conjunctions: 'conjunctions',
-  'relative-koji': 'relative-koji',
-  indefinites: 'indefinites',
-  'time-duration': 'duration',
-  'position-placement': 'position',
-  'real-conditions': 'real-conditions',
+  conjunctions: 'b1-conjunctions',
+  'relative-koji': 'b1-relative-koji',
+  indefinites: 'b1-indefinites',
+  'time-duration': 'b1-time-duration',
+  'position-placement': 'b1-position-placement',
+  'real-conditions': 'b1-real-conditions',
   'wishes-regrets': 'b2-wishes-regrets',
   'modal-nuance': 'modal-nuance',
   'prepositions-advanced': 'two-case-prepositions',

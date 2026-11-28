@@ -350,16 +350,16 @@ export type SkillCategory =
   // deliberately NOT among them: the A2 object-pronoun drill is wired as
   // CATEGORY_EASIER_SCREEN.clitics instead, because clitics is a real
   // ALL_CATEGORIES member whose only drill was B2-gated.
-  | 'comparison'
+  | 'b1-comparatives-a2'
   // Pool-only tags (practice programme, B1 tranche 1, 2026-08-29). Every one of
   // these lessons had an existing drill at B2/C1 that ALSO carried a category
   // already routed elsewhere — three of them share `subordination`, whose easier
   // route is `relpron`. Reusing those categories would have sent three different
   // B1 lessons to the same drill, and one of them to relative pronouns.
-  | 'infinitive-da'
-  | 'reported-speech'
-  | 'time-clauses'
-  | 'cause-purpose'
+  | 'b1-infinitive-vs-da'
+  | 'b1-reported-speech'
+  | 'b1-time-clauses'
+  | 'b1-cause-purpose'
   // Pool-only tags (practice programme, C2 tranche 1, 2026-08-29). C2's gap was
   // neither missing drills nor CEFR gating — it was CATEGORY OVERLOADING. The
   // C-level pool has sixteen entries tagged `register` alone, and a category
@@ -510,12 +510,12 @@ export type SkillCategory =
   // modal lands, and the prepositions whose case changes their meaning.
   | 'preposition-case'
   | 'adjective-agreement'
-  | 'conjunctions'
-  | 'relative-koji'
-  | 'indefinites'
-  | 'duration'
-  | 'position'
-  | 'real-conditions'
+  | 'b1-conjunctions'
+  | 'b1-relative-koji'
+  | 'b1-indefinites'
+  | 'b1-time-duration'
+  | 'b1-position-placement'
+  | 'b1-real-conditions'
   | 'modal-nuance'
   | 'two-case-prepositions'
   // Pool-only tag (2026-08-30). The A1 alphabet quiz, retagged off `vocab-a2`

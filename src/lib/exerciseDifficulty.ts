@@ -19,13 +19,13 @@ export const EXERCISE_DIFFICULTY: Record<string, number> = {
   // A2 tranche 1: tier 3, a step above the A1 banks — these ask for a case
   // choice or a form the learner has to build, not a recognition pick.
   a1objectpronouns: 3,
-  komparacija: 3,
+  b1comparativesa2: 3,
   // B1 tranche 1: tier 4. These are clause-level choices — which connector,
   // which subject, whether the tense moves — not a single form to build.
-  infda: 4,
-  prepricavanje: 4,
-  vrijemeklauze: 4,
-  uzrokb1: 4,
+  b1infinitivevsda: 4,
+  b1reportedspeech: 4,
+  b1timeclauses: 4,
+  b1causepurpose: 4,
   // B2 tranche 1: tier 4, same as the B1 banks. These ask for a governed
   // choice — which aspect the front verb forces, what the negation scopes over
   // — rather than a form built from a table.
@@ -345,12 +345,12 @@ export const EXERCISE_DIFFICULTY: Record<string, number> = {
   frazemi: 6,
   dijalektic2: 6,
   jezikdrustvo: 6,
-  veznici: 3,
-  kojia2: 3,
-  neodredjenea2: 3,
-  trajanje: 4,
-  polozaj: 4,
-  stvarniuvjeti: 4,
+  b1conjunctions: 3,
+  b1relativekoji: 3,
+  b1indefinites: 3,
+  b1timeduration: 4,
+  b1positionplacement: 4,
+  b1realconditions: 4,
   modalninijanse: 5,
   dvopadezni: 5,
   unjumble: 2,

@@ -1,0 +1,35 @@
+// src/components/practice/drills/B1CausePurposeDrill.tsx
+//
+// Engine-backed drill for the B1 lesson `cause-purpose`, built from Razgovarajte s nama A2-B1. The content is in
+// ../../../data/drills/b1/causePurposeDrill. Lazy-loaded so the bank stays off the first-paint path (firstPaintGraph).
+
+import React from 'react';
+import ModeDrill from '../ModeDrill';
+import {
+  CAUSE_PURPOSE_DRILL_DATA,
+  CAUSE_PURPOSE_MODE_LABELS,
+} from '../../../data/drills/b1/causePurposeDrill';
+
+interface Props {
+  goBack: () => void;
+  award?: (xp: number, celebrate?: boolean, activityType?: string) => void;
+}
+
+export default function B1CausePurposeDrill({ goBack, award }: Props) {
+  return (
+    <ModeDrill
+      id="b1causepurpose"
+      title={'🎯 Uzrok i namjera'}
+      subtitle="Practice what the lesson taught"
+      modeLabels={CAUSE_PURPOSE_MODE_LABELS}
+      data={CAUSE_PURPOSE_DRILL_DATA}
+      praise={{
+        perfect: 'Savršeno! 🏆',
+        good: 'Vrlo dobro! 💪',
+        more: 'Još malo vježbe.',
+      }}
+      goBack={goBack}
+      award={award}
+    />
+  );
+}
